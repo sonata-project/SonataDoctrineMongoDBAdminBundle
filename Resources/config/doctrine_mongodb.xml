@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="sonata.admin.manager.doctrine_mongodb" class="Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" on-invalid="ignore" />
+        </service>
+
+        <!-- FormBuilder -->
+        <service id="sonata.admin.builder.doctrine_mongodb_form" class="Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor">
+            <argument type="service" id="form.factory" on-invalid="ignore" />
+        </service>
+
+        <!-- ListBuilder -->
+        <service id="sonata.admin.builder.doctrine_mongodb_list" class="Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder" >
+            <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_list_chain" on-invalid="ignore" />
+        </service>
+
+        <service id="sonata.admin.guesser.doctrine_mongodb_list" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <tag name="sonata.admin.guesser.doctrine_mongodb_list" />
+        </service>
+
+        <service id="sonata.admin.guesser.doctrine_mongodb_list_filter" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <tag name="sonata.admin.guesser.doctrine_mongodb_list" />
+        </service>
+
+        <service id="sonata.admin.guesser.doctrine_mongodb_list_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+            <argument type="collection">
+                <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_list" />
+            </argument>
+        </service>
+
+        <!-- ShowBuilder  -->
+        <service id="sonata.admin.builder.doctrine_mongodb_show" class="Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder" >
+            <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_show_chain" on-invalid="ignore" />
+        </service>
+
+        <service id="sonata.admin.guesser.doctrine_mongodb_show" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <tag name="sonata.admin.guesser.doctrine_mongodb_show" />
+        </service>
+
+        <service id="sonata.admin.guesser.doctrine_mongodb_show_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+            <argument type="collection">
+                <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_list" />
+            </argument>
+        </service>
+
+        <!-- DatagridBuilder guesser -->
+        <service id="sonata.admin.builder.doctrine_mongodb_datagrid" class="Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder">
+            <argument type="service" id="form.factory" on-invalid="ignore" />
+            <argument type="service" id="sonata.admin.builder.filter.factory" on-invalid="ignore" />
+            <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_datagrid_chain" on-invalid="ignore" />
+        </service>
+
+        <service id="sonata.admin.guesser.doctrine_mongodb_datagrid" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <tag name="sonata.admin.guesser.doctrine_mongodb_datagrid" />
+        </service>
+
+        <service id="sonata.admin.guesser.doctrine_mongodb_datagrid_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+            <argument type="collection">
+                <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_list_filter" />
+            </argument>
+        </service>
+    </services>
+</container>
