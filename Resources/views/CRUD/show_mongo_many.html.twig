@@ -14,12 +14,16 @@ file that was distributed with this source code.
 
 {% block value%}
     {% if field_description.hasassociationadmin and field_description.associationadmin.hasRoute('edit') and field_description.associationadmin.isGranted('edit')%}
+        <ul>
         {% for element in value%}
-            <a href="{{ field_description.associationadmin.generateObjectUrl('edit', element) }}">{{ element|render_relation_element(field_description) }}</a>
+            <li><a href="{{ field_description.associationadmin.generateObjectUrl('edit', element) }}">{{ element|render_relation_element(field_description) }}</a></li>
         {% endfor %}
+        </ul>
     {% else %}
+        <ul>
         {% for element in value%}
-            {{ element|render_relation_element(field_description) }}
+            <li>{{ element|render_relation_element(field_description) }}</li>
         {% endfor %}
+        </ul>
     {% endif %}
 {% endblock %}
