@@ -13,6 +13,7 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
@@ -46,12 +47,6 @@ class ShowBuilder implements ShowBuilderInterface
         $admin->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         switch ($fieldDescription->getMappingType()) {
-            case ClassMetadataInfo::MANY_TO_ONE:
-            case ClassMetadataInfo::MANY_TO_MANY:
-            case ClassMetadataInfo::ONE_TO_MANY:
-            case ClassMetadataInfo::ONE_TO_ONE:
-                // todo
-                return;
             default:
                 $list->add($fieldDescription);
         }
@@ -90,41 +85,23 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-
             $fieldDescription->setTemplate(sprintf('SonataAdminBundle:CRUD:show_%s.html.twig', $fieldDescription->getType()));
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_one.html.twig');
+            if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
+                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_many.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_ONE) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_one_to_one.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_MANY) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_one_to_many.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_many.html.twig');
+            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
+                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_one.html.twig');
             }
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_ONE) {
+        if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
             $admin->attachAdminClass($fieldDescription);
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_ONE) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_MANY) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_MANY) {
+        if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
-
 }

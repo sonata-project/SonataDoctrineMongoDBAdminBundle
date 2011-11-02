@@ -56,7 +56,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
         $settings = false;
         $methods  = $pool->getMethodCalls();
         foreach ($methods as $pos => $calls) {
-            if ($calls[0] == '__hack_doctrine_orm__') {
+            if ($calls[0] == '__hack_doctrine_mongo__') {
                 $settings = $calls[1];
                 break;
             }

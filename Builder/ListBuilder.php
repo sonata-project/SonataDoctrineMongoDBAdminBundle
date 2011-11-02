@@ -47,9 +47,7 @@ class ListBuilder implements ListBuilderInterface
 
         $fieldDescription->setType($type);
 
-        //echo '--' . $fieldDescription->getType() . '<br>';
         $this->fixFieldDescription($admin, $fieldDescription);
-        //echo '--' . $fieldDescription->getType() . '<br>';
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         return $list->add($fieldDescription);
@@ -105,10 +103,10 @@ class ListBuilder implements ListBuilderInterface
                 $fieldDescription->setType('integer');
             }
 
-            if ($fieldDescription->getMappingType() == FieldDescription::ONE) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_many_to_one.html.twig');
-            } elseif ($fieldDescription->getMappingType() == FieldDescription::MANY) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_many_to_many.html.twig');
+            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
+                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_one.html.twig');
+            } elseif ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
+                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_many.html.twig');
             } else {
                 $fieldDescription->setTemplate(sprintf('SonataAdminBundle:CRUD:list_%s.html.twig', $fieldDescription->getType()));
             }

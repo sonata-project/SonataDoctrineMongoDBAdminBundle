@@ -13,8 +13,7 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
-
-use Sonata\AdminBundle\Model\BaseModelManager;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -22,7 +21,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
-class ModelManager extends BaseModelManager
+class ModelManager implements ModelManagerInterface
 {
     protected $documentManager;
 
@@ -395,4 +394,43 @@ class ModelManager extends BaseModelManager
         return $instance;
     }
 
+    /**
+     * @param string $class
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getModelCollectionInstance($class)
+    {
+        return new ArrayCollection();
+    }
+
+    public function collectionClear(&$collection)
+    {
+        return $collection->clear();
+    }
+
+    public function collectionHasElement(&$collection, &$element)
+    {
+        return $collection->contains($element);
+    }
+
+    public function collectionAddElement(&$collection, &$element)
+    {
+        return $collection->add($element);
+    }
+
+    public function collectionRemoveElement(&$collection, &$element)
+    {
+        return $collection->removeElement($element);
+    }
+
+    /**
+     * method taken from PropertyPath
+     *
+     * @param  $property
+     * @return mixed
+     */
+    protected function camelize($property)
+    {
+        return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
+    }
 }

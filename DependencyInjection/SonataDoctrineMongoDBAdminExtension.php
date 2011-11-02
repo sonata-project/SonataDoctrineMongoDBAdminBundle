@@ -46,6 +46,6 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
         $config = $processor->processConfiguration($configuration, $config);
 
         $pool = $container->getDefinition('sonata.admin.manager.doctrine_mongodb');
-        $pool->addMethodCall('__hack_doctrine_odm__', $config);
+        $pool->addMethodCall('__hack_doctrine_mongo__', $config);
     }
 }

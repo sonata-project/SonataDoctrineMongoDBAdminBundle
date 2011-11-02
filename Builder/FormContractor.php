@@ -62,7 +62,7 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        if (in_array($fieldDescription->getMappingType(), array(FieldDescription::ONE, FieldDescription::MANY))) {
+        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -100,9 +100,9 @@ class FormContractor implements FormContractorInterface
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
             switch ($fieldDescription->getMappingType()) {
-                case FieldDescription::ONE:
+                case ClassMetadataInfo::ONE:
                     break;
-                case FieldDescription::MANY:
+                case ClassMetadataInfo::MANY:
                     $options['multiple'] = true;
                     $options['parent'] = 'choice';
                     break;

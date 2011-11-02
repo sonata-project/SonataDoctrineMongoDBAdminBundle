@@ -12,13 +12,11 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Admin;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 class FieldDescription extends BaseFieldDescription
 {
-    const ONE = 2;
-    const MANY = 8;
-
     /**
      * Define the association mapping definition
      *
@@ -36,15 +34,15 @@ class FieldDescription extends BaseFieldDescription
         $this->type = $this->type ? : $associationMapping['type'];
         if (!$this->mappingType) {
             switch ($associationMapping['type']) {
-                case 'one':
-                    $this->mappingType = self::ONE;
+                case ClassMetadataInfo::MANY:
+                    $this->mappingType = ClassMetadataInfo::MANY;
                     break;
-                case 'many':
-                    $this->mappingType = self::MANY;
+                case ClassMetadataInfo::ONE:
+                    $this->mappingType = ClassMetadataInfo::ONE;
                     break;
             }
         }
-
+        
         $this->fieldName = $associationMapping['fieldName'];
     }
 
