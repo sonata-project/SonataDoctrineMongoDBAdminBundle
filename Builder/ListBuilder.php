@@ -23,12 +23,17 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 class ListBuilder implements ListBuilderInterface
 {
-
     protected $guesser;
+    protected $templates;
 
-    public function __construct(TypeGuesserInterface $guesser)
+    /**
+     * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
+     * @param array $templates
+     */
+    public function __construct(TypeGuesserInterface $guesser, array $templates)
     {
-        $this->guesser = $guesser;
+        $this->guesser   = $guesser;
+        $this->templates = $templates;
     }
 
     public function getBaseList(array $options = array())
@@ -51,6 +56,19 @@ class ListBuilder implements ListBuilderInterface
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         return $list->add($fieldDescription);
+    }
+
+    /**
+     * @param $type
+     * @return string
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return null;
+        }
+
+        return $this->templates[$type];
     }
 
     /**
@@ -95,6 +113,7 @@ class ListBuilder implements ListBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
+
             if ($fieldDescription->getType() == 'id') {
                 $fieldDescription->setType('string');
             }
@@ -103,12 +122,12 @@ class ListBuilder implements ListBuilderInterface
                 $fieldDescription->setType('integer');
             }
 
+            $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
+
             if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
                 $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_one.html.twig');
             } elseif ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
                 $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_many.html.twig');
-            } else {
-                $fieldDescription->setTemplate(sprintf('SonataAdminBundle:CRUD:list_%s.html.twig', $fieldDescription->getType()));
             }
         }
 

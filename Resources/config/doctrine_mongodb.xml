@@ -18,6 +18,7 @@
         <!-- ListBuilder -->
         <service id="sonata.admin.builder.doctrine_mongodb_list" class="Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder" >
             <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_list_chain" on-invalid="ignore" />
+            <argument />
         </service>
 
         <service id="sonata.admin.guesser.doctrine_mongodb_list" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser">
@@ -39,6 +40,7 @@
         <!-- ShowBuilder  -->
         <service id="sonata.admin.builder.doctrine_mongodb_show" class="Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder" >
             <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_show_chain" on-invalid="ignore" />
+            <argument />
         </service>
 
         <service id="sonata.admin.guesser.doctrine_mongodb_show" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser">
