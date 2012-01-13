@@ -119,7 +119,7 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {
-        $queryBuilder = $admin->getModelManager()->createQuery($admin->getClass());
+        $queryBuilder = $admin->createQuery();
 
         $query = new ProxyQuery($queryBuilder);
         $pager = new Pager;
