@@ -87,7 +87,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
             case 'decimal':
             case 'float':
                 return new TypeGuess('doctrine_mongo_number', $options, Guess::MEDIUM_CONFIDENCE);
-            case 'integer':
+            case 'int':
             case 'bigint':
             case 'smallint':
                 $options['field_type'] = 'number';

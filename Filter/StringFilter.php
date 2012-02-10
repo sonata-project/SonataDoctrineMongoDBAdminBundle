@@ -36,16 +36,13 @@ class StringFilter extends Filter
 
         $data['type'] = !isset($data['type']) ?  ChoiceType::TYPE_CONTAINS : $data['type'];
 
-        switch ($data['type']) {
-            case ChoiceType::TYPE_EQUAL:
-                break;
-
-            default:
-                throw new \Exception('Only equal type is yet implemented');
-                break;
+        if ($data['type'] == ChoiceType::TYPE_EQUAL) {
+            $queryBuilder->field($field)->equals($data['value']);
+        } elseif ($data['type'] == ChoiceType::TYPE_CONTAINS) {
+            $queryBuilder->field($field)->equals(new \MongoRegex(sprintf('/%s/i', $data['value'])));
+        } elseif ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
+            $queryBuilder->field($field)->not(new \MongoRegex(sprintf('/%s/i', $data['value'])));
         }
-
-        $queryBuilder->field($field)->equals($data['value']);
     }
 
     /**
@@ -53,9 +50,7 @@ class StringFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array(
-            'format'   => '%%%s%%'
-        );
+        return array();
     }
 
     public function getRenderSettings()

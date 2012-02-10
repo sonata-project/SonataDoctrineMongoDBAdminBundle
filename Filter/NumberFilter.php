@@ -24,7 +24,7 @@ class NumberFilter extends Filter
      */
     public function filter($queryBuilder, $alias, $field, $data)
     {
-        if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
+        if (!$data || !is_array($data) || !array_key_exists('value', $data) || !is_numeric($data['value'])) {
             return;
         }
 
@@ -33,11 +33,10 @@ class NumberFilter extends Filter
         $operator = $this->getOperator($type);
 
         if (!$operator) {
-            $operator = '=';
+            $operator = 'equals';
         }
 
-        // c.name > '1' => c.name OPERATOR :FIELDNAME
-        throw new \Exception('Not yet implemented');
+        $queryBuilder->field($field)->$operator((float) $data['value']);
     }
 
     /**
@@ -47,11 +46,11 @@ class NumberFilter extends Filter
     private function getOperator($type)
     {
         $choices = array(
-            NumberType::TYPE_EQUAL => '=',
-            NumberType::TYPE_GREATER_EQUAL => '>=',
-            NumberType::TYPE_GREATER_THAN => '>',
-            NumberType::TYPE_LESS_EQUAL => '<=',
-            NumberType::TYPE_LESS_THAN => '<',
+            NumberType::TYPE_EQUAL         => 'equals',
+            NumberType::TYPE_GREATER_EQUAL => 'gte',
+            NumberType::TYPE_GREATER_THAN  => 'gt',
+            NumberType::TYPE_LESS_EQUAL    => 'lte',
+            NumberType::TYPE_LESS_THAN     => 'lt',
         );
 
         return isset($choices[$type]) ? $choices[$type] : false;
@@ -68,9 +67,9 @@ class NumberFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_number', array(
-                'field_type' => $this->getFieldType(),
-                'field_options' => $this->getFieldOptions(),
-                'label' => $this->getLabel()
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'label' => $this->getLabel()
         ));
     }
 }
