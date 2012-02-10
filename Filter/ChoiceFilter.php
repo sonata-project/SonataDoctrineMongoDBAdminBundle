@@ -40,9 +40,9 @@ class ChoiceFilter extends Filter
             }
 
             if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
-                throw new \Exception('Not yet implemented');
+                $queryBuilder->field($field)->notIn($data['value']);
             } else {
-                throw new \Exception('Not yet implemented');
+                $queryBuilder->field($field)->in($data['value']);
             }
         } else {
 
@@ -51,12 +51,10 @@ class ChoiceFilter extends Filter
             }
 
             if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
-                throw new \Exception('Not yet implemented');
+                $queryBuilder->field($field)->notEqual($data['value']);
             } else {
-                throw new \Exception('Not yet implemented');
+                $queryBuilder->field($field)->equals($data['value']);
             }
-
-            $queryBuilder->setParameter($this->getName(), $data['value']);
         }
     }
 
