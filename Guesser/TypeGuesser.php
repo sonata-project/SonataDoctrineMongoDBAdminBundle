@@ -17,14 +17,18 @@ use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\MongoDB\MongoDBException;
 
 class TypeGuesser implements TypeGuesserInterface
 {
     protected $documentManager;
 
+    protected $cache;
+
     public function __construct(DocumentManager $documentManager)
     {
         $this->documentManager = $documentManager;
+        $this->cache = array();
     }
 
     /**
@@ -65,6 +69,7 @@ class TypeGuesser implements TypeGuesserInterface
             case 'datetime':
             case 'vardatetime':
             case 'datetimetz':
+            case 'timestamp':
                 return new TypeGuess('datetime', array(), Guess::HIGH_CONFIDENCE);
             case 'date':
                 return new TypeGuess('date', array(), Guess::HIGH_CONFIDENCE);
@@ -88,6 +93,15 @@ class TypeGuesser implements TypeGuesserInterface
 
     protected function getMetadata($class)
     {
-        return $this->documentManager->getClassMetadata($class);
+        if (array_key_exists($class, $this->cache)) {
+            return $this->cache[$class];
+        }
+
+        $this->cache[$class] = null;
+        try {
+            return $this->cache[$class] = $this->documentManager->getClassMetadata($class);
+        } catch (MongoDBException $e) {
+            // not an entity or mapped super class
+        }
     }
 }

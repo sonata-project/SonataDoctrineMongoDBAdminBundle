@@ -50,8 +50,6 @@ class ListBuilder implements ListBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $fieldDescription->setType($type);
-
         $this->fixFieldDescription($admin, $fieldDescription);
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
@@ -97,9 +95,7 @@ class ListBuilder implements ListBuilderInterface
                 }
 
                 // set the default association mapping
-                if (isset($metadata->fieldMappings[$fieldDescription->getName()]['reference'])) {
-                    $fieldDescription->setAssociationMapping($metadata->fieldMappings[$fieldDescription->getName()]);
-                }
+                $fieldDescription->setAssociationMapping($metadata->fieldMappings[$fieldDescription->getName()]);
             }
 
             $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
