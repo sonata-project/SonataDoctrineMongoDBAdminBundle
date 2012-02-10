@@ -35,21 +35,23 @@ class BooleanFilter extends Filter
                    continue;
                 }
 
-                $values[] = ($v == BooleanType::TYPE_YES) ? 1 : 0;
+                $values[] = ($v == BooleanType::TYPE_YES) ? true : false;
             }
 
             if (count($values) == 0) {
                 return;
             }
 
-            throw new \Exception('Not yet implemented');
+            $queryBuilder->field($field)->in($values);
         } else {
 
             if (!in_array($data['value'], array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
                 return;
             }
 
-            throw new \Exception('Not yet implemented');
+            $value = BooleanType::TYPE_YES == $data['value'] ? true : false;
+
+            $queryBuilder->field($field)->equals($value);
         }
     }
 
