@@ -49,9 +49,7 @@ class FormContractor implements FormContractorInterface
                 $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
 
                 // set the default association mapping
-                if (isset($metadata->fieldMappings[$fieldDescription->getName()]['reference'])) {
-                    $fieldDescription->setAssociationMapping($metadata->fieldMappings[$fieldDescription->getName()]);
-                }
+                $fieldDescription->setAssociationMapping($metadata->fieldMappings[$fieldDescription->getName()]);
             }
         }
 
@@ -118,8 +116,12 @@ class FormContractor implements FormContractorInterface
         } else if ($type == 'sonata_type_admin') {
 
             // nothing here ...
-            $options['edit'] = 'inline';
+
         } else if ($type == 'sonata_type_collection') {
+
+            if (!$fieldDescription->getAssociationAdmin()) {
+                throw new \RuntimeException(sprintf('The current field `%s` is not linked to an admin. Please create one for the target entity : `%s`', $fieldDescription->getName(), $fieldDescription->getTargetEntity()));
+            }
 
             $options['type'] = 'sonata_type_admin';
             $options['modifiable'] = true;
