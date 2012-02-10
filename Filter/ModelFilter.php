@@ -53,7 +53,15 @@ class ModelFilter extends Filter
             return;
         }
 
-        throw new \Exception('Not yet implemented');
+        $ids = array_map(function($id) {
+            return new \MongoId($id);
+        }, $data['value']);
+
+        if (isset($data['type']) && $data['type'] == BooleanType::TYPE_NO) {
+            $queryBuilder->field($field . '._id')->notIn($ids);
+        } else {
+            $queryBuilder->field($field . '._id')->in($ids);
+        }
     }
 
     protected function handleScalar($queryBuilder, $alias, $field, $data)
@@ -64,10 +72,9 @@ class ModelFilter extends Filter
         }
 
         if (isset($data['type']) && $data['type'] == BooleanType::TYPE_NO) {
-
-            $queryBuilder->field($field . '.$id')->notEqual(new \MongoId($data['value']));
+            $queryBuilder->field($field . '._id')->notEqual(new \MongoId($data['value']));
         } else {
-            $queryBuilder->field($field . '.$id')->equals(new \MongoId($data['value']));
+            $queryBuilder->field($field . '._id')->equals(new \MongoId($data['value']));
         }
     }
 
