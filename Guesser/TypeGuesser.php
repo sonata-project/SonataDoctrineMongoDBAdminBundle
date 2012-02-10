@@ -69,6 +69,7 @@ class TypeGuesser implements TypeGuesserInterface
             case 'datetime':
             case 'vardatetime':
             case 'datetimetz':
+            case 'timestamp':
                 return new TypeGuess('datetime', array(), Guess::HIGH_CONFIDENCE);
             case 'date':
                 return new TypeGuess('date', array(), Guess::HIGH_CONFIDENCE);
