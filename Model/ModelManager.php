@@ -434,4 +434,14 @@ class ModelManager implements ModelManagerInterface
     {
         return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
     }
+
+    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
+    {
+        throw new \Exception('Not yet implemented.');
+    }
+
+    public function getExportFields($class)
+    {
+        throw new \Exception('Not yet implemented.');
+    }
 }
