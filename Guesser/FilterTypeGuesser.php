@@ -96,6 +96,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
                 );
 
                 return new TypeGuess('doctrine_mongo_number', $options, Guess::MEDIUM_CONFIDENCE);
+            case 'id':
             case 'string':
             case 'text':
                 $options['field_type'] = 'text';
