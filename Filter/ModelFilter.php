@@ -72,9 +72,9 @@ class ModelFilter extends Filter
         }
 
         if (isset($data['type']) && $data['type'] == BooleanType::TYPE_NO) {
-            $queryBuilder->field($field . '._id')->notEqual(new \MongoId($data['value']));
+            $queryBuilder->field($field . '.id')->notEqual(new \MongoId($data['value']));
         } else {
-            $queryBuilder->field($field . '._id')->equals(new \MongoId($data['value']));
+            $queryBuilder->field($field . '.id')->equals(new \MongoId($data['value']));
         }
     }
 
@@ -99,5 +99,15 @@ class ModelFilter extends Filter
             'operator_options' => $this->getOption('operator_options'),
             'label'         => $this->getLabel()
         ));
+    }
+
+    public function filterDump(AssetInterface $asset)
+    {
+        throw new \Exception('Not yet implemented');
+    }
+
+    public function filterLoad(AssetInterface $asset)
+    {
+        throw new \Exception('Not yet implemented');
     }
 }
