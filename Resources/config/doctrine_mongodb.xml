@@ -22,12 +22,10 @@
         </service>
 
         <service id="sonata.admin.guesser.doctrine_mongodb_list" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <tag name="sonata.admin.guesser.doctrine_mongodb_list" />
         </service>
 
         <service id="sonata.admin.guesser.doctrine_mongodb_list_filter" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <tag name="sonata.admin.guesser.doctrine_mongodb_list" />
         </service>
 
@@ -44,7 +42,6 @@
         </service>
 
         <service id="sonata.admin.guesser.doctrine_mongodb_show" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <tag name="sonata.admin.guesser.doctrine_mongodb_show" />
         </service>
 
@@ -62,7 +59,6 @@
         </service>
 
         <service id="sonata.admin.guesser.doctrine_mongodb_datagrid" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
             <tag name="sonata.admin.guesser.doctrine_mongodb_datagrid" />
         </service>
 
