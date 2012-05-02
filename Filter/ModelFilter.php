@@ -13,6 +13,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Form\Type\BooleanType;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
  * @todo Support multiple values and Document with non-default strategy for ID
@@ -26,7 +27,7 @@ class ModelFilter extends Filter
      * @param mixed $data
      * @return
      */
-    public function filter($queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
