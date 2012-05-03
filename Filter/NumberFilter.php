@@ -12,6 +12,7 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class NumberFilter extends Filter
 {
@@ -22,7 +23,7 @@ class NumberFilter extends Filter
      * @param string $data
      * @return
      */
-    public function filter($queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data) || !is_numeric($data['value'])) {
             return;

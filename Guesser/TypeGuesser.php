@@ -13,38 +13,31 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Doctrine\ODM\MongoDB\MongoDBException;
 
-class TypeGuesser implements TypeGuesserInterface
+
+class TypeGuesser extends AbstractTypeGuesser
 {
-    protected $documentManager;
-
-    protected $cache;
-
-    public function __construct(DocumentManager $documentManager)
-    {
-        $this->documentManager = $documentManager;
-        $this->cache = array();
-    }
-
     /**
      * @param string $class
      * @param string $property
      * @return TypeGuess
      */
-    public function guessType($class, $property)
+    public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
-        if (!$metadata = $this->getMetadata($class)) {
+        if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager)) {
             return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
         }
 
+        list($metadata, $propertyName, $parentAssociationMappings) = $ret;
+
         $mapping = $metadata->getFieldMapping($property);
-        if ($metadata->hasAssociation($property)) {
-            $multiple = $metadata->isCollectionValuedAssociation($property);
+        if ($metadata->hasAssociation($propertyName)) {
+            $multiple = $metadata->isCollectionValuedAssociation($propertyName);
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
@@ -88,20 +81,6 @@ class TypeGuesser implements TypeGuesserInterface
                 return new TypeGuess('time', array(), Guess::HIGH_CONFIDENCE);
             default:
                 return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
-        }
-    }
-
-    protected function getMetadata($class)
-    {
-        if (array_key_exists($class, $this->cache)) {
-            return $this->cache[$class];
-        }
-
-        $this->cache[$class] = null;
-        try {
-            return $this->cache[$class] = $this->documentManager->getClassMetadata($class);
-        } catch (MongoDBException $e) {
-            // not an entity or mapped super class
         }
     }
 }

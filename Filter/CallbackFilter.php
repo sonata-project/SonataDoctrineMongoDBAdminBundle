@@ -10,6 +10,7 @@
  */
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class CallbackFilter extends Filter
 {
@@ -32,7 +33,7 @@ class CallbackFilter extends Filter
      * @param string $data
      * @return void
      */
-    public function filter($queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf('Please provide a valid callback option "filter" for field "%s"', $this->getName()));
