@@ -12,6 +12,7 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class StringFilter extends Filter
 {
@@ -22,7 +23,7 @@ class StringFilter extends Filter
      * @param string $data
      * @return
      */
-    public function filter($queryBuilder, $name, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;

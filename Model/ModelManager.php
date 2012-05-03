@@ -48,6 +48,35 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
+     * Returns the model's metadata holding the fully qualified property, and the last
+     * property name
+     *
+     * @param string $baseClass The base class of the model holding the fully qualified property.
+     * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
+     * property string)
+     * @return array(
+     *     \Doctrine\ORM\Mapping\ClassMetadata $parentMetadata,
+     *     string $lastPropertyName,
+     *     array $parentAssociationMappings
+     * )
+     */
+    public function getParentMetadataForProperty($baseClass, $propertyFullName)
+    {
+        $nameElements = explode('.', $propertyFullName);
+        $lastPropertyName = array_pop($nameElements);
+        $class = $baseClass;
+        $parentAssociationMappings = array();
+
+        foreach($nameElements as $nameElement){
+            $metadata = $this->getMetadata($class);
+            $parentAssociationMappings[] = $metadata->associationMappings[$nameElement];
+            $class = $metadata->getAssociationTargetClass($nameElement);
+        }
+
+        return array($this->getMetadata($class), $lastPropertyName, $parentAssociationMappings);
+    }
+
+    /**
      * Returns true is the model has some metadata
      *
      * @param $class

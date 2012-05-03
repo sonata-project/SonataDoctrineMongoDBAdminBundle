@@ -12,30 +12,23 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
+use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
-class FilterTypeGuesser implements TypeGuesserInterface
+class FilterTypeGuesser extends AbstractTypeGuesser
 {
-    protected $documentManager;
-
-    public function __construct(DocumentManager $documentManager)
-    {
-        $this->documentManager = $documentManager;
-    }
-
     /**
      * @param string $class
      * @param string $property
      * @return TypeGuess
      */
-    public function guessType($class, $property)
+    public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
-        if (!$metadata = $this->getMetadata($class)) {
+        if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager)) {
             return false;
         }
 
@@ -45,9 +38,11 @@ class FilterTypeGuesser implements TypeGuesserInterface
             'options' => array(),
         );
 
+        list($metadata, $propertyName, $parentAssociationMappings) = $ret;
+
         $mapping = $metadata->getFieldMapping($property);
-        if ($metadata->hasAssociation($property)) {
-            $multiple = $metadata->isCollectionValuedAssociation($property);
+        if ($metadata->hasAssociation($propertyName)) {
+            $multiple = $metadata->isCollectionValuedAssociation($propertyName);
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
@@ -107,10 +102,5 @@ class FilterTypeGuesser implements TypeGuesserInterface
             default:
                 return new TypeGuess('doctrine_mongo_string', $options, Guess::LOW_CONFIDENCE);
         }
-    }
-
-    protected function getMetadata($class)
-    {
-        return $this->documentManager->getClassMetadata($class);
     }
 }

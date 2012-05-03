@@ -13,6 +13,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class ChoiceFilter extends Filter
 {
@@ -24,7 +25,7 @@ class ChoiceFilter extends Filter
      * @param mixed $data
      * @return
      */
-    public function filter($queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('type', $data) || !array_key_exists('value', $data)) {
             return;
