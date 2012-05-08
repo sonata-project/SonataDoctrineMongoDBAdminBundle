@@ -59,9 +59,10 @@ class ProxyQuery implements ProxyQueryInterface
         return call_user_func_array(array($this->queryBuilder, $name), $args);
     }
 
-    public function setSortBy($sortBy)
+    public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
-        $this->sortBy = $sortBy;
+        $alias        = $this->entityJoin($parentAssociationMappings);
+        $this->sortBy = $alias . '.' . $fieldMapping['fieldName'];
     }
 
     public function getSortBy()
@@ -116,6 +117,24 @@ class ProxyQuery implements ProxyQueryInterface
     function getMaxResults()
     {
         return $this->maxResults;
+    }
+
+    /**
+     * @return mixed
+     */
+    function getUniqueParameterId()
+    {
+        // TODO: Implement getUniqueParameterId() method.
+    }
+
+    /**
+     * @param array $associationMappings
+     *
+     * @return mixed
+     */
+    function entityJoin(array $associationMappings)
+    {
+        // TODO: Implement entityJoin() method.
     }
 
 }
