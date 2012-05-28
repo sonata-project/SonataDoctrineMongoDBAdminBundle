@@ -61,8 +61,7 @@ class ProxyQuery implements ProxyQueryInterface
 
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
-        $alias        = $this->entityJoin($parentAssociationMappings);
-        $this->sortBy = $alias . '.' . $fieldMapping['fieldName'];
+        $this->sortBy = $fieldMapping['fieldName'];
     }
 
     public function getSortBy()

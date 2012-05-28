@@ -92,6 +92,7 @@ class ListBuilder implements ListBuilderInterface
                 $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
                 if ($fieldDescription->getOption('sortable') !== false) {
                     $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', $fieldDescription->getName()));
+                    $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
                 }
 
                 // set the default association mapping
