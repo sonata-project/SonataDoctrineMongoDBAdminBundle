@@ -20,7 +20,7 @@
         "sonata-project/admin-bundle": "*",
         "symfony/framework-bundle": "2.*",
         "symfony/security-bundle": "2.*",
-        "symfony/mongodb-odm-bundle": "2.*",
+        "doctrine/mongodb-odm-bundle": "2.*",
         "doctrine/mongodb": "dev-master",
         "doctrine/mongodb-odm": "dev-master"
     },
