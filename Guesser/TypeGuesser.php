@@ -55,10 +55,11 @@ class TypeGuesser extends AbstractTypeGuesser
         }
 
         switch ($mapping['type']) {
-            //case 'array':
-            //  return new TypeGuess('Collection', array(), Guess::HIGH_CONFIDENCE);
+            case 'hash':
+            case 'array':
+              return new TypeGuess('array', array(), Guess::HIGH_CONFIDENCE);
             case 'boolean':
-                return new TypeGuess('checkbox', array(), Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('boolean', array(), Guess::HIGH_CONFIDENCE);
             case 'datetime':
             case 'vardatetime':
             case 'datetimetz':
