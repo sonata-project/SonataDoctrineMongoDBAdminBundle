@@ -147,7 +147,12 @@ class ModelManager implements ModelManagerInterface
     public function find($class, $id)
     {
         if (is_numeric($id)) {
-            $id = intval($id);
+
+            $value = $this->documentManager->getRepository($class)->find(intval($id));
+
+            if (!empty($value)) {
+                return $value;
+            }
         }
 
         return $this->documentManager->getRepository($class)->find($id);
