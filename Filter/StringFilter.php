@@ -35,7 +35,7 @@ class StringFilter extends Filter
             return;
         }
 
-        $data['type'] = !isset($data['type']) ?  ChoiceType::TYPE_CONTAINS : $data['type'];
+        $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ChoiceType::TYPE_CONTAINS;
 
         if ($data['type'] == ChoiceType::TYPE_EQUAL) {
             $queryBuilder->field($field)->equals($data['value']);
