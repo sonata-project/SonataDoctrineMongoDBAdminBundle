@@ -279,6 +279,14 @@ class ModelManager implements ModelManagerInterface
 
         return implode('-', $values);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getUrlsafeIdentifier($entity)
+    {
+        return $this->getNormalizedIdentifier($entity);
+    }
 
     /**
      * @param $class
