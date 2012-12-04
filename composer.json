@@ -22,6 +22,7 @@
         "doctrine/mongodb": "dev-master",
         "doctrine/mongodb-odm": "dev-master"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "Sonata\\DoctrineMongoDBAdminBundle": "" }
     },
