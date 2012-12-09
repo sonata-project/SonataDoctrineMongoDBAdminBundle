@@ -54,8 +54,8 @@ class ModelFilter extends Filter
             return;
         }
 
-        $ids = array_map(function($id) {
-            return new \MongoId($id);
+        $ids = array_map(function($value) {
+            return new \MongoId($value->getId());
         }, $data['value']);
 
         if (isset($data['type']) && $data['type'] == BooleanType::TYPE_NO) {
@@ -73,9 +73,9 @@ class ModelFilter extends Filter
         }
 
         if (isset($data['type']) && $data['type'] == BooleanType::TYPE_NO) {
-            $queryBuilder->field($field . '.id')->notEqual(new \MongoId($data['value']));
+            $queryBuilder->field($field . '.id')->notEqual(new \MongoId($data['value']->getId()));
         } else {
-            $queryBuilder->field($field . '.id')->equals(new \MongoId($data['value']));
+            $queryBuilder->field($field . '.id')->equals(new \MongoId($data['value']->getId()));
         }
     }
 
