@@ -13,6 +13,8 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -21,6 +23,8 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
+
+use Exporter\Source\DoctrineODMQuerySourceIterator;
 
 class ModelManager implements ModelManagerInterface
 {
@@ -279,7 +283,7 @@ class ModelManager implements ModelManagerInterface
 
         return implode('-', $values);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -479,11 +483,20 @@ class ModelManager implements ModelManagerInterface
 
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
-        throw new \Exception('Not yet implemented.');
+        $datagrid->buildPager();
+        $query = $datagrid->getQuery();
+
+        //$query->select('DISTINCT ' . $query->getRootAlias());
+        $query->setFirstResult($firstResult);
+        $query->setMaxResults($maxResult);
+
+        return new DoctrineODMQuerySourceIterator($query instanceof ProxyQuery ? $query->getQuery() : $query, $fields);
     }
 
     public function getExportFields($class)
     {
-        throw new \Exception('Not yet implemented.');
+        $metadata = $this->getEntityManager($class)->getClassMetadata($class);
+
+        return $metadata->getFieldNames();
     }
 }
