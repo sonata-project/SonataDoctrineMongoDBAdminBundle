@@ -486,7 +486,6 @@ class ModelManager implements ModelManagerInterface
         $datagrid->buildPager();
         $query = $datagrid->getQuery();
 
-        //$query->select('DISTINCT ' . $query->getRootAlias());
         $query->setFirstResult($firstResult);
         $query->setMaxResults($maxResult);
 
