@@ -54,17 +54,19 @@ class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->setAdmin($admin);
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
+            list($metadata, $lastPropertyName, $parentAssociationMappings) = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
 
             // set the default field mapping
-            if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
-
-                // set the default association mapping
-                if (isset($metadata->fieldMappings[$fieldDescription->getName()]['reference'])) {
-                    $fieldDescription->setAssociationMapping($metadata->fieldMappings[$fieldDescription->getName()]);
-                }
+            if (isset($metadata->fieldMappings[$lastPropertyName])) {
+                $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $metadata->fieldMappings[$fieldDescription->getName()]));
             }
+
+            // set the default association mapping
+            if (isset($metadata->associationMappings[$lastPropertyName])) {
+                $fieldDescription->setOption('association_mapping', $fieldDescription->getOption('association_mapping', $metadata->fieldMappings[$lastPropertyName]));
+            }
+
+            $fieldDescription->setOption('parent_association_mappings', $fieldDescription->getOption('parent_association_mappings', $parentAssociationMappings));
         }
 
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));

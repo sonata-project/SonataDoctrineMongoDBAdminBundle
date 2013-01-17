@@ -35,9 +35,8 @@ class TypeGuesser extends AbstractTypeGuesser
 
         list($metadata, $propertyName, $parentAssociationMappings) = $ret;
 
-        $mapping = $metadata->getFieldMapping($property);
         if ($metadata->hasAssociation($propertyName)) {
-            $multiple = $metadata->isCollectionValuedAssociation($propertyName);
+            $mapping = $metadata->getFieldMapping($propertyName);
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
@@ -54,7 +53,7 @@ class TypeGuesser extends AbstractTypeGuesser
             }
         }
 
-        switch ($mapping['type']) {
+        switch ($metadata->getTypeOfField($propertyName)) {
             case 'hash':
             case 'array':
               return new TypeGuess('array', array(), Guess::HIGH_CONFIDENCE);
