@@ -40,9 +40,8 @@ class FilterTypeGuesser extends AbstractTypeGuesser
 
         list($metadata, $propertyName, $parentAssociationMappings) = $ret;
 
-        $mapping = $metadata->getFieldMapping($property);
         if ($metadata->hasAssociation($propertyName)) {
-            $multiple = $metadata->isCollectionValuedAssociation($propertyName);
+            $mapping = $metadata->getFieldMapping($propertyName);
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
@@ -64,10 +63,9 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             }
         }
 
+        $options['field_name'] = $propertyName;
 
-        $options['field_name'] = $mapping['fieldName'];
-
-        switch ($mapping['type']) {
+        switch ($metadata->getTypeOfField($propertyName)) {
             case 'boolean':
                 $options['field_type'] = 'sonata_type_boolean';
                 $options['field_options'] = array();

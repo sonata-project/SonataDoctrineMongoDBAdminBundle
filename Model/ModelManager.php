@@ -73,8 +73,8 @@ class ModelManager implements ModelManagerInterface
 
         foreach($nameElements as $nameElement){
             $metadata = $this->getMetadata($class);
-            $parentAssociationMappings[] = $metadata->associationMappings[$nameElement];
-            $class = $metadata->getAssociationTargetClass($nameElement);
+            $parentAssociationMappings[] = $metadata->fieldMappings[$nameElement];
+            $class = $metadata->fieldMappings[$nameElement]['targetDocument'];
         }
 
         return array($this->getMetadata($class), $lastPropertyName, $parentAssociationMappings);
@@ -106,18 +106,17 @@ class ModelManager implements ModelManagerInterface
             throw new \RunTimeException('The name argument must be a string');
         }
 
-        $metadata = $this->getMetadata($class);
+        list($metadata, $propertyName, $parentAssociationMappings) = $this->getParentMetadataForProperty($class, $name);
 
         $fieldDescription = new FieldDescription;
         $fieldDescription->setName($name);
         $fieldDescription->setOptions($options);
+        $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
-        if (isset($metadata->fieldMappings[$name]['reference'])) {
-            $fieldDescription->setAssociationMapping($metadata->fieldMappings[$name]);
-        }
-
-        if (isset($metadata->fieldMappings[$name])) {
-            $fieldDescription->setFieldMapping($metadata->fieldMappings[$name]);
+        if ($metadata->hasAssociation($propertyName)) {
+            $fieldDescription->setAssociationMapping($metadata->fieldMappings[$propertyName]);
+        } elseif (isset($metadata->fieldMappings[$propertyName])) {
+            $fieldDescription->setFieldMapping($metadata->fieldMappings[$propertyName]);
         }
 
         return $fieldDescription;
@@ -219,7 +218,7 @@ class ModelManager implements ModelManagerInterface
     {
         $repository = $this->getEntityManager()->getRepository($class);
 
-        return $repository->createQueryBuilder($alias);
+        return $repository->createQueryBuilder();
     }
 
     /**
