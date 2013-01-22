@@ -54,6 +54,7 @@ class TypeGuesser extends AbstractTypeGuesser
         }
 
         switch ($metadata->getTypeOfField($propertyName)) {
+            case 'collection':
             case 'hash':
             case 'array':
               return new TypeGuess('array', array(), Guess::HIGH_CONFIDENCE);
