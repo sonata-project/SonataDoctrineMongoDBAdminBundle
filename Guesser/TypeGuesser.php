@@ -40,10 +40,10 @@ class TypeGuesser extends AbstractTypeGuesser
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
-                    return new TypeGuess('orm_one_to_many', array(), Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess('mongo_one', array(), Guess::HIGH_CONFIDENCE);
 
                 case ClassMetadataInfo::MANY:
-                    return new TypeGuess('orm_many_to_many', array(), Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess('mongo_many', array(), Guess::HIGH_CONFIDENCE);
 
                 /* case ClassMetadataInfo::MANY_TO_ONE:
                   return new TypeGuess('orm_many_to_one', array(), Guess::HIGH_CONFIDENCE);
