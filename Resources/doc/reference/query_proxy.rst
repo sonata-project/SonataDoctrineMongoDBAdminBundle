@@ -1,4 +1,4 @@
-Doctrine ORM Proxy Query
+Doctrine MongoDB Proxy Query
 ========================
 
 
