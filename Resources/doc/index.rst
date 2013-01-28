@@ -1,4 +1,4 @@
-Doctrine ORM Admin Bundle
+Doctrine MongoDB Admin Bundle
 =========================
 
 The ``Doctrine MongoDB ODM Admin`` provides services to work with the ``Admin Bundle`` and the ``Doctrine Project``.
