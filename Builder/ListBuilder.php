@@ -24,32 +24,25 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 class ListBuilder implements ListBuilderInterface
 {
     protected $guesser;
-    protected $templates = array();
+    protected $templates;
 
     /**
      * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
      * @param array $templates
      */
-    public function __construct(TypeGuesserInterface $guesser, $templates = array())
+    public function __construct(TypeGuesserInterface $guesser, array $templates)
     {
         $this->guesser   = $guesser;
         $this->templates = $templates;
     }
 
-    /**
-     * @param array $options
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionCollection
-     */
     public function getBaseList(array $options = array())
     {
         return new FieldDescriptionCollection;
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionCollection $list
-     * @param null $type
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
+     * {@inheritdoc}
      */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
