@@ -21,17 +21,32 @@ You can also configure the templates used by the Form Framework while rendering 
 
 .. code-block:: yaml
 
-    sonata_doctrine_orm_admin:
+    sonata_doctrine_mongodb_admin:
         templates:
-            form: [ SonataDoctrineORMAdminBundle:Form:form_admin_fields.html.twig ]
-            filter: [ SonataDoctrineORMAdminBundle:Form:filter_admin_fields.html.twig ]
+            form: [ SonataDoctrineMongoDBAdminBundle:Form:form_admin_fields.html.twig ]
+            filter: [ SonataDoctrineMongoDBAdminBundle:Form:filter_admin_fields.html.twig ]
 
 
+You can also customize field types
+
+.. code-block:: yaml
+
+    sonata_doctrine_mongodb_admin:
+        templates:
+        types:
+            list:
+                date:       SonataAdminBundle:CRUD:date_field.html.twig
+                datetime:   SonataAdminBundle:CRUD:datetime_field.html.twig
+
+.. note::
+
+    By default, if the ``SonataIntlBundle`` classes are availables, then the numeric and date fields will be
+    localized with the current user locale (only for list, work in progress).
 You can also customize field types by adding types in the ``config.yml`` file. The default values are :
 
 .. code-block:: yaml
 
-    sonata_doctrine_orm_admin:
+    sonata_doctrine_mongodb_admin:
         templates:
             types:
                 list:
