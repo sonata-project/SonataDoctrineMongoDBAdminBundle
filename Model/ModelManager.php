@@ -98,7 +98,7 @@ class ModelManager implements ModelManagerInterface
      * @param $class
      * @param $name
      * @param array $options
-     * @return \Sonata\AdminBundle\Admin\ORM\FieldDescription
+     * @return FieldDescription
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = array())
     {
@@ -192,7 +192,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $parentAssociationMapping
      * @param string $class
-     * @return \Sonata\AdminBundle\Admin\ORM\FieldDescription
+     * @return FieldDescription
      */
     public function getParentFieldDescription($parentAssociationMapping, $class)
     {
@@ -218,7 +218,7 @@ class ModelManager implements ModelManagerInterface
     {
         $repository = $this->getEntityManager()->getRepository($class);
 
-        return $repository->createQueryBuilder($alias);
+        return new ProxyQuery($repository->createQueryBuilder($alias));
     }
 
     /**
@@ -227,7 +227,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function executeQuery($query)
     {
-        if ($query instanceof QueryBuilder) {
+        if ($query instanceof Builder) {
             return $query->getQuery()->execute();
         }
 
@@ -368,7 +368,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param sring $class
+     * @param string $class
      * @return array
      */
     public function getDefaultSortValues($class)
@@ -442,7 +442,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getModelCollectionInstance($class)
     {
