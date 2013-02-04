@@ -44,7 +44,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @abstract
      * @param string $name
-     * @return \Doctrine\ORM\Mapping\ClassMetadataInfo
+     * @return \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo
      */
     public function getMetadata($class)
     {
@@ -59,7 +59,7 @@ class ModelManager implements ModelManagerInterface
      * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
      * property string)
      * @return array(
-     *     \Doctrine\ORM\Mapping\ClassMetadata $parentMetadata,
+     *     \Doctrine\ODM\MongoDB\Mapping\ClassMetadata $parentMetadata,
      *     string $lastPropertyName,
      *     array $parentAssociationMappings
      * )
@@ -98,7 +98,7 @@ class ModelManager implements ModelManagerInterface
      * @param $class
      * @param $name
      * @param array $options
-     * @return FieldDescription
+     * @return \Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = array())
     {
@@ -192,7 +192,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $parentAssociationMapping
      * @param string $class
-     * @return FieldDescription
+     * @return \Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
      */
     public function getParentFieldDescription($parentAssociationMapping, $class)
     {
@@ -212,7 +212,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param $class
      * @param string $alias
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return ProxyQuery
      */
     public function createQuery($class, $alias = 'o')
     {
@@ -442,7 +442,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
-     * @return ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getModelCollectionInstance($class)
     {
