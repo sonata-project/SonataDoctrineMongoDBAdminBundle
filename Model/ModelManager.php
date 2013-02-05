@@ -212,13 +212,13 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param $class
      * @param string $alias
-     * @return \Doctrine\ODM\MongoDB\Query\Builder
+     * @return ProxyQuery
      */
     public function createQuery($class, $alias = 'o')
     {
         $repository = $this->getEntityManager()->getRepository($class);
 
-        return $repository->createQueryBuilder();
+        return new ProxyQuery($repository->createQueryBuilder($alias));
     }
 
     /**
@@ -227,7 +227,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function executeQuery($query)
     {
-        if ($query instanceof QueryBuilder) {
+        if ($query instanceof Builder) {
             return $query->getQuery()->execute();
         }
 
@@ -369,7 +369,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param sring $class
+     * @param string $class
      * @return array
      */
     public function getDefaultSortValues($class)
