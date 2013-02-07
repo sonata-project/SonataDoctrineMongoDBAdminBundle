@@ -12,6 +12,7 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Filter\Filter as BaseFilter;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 abstract class Filter extends BaseFilter
 {
