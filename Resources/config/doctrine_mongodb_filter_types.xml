@@ -28,5 +28,13 @@
         <service id="sonata.admin.odm.filter.type.number" class="Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter">
             <tag name="sonata.admin.filter.type" alias="doctrine_mongo_number" />
         </service>
+
+        <service id="sonata.admin.odm.filter.type.date" class="Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter">
+            <tag name="sonata.admin.filter.type" alias="doctrine_mongo_date" />
+        </service>
+
+        <service id="sonata.admin.odm.filter.type.datetime" class="Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter">
+            <tag name="sonata.admin.filter.type" alias="doctrine_mongo_datetime" />
+        </service>
     </services>
 </container>
