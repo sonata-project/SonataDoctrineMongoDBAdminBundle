@@ -24,30 +24,45 @@ abstract class AbstractDateFilter extends Filter
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
+
         //check data sanity
-        if (is_array($data) !== true || !array_key_exists('value', $data) || !$data['value']) {
+        if (is_array($data) !== true) {
             return;
         }
 
         //default type for simple filter
         $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateType::TYPE_EQUAL : $data['type'];
 
+        // Some types do not require a value to be set (NULL, NOT NULL).
+        if (!$this->typeRequiresValue($data['type']) && !$data['value']) {
+            return;
+        }
+
         switch($data['type'])
         {
             case DateType::TYPE_EQUAL:
+
                 return $this->applyTypeIsEqual($queryBuilder, $field, $data);
 
             case DateType::TYPE_GREATER_THAN:
+                if (!array_key_exists('value', $data) || !$data['value']) {
+                    return;
+                }
                 return $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
 
             case DateType::TYPE_LESS_EQUAL:
+                if (!array_key_exists('value', $data) || !$data['value']) {
+                    return;
+                }
                 return $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
 
             case DateType::TYPE_NULL:
             case DateType::TYPE_NOT_NULL:
+                return $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
+
             case DateType::TYPE_GREATER_EQUAL:
             case DateType::TYPE_LESS_THAN:
-                return $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
+                return $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
         }
     }
 
@@ -60,6 +75,20 @@ abstract class AbstractDateFilter extends Filter
     protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, \DateTime $datetime = null)
     {
         $queryBuilder->field($field)->$operation($datetime);
+    }
+
+    /**
+     * Returns if the filter type requires a value to be set.
+     *
+     * @param integer $type
+     * @return bool
+     */
+    protected function typeRequiresValue($type)
+    {
+        return (in_array($type, array(
+            DateType::TYPE_NULL,
+            DateType::TYPE_NOT_NULL)
+        ));
     }
 
     /**
