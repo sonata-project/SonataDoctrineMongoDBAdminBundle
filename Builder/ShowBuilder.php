@@ -13,7 +13,6 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
@@ -55,8 +54,8 @@ class ShowBuilder implements ShowBuilderInterface
     /**
      * The method defines the correct default settings for the provided FieldDescription
      *
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
+     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      * @return void
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)

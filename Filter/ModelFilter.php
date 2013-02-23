@@ -19,9 +19,9 @@ class ModelFilter extends Filter
 {
     /**
      * @param ProxyQueryInterface $queryBuilder
-     * @param string $alias
-     * @param string $field
-     * @param mixed $data
+     * @param string              $alias
+     * @param string              $field
+     * @param mixed               $data
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -45,10 +45,10 @@ class ModelFilter extends Filter
 
     /**
      *
-     * @param ProxyQueryInterface $queryBuilder
-     * @param type $alias
-     * @param type $field
-     * @param type $data
+     * @param  ProxyQueryInterface $queryBuilder
+     * @param  type                $alias
+     * @param  type                $field
+     * @param  type                $data
      * @return type
      */
     protected function handleMultiple(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -70,10 +70,10 @@ class ModelFilter extends Filter
 
     /**
      *
-     * @param ProxyQueryInterface $queryBuilder
-     * @param type $alias
-     * @param type $field
-     * @param type $data
+     * @param  ProxyQueryInterface $queryBuilder
+     * @param  type                $alias
+     * @param  type                $field
+     * @param  type                $data
      * @return type
      */
     protected function handleScalar(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -94,7 +94,7 @@ class ModelFilter extends Filter
     /**
      * Return \MongoId if $id is MongoId in string representation, otherwise custom string
      *
-     * @param type $id
+     * @param  type     $id
      * @return Ambigous <\MongoId, string>
      */
     public static function fixIdentifier($id)
@@ -105,12 +105,13 @@ class ModelFilter extends Filter
     /**
      * Identifier field name is 'field' if mapping type is simple; otherwise, it's 'field.$id'
      *
-     * @param string $field
+     * @param  string $field
      * @return string
      */
     protected function getIdentifierField($field)
     {
         $field_mapping = $this->getFieldMapping();
+
         return (true === $field_mapping['simple']) ? $field : $field . '.$id';
     }
 

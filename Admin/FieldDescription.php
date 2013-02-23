@@ -25,7 +25,7 @@ class FieldDescription extends BaseFieldDescription
     /**
      * Define the association mapping definition
      *
-     * @param array $associationMapping
+     * @param  array $associationMapping
      * @return void
      */
     public function setAssociationMapping($associationMapping)
@@ -47,7 +47,7 @@ class FieldDescription extends BaseFieldDescription
                     break;
             }
         }
-        
+
         $this->fieldName = $associationMapping['fieldName'];
     }
 
@@ -68,7 +68,7 @@ class FieldDescription extends BaseFieldDescription
     /**
      * set the field mapping information
      *
-     * @param array $fieldMapping
+     * @param  array $fieldMapping
      * @return void
      */
     public function setFieldMapping($fieldMapping)
@@ -102,7 +102,7 @@ class FieldDescription extends BaseFieldDescription
      */
     public function getValue($object)
     {
-        if($this->parentAssociationMappings) {
+        if ($this->parentAssociationMappings) {
             foreach ($this->parentAssociationMappings as $parentAssociationMapping) {
                 $object = $this->getFieldValue($object, $parentAssociationMapping['fieldName']);
             }

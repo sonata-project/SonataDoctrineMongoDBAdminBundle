@@ -14,8 +14,8 @@ class DateTimeFilter extends AbstractDateFilter
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
-     * @param string $field
-     * @param array $data
+     * @param string                                           $field
+     * @param array                                            $data
      */
     protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data)
     {
@@ -27,8 +27,8 @@ class DateTimeFilter extends AbstractDateFilter
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
-     * @param string $field
-     * @param array $data
+     * @param string                                           $field
+     * @param array                                            $data
      */
     protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data)
     {
@@ -42,8 +42,8 @@ class DateTimeFilter extends AbstractDateFilter
      * Because we lack a second variable we select a range covering the entire minute.
      *
      * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
-     * @param string $field
-     * @param array $data
+     * @param string                                           $field
+     * @param array                                            $data
      */
     protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data)
     {

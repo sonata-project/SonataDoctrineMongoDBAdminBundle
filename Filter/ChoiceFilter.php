@@ -20,9 +20,9 @@ class ChoiceFilter extends Filter
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param string $alias
-     * @param string $field
-     * @param mixed $data
+     * @param string       $alias
+     * @param string       $field
+     * @param mixed        $data
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)

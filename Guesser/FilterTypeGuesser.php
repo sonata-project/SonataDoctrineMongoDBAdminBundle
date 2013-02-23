@@ -13,7 +13,6 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
 use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -22,8 +21,8 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 class FilterTypeGuesser extends AbstractTypeGuesser
 {
     /**
-     * @param string $class
-     * @param string $property
+     * @param  string    $class
+     * @param  string    $property
      * @return TypeGuess
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)

@@ -38,22 +38,22 @@ abstract class AbstractDateFilter extends Filter
             return;
         }
 
-        switch($data['type'])
-        {
+        switch ($data['type']) {
             case DateType::TYPE_EQUAL:
-
                 return $this->applyTypeIsEqual($queryBuilder, $field, $data);
 
             case DateType::TYPE_GREATER_THAN:
                 if (!array_key_exists('value', $data) || !$data['value']) {
                     return;
                 }
+
                 return $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
 
             case DateType::TYPE_LESS_EQUAL:
                 if (!array_key_exists('value', $data) || !$data['value']) {
                     return;
                 }
+
                 return $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
 
             case DateType::TYPE_NULL:
@@ -68,9 +68,9 @@ abstract class AbstractDateFilter extends Filter
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
-     * @param string $operation
-     * @param string $field
-     * @param \DateTime $datetime
+     * @param string                                           $operation
+     * @param string                                           $field
+     * @param \DateTime                                        $datetime
      */
     protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, \DateTime $datetime = null)
     {
@@ -80,7 +80,7 @@ abstract class AbstractDateFilter extends Filter
     /**
      * Returns if the filter type requires a value to be set.
      *
-     * @param integer $type
+     * @param  integer $type
      * @return bool
      */
     protected function typeRequiresValue($type)

@@ -13,14 +13,11 @@ namespace Sonata\DoctrineMongoDBAdminBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\Definition\Processor;
-
 
 /**
  * SonataAdminBundleExtension
@@ -32,7 +29,7 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
 {
     /**
      *
-     * @param array            $configs    An array of configuration settings
+     * @param array            $configs   An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -59,7 +56,7 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
     }
 
     /**
-     * @param array $configs
+     * @param  array $configs
      * @return array
      */
     private function fixTemplatesConfiguration(array $configs)

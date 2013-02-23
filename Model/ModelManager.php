@@ -43,7 +43,7 @@ class ModelManager implements ModelManagerInterface
      * Returns the related model's metadata
      *
      * @abstract
-     * @param string $name
+     * @param  string                                          $name
      * @return \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo
      */
     public function getMetadata($class)
@@ -55,7 +55,7 @@ class ModelManager implements ModelManagerInterface
      * Returns the model's metadata holding the fully qualified property, and the last
      * property name
      *
-     * @param string $baseClass The base class of the model holding the fully qualified property.
+     * @param string $baseClass        The base class of the model holding the fully qualified property.
      * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
      * property string)
      * @return array(
@@ -71,7 +71,7 @@ class ModelManager implements ModelManagerInterface
         $class = $baseClass;
         $parentAssociationMappings = array();
 
-        foreach($nameElements as $nameElement){
+        foreach ($nameElements as $nameElement) {
             $metadata = $this->getMetadata($class);
             $parentAssociationMappings[] = $metadata->fieldMappings[$nameElement];
             $class = $metadata->fieldMappings[$nameElement]['targetDocument'];
@@ -97,7 +97,7 @@ class ModelManager implements ModelManagerInterface
      * @throws \RunTimeException
      * @param $class
      * @param $name
-     * @param array $options
+     * @param  array                                                     $options
      * @return \Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = array())
@@ -143,8 +143,8 @@ class ModelManager implements ModelManagerInterface
     /**
      * Find one object from the given class repository.
      *
-     * @param string $class Class name
-     * @param string|int $id Identifier. Can be a string with several IDs concatenated, separated by '-'.
+     * @param  string     $class Class name
+     * @param  string|int $id    Identifier. Can be a string with several IDs concatenated, separated by '-'.
      * @return Object
      */
     public function find($class, $id)
@@ -163,7 +163,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param $class
-     * @param array $criteria
+     * @param  array $criteria
      * @return array
      */
     public function findBy($class, array $criteria = array())
@@ -173,7 +173,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param $class
-     * @param array $criteria
+     * @param  array $criteria
      * @return array
      */
     public function findOneBy($class, array $criteria = array())
@@ -190,8 +190,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $parentAssociationMapping
-     * @param string $class
+     * @param  string                                                    $parentAssociationMapping
+     * @param  string                                                    $class
      * @return \Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
      */
     public function getParentFieldDescription($parentAssociationMapping, $class)
@@ -211,7 +211,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param $class
-     * @param string $alias
+     * @param  string     $alias
      * @return ProxyQuery
      */
     public function createQuery($class, $alias = 'o')
@@ -235,7 +235,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
+     * @param  string $class
      * @return string
      */
     public function getModelIdentifier($class)
@@ -293,8 +293,8 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param $class
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
-     * @param array $idx
+     * @param  \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
+     * @param  array                                            $idx
      * @return void
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
@@ -307,7 +307,7 @@ class ModelManager implements ModelManagerInterface
      * Deletes a set of $class identified by the provided $idx array
      *
      * @param $class
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
+     * @param  \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
      * @return void
      */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
@@ -331,8 +331,8 @@ class ModelManager implements ModelManagerInterface
     /**
      * Returns the parameters used in the columns header
      *
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
+     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param  \Sonata\AdminBundle\Datagrid\DatagridInterface      $datagrid
      * @return array
      */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
@@ -369,7 +369,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
+     * @param  string $class
      * @return array
      */
     public function getDefaultSortValues($class)
@@ -382,8 +382,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param object $instance
+     * @param  string $class
+     * @param  object $instance
      * @return mixed
      */
     public function modelTransform($class, $instance)
@@ -392,8 +392,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param array $array
+     * @param  string $class
+     * @param  array  $array
      * @return object
      */
     public function modelReverseTransform($class, array $array = array())
@@ -410,7 +410,7 @@ class ModelManager implements ModelManagerInterface
 
                 $property = $metadata->fieldMappings[$name]['fieldName'];
                 $reflection_property = $metadata->reflFields[$name];
-            } else if (array_key_exists($name, $metadata->associationMappings)) {
+            } elseif (array_key_exists($name, $metadata->associationMappings)) {
                 $property = $metadata->associationMappings[$name]['fieldName'];
             } else {
                 $property = $name;
@@ -424,16 +424,16 @@ class ModelManager implements ModelManagerInterface
                 }
 
                 $instance->$setter($value);
-            } else if ($reflClass->hasMethod('__set')) {
+            } elseif ($reflClass->hasMethod('__set')) {
                 // needed to support magic method __set
                 $instance->$property = $value;
-            } else if ($reflClass->hasProperty($property)) {
+            } elseif ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
                     throw new PropertyAccessDeniedException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;
-            } else if ($reflection_property) {
+            } elseif ($reflection_property) {
                 $reflection_property->setValue($instance, $value);
             }
         }
@@ -442,7 +442,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
+     * @param  string                                       $class
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getModelCollectionInstance($class)

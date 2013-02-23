@@ -18,9 +18,9 @@ class StringFilter extends Filter
 {
     /**
      * @param QueryBuilder $queryBuilder
-     * @param string $alias
-     * @param string $field
-     * @param string $data
+     * @param string       $alias
+     * @param string       $field
+     * @param string       $data
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)

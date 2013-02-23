@@ -16,8 +16,8 @@ class CallbackFilter extends Filter
 {
 
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param mixed $data
+     * @param  QueryBuilder $queryBuilder
+     * @param  mixed        $data
      * @return array
      */
     protected function association($queryBuilder, $data)
@@ -27,10 +27,10 @@ class CallbackFilter extends Filter
 
     /**
      * @throws \RuntimeException
-     * @param QueryBuilder $queryBuilder
-     * @param string $alias
-     * @param string $field
-     * @param string $data
+     * @param  QueryBuilder      $queryBuilder
+     * @param  string            $alias
+     * @param  string            $field
+     * @param  string            $data
      * @return void
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)

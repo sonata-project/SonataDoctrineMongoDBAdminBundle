@@ -28,7 +28,7 @@ class ListBuilder implements ListBuilderInterface
 
     /**
      * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
-     * @param array $templates
+     * @param array                                            $templates
      */
     public function __construct(TypeGuesserInterface $guesser, array $templates)
     {
@@ -83,8 +83,8 @@ class ListBuilder implements ListBuilderInterface
     /**
      * The method defines the correct default settings for the provided FieldDescription
      *
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
+     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      * @return void
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
@@ -149,7 +149,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
