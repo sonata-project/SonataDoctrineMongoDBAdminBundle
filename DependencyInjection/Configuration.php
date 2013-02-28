@@ -32,15 +32,21 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('sonata_doctrine_mongo_admin', 'array');
+        $rootNode = $treeBuilder->root('sonata_doctrine_mongo_db_admin', 'array');
 
         $rootNode
             ->children()
                 ->arrayNode('templates')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('form')->defaultValue(array('SonataDoctrineMongoDBAdminBundle:Form:form_admin_fields.html.twig'))->cannotBeEmpty()->end()
-                        ->scalarNode('filter')->defaultValue(array('SonataDoctrineMongoDBAdminBundle:Form:filter_admin_fields.html.twig'))->cannotBeEmpty()->end()
+                        ->arrayNode('form')
+                            ->prototype('scalar')->end()
+                            ->defaultValue(array('SonataDoctrineMongoDBAdminBundle:Form:form_admin_fields.html.twig'))
+                        ->end()
+                        ->arrayNode('filter')
+                            ->prototype('scalar')->end()
+                            ->defaultValue(array('SonataDoctrineMongoDBAdminBundle:Form:filter_admin_fields.html.twig'))
+                        ->end()
                         ->arrayNode('types')
                             ->children()
                                 ->arrayNode('list')
