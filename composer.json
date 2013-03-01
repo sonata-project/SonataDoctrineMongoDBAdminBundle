@@ -16,8 +16,8 @@
         }
     ],
     "require": {
-        "sonata-project/admin-bundle": "dev-master",
-        "symfony/framework-bundle": ">=2.1,<2.3-dev",
+        "sonata-project/admin-bundle": "2.1.*@stable",
+        "symfony/framework-bundle": "2.1.*@stable",
         "doctrine/mongodb-odm-bundle": "dev-master"
     },
     "minimum-stability": "dev",
