@@ -134,13 +134,17 @@ class ListBuilder implements ListBuilderInterface
                 $fieldDescription->setType('integer');
             }
 
-            $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
+            $template = $this->getTemplate($fieldDescription->getType());
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
-                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_one.html.twig');
-            } elseif ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
-                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_many.html.twig');
+            if ($template === null) {
+                if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
+                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_one.html.twig';
+                } elseif ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
+                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_many.html.twig';
+                }
             }
+
+            $fieldDescription->setTemplate($template);
         }
 
         if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
