@@ -8,7 +8,8 @@
     "authors": [
         {
             "name": "Thomas Rabaix",
-            "email": "thomas.rabaix@sonata-project.org"
+            "email": "thomas.rabaix@sonata-project.org",
+            "homepage": "http://sonata-project.org"
         },
         {
             "name": "Sonata Community",
@@ -16,13 +17,22 @@
         }
     ],
     "require": {
-        "sonata-project/admin-bundle": "dev-master",
-        "symfony/framework-bundle": ">=2.1,<2.3-dev",
-        "doctrine/mongodb-odm-bundle": "dev-master"
+        "doctrine/mongodb-odm-bundle": "3.0.*@dev",
+        "doctrine/mongodb-odm": "1.0.*@dev",
+        "sonata-project/admin-bundle": "2.2.*@dev",
+        "sonata-project/block-bundle": "2.2.*@dev",
+        "symfony/symfony": ">=2.2,<2.3",
+        "knplabs/knp-menu-bundle": "1.1.x-dev"
     },
-    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "Sonata\\DoctrineMongoDBAdminBundle": "" }
     },
-    "target-dir": "Sonata/DoctrineMongoDBAdminBundle"
+    "target-dir": "Sonata/DoctrineMongoDBAdminBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-2.0": "2.0.x-dev",
+            "dev-2.1": "2.1.x-dev",
+            "dev-master": "2.2.x-dev"
+        }
+    }
 }
