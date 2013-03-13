@@ -2,14 +2,14 @@
     "name": "sonata-project/doctrine-mongodb-admin-bundle",
     "type": "symfony-bundle",
     "description": "Symfony Sonata / Integrate Doctrine MongoDB ODM into the SonataAdminBundle",
-    "keywords": ["Admin Generator", "admin", "sonata", "bootstrap", "generator", "Mongo"],
+    "keywords": ["Admin Generator", "admin", "sonata", "bootstrap", "generator", "Mongo", "MongoDB"],
     "homepage": "http://sonata-project.org/bundles/admin",
     "license": "MIT",
     "authors": [
         {
-            "name": "Thomas Rabaix",
-            "email": "thomas.rabaix@sonata-project.org",
-            "homepage": "http://sonata-project.org"
+            "name": "Kévin Dunglas",
+            "email": "dunglas@gmail.com",
+            "homepage": "http://dunglas.fr"
         },
         {
             "name": "Sonata Community",
@@ -25,7 +25,7 @@
         "knplabs/knp-menu-bundle": "1.1.x-dev"
     },
     "autoload": {
-        "psr-0": { "Sonata\\DoctrineMongoDBAdminBundle": "" }
+        "psr-0": {"Sonata\\DoctrineMongoDBAdminBundle": ""}
     },
     "target-dir": "Sonata/DoctrineMongoDBAdminBundle",
     "extra": {

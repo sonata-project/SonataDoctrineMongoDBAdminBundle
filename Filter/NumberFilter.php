@@ -4,6 +4,7 @@
  * This file is part of the Sonata package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,10 +18,10 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 class NumberFilter extends Filter
 {
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param string       $alias
-     * @param string       $field
-     * @param string       $data
+     * @param ProxyQueryInterface $queryBuilder
+     * @param string              $alias
+     * @param string              $field
+     * @param string              $data
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -38,6 +39,7 @@ class NumberFilter extends Filter
         }
 
         $queryBuilder->field($field)->$operator((float) $data['value']);
+        $this->active = true;
     }
 
     /**

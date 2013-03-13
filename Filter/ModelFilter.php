@@ -4,6 +4,7 @@
  * This file is part of the Sonata package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -66,6 +67,8 @@ class ModelFilter extends Filter
         } else {
             $queryBuilder->field($field)->in($ids);
         }
+
+        $this->active = true;
     }
 
     /**
@@ -89,6 +92,8 @@ class ModelFilter extends Filter
         } else {
             $queryBuilder->field($field)->equals($id);
         }
+
+        $this->active = true;
     }
 
     /**
@@ -97,7 +102,7 @@ class ModelFilter extends Filter
      * @param  type     $id
      * @return Ambigous <\MongoId, string>
      */
-    public static function fixIdentifier($id)
+    protected static function fixIdentifier($id)
     {
         return ($id == new \MongoId($id)) ? new \MongoId($id) : $id;
     }

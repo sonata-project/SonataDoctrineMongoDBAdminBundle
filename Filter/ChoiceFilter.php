@@ -4,6 +4,7 @@
  * This file is part of the Sonata package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,18 +12,16 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class ChoiceFilter extends Filter
 {
-
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param string       $alias
-     * @param string       $field
-     * @param mixed        $data
+     * @param ProxyQueryInterface $queryBuilder
+     * @param string              $alias
+     * @param string              $field
+     * @param mixed               $data
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -45,9 +44,10 @@ class ChoiceFilter extends Filter
             } else {
                 $queryBuilder->field($field)->in($data['value']);
             }
-        } else {
 
-            if (empty($data['value']) || $data['value'] == 'all') {
+            $this->active = true;
+        } else {
+            if ($data['value'] === '' || $data['value'] === null || $data['value'] === false || $data['value'] === 'all') {
                 return;
             }
 
@@ -56,22 +56,9 @@ class ChoiceFilter extends Filter
             } else {
                 $queryBuilder->field($field)->equals($data['value']);
             }
+
+            $this->active = true;
         }
-    }
-
-    /**
-     * @param $type
-     * @return bool
-     */
-    private function getOperator($type)
-    {
-        $choices = array(
-            ChoiceType::TYPE_CONTAINS => 'IN',
-            ChoiceType::TYPE_NOT_CONTAINS => 'NOT IN',
-            ChoiceType::TYPE_EQUAL => '=',
-        );
-
-        return isset($choices[$type]) ? $choices[$type] : false;
     }
 
     /**
@@ -91,4 +78,5 @@ class ChoiceFilter extends Filter
                 'label' => $this->getLabel()
         ));
     }
+
 }

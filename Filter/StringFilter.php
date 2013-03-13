@@ -4,6 +4,7 @@
  * This file is part of the Sonata package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,10 +18,10 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 class StringFilter extends Filter
 {
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param string       $alias
-     * @param string       $field
-     * @param string       $data
+     * @param ProxyQueryInterface $queryBuilder
+     * @param string              $alias
+     * @param string              $field
+     * @param string              $data
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)
@@ -44,6 +45,8 @@ class StringFilter extends Filter
         } elseif ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
             $queryBuilder->field($field)->not(new \MongoRegex(sprintf('/%s/i', $data['value'])));
         }
+
+        $this->active = true;
     }
 
     /**
@@ -57,9 +60,10 @@ class StringFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_choice', array(
-            'field_type'    => $this->getFieldType(),
-            'field_options' => $this->getFieldOptions(),
-            'label'         => $this->getLabel()
+                'field_type' => $this->getFieldType(),
+                'field_options' => $this->getFieldOptions(),
+                'label' => $this->getLabel()
         ));
     }
+
 }
