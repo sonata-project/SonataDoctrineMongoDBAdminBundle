@@ -9,7 +9,7 @@ Full Configuration Options
 
 .. code-block:: yaml
 
-    sonata_doctrine_mongo_admin:
+    sonata_doctrine_mongo_db_admin:
         # default value is null, so doctrine uses the value defined in the configuration
         entity_manager: ~
 
