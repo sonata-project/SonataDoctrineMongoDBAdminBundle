@@ -57,10 +57,11 @@ class ModelFilter extends Filter
         if (count($data['value']) == 0) {
             return;
         }
-
-        $ids = array_map(function($value) {
-            return ModelFilter::fixIdentifier($value->getId());
-        }, $data['value']);
+        
+        $ids = array();
+        foreach($data['value'] as $value) {
+            $ids[] = self::fixIdentifier($value->getId());
+        }
 
         if (isset($data['type']) && $data['type'] == EqualType::TYPE_IS_NOT_EQUAL) {
             $queryBuilder->field($field)->notIn($ids);
@@ -85,7 +86,7 @@ class ModelFilter extends Filter
             return;
         }
 
-        $id = ModelFilter::fixIdentifier($data['value']->getId());
+        $id = self::fixIdentifier($data['value']->getId());
 
         if (isset($data['type']) && $data['type'] == EqualType::TYPE_IS_NOT_EQUAL) {
             $queryBuilder->field($field)->notEqual($id);
