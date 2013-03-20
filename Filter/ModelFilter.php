@@ -57,9 +57,9 @@ class ModelFilter extends Filter
         if (count($data['value']) == 0) {
             return;
         }
-        
+
         $ids = array();
-        foreach($data['value'] as $value) {
+        foreach ($data['value'] as $value) {
             $ids[] = self::fixIdentifier($value->getId());
         }
 
