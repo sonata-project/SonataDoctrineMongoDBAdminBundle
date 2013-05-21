@@ -21,7 +21,7 @@
         "doctrine/mongodb-odm": "1.0.*@dev",
         "sonata-project/admin-bundle": "2.2.*@dev",
         "sonata-project/block-bundle": "2.2.*@dev",
-        "symfony/symfony": ">=2.2,<2.3",
+        "symfony/symfony": ">=2.2,<2.4",
         "knplabs/knp-menu-bundle": "~1.1"
     },
     "autoload": {
