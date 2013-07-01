@@ -39,6 +39,7 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('doctrine_mongodb.xml');
         $loader->load('doctrine_mongodb_filter_types.xml');
+        $loader->load('security.xml');
 
         $configuration = new Configuration();
         $processor = new Processor();
