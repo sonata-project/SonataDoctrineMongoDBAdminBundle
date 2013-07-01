@@ -473,4 +473,12 @@ class ModelManager implements ModelManagerInterface
     {
         return $collection->removeElement($element);
     }
+
+    /**
+     * @return DocumentManager
+     */
+    public function getDocumentManager()
+    {
+        return $this->documentManager;
+    }
 }
