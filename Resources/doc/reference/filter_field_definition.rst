@@ -152,7 +152,7 @@ or not.
                             return;
                         }
 
-                        queryBuilder
+                        $queryBuilder
                             ->field('end')
                             ->lt(new \DateTime());
 
