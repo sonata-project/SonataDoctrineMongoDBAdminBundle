@@ -105,7 +105,7 @@ class ModelFilter extends Filter
      */
     protected static function fixIdentifier($id)
     {
-        return ($id == new \MongoId($id)) ? new \MongoId($id) : $id;
+        return @($id == new \MongoId($id)) ? new \MongoId($id) : $id;
     }
 
     /**
