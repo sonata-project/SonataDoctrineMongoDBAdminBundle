@@ -1,16 +1,30 @@
 Installation
 ============
 
-First install the Sonata Admin Bundle which provides Core functionalities.
+SonataDoctrineMongoDBAdminBundle is part of a set of bundles aimed at abstracting 
+storage connectivity for SonataAdminBundle. As such, SonataDoctrineMongoDBAdminBundle
+depends on SonataAdminBundle, and will not work without it. 
+
+.. note::
+    These installation instructions are meant to be used only as part of SonataAdminBundle's
+    installation process, which is documented `here <http://sonata-project.org/bundles/admin/master/doc/reference/installation.html>`_.
 
 Download bundles
 ----------------
 
-Use composer ::
+Use composer:
+
+.. code-block:: bash
 
     php composer.phar require sonata-project/doctrine-mongodb-admin-bundle
 
-Version constraint: dev-master
+You'll be asked to type in a version constraint. 'dev-master' will usually get you the latest, bleeding edge
+version. Check `packagist <https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle>`_
+for stable and legacy versions:
+
+.. code-block:: bash
+
+    Please provide a version constraint for the sonata-project/doctrine-mongodb-admin-bundle requirement: dev-master
 
 Configuration
 -------------
@@ -26,7 +40,13 @@ files:
     {
         return array(
             // ...
+            // set up basic sonata requirements
+            // ...
             new Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle(),
             // ...
         );
     }
+
+.. note::
+    Don't forget that, as part of `SonataAdminBundle's installation instructions <http://sonata-project.org/bundles/admin/master/doc/reference/installation.html>`_,
+    you need to enable additional bundles on AppKernel.php
