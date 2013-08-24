@@ -21,7 +21,7 @@ class DocumentStub
 {
     public function getId()
     {
-        return uniqid();
+        return decbin(rand());
     }
 
 }

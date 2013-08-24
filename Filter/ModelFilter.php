@@ -100,12 +100,16 @@ class ModelFilter extends Filter
     /**
      * Return \MongoId if $id is MongoId in string representation, otherwise custom string
      *
-     * @param  type     $id
-     * @return Ambigous <\MongoId, string>
+     * @param  mixed     $id
+     * @return \MongoId|string
      */
     protected static function fixIdentifier($id)
     {
-        return ($id == new \MongoId($id)) ? new \MongoId($id) : $id;
+        try {
+            return new \MongoId($id);
+        } catch (\MongoException $ex) {
+            return $id;
+        }
     }
 
     /**

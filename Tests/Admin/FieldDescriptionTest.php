@@ -62,6 +62,7 @@ class FieldDescriptionTest extends \PHPUnit_Framework_TestCase
 
         $expected = array (
           'misc' => 'foobar',
+          'placeholder' => 'short_object_description_placeholder',
           'array' =>
           array (
             'key1' => 'key_1',
