@@ -178,7 +178,12 @@ With the ``standard`` and ``list`` options, you can create a new ``User`` by cli
             $formMapper
                 ->with('General')
                     ->add('enabled', null, array('required' => false))
-                    ->add('author', 'sonata_type_model', array(), array('edit' => 'list'))
+                    ->add('author', 'sonata_type_model_list', array(
+                        'btn_add'       => 'Add author',      //Specify a custom label
+                        'btn_list'      => 'button.list',     //which will be translated
+                        'btn_delete'    => false,             //or hide the button.
+                        'btn_catalogue' => 'SonataNewsBundle' //Custom translation domain for buttons
+                    ), array('edit' => 'list'))
                     ->add('title')
                     ->add('abstract')
                     ->add('content')
