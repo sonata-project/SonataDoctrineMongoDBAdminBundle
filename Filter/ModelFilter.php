@@ -105,7 +105,12 @@ class ModelFilter extends Filter
      */
     protected static function fixIdentifier($id)
     {
-        return ($id == new \MongoId($id)) ? new \MongoId($id) : $id;
+        $mongo_id = new MongoId($id);
+        if ($mongo_id->{'$id'} == $id){
+            return $mongo_id;
+        }else{
+            return $id;
+        }
     }
 
     /**
