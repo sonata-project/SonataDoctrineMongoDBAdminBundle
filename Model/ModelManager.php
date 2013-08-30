@@ -282,7 +282,11 @@ class ModelManager implements ModelManagerInterface
      */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
-        $queryBuilder = $queryProxy->getQueryBuilder()->remove()->getQuery()->execute();
+        /** @var Query $queryBuilder */
+        $queryBuilder = $queryProxy->getQuery();
+        foreach ($queryBuilder->execute() as $object) {
+            $this->documentManager->remove($object);
+        }
 
         $this->documentManager->flush();
         $this->documentManager->clear();
