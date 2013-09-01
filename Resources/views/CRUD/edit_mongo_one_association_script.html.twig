@@ -35,6 +35,7 @@ This code manage the one-to-many association field popup
             url: '{{ url('sonata_admin_append_form_element', {
                 'code':      sonata_admin.admin.root.code,
                 'elementId': id,
+                'subclass':  sonata_admin.admin.getActiveSubclassCode(),
                 'objectId':  sonata_admin.admin.root.id(sonata_admin.admin.root.subject),
                 'uniqid':    sonata_admin.admin.root.uniqid
             } + sonata_admin.field_description.getOption('link_parameters', {})) }}',
@@ -42,6 +43,10 @@ This code manage the one-to-many association field popup
             dataType: 'html',
             data: { _xml_http_request: true },
             success: function(html) {
+                if (!html.length) {
+                    return;
+                }
+
                 jQuery('#field_container_{{ id }}').replaceWith(html); // replace the html
                 if(jQuery('input[type="file"]', form).length > 0) {
                     jQuery(form).attr('enctype', 'multipart/form-data');
