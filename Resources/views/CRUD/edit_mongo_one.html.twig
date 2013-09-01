@@ -16,10 +16,10 @@ file that was distributed with this source code.
         {{ form_row(form.children[field_description.name])}}
     {% endfor %}
 {% else %}
-    <div id="field_container_{{ id }}">
+    <div id="field_container_{{ id }}" class="field-container">
         {% if sonata_admin.edit == 'list' %}
-            <span id="field_widget_{{ id }}" >
-                {% if sonata_admin.admin.id(sonata_admin.value) %}
+            <span id="field_widget_{{ id }}" class="field-short-description">
+                {% if sonata_admin.field_description.associationadmin.id(sonata_admin.value) %}
                     {% render url('sonata_admin_short_object_information', {
                         'code':     sonata_admin.field_description.associationadmin.code,
                         'objectId': sonata_admin.field_description.associationadmin.id(sonata_admin.value),
@@ -41,9 +41,10 @@ file that was distributed with this source code.
             </span>
         {% endif %}
 
-        <span id="field_actions_{{ id }}" >
+        <span id="field_actions_{{ id }}" class="field-actions">
+            <span class="btn-group">
+                {% if sonata_admin.edit == 'list' and sonata_admin.field_description.associationadmin.hasroute('list') and sonata_admin.field_description.associationadmin.isGranted('LIST') and btn_list %}
 
-            {% if sonata_admin.edit == 'list' and sonata_admin.field_description.associationadmin.hasRoute('list') and sonata_admin.field_description.associationadmin.isGranted('LIST') and btn_list %}
                 <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('list') }}"
                     onclick="return start_field_dialog_form_list_{{ id }}(this);"
                     class="btn sonata-ba-action"
@@ -54,7 +55,7 @@ file that was distributed with this source code.
                 </a>
             {% endif %}
 
-            {% if sonata_admin.field_description.associationadmin.hasRoute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') and btn_add %}
+                {% if sonata_admin.edit != 'admin' and sonata_admin.field_description.associationadmin.hasroute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') and btn_add %}
                 <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
                     onclick="return start_field_dialog_form_add_{{ id }}(this);"
                     class="btn sonata-ba-action"
@@ -64,6 +65,7 @@ file that was distributed with this source code.
                     {{ btn_add|trans({}, btn_catalogue) }}
                 </a>
             {% endif %}
+            </span>
 
             {% if sonata_admin.field_description.associationadmin.hasRoute('delete') and sonata_admin.field_description.associationadmin.isGranted('DELETE') and btn_delete %}
                 <a  href=""
@@ -75,7 +77,6 @@ file that was distributed with this source code.
                     {{ btn_delete|trans({}, btn_catalogue) }}
                 </a>
             {% endif %}
-
         </span>
 
         <div class="container sonata-ba-modal sonata-ba-modal-edit-one-to-one" style="display: none" id="field_dialog_{{ id }}">
