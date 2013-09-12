@@ -23,32 +23,25 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 class ListBuilder implements ListBuilderInterface
 {
     protected $guesser;
-    protected $templates;
+
+    protected $templates = array();
 
     /**
      * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
      * @param array                                            $templates
      */
-    public function __construct(TypeGuesserInterface $guesser, array $templates)
+    public function __construct(TypeGuesserInterface $guesser, $templates = array())
     {
         $this->guesser   = $guesser;
         $this->templates = $templates;
     }
 
-    public function getBaseList(array $options = array())
-    {
-        return new FieldDescriptionCollection;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function getBaseList(array $options = array())
     {
-        $this->buildField($type, $fieldDescription, $admin);
-        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
-
-        return $list->add($fieldDescription);
+        return new FieldDescriptionCollection;
     }
 
     /**
@@ -67,7 +60,19 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param $type
+     * {@inheritdoc}
+     */
+    public function addField (FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    {
+        $this->buildField($type, $fieldDescription, $admin);
+        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
+
+        $list->add($fieldDescription);
+    }
+
+    /**
+     * @param string $type
+     *
      * @return string
      */
     private function getTemplate($type)
@@ -80,11 +85,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * The method defines the correct default settings for the provided FieldDescription
-     *
-     * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
-     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @return void
+     * {@inheritdoc}
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -106,11 +107,11 @@ class ListBuilder implements ListBuilderInterface
                     $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
                     $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
                 }
+            }
 
-                // set the default association mapping
-                if ($metadata->hasAssociation($lastPropertyName)) {
-                  $fieldDescription->setAssociationMapping($metadata->fieldMappings[$lastPropertyName]);
-                }
+            // set the default association mapping
+            if (isset($metadata->associationMappings[$lastPropertyName])) {
+                $fieldDescription->setAssociationMapping($metadata->associationMappings[$lastPropertyName]);
             }
 
             $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
@@ -153,6 +154,7 @@ class ListBuilder implements ListBuilderInterface
 
     /**
      * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
@@ -186,5 +188,4 @@ class ListBuilder implements ListBuilderInterface
 
         return $fieldDescription;
     }
-
 }

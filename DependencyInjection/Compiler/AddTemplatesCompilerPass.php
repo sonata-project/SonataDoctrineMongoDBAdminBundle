@@ -24,7 +24,6 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $settings = $this->fixSettings($container);
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {
 
             if (!isset($attributes[0]['manager_type']) || $attributes[0]['manager_type'] != 'doctrine_mongodb') {
@@ -32,38 +31,15 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
             }
 
             $definition = $container->getDefinition($id);
+            $templates = $container->getParameter('sonata_doctrine_mongodb_admin.templates');
 
             if (!$definition->hasMethodCall('setFormTheme')) {
-                $definition->addMethodCall('setFormTheme', array($settings['templates']['form']));
+                $definition->addMethodCall('setFormTheme', array($templates['form']));
             }
 
             if (!$definition->hasMethodCall('setFilterTheme')) {
-                $definition->addMethodCall('setFilterTheme', array($settings['templates']['filter']));
+                $definition->addMethodCall('setFilterTheme', array($templates['filter']));
             }
         }
     }
-
-    public function fixSettings($container)
-    {
-        $pool = $container->getDefinition('sonata.admin.manager.doctrine_mongodb');
-
-        // not very clean but don't know how to do that for now
-        $settings = false;
-        $methods  = $pool->getMethodCalls();
-        foreach ($methods as $pos => $calls) {
-            if ($calls[0] == '__hack_doctrine_mongo__') {
-                $settings = $calls[1];
-                break;
-            }
-        }
-
-        if ($settings) {
-            unset($methods[$pos]);
-        }
-
-        $pool->setMethodCalls($methods);
-
-        return $settings;
-    }
-
 }

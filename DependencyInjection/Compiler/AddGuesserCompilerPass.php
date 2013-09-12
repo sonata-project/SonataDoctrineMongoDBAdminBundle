@@ -10,6 +10,7 @@
  */
 
 namespace Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler;
+
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
@@ -25,6 +26,7 @@ class AddGuesserCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+
         // ListBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_list_chain');
         $services = array();
@@ -34,7 +36,7 @@ class AddGuesserCompilerPass implements CompilerPassInterface
 
         $definition->replaceArgument(0, $services);
 
-        // ListBuilder
+        // DatagridBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_datagrid_chain');
         $services = array();
         foreach ($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_mongodb_datagrid') as $id => $attributes) {
