@@ -21,9 +21,7 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 class FilterTypeGuesser extends AbstractTypeGuesser
 {
     /**
-     * @param  string    $class
-     * @param  string    $property
-     * @return TypeGuess
+     * {@inheritdoc}
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
@@ -32,15 +30,17 @@ class FilterTypeGuesser extends AbstractTypeGuesser
         }
 
         $options = array(
-            'field_type' => false,
+            'field_type'     => null,
             'field_options' => array(),
             'options' => array(),
         );
 
         list($metadata, $propertyName, $parentAssociationMappings) = $ret;
 
+        $options['parent_association_mappings'] = $parentAssociationMappings;
+
         if ($metadata->hasAssociation($propertyName)) {
-            $mapping = $metadata->getFieldMapping($propertyName);
+            $mapping = $metadata->associationMappings[$propertyName];
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
@@ -48,13 +48,14 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                     //case ClassMetadataInfo::MANY_TO_ONE:
                     //case ClassMetadataInfo::MANY_TO_MANY:
 
-                    $options['operator_type'] = 'sonata_type_boolean';
+                    $options['operator_type']    = 'sonata_type_equal';
                     $options['operator_options'] = array();
 
                     $options['field_type'] = 'document';
                     $options['field_options'] = array(
                         'class' => $mapping['targetDocument']
                     );
+
                     $options['field_name'] = $mapping['fieldName'];
                     $options['mapping_type'] = $mapping['type'];
 
@@ -62,7 +63,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             }
         }
 
-        $options['field_name'] = $propertyName;
+        $options['field_name'] = $metadata->fieldMappings[$propertyName]['fieldName'];
 
         switch ($metadata->getTypeOfField($propertyName)) {
             case 'boolean':
