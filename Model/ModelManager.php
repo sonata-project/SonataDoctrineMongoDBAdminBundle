@@ -149,6 +149,10 @@ class ModelManager implements ModelManagerInterface
      */
     public function find($class, $id)
     {
+        if (!isset($id)) {
+            return null;
+        }
+
         if (is_numeric($id)) {
 
             $value = $this->documentManager->getRepository($class)->find(intval($id));
@@ -180,7 +184,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @return DocumentManager
      */
-    public function getEntityManager()
+    public function getDocumentManager()
     {
         return $this->documentManager;
     }
@@ -208,7 +212,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function createQuery($class, $alias = 'o')
     {
-        $repository = $this->getEntityManager()->getRepository($class);
+        $repository = $this->getDocumentManager()->getRepository($class);
 
         return new ProxyQuery($repository->createQueryBuilder());
     }
@@ -259,7 +263,7 @@ class ModelManager implements ModelManagerInterface
         }
 
         // the entities is not managed
-        if (!$document || !$this->getEntityManager()->getUnitOfWork()->isInIdentityMap($document)) {
+        if (!$document || !$this->getDocumentManager()->getUnitOfWork()->isInIdentityMap($document)) {
             return null;
         }
 
@@ -292,8 +296,15 @@ class ModelManager implements ModelManagerInterface
     {
         /** @var Query $queryBuilder */
         $queryBuilder = $queryProxy->getQuery();
+
+        $i = 0;
         foreach ($queryBuilder->execute() as $object) {
             $this->documentManager->remove($object);
+
+            if ((++$i % 20) == 0) {
+                $this->documentManager->flush();
+                $this->documentManager->clear();
+            }
         }
 
         $this->documentManager->flush();
@@ -319,7 +330,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getExportFields($class)
     {
-        $metadata = $this->getEntityManager($class)->getClassMetadata($class);
+        $metadata = $this->getDocumentManager($class)->getClassMetadata($class);
 
         return $metadata->getFieldNames();
     }
@@ -484,13 +495,5 @@ class ModelManager implements ModelManagerInterface
     public function collectionRemoveElement(&$collection, &$element)
     {
         return $collection->removeElement($element);
-    }
-
-    /**
-     * @return DocumentManager
-     */
-    public function getDocumentManager()
-    {
-        return $this->documentManager;
     }
 }
