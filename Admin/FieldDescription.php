@@ -37,17 +37,7 @@ class FieldDescription extends BaseFieldDescription
         $this->associationMapping = $associationMapping;
 
         $this->type = $this->type ? : $associationMapping['type'];
-        if (!$this->mappingType) {
-            switch ($associationMapping['type']) {
-                case ClassMetadataInfo::MANY:
-                    $this->mappingType = ClassMetadataInfo::MANY;
-                    break;
-                case ClassMetadataInfo::ONE:
-                    $this->mappingType = ClassMetadataInfo::ONE;
-                    break;
-            }
-        }
-
+        $this->mappingType = $this->mappingType ? : $associationMapping['type'];
         $this->fieldName = $associationMapping['fieldName'];
     }
 
@@ -106,10 +96,8 @@ class FieldDescription extends BaseFieldDescription
      */
     public function getValue($object)
     {
-        if ($this->parentAssociationMappings) {
-            foreach ($this->parentAssociationMappings as $parentAssociationMapping) {
-                $object = $this->getFieldValue($object, $parentAssociationMapping['fieldName']);
-            }
+        foreach ($this->parentAssociationMappings as $parentAssociationMapping) {
+            $object = $this->getFieldValue($object, $parentAssociationMapping['fieldName']);
         }
 
         return $this->getFieldValue($object, $this->fieldName);
