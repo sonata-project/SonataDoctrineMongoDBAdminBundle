@@ -15,7 +15,7 @@ file that was distributed with this source code.
             {{ form_widget(form) }}
         </span>
 
-        <span id="field_actions_{{ id }}" >
+        <span id="field_actions_{{ id }}" class="field-actions">
             {% if sonata_admin.field_description.associationadmin.hasRoute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') and btn_add %}
                 <a
                     href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"

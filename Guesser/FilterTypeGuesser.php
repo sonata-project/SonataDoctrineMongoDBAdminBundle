@@ -21,9 +21,7 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 class FilterTypeGuesser extends AbstractTypeGuesser
 {
     /**
-     * @param  string    $class
-     * @param  string    $property
-     * @return TypeGuess
+     * {@inheritdoc}
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
@@ -57,6 +55,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                     $options['field_options'] = array(
                         'class' => $mapping['targetDocument']
                     );
+
                     $options['field_name'] = $mapping['fieldName'];
                     $options['mapping_type'] = $mapping['type'];
 

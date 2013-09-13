@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 class ShowBuilder implements ShowBuilderInterface
@@ -35,11 +36,24 @@ class ShowBuilder implements ShowBuilderInterface
         $this->templates = $templates;
     }
 
+    /**
+     * @param array $options
+     *
+     * @return \Sonata\AdminBundle\Admin\FieldDescriptionCollection
+     */
     public function getBaseList(array $options = array())
     {
         return new FieldDescriptionCollection;
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionCollection $list
+     * @param string|null                                          $type
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface  $fieldDescription
+     * @param \Sonata\AdminBundle\Admin\AdminInterface             $admin
+     *
+     * @return mixed
+     */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
@@ -74,6 +88,7 @@ class ShowBuilder implements ShowBuilderInterface
      *
      * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
      * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     *
      * @return void
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)

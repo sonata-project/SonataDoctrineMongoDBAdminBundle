@@ -21,11 +21,6 @@ use Sonata\AdminBundle\Security\Handler\AclSecurityHandlerInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Util\ObjectAclManipulator as BaseObjectAclManipulator;
 
-/**
- * ObjectAclManipulator for MongoDB databases.
- *
- * @author  Joris van de Sande <joris.van.de.sande@freshheads.com>
- */
 class ObjectAclManipulator extends BaseObjectAclManipulator
 {
     /**

@@ -25,9 +25,10 @@ use Symfony\Component\Form\FormFactory;
 
 class DatagridBuilder implements DatagridBuilderInterface
 {
-
     protected $filterFactory;
+
     protected $formFactory;
+
     protected $guesser;
 
     /**
@@ -45,6 +46,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
      * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     *
      * @return void
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
@@ -77,7 +79,8 @@ class DatagridBuilder implements DatagridBuilderInterface
      * @param  null                                                $type
      * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
-     * @return \Sonata\AdminBundle\Filter\FilterInterface
+     *
+     * @return void
      */
     public function addFilter(DatagridInterface $datagrid, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -118,6 +121,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param  \Sonata\AdminBundle\Admin\AdminInterface       $admin
      * @param  array                                          $values
+     *
      * @return \Sonata\AdminBundle\Datagrid\DatagridInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
@@ -129,5 +133,4 @@ class DatagridBuilder implements DatagridBuilderInterface
 
         return new Datagrid($admin->createQuery(), $admin->getList(), $pager, $formBuilder, $values);
     }
-
 }
