@@ -33,7 +33,7 @@ class TypeGuesser extends AbstractTypeGuesser
         list($metadata, $propertyName, $parentAssociationMappings) = $ret;
 
         if ($metadata->hasAssociation($propertyName)) {
-            $mapping = $metadata->getFieldMapping($propertyName);
+            $mapping = $metadata->associationMappings[$propertyName];
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
