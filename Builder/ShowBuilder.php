@@ -23,9 +23,16 @@ class ShowBuilder implements ShowBuilderInterface
 {
     protected $guesser;
 
-    public function __construct(TypeGuesserInterface $guesser)
+    protected $templates;
+
+    /**
+     * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
+     * @param array                                            $templates
+     */
+    public function __construct(TypeGuesserInterface $guesser, array $templates)
     {
         $this->guesser = $guesser;
+        $this->templates = $templates;
     }
 
     public function getBaseList(array $options = array())
@@ -45,10 +52,21 @@ class ShowBuilder implements ShowBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
         $admin->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
-        switch ($fieldDescription->getMappingType()) {
-            default:
-                $list->add($fieldDescription);
+        $list->add($fieldDescription);
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return null;
         }
+
+        return $this->templates[$type];
     }
 
     /**

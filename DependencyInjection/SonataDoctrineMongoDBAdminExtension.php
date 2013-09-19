@@ -34,7 +34,7 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configs = $this->fixTemplatesConfiguration($configs);
+        $configs = $this->fixTemplatesConfiguration($configs, $container);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('doctrine_mongodb.xml');
@@ -43,24 +43,25 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
 
         $configuration = new Configuration();
         $processor = new Processor();
-        $configs = $processor->processConfiguration($configuration, $configs);
+        $config = $processor->processConfiguration($configuration, $configs);
 
         $pool = $container->getDefinition('sonata.admin.manager.doctrine_mongodb');
-        $pool->addMethodCall('__hack_doctrine_mongo__', $configs);
+
+        $container->setParameter('sonata_doctrine_mongodb_admin.templates', $config['templates']);
 
         // define the templates
         $container->getDefinition('sonata.admin.builder.doctrine_mongodb_list')
-            ->replaceArgument(1, $configs['templates']['types']['list']);
+            ->replaceArgument(1, $config['templates']['types']['list']);
 
         $container->getDefinition('sonata.admin.builder.doctrine_mongodb_show')
-            ->replaceArgument(1, $configs['templates']['types']['show']);
+            ->replaceArgument(1, $config['templates']['types']['show']);
     }
 
     /**
      * @param  array $configs
      * @return array
      */
-    private function fixTemplatesConfiguration(array $configs)
+    private function fixTemplatesConfiguration(array $configs, ContainerBuilder $container)
     {
         $defaultConfig = array(
             'templates' => array(
@@ -71,14 +72,14 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
                         'date'         => 'SonataAdminBundle:CRUD:list_date.html.twig',
                         'time'         => 'SonataAdminBundle:CRUD:list_time.html.twig',
                         'datetime'     => 'SonataAdminBundle:CRUD:list_datetime.html.twig',
-                        'text'         => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
+                        'text'         => 'SonataAdminBundle:CRUD:list_string.html.twig',
                         'trans'        => 'SonataAdminBundle:CRUD:list_trans.html.twig',
-                        'string'       => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'smallint'     => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'bigint'       => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'integer'      => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'decimal'      => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'identifier'   => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
+                        'string'       => 'SonataAdminBundle:CRUD:list_string.html.twig',
+                        'smallint'     => 'SonataAdminBundle:CRUD:list_string.html.twig',
+                        'bigint'       => 'SonataAdminBundle:CRUD:list_string.html.twig',
+                        'integer'      => 'SonataAdminBundle:CRUD:list_string.html.twig',
+                        'decimal'      => 'SonataAdminBundle:CRUD:list_string.html.twig',
+                        'identifier'   => 'SonataAdminBundle:CRUD:list_string.html.twig',
                         'currency'     => 'SonataAdminBundle:CRUD:list_currency.html.twig',
                         'percent'      => 'SonataAdminBundle:CRUD:list_percent.html.twig',
                     ),
@@ -102,8 +103,9 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
             )
         );
 
-        // let's add some magic
-        if (class_exists('Sonata\IntlBundle\SonataIntlBundle', true)) {
+        // let's add some magic, only overwrite template if the SonataIntlBundle is enabled
+        $bundles = $container->getParameter('kernel.bundles');
+        if (isset($bundles['SonataIntlBundle'])) {
             $defaultConfig['templates']['types']['list'] = array_merge($defaultConfig['templates']['types']['list'], array(
                 'date'         => 'SonataIntlBundle:CRUD:list_date.html.twig',
                 'datetime'     => 'SonataIntlBundle:CRUD:list_datetime.html.twig',
