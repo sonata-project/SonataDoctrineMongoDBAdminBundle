@@ -106,11 +106,11 @@ class ListBuilder implements ListBuilderInterface
                     $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
                     $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
                 }
+            }
 
-                // set the default association mapping
-                if ($metadata->hasAssociation($lastPropertyName)) {
-                  $fieldDescription->setAssociationMapping($metadata->fieldMappings[$lastPropertyName]);
-                }
+            // set the default association mapping
+            if (isset($metadata->associationMappings[$lastPropertyName])) {
+                $fieldDescription->setAssociationMapping($metadata->associationMappings[$lastPropertyName]);
             }
 
             $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));

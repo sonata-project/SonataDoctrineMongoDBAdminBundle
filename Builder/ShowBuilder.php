@@ -63,16 +63,17 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setAdmin($admin);
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
+            list($metadata, $lastPropertyName, $parentAssociationMappings) = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+            $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
             // set the default field mapping
-            if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
+            if (isset($metadata->fieldMappings[$lastPropertyName])) {
+                $fieldDescription->setFieldMapping($metadata->fieldMappings[$lastPropertyName]);
+            }
 
                 // set the default association mapping
-                if (isset($metadata->fieldMappings[$fieldDescription->getName()]['reference'])) {
-                    $fieldDescription->setAssociationMapping($metadata->fieldMappings[$fieldDescription->getName()]);
-                }
+            if (isset($metadata->associationMappings[$lastPropertyName])) {
+                $fieldDescription->setAssociationMapping($metadata->associationMappings[$lastPropertyName]);
             }
         }
 
@@ -84,22 +85,29 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            $fieldDescription->setTemplate(sprintf('SonataAdminBundle:CRUD:show_%s.html.twig', $fieldDescription->getType()));
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
-                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_many.html.twig');
+            if ($fieldDescription->getType() == 'id') {
+                $fieldDescription->setType('string');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
-                $fieldDescription->setTemplate('SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_one.html.twig');
+            if ($fieldDescription->getType() == 'int') {
+                $fieldDescription->setType('integer');
             }
+
+            $template = $this->getTemplate($fieldDescription->getType());
+
+            if ($template === null) {
+                if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
+                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_one.html.twig';
+                } elseif ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
+                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_many.html.twig';
+                }
+            }
+
+            $fieldDescription->setTemplate($template);
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
+        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
             $admin->attachAdminClass($fieldDescription);
         }
     }

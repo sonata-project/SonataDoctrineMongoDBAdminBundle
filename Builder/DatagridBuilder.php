@@ -57,19 +57,18 @@ class DatagridBuilder implements DatagridBuilderInterface
 
             // set the default field mapping
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
-                $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $metadata->fieldMappings[$fieldDescription->getName()]));
+                $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $metadata->fieldMappings[$lastPropertyName]));
             }
 
             // set the default association mapping
             if (isset($metadata->associationMappings[$lastPropertyName])) {
-                $fieldDescription->setOption('association_mapping', $fieldDescription->getOption('association_mapping', $metadata->fieldMappings[$lastPropertyName]));
+                $fieldDescription->setOption('association_mapping', $fieldDescription->getOption('association_mapping', $metadata->associationMappings[$lastPropertyName]));
             }
 
             $fieldDescription->setOption('parent_association_mappings', $fieldDescription->getOption('parent_association_mappings', $parentAssociationMappings));
         }
 
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
-        $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
         $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
     }
 
@@ -108,9 +107,12 @@ class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->mergeOption('field_options', array('required' => false));
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());
 
+        if (!$filter->getLabel()) {
+            $filter->setLabel($admin->getLabelTranslatorStrategy()->getLabel($fieldDescription->getName(), 'filter', 'label'));
+        }
+
         $datagrid->addFilter($filter);
 
-        return $datagrid->addFilter($filter);
     }
 
     /**
