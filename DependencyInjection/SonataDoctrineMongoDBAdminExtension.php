@@ -59,6 +59,8 @@ class SonataDoctrineMongoDBAdminExtension extends Extension
 
     /**
      * @param  array $configs
+     * @param ContainerBuilder $container
+     *
      * @return array
      */
     private function fixTemplatesConfiguration(array $configs, ContainerBuilder $container)
