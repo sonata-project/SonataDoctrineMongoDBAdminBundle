@@ -30,6 +30,8 @@ class ModelManager implements ModelManagerInterface
 {
     protected $documentManager;
 
+    const ID_SEPARATOR = '-';
+
     /**
      *
      * @param \Doctrine\ODM\MongoDB\DocumentManager $documentManager
@@ -272,7 +274,7 @@ class ModelManager implements ModelManagerInterface
 
         $values = $this->getIdentifierValues($document);
 
-        return implode('-', $values);
+        return implode(self::ID_SEPARATOR, $values);
     }
 
     /**
@@ -419,6 +421,7 @@ class ModelManager implements ModelManagerInterface
 
                 $property = $metadata->fieldMappings[$name]['fieldName'];
                 $reflection_property = $metadata->reflFields[$name];
+
             } elseif (array_key_exists($name, $metadata->associationMappings)) {
                 $property = $metadata->associationMappings[$name]['fieldName'];
             } else {
