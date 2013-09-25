@@ -21,7 +21,7 @@
         "doctrine/mongodb-odm": "1.0.*@dev",
         "sonata-project/admin-bundle": "2.2.*@dev",
         "sonata-project/block-bundle": "2.2.*@dev",
-        "symfony/symfony": ">=2.2,<2.4"
+        "symfony/symfony": "~2.2"
     },
     "autoload": {
         "psr-0": {"Sonata\\DoctrineMongoDBAdminBundle": ""}
