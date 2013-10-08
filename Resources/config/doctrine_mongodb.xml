@@ -56,6 +56,7 @@
             <argument type="service" id="form.factory" on-invalid="ignore" />
             <argument type="service" id="sonata.admin.builder.filter.factory" on-invalid="ignore" />
             <argument type="service" id="sonata.admin.guesser.doctrine_mongodb_datagrid_chain" on-invalid="ignore" />
+            <argument>%form.type_extension.csrf.enabled%</argument>
         </service>
 
         <service id="sonata.admin.guesser.doctrine_mongodb_datagrid" class="Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser">
