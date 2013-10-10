@@ -118,11 +118,11 @@ when the prefix path is made of entities, not collections):
         {
             $listMapper
                 ->addIdentifier('id')
-                ->addIdentifier('firstName')
-                ->addIdentifier('lastName')
-                ->addIdentifier('address.street')
-                ->addIdentifier('address.ZIPCode')
-                ->addIdentifier('address.town')
+                ->add('firstName')
+                ->add('lastName')
+                ->add('address.street')
+                ->add('address.ZIPCode')
+                ->add('address.town')
             ;
         }
     }
