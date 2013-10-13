@@ -1,7 +1,7 @@
 Form types and data transformers
 ================================
 
-The AdminBundle is shipped with custom form types and data transfomers in order
+The AdminBundle is shipped with custom form types and data transformers in order
 to handle the different model's workflows and lifecycle.
 
 Form types
