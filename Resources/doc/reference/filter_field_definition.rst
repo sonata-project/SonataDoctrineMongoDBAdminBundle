@@ -121,7 +121,7 @@ Callback
 
 To create a custom callback filter, two methods need to be implemented; one to
 define the field type and one to define how to use the field's value. The
-latter shall return wether the filter actually is applied to the queryBuilder
+latter shall return whether the filter actually is applied to the queryBuilder
 or not.
 
 .. code-block:: php
