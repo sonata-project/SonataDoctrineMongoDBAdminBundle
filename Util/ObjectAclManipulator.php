@@ -52,7 +52,7 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
             $objectIds = array();
 
             foreach ($qb->getQuery()->iterate() as $row) {
-                $objectIds[]      = ObjectIdentity::fromDomainObject($row[0]);
+                $objectIds[]      = ObjectIdentity::fromDomainObject($row);
                 $objectIdIterator = new \ArrayIterator($objectIds);
 
                 // detach from Doctrine, so that it can be Garbage-Collected immediately
