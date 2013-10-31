@@ -40,7 +40,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
         $options['parent_association_mappings'] = $parentAssociationMappings;
 
         if ($metadata->hasAssociation($propertyName)) {
-            $mapping = $metadata->associationMappings[$propertyName];
+            $mapping = $metadata->fieldMappings[$propertyName];
 
             switch ($mapping['type']) {
                 case ClassMetadataInfo::ONE:
