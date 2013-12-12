@@ -13,7 +13,7 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
-use Sonata\AdminBundle\Form\Type\BooleanType;
+use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 
 class BooleanFilterTest extends FilterWithQueryBuilderTest
