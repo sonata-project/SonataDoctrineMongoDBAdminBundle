@@ -14,7 +14,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
-use Sonata\AdminBundle\Form\Type\EqualType;
+use Sonata\CoreBundle\Form\Type\EqualType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 
 class DocumentStub

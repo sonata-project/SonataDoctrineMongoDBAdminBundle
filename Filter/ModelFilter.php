@@ -12,7 +12,7 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Form\Type\EqualType;
+use Sonata\CoreBundle\Form\Type\EqualType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Doctrine\Common\Collections\Collection;
 

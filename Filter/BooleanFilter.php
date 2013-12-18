@@ -12,7 +12,7 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Form\Type\BooleanType;
+use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class BooleanFilter extends Filter
