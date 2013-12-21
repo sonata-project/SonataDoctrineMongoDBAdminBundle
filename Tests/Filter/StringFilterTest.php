@@ -20,7 +20,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 {
     public function testEmpty()
     {
-        $filter = new StringFilter;
+        $filter = new StringFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -33,7 +33,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
     public function testContains()
     {
-        $filter = new StringFilter;
+        $filter = new StringFilter();
         $filter->initialize('field_name', array('format' => '%s'));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -47,7 +47,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
     public function testNotContains()
     {
-        $filter = new StringFilter;
+        $filter = new StringFilter();
         $filter->initialize('field_name', array('format' => '%s'));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -58,7 +58,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
     public function testEquals()
     {
-        $filter = new StringFilter;
+        $filter = new StringFilter();
         $filter->initialize('field_name', array('format' => '%s'));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -69,7 +69,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
     public function testEqualsWithValidParentAssociationMappings()
     {
-        $filter = new StringFilter;
+        $filter = new StringFilter();
         $filter->initialize('field_name', array(
             'format' => '%s',
             'field_name' => 'field_name',

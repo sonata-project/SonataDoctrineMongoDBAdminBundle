@@ -24,6 +24,9 @@
         "symfony/symfony": "~2.2",
         "sonata-project/core-bundle": "~2.2@dev"
     },
+    "require-dev": {
+        "jmikola/geojson": "~1.0"
+    },
     "autoload": {
         "psr-0": {"Sonata\\DoctrineMongoDBAdminBundle": ""}
     },

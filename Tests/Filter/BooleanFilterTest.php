@@ -20,7 +20,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 {
     public function testFilterEmpty()
     {
-        $filter = new BooleanFilter;
+        $filter = new BooleanFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -38,7 +38,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterNo()
     {
-        $filter = new BooleanFilter;
+        $filter = new BooleanFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -50,7 +50,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterYes()
     {
-        $filter = new BooleanFilter;
+        $filter = new BooleanFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -62,7 +62,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterArray()
     {
-        $filter = new BooleanFilter;
+        $filter = new BooleanFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());

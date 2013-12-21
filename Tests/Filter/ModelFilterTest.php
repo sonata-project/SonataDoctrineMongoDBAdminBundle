@@ -43,7 +43,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterEmpty()
     {
-        $filter = new ModelFilter;
+        $filter = new ModelFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -56,7 +56,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterArray()
     {
-        $filter = new ModelFilter;
+        $filter = new ModelFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar'), 'field_mapping' => true));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -72,7 +72,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterScalar()
     {
-        $filter = new ModelFilter;
+        $filter = new ModelFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar'), 'field_mapping' => true));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -87,7 +87,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
      */
     public function testAssociationWithInvalidMapping()
     {
-        $filter = new ModelFilter;
+        $filter = new ModelFilter();
         $filter->initialize('field_name', array('mapping_type' => 'foo', 'field_mapping' => true));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -100,7 +100,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
      */
     public function testAssociationWithValidMappingAndEmptyFieldName()
     {
-        $filter = new ModelFilter;
+        $filter = new ModelFilter();
         $filter->initialize('field_name', array('mapping_type' => ClassMetadataInfo::ONE, 'field_mapping' => true));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -111,7 +111,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
     public function testAssociationWithValidMapping()
     {
-        $filter = new ModelFilter;
+        $filter = new ModelFilter();
         $filter->initialize('field_name', array(
             'mapping_type' => ClassMetadataInfo::ONE,
             'field_name' => 'field_name',
@@ -129,7 +129,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
     public function testAssociationWithValidParentAssociationMappings()
     {
-        $filter = new ModelFilter;
+        $filter = new ModelFilter();
         $filter->initialize('field_name', array(
             'mapping_type' => ClassMetadataInfo::ONE,
             'field_name' => 'field_name',

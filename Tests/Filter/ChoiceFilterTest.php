@@ -20,7 +20,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 {
     public function testFilterEmpty()
     {
-        $filter = new ChoiceFilter;
+        $filter = new ChoiceFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -34,7 +34,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterArray()
     {
-        $filter = new ChoiceFilter;
+        $filter = new ChoiceFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -46,7 +46,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterScalar()
     {
-        $filter = new ChoiceFilter;
+        $filter = new ChoiceFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -58,7 +58,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterZero()
     {
-        $filter = new ChoiceFilter;
+        $filter = new ChoiceFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());

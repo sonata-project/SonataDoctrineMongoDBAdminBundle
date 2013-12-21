@@ -21,7 +21,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter = new CallbackFilter;
+        $filter = new CallbackFilter();
         $filter->initialize('field_name', array(
             'callback' => function($builder, $alias, $field, $value) {
                 return true;
@@ -37,7 +37,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter = new CallbackFilter;
+        $filter = new CallbackFilter();
         $filter->initialize('field_name', array(
             'callback' => array($this, 'customCallback')
         ));
@@ -59,7 +59,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter = new CallbackFilter;
+        $filter = new CallbackFilter();
         $filter->initialize('field_name', array());
 
         $filter->filter($builder, 'alias', 'field', 'myValue');

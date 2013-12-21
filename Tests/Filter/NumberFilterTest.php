@@ -20,7 +20,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 {
     public function testFilterEmpty()
     {
-        $filter = new NumberFilter;
+        $filter = new NumberFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -33,7 +33,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilterInvalidOperator()
     {
-        $filter = new NumberFilter;
+        $filter = new NumberFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -45,7 +45,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
     public function testFilter()
     {
-        $filter = new NumberFilter;
+        $filter = new NumberFilter();
         $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
