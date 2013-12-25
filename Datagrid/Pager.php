@@ -36,8 +36,7 @@ class Pager extends BasePager
             $countQuery->setParameters($this->getParameters());
         }
 
-        // TODO: use map/reduce for that
-        return $this->getQuery()->execute()->count();
+        return $countQuery->count()->getQuery()->execute();
     }
 
     /**
