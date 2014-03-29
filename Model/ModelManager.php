@@ -19,26 +19,26 @@ use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Query\Builder;
 
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 use Exporter\Source\DoctrineODMQuerySourceIterator;
 
 class ModelManager implements ModelManagerInterface
 {
-    protected $documentManager;
+    protected $registry;
 
     const ID_SEPARATOR = '-';
 
     /**
      *
-     * @param \Doctrine\ODM\MongoDB\DocumentManager $documentManager
+     * @param \Symfony\Bridge\Doctrine\ManagerRegistry $registry
      */
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->documentManager = $documentManager;
+        $this->registry = $registry;
     }
 
     /**
@@ -46,7 +46,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getMetadata($class)
     {
-        return $this->documentManager->getMetadataFactory()->getMetadataFor($class);
+        return $this->getDocumentManager($class)->getMetadataFactory()->getMetadataFor($class);
     }
 
     /**
@@ -83,7 +83,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function hasMetadata($class)
     {
-        return $this->documentManager->getMetadataFactory()->hasMetadataFor($class);
+        return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
     }
 
     /**
@@ -127,8 +127,9 @@ class ModelManager implements ModelManagerInterface
      */
     public function create($object)
     {
-        $this->documentManager->persist($object);
-        $this->documentManager->flush();
+        $documentManager = $this->getDocumentManager($object);
+        $documentManager->persist($object);
+        $documentManager->flush();
     }
 
     /**
@@ -136,8 +137,9 @@ class ModelManager implements ModelManagerInterface
      */
     public function update($object)
     {
-        $this->documentManager->persist($object);
-        $this->documentManager->flush();
+        $documentManager = $this->getDocumentManager($object);
+        $documentManager->persist($object);
+        $documentManager->flush();
     }
 
     /**
@@ -145,8 +147,9 @@ class ModelManager implements ModelManagerInterface
      */
     public function delete($object)
     {
-        $this->documentManager->remove($object);
-        $this->documentManager->flush();
+        $documentManager = $this->getDocumentManager($object);
+        $documentManager->remove($object);
+        $documentManager->flush();
     }
 
     /**
@@ -158,16 +161,18 @@ class ModelManager implements ModelManagerInterface
             return null;
         }
 
+        $documentManager = $this->getDocumentManager($class);
+
         if (is_numeric($id)) {
 
-            $value = $this->documentManager->getRepository($class)->find(intval($id));
+            $value = $documentManager->getRepository($class)->find(intval($id));
 
             if (!empty($value)) {
                 return $value;
             }
         }
 
-        return $this->documentManager->getRepository($class)->find($id);
+        return $documentManager->getRepository($class)->find($id);
     }
 
     /**
@@ -175,7 +180,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function findBy($class, array $criteria = array())
     {
-        return $this->documentManager->getRepository($class)->findBy($criteria);
+        return $this->getDocumentManager($class)->getRepository($class)->findBy($criteria);
     }
 
     /**
@@ -183,15 +188,29 @@ class ModelManager implements ModelManagerInterface
      */
     public function findOneBy($class, array $criteria = array())
     {
-        return $this->documentManager->getRepository($class)->findOneBy($criteria);
+        return $this->getDocumentManager($class)->getRepository($class)->findOneBy($criteria);
     }
 
     /**
-     * @return DocumentManager
+     * @param string $class
+     *
+     * @throw \RuntimeException
+     *
+     * @return \Doctrine\ODM\MongoDB\DocumentManager
      */
-    public function getDocumentManager()
+    public function getDocumentManager($class)
     {
-        return $this->documentManager;
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
+
+        $dm = $this->registry->getManagerForClass($class);
+
+        if (!$dm) {
+            throw new \RuntimeException(sprintf('No document manager defined for class %s', $class));
+        }
+
+        return $dm;
     }
 
     /**
@@ -217,7 +236,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function createQuery($class, $alias = 'o')
     {
-        $repository = $this->getDocumentManager()->getRepository($class);
+        $repository = $this->getDocumentManager($class)->getRepository($class);
 
         return new ProxyQuery($repository->createQueryBuilder());
     }
@@ -247,7 +266,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierValues($document)
     {
-        return array($this->documentManager->getUnitOfWork()->getDocumentIdentifier($document));
+        return array($this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document));
     }
 
     /**
@@ -268,7 +287,7 @@ class ModelManager implements ModelManagerInterface
         }
 
         // the entities is not managed
-        if (!$document || !$this->getDocumentManager()->getUnitOfWork()->isInIdentityMap($document)) {
+        if (!$document || !$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
             return null;
         }
 
@@ -302,18 +321,20 @@ class ModelManager implements ModelManagerInterface
         /** @var Query $queryBuilder */
         $queryBuilder = $queryProxy->getQuery();
 
+        $documentManager = $this->getDocumentManager($class);
+
         $i = 0;
         foreach ($queryBuilder->execute() as $object) {
-            $this->documentManager->remove($object);
+            $documentManager->remove($object);
 
             if ((++$i % 20) == 0) {
-                $this->documentManager->flush();
-                $this->documentManager->clear();
+                $documentManager->flush();
+                $documentManager->clear();
             }
         }
 
-        $this->documentManager->flush();
-        $this->documentManager->clear();
+        $documentManager->flush();
+        $documentManager->clear();
     }
 
     /**

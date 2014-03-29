@@ -18,7 +18,7 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testFilterEmpty()
     {
-        $registry = $this->getMockBuilder('Doctrine\ODM\MongoDB\DocumentManager')
+        $registry = $this->getMockBuilder('Symfony\Bridge\Doctrine\ManagerRegistry')
                 ->disableOriginalConstructor()
                 ->getMock();
 

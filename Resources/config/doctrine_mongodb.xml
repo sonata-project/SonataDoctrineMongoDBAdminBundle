@@ -7,7 +7,7 @@
     <services>
 
         <service id="sonata.admin.manager.doctrine_mongodb" class="Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager" on-invalid="ignore" />
+            <argument type="service" id="doctrine_mongodb" on-invalid="ignore" />
         </service>
 
         <!-- FormBuilder -->
