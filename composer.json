@@ -19,9 +19,9 @@
     "require": {
         "doctrine/mongodb-odm-bundle": "3.0.*@dev",
         "doctrine/mongodb-odm": "1.0.*@dev",
-        "sonata-project/admin-bundle": "2.2.*@dev",
+        "sonata-project/admin-bundle": "~2.3@dev",
         "sonata-project/block-bundle": "2.2.*@dev",
-        "symfony/symfony": "~2.2",
+        "symfony/symfony": "~2.3",
         "sonata-project/core-bundle": "~2.2@dev"
     },
     "require-dev": {
