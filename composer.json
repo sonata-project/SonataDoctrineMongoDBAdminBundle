@@ -19,10 +19,7 @@
     "require": {
         "doctrine/mongodb-odm-bundle": "3.0.*@dev",
         "doctrine/mongodb-odm": "1.0.*@dev",
-        "sonata-project/admin-bundle": "2.2.*@dev",
-        "sonata-project/block-bundle": "2.2.*@dev",
-        "symfony/symfony": "~2.2",
-        "sonata-project/core-bundle": "~2.2@dev"
+        "sonata-project/admin-bundle": "~2.3@dev"
     },
     "require-dev": {
         "jmikola/geojson": "~1.0"
@@ -35,7 +32,8 @@
         "branch-alias": {
             "dev-2.0": "2.0.x-dev",
             "dev-2.1": "2.1.x-dev",
-            "dev-master": "2.2.x-dev"
+            "dev-2.2": "2.2.x-dev",
+            "dev-master": "2.3.x-dev"
         }
     }
 }
