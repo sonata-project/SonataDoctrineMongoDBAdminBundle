@@ -13,7 +13,7 @@ env:
 services: mongodb
 
 before_script:
-  - pecl -q install -f mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - yes '' | pecl -q install -f mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source
   - composer install --dev
 
