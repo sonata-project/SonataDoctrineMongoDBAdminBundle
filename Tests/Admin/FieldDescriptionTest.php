@@ -76,6 +76,7 @@ class FieldDescriptionTest extends \PHPUnit_Framework_TestCase
           ),
           'integer' => 1,
           'final' => 'test',
+          'link_parameters' => array(),
         );
 
         $this->assertEquals($expected, $field->getOptions());
