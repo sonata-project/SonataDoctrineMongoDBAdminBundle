@@ -55,7 +55,7 @@ Example
             $datagrid
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true)
+                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
             ;
         }
     }
