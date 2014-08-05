@@ -168,3 +168,37 @@ The related template :
             {{ object.providername}} : {{ object.width }}x{{ object.height }} <br />
         </div>
     {% endblock %}
+
+Custom link
+^^^^^^^^^^^
+
+Assuming you have a custom controller for an admin already defined and an action you want link to on the list
+other than ``show`` or ``edit``, you have to first define the desired route (for example ``download``) in the admin class
+
+.. code-block:: php
+
+    <?php
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('download', $this->getRouterIdParameter() . '/download');
+    }
+
+To get the route's full name you can examine the router by running ``php app/console router:debug``.
+The following example describes a link to the ``download`` action. The link will display the ``filename``
+property and have the object's ``id`` as url parameter.
+
+.. code-block:: php
+
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('filename', 'url', array(
+                'route' => array(
+                    'name' => 'admin_acme_demo_foo_download',
+                    'identifier_parameter_name' => 'id'
+                )
+            ))
+            // ...
+        ;
+    }
