@@ -22,7 +22,7 @@ file that was distributed with this source code.
         {% endfor %}
     {% else %}
         {% for element in value%}
-            <li>{{ element|render_relation_element(field_description) }}</li>
+            <li>{% if field_description.options.safe %}{{ element|render_relation_element(field_description)|raw }}{% else %}{{ element|render_relation_element(field_description) }}{% endif %}</li>
         {% endfor %}
     {% endif %}
         </ul>
