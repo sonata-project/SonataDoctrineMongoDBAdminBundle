@@ -11,6 +11,7 @@
  */
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
+
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class CallbackFilter extends Filter
@@ -31,12 +32,6 @@ class CallbackFilter extends Filter
 
         call_user_func($this->getOption('callback'), $queryBuilder, $alias, $field, $data);
 
-        if (is_callable($this->getOption('active_callback'))) {
-            $this->active = call_user_func($this->getOption('active_callback'), $data);
-
-            return;
-        }
-
         $this->active = true;
     }
 
@@ -47,9 +42,6 @@ class CallbackFilter extends Filter
     {
         return array(
             'callback' => null,
-            'active_callback' => function ($data) {
-                return !empty($data['value']);
-            },
             'field_type' => 'text',
             'operator_type' => 'hidden',
             'operator_options' => array()
