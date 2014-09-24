@@ -47,7 +47,7 @@ class CallbackFilter extends Filter
         return array(
             'callback' => null,
             'active_callback' => function($data) {
-                return !empty($data['value']);
+                return !(empty($data) || (is_array($data) && empty($data['value'])));
             },
             'field_type' => 'text',
             'operator_type' => 'hidden',
