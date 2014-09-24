@@ -12,7 +12,6 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Admin;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 class FieldDescription extends BaseFieldDescription

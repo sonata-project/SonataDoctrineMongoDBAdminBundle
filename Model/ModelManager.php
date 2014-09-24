@@ -53,14 +53,14 @@ class ModelManager implements ModelManagerInterface
      * Returns the model's metadata holding the fully qualified property, and the last
      * property name
      *
-     * @param string $baseClass        The base class of the model holding the fully qualified property.
-     * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
-     * property string)
+     * @param  string $baseClass        The base class of the model holding the fully qualified property.
+     * @param  string $propertyFullName The name of the fully qualified property (dot ('.') separated
+     *                                  property string)
      * @return array(
-     *     \Doctrine\ODM\MongoDB\Mapping\ClassMetadata $parentMetadata,
-     *     string $lastPropertyName,
-     *     array $parentAssociationMappings
-     * )
+     *                                 \Doctrine\ODM\MongoDB\Mapping\ClassMetadata $parentMetadata,
+     *                                 string $lastPropertyName,
+     *                                 array $parentAssociationMappings
+     *                                 )
      */
     public function getParentMetadataForProperty($baseClass, $propertyFullName)
     {

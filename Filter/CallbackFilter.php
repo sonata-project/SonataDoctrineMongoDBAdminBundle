@@ -33,6 +33,7 @@ class CallbackFilter extends Filter
 
         if (is_callable($this->getOption('active_callback'))) {
             $this->active = call_user_func($this->getOption('active_callback'), $data);
+
             return;
         }
 
@@ -46,7 +47,7 @@ class CallbackFilter extends Filter
     {
         return array(
             'callback' => null,
-            'active_callback' => function($data) {
+            'active_callback' => function ($data) {
                 return !empty($data['value']);
             },
             'field_type' => 'text',

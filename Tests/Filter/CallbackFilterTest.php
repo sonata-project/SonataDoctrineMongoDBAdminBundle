@@ -23,7 +23,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', array(
-            'callback' => function($builder, $alias, $field, $value) {
+            'callback' => function ($builder, $alias, $field, $value) {
                 return true;
             }
         ));

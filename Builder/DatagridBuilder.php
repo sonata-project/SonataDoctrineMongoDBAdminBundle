@@ -39,10 +39,10 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $csrfTokenEnabled;
 
     /**
-     * @param FormFactory $formFactory
+     * @param FormFactory            $formFactory
      * @param FilterFactoryInterface $filterFactory
-     * @param TypeGuesserInterface $guesser
-     * @param bool $csrfTokenEnabled
+     * @param TypeGuesserInterface   $guesser
+     * @param bool                   $csrfTokenEnabled
      */
     public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {
@@ -53,8 +53,8 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
-     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      *
      * @return void
      */
@@ -88,10 +88,10 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param  \Sonata\AdminBundle\Datagrid\DatagridInterface      $datagrid
-     * @param  null                                                $type
-     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
+     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface      $datagrid
+     * @param null                                                $type
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
      *
      * @return void
      */
@@ -132,8 +132,8 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param  \Sonata\AdminBundle\Admin\AdminInterface       $admin
-     * @param  array                                          $values
+     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
+     * @param array                                    $values
      *
      * @return \Sonata\AdminBundle\Datagrid\DatagridInterface
      */

@@ -86,8 +86,8 @@ class ShowBuilder implements ShowBuilderInterface
     /**
      * The method defines the correct default settings for the provided FieldDescription
      *
-     * @param  \Sonata\AdminBundle\Admin\AdminInterface            $admin
-     * @param  \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      *
      * @return void
      */

@@ -100,7 +100,7 @@ class ModelFilter extends Filter
     /**
      * Return \MongoId if $id is MongoId in string representation, otherwise custom string
      *
-     * @param  mixed     $id
+     * @param  mixed           $id
      * @return \MongoId|string
      */
     protected static function fixIdentifier($id)
