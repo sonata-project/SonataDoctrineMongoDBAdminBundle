@@ -19,7 +19,7 @@
     "require": {
         "doctrine/mongodb-odm-bundle": "3.0.*@dev",
         "doctrine/mongodb-odm": "1.0.*@dev",
-        "sonata-project/admin-bundle": "~2.3@dev"
+        "sonata-project/admin-bundle": "~2.3"
     },
     "require-dev": {
         "jmikola/geojson": "~1.0"
