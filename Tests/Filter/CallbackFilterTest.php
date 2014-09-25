@@ -29,6 +29,8 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
             }
         ));
 
+        $filter->filter($builder, 'alias', 'field', false);
+        $filter->filter($builder, 'alias', 'field', 'scalarValue');
         $filter->filter($builder, 'alias', 'field', array('value' => ''));
 
         $this->assertEquals(false, $filter->isActive());
@@ -45,7 +47,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
             }
         ));
 
-        $filter->filter($builder, 'alias', 'field', 'myValue');
+        $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));
 
         $this->assertEquals(true, $filter->isActive());
     }
@@ -59,7 +61,9 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
             'callback' => array($this, 'customCallback')
         ));
 
-        $filter->filter($builder, 'alias', 'field', '');
+        $filter->filter($builder, 'alias', 'field', false);
+        $filter->filter($builder, 'alias', 'field', 'scalarValue');
+        $filter->filter($builder, 'alias', 'field', array('value' => ''));
 
         $this->assertEquals(false, $filter->isActive());
     }
@@ -73,7 +77,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
             'callback' => array($this, 'customCallback')
         ));
 
-        $filter->filter($builder, 'alias', 'field', 'myValue');
+        $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));
 
         $this->assertEquals(true, $filter->isActive());
     }
