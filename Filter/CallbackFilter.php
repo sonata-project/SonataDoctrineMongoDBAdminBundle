@@ -11,6 +11,7 @@
  */
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
+
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class CallbackFilter extends Filter
