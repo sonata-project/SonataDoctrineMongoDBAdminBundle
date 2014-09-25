@@ -17,7 +17,8 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 
 class CallbackFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterClosure()
+
+    public function testFilterClosureEmpty()
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -28,12 +29,30 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
             }
         ));
 
-        $filter->filter($builder, 'alias', 'field', 'myValue');
+        $filter->filter($builder, 'alias', 'field', false);
+        $filter->filter($builder, 'alias', 'field', 'scalarValue');
+        $filter->filter($builder, 'alias', 'field', array('value' => ''));
+
+        $this->assertEquals(false, $filter->isActive());
+    }
+
+    public function testFilterClosureNotEmpty()
+    {
+        $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $filter = new CallbackFilter();
+        $filter->initialize('field_name', array(
+            'callback' => function ($builder, $alias, $field, $value) {
+                return true;
+            }
+        ));
+
+        $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));
 
         $this->assertEquals(true, $filter->isActive());
     }
 
-    public function testFilterMethod()
+    public function testFilterMethodEmpty()
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -42,7 +61,23 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
             'callback' => array($this, 'customCallback')
         ));
 
-        $filter->filter($builder, 'alias', 'field', 'myValue');
+        $filter->filter($builder, 'alias', 'field', false);
+        $filter->filter($builder, 'alias', 'field', 'scalarValue');
+        $filter->filter($builder, 'alias', 'field', array('value' => ''));
+
+        $this->assertEquals(false, $filter->isActive());
+    }
+
+    public function testFilterMethodNotEmpty()
+    {
+        $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $filter = new CallbackFilter();
+        $filter->initialize('field_name', array(
+            'callback' => array($this, 'customCallback')
+        ));
+
+        $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));
 
         $this->assertEquals(true, $filter->isActive());
     }
