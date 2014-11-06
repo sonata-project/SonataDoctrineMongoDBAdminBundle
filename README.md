@@ -5,7 +5,8 @@ Doctrine MongoDB Admin
 
 This bundle integrates the SonataAdminBundle with the Doctrine MongoDB ODM project.
 
-For contribution to the documentation you cand find it on [Resources/doc](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/tree/master/Resources/doc).
+Documentation
+-------------
 
 **Warning**: documentation files are not rendering correctly in Github (reStructuredText format)
 and some content might be broken or hidden, make sure to read raw files.
@@ -14,6 +15,11 @@ and some content might be broken or hidden, make sure to read raw files.
 
 * [Sonata Users](https://groups.google.com/group/sonata-users): For questions on how to use Sonata bundles on your project
 * [Sonata Devs](https://groups.google.com/group/sonata-devs): For questions regarding the development of Sonata bundles
+
+Contribution
+------------
+
+For contribution to the documentation you cand find it on [Resources/doc](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/tree/master/Resources/doc).
 
 License
 -------
