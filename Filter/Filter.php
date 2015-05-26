@@ -28,6 +28,24 @@ abstract class Filter extends BaseFilter
         $this->filter($queryBuilder, null, $this->getFieldName(), $value);
     }
 
+    public function getFieldName()
+    {
+        $fieldName = $this->getOption('field_name');
+
+        foreach($this->getOption('parent_association_mappings') as $map) {
+            if(!empty($map['name'])) {
+                $fieldName = $map['name'] . "." . $fieldName;
+            } elseif (!empty($map['fieldName'])) {
+                $fieldName = $map['fieldName'] . $fieldName;
+            }
+        }
+        if (!$fieldName) {
+            throw new \RuntimeException(sprintf('The option `field_name` must be set for field: `%s`', $this->getName()));
+        }
+
+        return $fieldName;
+    }
+
     /**
      * {@inheritdoc}
      */
