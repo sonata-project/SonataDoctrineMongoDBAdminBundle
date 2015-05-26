@@ -183,11 +183,6 @@ class DatagridBuilder implements DatagridBuilderInterface
         switch ($pagerType) {
             case Pager::TYPE_DEFAULT:
                 return new Pager();
-
-            // TODO: Implement a Simple page that extends Simple Pager from admin?
-            //case Pager::TYPE_SIMPLE:
-            //    return new SimplePager();
-
             default:
                 throw new \RuntimeException(sprintf('Unknown pager type "%s".', $pagerType));
         }
