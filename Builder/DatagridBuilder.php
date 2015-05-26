@@ -121,6 +121,17 @@ class DatagridBuilder implements DatagridBuilderInterface
         $admin->addFilterFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $fieldDescription->mergeOption('field_options', array('required' => false));
+
+        if ($type === 'doctrine_mongo_autocomplete') {
+            $fieldDescription->mergeOption('field_options', array(
+                'class' => $fieldDescription->getTargetEntity(),
+                'model_manager' => $fieldDescription->getAdmin()->getModelManager(),
+                'admin_code' => $admin->getCode(),
+                'context' => 'filter',
+            ));
+            $admin->attachAdminClass($fieldDescription);
+        }
+
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());
 
         if (false !== $filter->getLabel() && !$filter->getLabel()) {

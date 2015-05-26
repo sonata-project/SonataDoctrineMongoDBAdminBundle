@@ -3,8 +3,7 @@
 /*
  * This file is part of the Sonata package.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * (c) Thomas Rabaix <josluis.lopes@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,7 +15,7 @@ use Sonata\CoreBundle\Form\Type\EqualType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Doctrine\Common\Collections\Collection;
 
-class ModelFilter extends Filter
+class ModelAutocompleteFilter extends Filter
 {
 
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -36,6 +35,7 @@ class ModelFilter extends Filter
         } else {
             $this->handleScalar($queryBuilder, $alias, $field, $data);
         }
+
     }
 
     /**
@@ -92,6 +92,18 @@ class ModelFilter extends Filter
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function association(ProxyQueryInterface $queryBuilder, $data)
+    {
+        $associationMappings = $this->getParentAssociationMappings();
+        $associationMappings[] = $this->getAssociationMapping();
+        $alias = $queryBuilder->entityJoin($associationMappings);
+
+        return array($alias, false);
+    }
+
+    /**
      * Return \MongoId if $id is MongoId in string representation, otherwise custom string
      *
      * @param  mixed           $id
@@ -119,18 +131,23 @@ class ModelFilter extends Filter
         return (true === $field_mapping['simple']) ? $field : $field . '.$id';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultOptions()
     {
         return array(
-            'mapping_type' => false,
             'field_name'   => false,
-            'field_type'   => 'document',
+            'field_type'  => 'sonata_type_model_autocomplete',
             'field_options' => array(),
             'operator_type' => 'sonata_type_equal',
             'operator_options' => array(),
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
@@ -141,5 +158,5 @@ class ModelFilter extends Filter
             'label'         => $this->getLabel()
         ));
     }
-
 }
+
