@@ -60,7 +60,20 @@ class ProxyQuery implements ProxyQueryInterface
 
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
+        $parentFieldNameArray = array();
+        foreach ($parentAssociationMappings as $parentAssociationMapping) {
+            if (!isset($parentAssociationMapping['embedded'])) {
+                $parentFieldNameArray = array();
+                break;
+            }
+            $parentFieldNameArray[] = $parentAssociationMapping['fieldName'];
+        }
+
         $this->sortBy = $fieldMapping['fieldName'];
+
+        if ($parentAssociationMappings !== array()) {
+            $this->sortBy = sprintf('%s.%s', implode('.', $parentFieldNameArray), $fieldMapping['fieldName']);
+        }
     }
 
     public function getSortBy()
