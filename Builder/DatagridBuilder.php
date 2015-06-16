@@ -12,15 +12,14 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
-use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
-
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\Datagrid;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\Datagrid\Datagrid;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Symfony\Component\Form\FormFactory;
 
 class DatagridBuilder implements DatagridBuilderInterface
@@ -32,7 +31,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $guesser;
 
     /**
-     * Indicates that csrf protection enabled
+     * Indicates that csrf protection enabled.
      *
      * @var bool
      */
@@ -55,8 +54,6 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
      * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     *
-     * @return void
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -92,8 +89,6 @@ class DatagridBuilder implements DatagridBuilderInterface
      * @param null                                                $type
      * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
-     *
-     * @return void
      */
     public function addFilter(DatagridInterface $datagrid, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -128,7 +123,6 @@ class DatagridBuilder implements DatagridBuilderInterface
         }
 
         $datagrid->addFilter($filter);
-
     }
 
     /**
@@ -139,7 +133,7 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {
-        $pager = new Pager;
+        $pager = new Pager();
         $pager->setCountColumn($admin->getModelManager()->getIdentifierFieldNames($admin->getClass()));
 
         $defaultOptions = array();

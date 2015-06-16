@@ -16,7 +16,7 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
- * This class try to unify the query usage with Doctrine
+ * This class try to unify the query usage with Doctrine.
  */
 class ProxyQuery implements ProxyQueryInterface
 {
@@ -35,8 +35,9 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @param  array $params
-     * @param  null  $hydrationMode
+     * @param array $params
+     * @param null  $hydrationMode
+     *
      * @return mixed
      */
     public function execute(array $params = array(), $hydrationMode = null)
@@ -134,5 +135,4 @@ class ProxyQuery implements ProxyQueryInterface
     {
         // TODO: Implement entityJoin() method.
     }
-
 }

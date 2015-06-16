@@ -35,5 +35,4 @@ abstract class Filter extends BaseFilter
     {
         return $this->active;
     }
-
 }

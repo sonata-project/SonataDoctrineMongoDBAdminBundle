@@ -12,11 +12,10 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
-
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 class FilterTypeGuesser extends AbstractTypeGuesser
 {
@@ -31,8 +30,8 @@ class FilterTypeGuesser extends AbstractTypeGuesser
 
         $options = array(
             'field_type'     => null,
-            'field_options' => array(),
-            'options' => array(),
+            'field_options'  => array(),
+            'options'        => array(),
         );
 
         list($metadata, $propertyName, $parentAssociationMappings) = $ret;
@@ -53,7 +52,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
 
                     $options['field_type'] = 'document';
                     $options['field_options'] = array(
-                        'class' => $mapping['targetDocument']
+                        'class' => $mapping['targetDocument'],
                     );
 
                     $options['field_name'] = $mapping['fieldName'];
