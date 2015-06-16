@@ -24,5 +24,4 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = new ModelManager($registry);
     }
-
 }

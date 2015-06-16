@@ -12,10 +12,10 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler\AddGuesserCompilerPass;
 use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler\AddTemplatesCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SonataDoctrineMongoDBAdminBundle extends Bundle
 {
@@ -24,5 +24,4 @@ class SonataDoctrineMongoDBAdminBundle extends Bundle
         $container->addCompilerPass(new AddGuesserCompilerPass());
         $container->addCompilerPass(new AddTemplatesCompilerPass());
     }
-
 }

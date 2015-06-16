@@ -12,12 +12,11 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
 class CallbackFilterTest extends FilterWithQueryBuilderTest
 {
-
     public function testFilterClosureEmpty()
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -26,7 +25,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', array(
             'callback' => function ($builder, $alias, $field, $value) {
                 return true;
-            }
+            },
         ));
 
         $filter->filter($builder, 'alias', 'field', false);
@@ -44,7 +43,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', array(
             'callback' => function ($builder, $alias, $field, $value) {
                 return true;
-            }
+            },
         ));
 
         $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));
@@ -58,7 +57,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', array(
-            'callback' => array($this, 'customCallback')
+            'callback' => array($this, 'customCallback'),
         ));
 
         $filter->filter($builder, 'alias', 'field', false);
@@ -74,7 +73,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', array(
-            'callback' => array($this, 'customCallback')
+            'callback' => array($this, 'customCallback'),
         ));
 
         $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));

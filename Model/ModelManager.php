@@ -12,19 +12,16 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
-use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
-use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
-
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Doctrine\ODM\MongoDB\Query\Builder;
+use Exporter\Source\DoctrineODMQuerySourceIterator;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Doctrine\ODM\MongoDB\Query\Builder;
-
+use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
-
-use Exporter\Source\DoctrineODMQuerySourceIterator;
 
 class ModelManager implements ModelManagerInterface
 {
@@ -33,7 +30,6 @@ class ModelManager implements ModelManagerInterface
     const ID_SEPARATOR = '-';
 
     /**
-     *
      * @param \Symfony\Bridge\Doctrine\ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
@@ -51,16 +47,17 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * Returns the model's metadata holding the fully qualified property, and the last
-     * property name
+     * property name.
      *
-     * @param  string $baseClass        The base class of the model holding the fully qualified property.
-     * @param  string $propertyFullName The name of the fully qualified property (dot ('.') separated
-     *                                  property string)
+     * @param string $baseClass        The base class of the model holding the fully qualified property.
+     * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
+     *                                 property string)
+     *
      * @return array(
-     *                                 \Doctrine\ODM\MongoDB\Mapping\ClassMetadata $parentMetadata,
-     *                                 string $lastPropertyName,
-     *                                 array $parentAssociationMappings
-     *                                 )
+     *                \Doctrine\ODM\MongoDB\Mapping\ClassMetadata $parentMetadata,
+     *                string $lastPropertyName,
+     *                array $parentAssociationMappings
+     *                )
      */
     public function getParentMetadataForProperty($baseClass, $propertyFullName)
     {
@@ -105,12 +102,12 @@ class ModelManager implements ModelManagerInterface
 
         list($metadata, $propertyName, $parentAssociationMappings) = $this->getParentMetadataForProperty($class, $name);
 
-        $fieldDescription = new FieldDescription;
+        $fieldDescription = new FieldDescription();
         $fieldDescription->setName($name);
         $fieldDescription->setOptions($options);
         $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
-        /** @var ClassMetadata */
+        /* @var ClassMetadata */
         if (isset($metadata->associationMappings[$propertyName])) {
             $fieldDescription->setAssociationMapping($metadata->associationMappings[$propertyName]);
         }
@@ -158,13 +155,12 @@ class ModelManager implements ModelManagerInterface
     public function find($class, $id)
     {
         if (!isset($id)) {
-            return null;
+            return;
         }
 
         $documentManager = $this->getDocumentManager($class);
 
         if (is_numeric($id)) {
-
             $value = $documentManager->getRepository($class)->find(intval($id));
 
             if (!empty($value)) {
@@ -288,7 +284,7 @@ class ModelManager implements ModelManagerInterface
 
         // the entities is not managed
         if (!$document || !$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
-            return null;
+            return;
         }
 
         $values = $this->getIdentifierValues($document);
@@ -366,7 +362,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelInstance($class)
     {
-        return new $class;
+        return new $class();
     }
 
     /**
@@ -435,21 +431,18 @@ class ModelManager implements ModelManagerInterface
 
         $reflClass = $metadata->reflClass;
         foreach ($array as $name => $value) {
-
             $reflection_property = false;
             // property or association ?
             if (array_key_exists($name, $metadata->fieldMappings)) {
-
                 $property = $metadata->fieldMappings[$name]['fieldName'];
                 $reflection_property = $metadata->reflFields[$name];
-
             } elseif (array_key_exists($name, $metadata->associationMappings)) {
                 $property = $metadata->associationMappings[$name]['fieldName'];
             } else {
                 $property = $name;
             }
 
-            $setter = 'set' . $this->camelize($name);
+            $setter = 'set'.$this->camelize($name);
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
@@ -475,7 +468,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * method taken from PropertyPath
+     * method taken from PropertyPath.
      *
      * @param string $property
      *

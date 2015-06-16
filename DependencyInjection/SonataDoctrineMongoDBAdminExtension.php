@@ -12,15 +12,14 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Sonata\AdminBundle\DependencyInjection\AbstractSonataAdminExtension;
-
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
- * SonataAdminBundleExtension
+ * SonataAdminBundleExtension.
  *
  * @author      Thomas Rabaix <thomas.rabaix@sonata-project.org>
  * @author      Michael Williams <michael.williams@funsational.com>
@@ -28,7 +27,6 @@ use Symfony\Component\Config\Definition\Processor;
 class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
 {
     /**
-     *
      * @param array            $configs   An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */

@@ -12,8 +12,8 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
-use Sonata\AdminBundle\Datagrid\Pager as BasePager;
 use Doctrine\ODM\MongoDB\Query\Query;
+use Sonata\AdminBundle\Datagrid\Pager as BasePager;
 
 /**
  * Doctrine pager class.

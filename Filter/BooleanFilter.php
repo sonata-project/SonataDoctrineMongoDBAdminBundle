@@ -12,8 +12,8 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\CoreBundle\Form\Type\BooleanType;
 
 class BooleanFilter extends Filter
 {
@@ -22,6 +22,7 @@ class BooleanFilter extends Filter
      * @param string              $alias
      * @param string              $field
      * @param mixed               $data
+     *
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -34,7 +35,7 @@ class BooleanFilter extends Filter
             $values = array();
             foreach ($data['value'] as $v) {
                 if (!in_array($v, array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
-                   continue;
+                    continue;
                 }
 
                 $values[] = ($v == BooleanType::TYPE_YES) ? true : false;
@@ -69,11 +70,11 @@ class BooleanFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
-            'field_type'    => $this->getFieldType(),
-            'field_options' => $this->getFieldOptions(),
-            'operator_type' => 'hidden',
+            'field_type'       => $this->getFieldType(),
+            'field_options'    => $this->getFieldOptions(),
+            'operator_type'    => 'hidden',
             'operator_options' => array(),
-            'label'         => $this->getLabel()
+            'label'            => $this->getLabel(),
         ));
     }
 }

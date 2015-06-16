@@ -22,7 +22,9 @@
         "sonata-project/admin-bundle": "~2.3"
     },
     "require-dev": {
-        "jmikola/geojson": "~1.0"
+        "jmikola/geojson": "~1.0",
+        "symfony/phpunit-bridge": "~2.7|~3.0",
+        "fabpot/php-cs-fixer": "~0.5|~1.0"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"

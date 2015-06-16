@@ -12,8 +12,8 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 
 class NumberFilter extends Filter
 {
@@ -22,6 +22,7 @@ class NumberFilter extends Filter
      * @param string              $alias
      * @param string              $field
      * @param string              $data
+     *
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -44,6 +45,7 @@ class NumberFilter extends Filter
 
     /**
      * @param $type
+     *
      * @return bool
      */
     private function getOperator($type)
@@ -70,9 +72,9 @@ class NumberFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_number', array(
-            'field_type' => $this->getFieldType(),
+            'field_type'    => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
-            'label' => $this->getLabel()
+            'label'         => $this->getLabel(),
         ));
     }
 }
