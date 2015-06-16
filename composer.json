@@ -17,13 +17,15 @@
         }
     ],
     "require": {
-        "doctrine/mongodb-odm-bundle": "3.0.*@dev",
-        "doctrine/mongodb-odm": "1.0.*@dev",
+        "doctrine/mongodb-odm-bundle": "~3.0",
+        "doctrine/mongodb-odm": "~1.0",
         "sonata-project/admin-bundle": "~2.3"
     },
     "require-dev": {
         "jmikola/geojson": "~1.0"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
