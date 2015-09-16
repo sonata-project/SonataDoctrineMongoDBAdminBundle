@@ -18,11 +18,11 @@ class CallbackFilter extends Filter
 {
     /**
      * @throws \RuntimeException
-     * @param  ProxyQueryInterface $queryBuilder
-     * @param  string              $alias
-     * @param  string              $field
-     * @param  string              $data
-     * @return void
+     *
+     * @param ProxyQueryInterface $queryBuilder
+     * @param string              $alias
+     * @param string              $field
+     * @param string              $data
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
@@ -34,6 +34,7 @@ class CallbackFilter extends Filter
 
         if (is_callable($this->getOption('active_callback'))) {
             $this->active = call_user_func($this->getOption('active_callback'), $data);
+
             return;
         }
 
@@ -46,24 +47,24 @@ class CallbackFilter extends Filter
     public function getDefaultOptions()
     {
         return array(
-            'callback' => null,
-            'active_callback' => function($data) {
+            'callback'        => null,
+            'active_callback' => function ($data) {
                 return isset($data['value']) && $data['value'];
             },
-            'field_type' => 'text',
-            'operator_type' => 'hidden',
-            'operator_options' => array()
+            'field_type'       => 'text',
+            'operator_type'    => 'hidden',
+            'operator_options' => array(),
         );
     }
 
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
-                'field_type' => $this->getFieldType(),
-                'field_options' => $this->getFieldOptions(),
-                'operator_type' => $this->getOption('operator_type'),
+                'field_type'       => $this->getFieldType(),
+                'field_options'    => $this->getFieldOptions(),
+                'operator_type'    => $this->getOption('operator_type'),
                 'operator_options' => $this->getOption('operator_options'),
-                'label' => $this->getLabel()
+                'label'            => $this->getLabel(),
         ));
     }
 }

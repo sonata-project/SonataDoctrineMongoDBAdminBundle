@@ -12,8 +12,8 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 
 class StringFilter extends Filter
 {
@@ -22,6 +22,7 @@ class StringFilter extends Filter
      * @param string              $alias
      * @param string              $field
      * @param string              $data
+     *
      * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)
@@ -60,10 +61,9 @@ class StringFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_choice', array(
-                'field_type' => $this->getFieldType(),
+                'field_type'    => $this->getFieldType(),
                 'field_options' => $this->getFieldOptions(),
-                'label' => $this->getLabel()
+                'label'         => $this->getLabel(),
         ));
     }
-
 }

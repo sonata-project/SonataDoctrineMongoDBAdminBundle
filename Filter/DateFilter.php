@@ -44,6 +44,7 @@ class DateFilter extends AbstractDateFilter
      * Because we lack a time variable we select a range from the days start to end.
      *
      * @author Wesley van Opdorp <wesley.van.opdorp@freshheads.com>
+     *
      * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
      * @param string                                           $field
      * @param array                                            $data
@@ -55,5 +56,4 @@ class DateFilter extends AbstractDateFilter
 
         $queryBuilder->field($field)->range($data['value'], $end);
     }
-
 }

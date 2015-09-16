@@ -42,6 +42,7 @@ You can also customize field types
 
     By default, if the ``SonataIntlBundle`` classes are availables, then the numeric and date fields will be
     localized with the current user locale (only for list, work in progress).
+
 You can also customize field types by adding types in the ``config.yml`` file. The default values are :
 
 .. code-block:: yaml

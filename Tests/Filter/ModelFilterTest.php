@@ -12,10 +12,10 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\CoreBundle\Form\Type\EqualType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 
 class DocumentStub
 {
@@ -23,13 +23,13 @@ class DocumentStub
     {
         return decbin(rand());
     }
-
 }
 
 class ModelFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @param  array                                               $options
+     * @param array $options
+     *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function getFieldDescription(array $options)
@@ -62,8 +62,8 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->filter($builder, 'alias', 'field', array(
-            'type' => EqualType::TYPE_IS_EQUAL,
-            'value' => array(new DocumentStub(), new DocumentStub())
+            'type'  => EqualType::TYPE_IS_EQUAL,
+            'value' => array(new DocumentStub(), new DocumentStub()),
         ));
 
         // the alias is now computer by the entityJoin method
@@ -113,11 +113,11 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', array(
-            'mapping_type' => ClassMetadataInfo::ONE,
-            'field_name' => 'field_name',
+            'mapping_type'        => ClassMetadataInfo::ONE,
+            'field_name'          => 'field_name',
             'association_mapping' => array(
-                'fieldName' => 'association_mapping'
-            ), 'field_mapping' => true
+                'fieldName' => 'association_mapping',
+            ), 'field_mapping' => true,
         ));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -131,19 +131,19 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', array(
-            'mapping_type' => ClassMetadataInfo::ONE,
-            'field_name' => 'field_name',
+            'mapping_type'                => ClassMetadataInfo::ONE,
+            'field_name'                  => 'field_name',
             'parent_association_mappings' => array(
                 array(
-                    'fieldName' => 'association_mapping'
+                    'fieldName' => 'association_mapping',
                 ),
                 array(
-                    'fieldName' => 'sub_association_mapping'
+                    'fieldName' => 'sub_association_mapping',
                 ),
             ),
             'association_mapping' => array(
-                'fieldName' => 'sub_sub_association_mapping'
-            ), 'field_mapping' => true
+                'fieldName' => 'sub_sub_association_mapping',
+            ), 'field_mapping' => true,
         ));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -152,5 +152,4 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
         $this->assertEquals(true, $filter->isActive());
     }
-
 }

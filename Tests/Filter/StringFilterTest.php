@@ -12,9 +12,9 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 
 class StringFilterTest extends FilterWithQueryBuilderTest
 {
@@ -71,20 +71,20 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', array(
-            'format' => '%s',
-            'field_mapping' => array('type' => 'string'),
-            'field_name' => 'field_name',
+            'format'                      => '%s',
+            'field_name'                  => 'field_name',
+            'field_mapping'               => array('type' => 'string'),
             'parent_association_mappings' => array(
                 array(
-                    'fieldName' => 'association_mapping'
+                    'fieldName' => 'association_mapping',
                 ),
                 array(
-                    'fieldName' => 'sub_association_mapping'
+                    'fieldName' => 'sub_association_mapping',
                 ),
                 array(
-                    'fieldName' => 'sub_sub_association_mapping'
+                    'fieldName' => 'sub_sub_association_mapping',
                 ),
-            )
+            ),
         ));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
@@ -104,5 +104,4 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertEquals(true, $filter->isActive());
         $this->assertEquals(array('type' => 3, 'value' => '4f95194e3a67ae3717000c06'), $filter->getValue());
     }
-
 }
