@@ -1,5 +1,5 @@
 Doctrine MongoDB Proxy Query
-========================
+============================
 
 
 The ``ProxyQuery`` object is used to add missing features from the original Doctrine Query builder :

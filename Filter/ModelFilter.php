@@ -12,13 +12,20 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\CoreBundle\Form\Type\EqualType;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Doctrine\Common\Collections\Collection;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\CoreBundle\Form\Type\EqualType;
 
 class ModelFilter extends Filter
 {
 
+    /**
+     * @param ProxyQueryInterface $queryBuilder
+     * @param string $alias
+     * @param string $field
+     * @param mixed $data
+     *
+     */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
@@ -39,11 +46,11 @@ class ModelFilter extends Filter
     }
 
     /**
+     * @param ProxyQueryInterface $queryBuilder
+     * @param type                $alias
+     * @param type                $field
+     * @param type                $data
      *
-     * @param  ProxyQueryInterface $queryBuilder
-     * @param  type                $alias
-     * @param  type                $field
-     * @param  type                $data
      * @return type
      */
     protected function handleMultiple(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -67,11 +74,11 @@ class ModelFilter extends Filter
     }
 
     /**
+     * @param ProxyQueryInterface $queryBuilder
+     * @param type                $alias
+     * @param type                $field
+     * @param type                $data
      *
-     * @param  ProxyQueryInterface $queryBuilder
-     * @param  type                $alias
-     * @param  type                $field
-     * @param  type                $data
      * @return type
      */
     protected function handleScalar(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
@@ -92,9 +99,10 @@ class ModelFilter extends Filter
     }
 
     /**
-     * Return \MongoId if $id is MongoId in string representation, otherwise custom string
+     * Return \MongoId if $id is MongoId in string representation, otherwise custom string.
      *
-     * @param  mixed           $id
+     * @param mixed $id
+     *
      * @return \MongoId|string
      */
     protected static function fixIdentifier($id)
@@ -107,26 +115,27 @@ class ModelFilter extends Filter
     }
 
     /**
-     * Identifier field name is 'field' if mapping type is simple; otherwise, it's 'field.$id'
+     * Identifier field name is 'field' if mapping type is simple; otherwise, it's 'field.$id'.
      *
-     * @param  string $field
+     * @param string $field
+     *
      * @return string
      */
     protected function getIdentifierField($field)
     {
         $field_mapping = $this->getFieldMapping();
 
-        return (true === $field_mapping['simple']) ? $field : $field . '.$id';
+        return (true === $field_mapping['simple']) ? $field : $field.'.$id';
     }
 
     public function getDefaultOptions()
     {
         return array(
-            'mapping_type' => false,
-            'field_name'   => false,
-            'field_type'   => 'document',
-            'field_options' => array(),
-            'operator_type' => 'sonata_type_equal',
+            'mapping_type'     => false,
+            'field_name'       => false,
+            'field_type'       => 'document',
+            'field_options'    => array(),
+            'operator_type'    => 'sonata_type_equal',
             'operator_options' => array(),
         );
     }
@@ -134,12 +143,11 @@ class ModelFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
-            'field_type'    => $this->getFieldType(),
-            'field_options' => $this->getFieldOptions(),
-            'operator_type' => $this->getOption('operator_type'),
+            'field_type'       => $this->getFieldType(),
+            'field_options'    => $this->getFieldOptions(),
+            'operator_type'    => $this->getOption('operator_type'),
             'operator_options' => $this->getOption('operator_options'),
-            'label'         => $this->getLabel()
+            'label'            => $this->getLabel(),
         ));
     }
-
 }

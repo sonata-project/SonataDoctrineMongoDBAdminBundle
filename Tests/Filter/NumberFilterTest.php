@@ -12,9 +12,9 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 
 class NumberFilterTest extends FilterWithQueryBuilderTest
 {

@@ -12,9 +12,9 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 
 class BooleanFilterTest extends FilterWithQueryBuilderTest
 {
@@ -71,5 +71,4 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $this->assertEquals(true, $filter->isActive());
     }
-
 }

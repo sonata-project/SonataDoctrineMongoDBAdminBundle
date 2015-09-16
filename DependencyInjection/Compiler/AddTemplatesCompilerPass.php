@@ -10,8 +10,9 @@
  */
 
 namespace Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /*
  *
@@ -25,7 +26,6 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {
-
             if (!isset($attributes[0]['manager_type']) || $attributes[0]['manager_type'] != 'doctrine_mongodb') {
                 continue;
             }
