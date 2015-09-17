@@ -293,7 +293,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getUrlsafeIdentifier($entity)
     {
