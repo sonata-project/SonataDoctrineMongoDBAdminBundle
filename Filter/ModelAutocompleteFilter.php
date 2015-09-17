@@ -3,7 +3,8 @@
 /*
  * This file is part of the Sonata package.
  *
- * (c) Thomas Rabaix <josluis.lopes@gmail.com>
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +16,11 @@ use Sonata\CoreBundle\Form\Type\EqualType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Doctrine\Common\Collections\Collection;
 
+/**
+ * Class ModelAutocompleteFilter
+ * @author Jose Lopes <josluis.lopes@gmail.com>
+ * @package Sonata\DoctrineMongoDBAdminBundle\Filter
+ */
 class ModelAutocompleteFilter extends Filter
 {
 
@@ -23,19 +29,15 @@ class ModelAutocompleteFilter extends Filter
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
-
         if ($data['value'] instanceof Collection) {
             $data['value'] = $data['value']->toArray();
         }
-
         $field = $this->getIdentifierField($field);
-
         if (is_array($data['value'])) {
             $this->handleMultiple($queryBuilder, $alias, $field, $data);
         } else {
             $this->handleScalar($queryBuilder, $alias, $field, $data);
         }
-
     }
 
     /**
@@ -51,7 +53,6 @@ class ModelAutocompleteFilter extends Filter
         if (count($data['value']) == 0) {
             return;
         }
-
         $ids = array();
         foreach ($data['value'] as $value) {
             $ids[] = self::fixIdentifier($value->getId());
@@ -62,7 +63,6 @@ class ModelAutocompleteFilter extends Filter
         } else {
             $queryBuilder->field($field)->in($ids);
         }
-
         $this->active = true;
     }
 
@@ -79,15 +79,12 @@ class ModelAutocompleteFilter extends Filter
         if (empty($data['value'])) {
             return;
         }
-
         $id = self::fixIdentifier($data['value']->getId());
-
         if (isset($data['type']) && $data['type'] == EqualType::TYPE_IS_NOT_EQUAL) {
             $queryBuilder->field($field)->notEqual($id);
         } else {
             $queryBuilder->field($field)->equals($id);
         }
-
         $this->active = true;
     }
 

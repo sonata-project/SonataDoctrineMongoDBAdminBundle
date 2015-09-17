@@ -19,19 +19,18 @@ abstract class Filter extends BaseFilter
     protected $active = false;
 
     /**
-     * {@inheritdoc}
+     * @param mixed $queryBuilder
+     * @param mixed $value
      */
     public function apply($queryBuilder, $value)
     {
         $this->value = $value;
-
         $this->filter($queryBuilder, null, $this->getFieldName(), $value);
     }
 
     public function getFieldName()
     {
         $fieldName = $this->getOption('field_name');
-
         if (is_array($this->getOption('parent_association_mappings'))) {
             foreach($this->getOption('parent_association_mappings') as $map) {
                 if(!empty($map['name'])) {
@@ -41,16 +40,14 @@ abstract class Filter extends BaseFilter
                 }
             }
         }
-        
         if (!$fieldName) {
             throw new \RuntimeException(sprintf('The option `field_name` must be set for field: `%s`', $this->getName()));
         }
-
         return $fieldName;
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function isActive()
     {

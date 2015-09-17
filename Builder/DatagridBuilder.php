@@ -13,6 +13,7 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Sonata\AdminBundle\Datagrid\PagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
@@ -53,8 +54,8 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param AdminInterface            $admin
+     * @param FieldDescriptionInterface $fieldDescription
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -90,10 +91,10 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface      $datagrid
+     * @param DatagridInterface      $datagrid
      * @param null                                                $type
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
+     * @param FieldDescriptionInterface $fieldDescription
+     * @param AdminInterface            $admin
      */
     public function addFilter(DatagridInterface $datagrid, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -122,7 +123,7 @@ class DatagridBuilder implements DatagridBuilderInterface
 
         $fieldDescription->mergeOption('field_options', array('required' => false));
 
-        if ($type === 'doctrine_mongo_autocomplete') {
+        if ('doctrine_mongo_autocomplete' === $type) {
             $fieldDescription->mergeOption('field_options', array(
                 'class' => $fieldDescription->getTargetEntity(),
                 'model_manager' => $fieldDescription->getAdmin()->getModelManager(),
@@ -141,10 +142,10 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
+     * @param AdminInterface $admin
      * @param array                                    $values
      *
-     * @return \Sonata\AdminBundle\Datagrid\DatagridInterface
+     * @return DatagridInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {
@@ -166,8 +167,7 @@ class DatagridBuilder implements DatagridBuilderInterface
      *
      * @param string $pagerType
      *
-     * @return \Sonata\AdminBundle\Datagrid\PagerInterface
-     *
+     * @return PagerInterface
      * @throws \RuntimeException If invalid pager type is set.
      */
     protected function getPager($pagerType)
