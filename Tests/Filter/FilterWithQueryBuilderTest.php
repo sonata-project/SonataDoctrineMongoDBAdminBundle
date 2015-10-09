@@ -14,6 +14,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 abstract class FilterWithQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
     private $queryBuilder = null;
+    private $expr = null;
 
     public function setUp()
     {
@@ -24,6 +25,19 @@ abstract class FilterWithQueryBuilderTest extends \PHPUnit_Framework_TestCase
                 ->expects($this->any())
                 ->method('field')
                 ->will($this->returnSelf())
+        ;
+        $this->expr = $this->getMockBuilder('Doctrine\ODM\MongoDB\Query\Expr')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->expr
+            ->expects($this->any())
+            ->method('field')
+            ->will($this->returnSelf())
+        ;
+        $this->queryBuilder
+            ->expects($this->any())
+            ->method('expr')
+            ->will($this->returnValue($this->expr))
         ;
     }
 
