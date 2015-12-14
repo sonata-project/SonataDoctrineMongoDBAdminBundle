@@ -18,13 +18,24 @@ abstract class FilterWithQueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->queryBuilder = $this->getMockBuilder('Doctrine\ODM\MongoDB\Query\Builder')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->queryBuilder
-                ->expects($this->any())
-                ->method('field')
-                ->will($this->returnSelf())
-        ;
+            ->expects($this->any())
+            ->method('field')
+            ->will($this->returnSelf());
+        $this->queryBuilder
+            ->expects($this->any())
+            ->method('expr')
+            ->will($this->returnSelf());
+        $this->queryBuilder
+            ->expects($this->any())
+            ->method('addOr')
+            ->will($this->returnSelf());
+        $this->queryBuilder
+            ->expects($this->any())
+            ->method('addAnd')
+            ->will($this->returnSelf());
     }
 
     protected function getQueryBuilder()

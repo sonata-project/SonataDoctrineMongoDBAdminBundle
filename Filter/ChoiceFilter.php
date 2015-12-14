@@ -40,19 +40,30 @@ class ChoiceFilter extends Filter
                 return;
             }
 
-            if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
-                $queryBuilder->field($field)->notIn($data['value']);
-            } else {
-                $queryBuilder->field($field)->in($data['value']);
+            $expr = $queryBuilder->expr();
+
+            $notExistentFieldKey = array_search('notExistentField', $data['value']);
+            if (false !== $notExistentFieldKey) {
+                $expr->addOr($queryBuilder->expr()->field($field)->exists(false));
+                unset($data['value'][$notExistentFieldKey]);
             }
 
+            if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
+                $expr->addOr($queryBuilder->expr()->field($field)->notIn($data['value']));
+            } else {
+                $expr->addOr($queryBuilder->expr()->field($field)->in($data['value']));
+            }
+
+            $queryBuilder->addAnd($expr);
             $this->active = true;
         } else {
             if ($data['value'] === '' || $data['value'] === null || $data['value'] === false || $data['value'] === 'all') {
                 return;
             }
 
-            if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
+            if ('notExistentField' == $data['value']) {
+                $queryBuilder->field($field)->exists(false);
+            } elseif ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
                 $queryBuilder->field($field)->notEqual($data['value']);
             } else {
                 $queryBuilder->field($field)->equals($data['value']);
