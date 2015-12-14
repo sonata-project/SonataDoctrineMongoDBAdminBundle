@@ -98,10 +98,10 @@ abstract class AbstractDateFilter extends Filter
      */
     protected function typeRequiresValue($type)
     {
-        return (in_array($type, array(
+        return in_array($type, array(
                     DateType::TYPE_NULL,
                     DateType::TYPE_NOT_NULL, )
-        ));
+        );
     }
 
     /**
