@@ -34,7 +34,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     public function testContains()
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', array('format' => '%s'));
+        $filter->initialize('field_name', array('format' => '%s', 'field_mapping' => array('type' => 'string')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
         $filter->filter($builder, 'alias', 'field', array('value' => 'asd', 'type' => ChoiceType::TYPE_CONTAINS));
@@ -48,7 +48,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     public function testNotContains()
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', array('format' => '%s'));
+        $filter->initialize('field_name', array('format' => '%s', 'field_mapping' => array('type' => 'string')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -59,7 +59,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     public function testEquals()
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', array('format' => '%s'));
+        $filter->initialize('field_name', array('format' => '%s', 'field_mapping' => array('type' => 'string')));
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -73,6 +73,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', array(
             'format'                      => '%s',
             'field_name'                  => 'field_name',
+            'field_mapping'               => array('type' => 'string'),
             'parent_association_mappings' => array(
                 array(
                     'fieldName' => 'association_mapping',
@@ -90,5 +91,17 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, array('type' => ChoiceType::TYPE_EQUAL, 'value' => 'asd'));
         $this->assertEquals(true, $filter->isActive());
+    }
+
+    public function testCanAssertMongoId()
+    {
+        $filter = new StringFilter();
+        $filter->initialize('field_name', array('format' => '%s', 'field_name' => 'field_name', 'field_mapping' => array('type' => 'id')));
+
+        $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $filter->apply($builder, array('type' => ChoiceType::TYPE_EQUAL, 'value' => '4f95194e3a67ae3717000c06'));
+        $this->assertEquals(true, $filter->isActive());
+        $this->assertEquals(array('type' => 3, 'value' => '4f95194e3a67ae3717000c06'), $filter->getValue());
     }
 }
