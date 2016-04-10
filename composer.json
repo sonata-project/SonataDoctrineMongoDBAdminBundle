@@ -18,8 +18,8 @@
     ],
     "require": {
         "doctrine/mongodb-odm-bundle": "~3.0",
-        "doctrine/mongodb-odm": "~1.0",
-        "sonata-project/admin-bundle": "~2.3"
+        "sonata-project/admin-bundle": "~2.3.0",
+        "symfony/security-acl": "~2.2|~3.0"
     },
     "require-dev": {
         "jmikola/geojson": "~1.0",
