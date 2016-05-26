@@ -125,7 +125,14 @@ class ModelFilter extends Filter
     {
         $field_mapping = $this->getFieldMapping();
 
-        return (true === $field_mapping['simple']) ? $field : $field.'.$id';
+        if(isset($field_mapping['simple']))
+        {
+          return (true === $field_mapping['simple']) ? $field : $field . '.$id';
+        }
+        else
+        {
+          return $field;
+        }
     }
 
     public function getDefaultOptions()
