@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -31,7 +30,7 @@ class ListBuilder implements ListBuilderInterface
      */
     public function __construct(TypeGuesserInterface $guesser, array $templates = array())
     {
-        $this->guesser   = $guesser;
+        $this->guesser = $guesser;
         $this->templates = $templates;
     }
 
@@ -46,7 +45,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function buildField($type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
@@ -61,26 +60,12 @@ class ListBuilder implements ListBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         $this->buildField($type, $fieldDescription, $admin);
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $list->add($fieldDescription);
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return string
-     */
-    private function getTemplate($type)
-    {
-        if (!isset($this->templates[$type])) {
-            return;
-        }
-
-        return $this->templates[$type];
     }
 
     /**
@@ -185,5 +170,19 @@ class ListBuilder implements ListBuilderInterface
         }
 
         return $fieldDescription;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return;
+        }
+
+        return $this->templates[$type];
     }
 }

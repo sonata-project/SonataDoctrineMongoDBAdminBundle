@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -72,8 +71,8 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', array(
-            'format'                      => '%s',
-            'field_name'                  => 'field_name',
+            'format' => '%s',
+            'field_name' => 'field_name',
             'parent_association_mappings' => array(
                 array(
                     'fieldName' => 'association_mapping',
