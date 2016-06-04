@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -70,9 +69,9 @@ class StringFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_choice', array(
-                'field_type'    => $this->getFieldType(),
+                'field_type' => $this->getFieldType(),
                 'field_options' => $this->getFieldOptions(),
-                'label'         => $this->getLabel(),
+                'label' => $this->getLabel(),
         ));
     }
 }

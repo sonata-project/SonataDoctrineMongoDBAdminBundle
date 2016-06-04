@@ -1,27 +1,41 @@
-Doctrine MongoDB Admin
-======================
+# Sonata Doctrine Mongodb Admin Bundle
 
-[![Build Status](https://travis-ci.org/sonata-project/SonataDoctrineMongoDBAdminBundle.png?branch=master)](https://travis-ci.org/sonata-project/SonataDoctrineMongoDBAdminBundle)
+Symfony Sonata / Integrate Doctrine MongoDB ODM into the SonataAdminBundle
 
-This bundle integrates the SonataAdminBundle with the Doctrine MongoDB ODM project.
+[![Latest Stable Version](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/v/stable)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/v/unstable)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
+[![License](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/license)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
 
-Documentation
--------------
+[![Total Downloads](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/downloads)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
+[![Monthly Downloads](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/d/monthly)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
+[![Daily Downloads](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/d/daily)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
 
-**Warning**: documentation files are not rendering correctly in Github (reStructuredText format)
-and some content might be broken or hidden, make sure to read raw files.
+Branch | Travis | Coveralls |
+------ | ------ | --------- |
+2.x   | [![Build Status][travis_stable_badge]][travis_stable_link]     | [![Coverage Status][coveralls_stable_badge]][coveralls_stable_link]     |
+master | [![Build Status][travis_unstable_badge]][travis_unstable_link] | [![Coverage Status][coveralls_unstable_badge]][coveralls_unstable_link] |
 
-**Google Groups**: For questions and proposals you can post on these google groups
+## Documentation
 
-* [Sonata Users](https://groups.google.com/group/sonata-users): For questions on how to use Sonata bundles on your project
-* [Sonata Devs](https://groups.google.com/group/sonata-devs): For questions regarding the development of Sonata bundles
+Check out the documentation on the [official website](https://sonata-project.org/bundles/doctrine-mongodb-admin).
 
-Contribution
-------------
+## Support
 
-For contribution to the documentation you cand find it on [Resources/doc](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/tree/master/Resources/doc).
+For general support and questions, please use [StackOverflow](http://stackoverflow.com/questions/tagged/sonata).
 
-License
--------
+If you think you find a bug or you have a feature idea to propose, feel free to open a issue
+**after looking** at the [contributing guide](CONTRIBUTING.md).
 
-This bundle is available under the [MIT License](Resources/meta/LICENSE).
+## License
+
+This package is available under the [MIT license](LICENSE).
+
+[travis_stable_badge]: https://travis-ci.org/sonata-project/SonataDoctrineMongoDBAdminBundle.svg?branch=2.x
+[travis_stable_link]: https://travis-ci.org/sonata-project/SonataDoctrineMongoDBAdminBundle
+[travis_unstable_badge]: https://travis-ci.org/sonata-project/SonataDoctrineMongoDBAdminBundle.svg?branch=master
+[travis_unstable_link]: https://travis-ci.org/sonata-project/SonataDoctrineMongoDBAdminBundle
+
+[coveralls_stable_badge]: https://coveralls.io/repos/github/sonata-project/SonataDoctrineMongoDBAdminBundle/badge.svg?branch=2.x
+[coveralls_stable_link]: https://coveralls.io/github/sonata-project/SonataDoctrineMongoDBAdminBundle?branch=2.x
+[coveralls_unstable_badge]: https://coveralls.io/repos/github/sonata-project/SonataDoctrineMongoDBAdminBundle/badge.svg?branch=master
+[coveralls_unstable_link]: https://coveralls.io/github/sonata-project/SonataDoctrineMongoDBAdminBundle?branch=master

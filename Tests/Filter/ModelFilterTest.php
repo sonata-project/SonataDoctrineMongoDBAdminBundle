@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -62,7 +61,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->filter($builder, 'alias', 'field', array(
-            'type'  => EqualType::TYPE_IS_EQUAL,
+            'type' => EqualType::TYPE_IS_EQUAL,
             'value' => array(new DocumentStub(), new DocumentStub()),
         ));
 
@@ -113,8 +112,8 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', array(
-            'mapping_type'        => ClassMetadataInfo::ONE,
-            'field_name'          => 'field_name',
+            'mapping_type' => ClassMetadataInfo::ONE,
+            'field_name' => 'field_name',
             'association_mapping' => array(
                 'fieldName' => 'association_mapping',
             ), 'field_mapping' => true,
@@ -131,8 +130,8 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', array(
-            'mapping_type'                => ClassMetadataInfo::ONE,
-            'field_name'                  => 'field_name',
+            'mapping_type' => ClassMetadataInfo::ONE,
+            'field_name' => 'field_name',
             'parent_association_mappings' => array(
                 array(
                     'fieldName' => 'association_mapping',

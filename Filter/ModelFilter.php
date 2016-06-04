@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -43,6 +42,29 @@ class ModelFilter extends Filter
         } else {
             $this->handleScalar($queryBuilder, $alias, $field, $data);
         }
+    }
+
+    public function getDefaultOptions()
+    {
+        return array(
+            'mapping_type' => false,
+            'field_name' => false,
+            'field_type' => 'document',
+            'field_options' => array(),
+            'operator_type' => 'sonata_type_equal',
+            'operator_options' => array(),
+        );
+    }
+
+    public function getRenderSettings()
+    {
+        return array('sonata_type_filter_default', array(
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'operator_type' => $this->getOption('operator_type'),
+            'operator_options' => $this->getOption('operator_options'),
+            'label' => $this->getLabel(),
+        ));
     }
 
     /**
@@ -126,28 +148,5 @@ class ModelFilter extends Filter
         $field_mapping = $this->getFieldMapping();
 
         return (true === $field_mapping['simple']) ? $field : $field.'.$id';
-    }
-
-    public function getDefaultOptions()
-    {
-        return array(
-            'mapping_type'     => false,
-            'field_name'       => false,
-            'field_type'       => 'document',
-            'field_options'    => array(),
-            'operator_type'    => 'sonata_type_equal',
-            'operator_options' => array(),
-        );
-    }
-
-    public function getRenderSettings()
-    {
-        return array('sonata_type_filter_default', array(
-            'field_type'       => $this->getFieldType(),
-            'field_options'    => $this->getFieldOptions(),
-            'operator_type'    => $this->getOption('operator_type'),
-            'operator_options' => $this->getOption('operator_options'),
-            'label'            => $this->getLabel(),
-        ));
     }
 }
