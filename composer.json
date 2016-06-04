@@ -17,16 +17,15 @@
         }
     ],
     "require": {
-        "doctrine/mongodb-odm-bundle": "~3.0",
-        "doctrine/mongodb-odm": "~1.0",
-        "sonata-project/admin-bundle": "~2.3"
+        "php": "^5.3",
+        "doctrine/mongodb-odm": "^1.0",
+        "doctrine/mongodb-odm-bundle": "^3.0",
+        "sonata-project/admin-bundle": "^2.3"
     },
     "require-dev": {
-        "jmikola/geojson": "~1.0",
-        "symfony/phpunit-bridge": "~2.7|~3.0"
+        "jmikola/geojson": "^1.0",
+        "symfony/phpunit-bridge": "^2.7 || ^3.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
@@ -34,6 +33,9 @@
         "psr-0": {"Sonata\\DoctrineMongoDBAdminBundle": ""}
     },
     "target-dir": "Sonata/DoctrineMongoDBAdminBundle",
+    "config": {
+        "sort-packages": true
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.x-dev"
