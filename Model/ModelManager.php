@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,9 +24,8 @@ use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 class ModelManager implements ModelManagerInterface
 {
-    protected $registry;
-
     const ID_SEPARATOR = '-';
+    protected $registry;
 
     /**
      * @param \Symfony\Bridge\Doctrine\ManagerRegistry $registry
@@ -407,9 +405,9 @@ class ModelManager implements ModelManagerInterface
     {
         return array(
             '_sort_order' => 'ASC',
-            '_sort_by'    => $this->getModelIdentifier($class),
-            '_page'       => 1,
-            '_per_page'   => 25,
+            '_sort_by' => $this->getModelIdentifier($class),
+            '_page' => 1,
+            '_per_page' => 25,
         );
     }
 
@@ -468,18 +466,6 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * method taken from PropertyPath.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    protected function camelize($property)
-    {
-        return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getModelCollectionInstance($class)
@@ -517,5 +503,17 @@ class ModelManager implements ModelManagerInterface
     public function collectionRemoveElement(&$collection, &$element)
     {
         return $collection->removeElement($element);
+    }
+
+    /**
+     * method taken from PropertyPath.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    protected function camelize($property)
+    {
+        return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
     }
 }

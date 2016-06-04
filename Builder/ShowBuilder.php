@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -53,7 +52,7 @@ class ShowBuilder implements ShowBuilderInterface
      *
      * @return mixed
      */
-    public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
@@ -66,20 +65,6 @@ class ShowBuilder implements ShowBuilderInterface
         $admin->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $list->add($fieldDescription);
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return string
-     */
-    private function getTemplate($type)
-    {
-        if (!isset($this->templates[$type])) {
-            return;
-        }
-
-        return $this->templates[$type];
     }
 
     /**
@@ -139,5 +124,19 @@ class ShowBuilder implements ShowBuilderInterface
         if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
             $admin->attachAdminClass($fieldDescription);
         }
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return;
+        }
+
+        return $this->templates[$type];
     }
 }
