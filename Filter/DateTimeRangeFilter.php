@@ -12,20 +12,27 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-class DateTimeFilter extends AbstractDateFilter
+class DateTimeRangeFilter extends AbstractDateFilter
 {
     /**
-     * Flag indicating that filter will filter by datetime instead by date.
+     * This Filter allows filtering by time.
      *
      * @var bool
      */
     protected $time = true;
 
     /**
+     * This is a range filter.
+     *
+     * @var bool
+     */
+    protected $range = true;
+
+    /**
      * {@inheritdoc}
      */
     public function getFieldType()
     {
-        return $this->getOption('field_type', 'datetime');
+        return $this->getOption('field_type', 'sonata_type_datetime_range');
     }
 }

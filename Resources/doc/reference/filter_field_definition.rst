@@ -9,7 +9,7 @@ A filter instance is always linked to a Form Type, there are 3 types available :
   - sonata_type_filter_number  :  display 2 widgets, the operator ( >, >=, <= , <, =) and the value
   - sonata_type_filter_choice  :  display 2 widgets, the operator (yes and no) and the value
   - sonata_type_filter_default :  display 2 widgets, an hidden operator (can be changed on demand) and the value
-  - sonata_type_filter_date ( not implemented yet )
+  - sonata_type_filter_date    :  display 2 widgets
 
 The Form Type configuration is provided by the filter itself. But they can be tweaked in the ``configureDatagridFilters``
 process with the ``add`` method.
@@ -33,6 +33,10 @@ Some filter types are missing. Contributions are welcome.
   - doctrine_mongo_model          : depends on the ``sonata_type_filter_number`` Form Type
   - doctrine_mongo_string         : depends on the ``sonata_type_filter_choice``
   - doctrine_mongo_number         : depends on the ``sonata_type_filter_choice`` Form Type, renders yes or no field
+  - doctrine_mongo_date           : depends on the ``date`` Form Type, renders date widget
+  - doctrine_mongo_date_range     : depends on the ``sonata_type_date_range`` renders 2 date widgets
+  - doctrine_mongo_datetime       : depends on the ``datetime`` Form Type, renders datetime widget
+  - doctrine_mongo_datetime_range : depends on the ``sonata_type_datetime_range`` Form Type, renders 2 datetime widget
 
 Example
 -------
@@ -162,4 +166,25 @@ or not.
                 ))
             ;
         }
+    }
+
+Dates
+^^^^^
+
+You can customize your queries dependable of the type date of your dates in the Database by using the ``input_type`` option.
+If you use ``timestamp`` the dates will be converted to epoch, otherwise if you use the default option ``date`` the ``\MongoDate`` will be used!
+
+You don't need to set the input type if in your mapping you are already mapping the field to ``@ODM\Timestamp`` we will guess that just fine.
+
+.. code-block:: php
+
+    <?php
+
+    protected function configureDatagridFilters(DatagridMapper $datagrid)
+    {
+        $datagrid
+            // ..
+            ->add('datetime', null, array('input_type' => 'timestamp'))
+            // ..
+        ;
     }

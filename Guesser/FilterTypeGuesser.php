@@ -63,36 +63,49 @@ class FilterTypeGuesser extends AbstractTypeGuesser
         }
 
         $options['field_name'] = $metadata->fieldMappings[$propertyName]['fieldName'];
+        $fieldType = $metadata->getTypeOfField($propertyName);
 
-        switch ($metadata->getTypeOfField($propertyName)) {
+        switch ($fieldType) {
             case 'boolean':
                 $options['field_type'] = 'sonata_type_boolean';
                 $options['field_options'] = array();
 
                 return new TypeGuess('doctrine_mongo_boolean', $options, Guess::HIGH_CONFIDENCE);
-//            case 'datetime':
-//            case 'vardatetime':
-//            case 'datetimetz':
-//                return new TypeGuess('doctrine_orm_datetime', $options, Guess::HIGH_CONFIDENCE);
-//            case 'date':
-//                return new TypeGuess('doctrine_orm_date', $options, Guess::HIGH_CONFIDENCE);
+                break;
+
+            case 'timestamp':
+                $options['input_type'] = 'timestamp';
+
+                return new TypeGuess('doctrine_mongo_datetime', $options, Guess::HIGH_CONFIDENCE);
+
+            case 'datetime':
+                return new TypeGuess('doctrine_mongo_datetime', $options, Guess::HIGH_CONFIDENCE);
+                break;
+
+            case 'date':
+                return new TypeGuess('doctrine_mongo_date', $options, Guess::HIGH_CONFIDENCE);
+
             case 'decimal':
             case 'float':
                 return new TypeGuess('doctrine_mongo_number', $options, Guess::MEDIUM_CONFIDENCE);
+
             case 'int':
             case 'bigint':
             case 'smallint':
                 $options['field_type'] = 'number';
 
                 return new TypeGuess('doctrine_mongo_number', $options, Guess::MEDIUM_CONFIDENCE);
+
             case 'id':
             case 'string':
             case 'text':
                 $options['field_type'] = 'text';
 
                 return new TypeGuess('doctrine_mongo_string', $options, Guess::MEDIUM_CONFIDENCE);
+
             case 'time':
                 return new TypeGuess('doctrine_mongo_time', $options, Guess::HIGH_CONFIDENCE);
+
             default:
                 return new TypeGuess('doctrine_mongo_string', $options, Guess::LOW_CONFIDENCE);
         }
