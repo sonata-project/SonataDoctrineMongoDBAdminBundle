@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -44,24 +43,6 @@ class NumberFilter extends Filter
     }
 
     /**
-     * @param $type
-     *
-     * @return bool
-     */
-    private function getOperator($type)
-    {
-        $choices = array(
-            NumberType::TYPE_EQUAL         => 'equals',
-            NumberType::TYPE_GREATER_EQUAL => 'gte',
-            NumberType::TYPE_GREATER_THAN  => 'gt',
-            NumberType::TYPE_LESS_EQUAL    => 'lte',
-            NumberType::TYPE_LESS_THAN     => 'lt',
-        );
-
-        return isset($choices[$type]) ? $choices[$type] : false;
-    }
-
-    /**
      * @return array
      */
     public function getDefaultOptions()
@@ -72,9 +53,27 @@ class NumberFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_number', array(
-            'field_type'    => $this->getFieldType(),
+            'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
-            'label'         => $this->getLabel(),
+            'label' => $this->getLabel(),
         ));
+    }
+
+    /**
+     * @param $type
+     *
+     * @return bool
+     */
+    private function getOperator($type)
+    {
+        $choices = array(
+            NumberType::TYPE_EQUAL => 'equals',
+            NumberType::TYPE_GREATER_EQUAL => 'gte',
+            NumberType::TYPE_GREATER_THAN => 'gt',
+            NumberType::TYPE_LESS_EQUAL => 'lte',
+            NumberType::TYPE_LESS_THAN => 'lt',
+        );
+
+        return isset($choices[$type]) ? $choices[$type] : false;
     }
 }

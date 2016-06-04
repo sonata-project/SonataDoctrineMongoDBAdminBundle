@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -70,11 +69,11 @@ class BooleanFilter extends Filter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
-            'field_type'       => $this->getFieldType(),
-            'field_options'    => $this->getFieldOptions(),
-            'operator_type'    => 'hidden',
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'operator_type' => 'hidden',
             'operator_options' => array(),
-            'label'            => $this->getLabel(),
+            'label' => $this->getLabel(),
         ));
     }
 }

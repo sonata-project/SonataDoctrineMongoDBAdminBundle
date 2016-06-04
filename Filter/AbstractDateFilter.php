@@ -1,10 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Kévin Dunglas <dunglas@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -78,6 +77,36 @@ abstract class AbstractDateFilter extends Filter
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getDefaultOptions()
+    {
+        return array('input_type' => 'datetime');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRenderSettings()
+    {
+        $name = 'sonata_type_filter_date';
+
+        if ($this->time) {
+            $name .= 'time';
+        }
+
+        if ($this->range) {
+            $name .= '_range';
+        }
+
+        return array($name, array(
+                'field_type' => $this->getFieldType(),
+                'field_options' => $this->getFieldOptions(),
+                'label' => $this->getLabel(),
+        ));
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
      * @param string                                           $operation
      * @param string                                           $field
@@ -105,36 +134,6 @@ abstract class AbstractDateFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getDefaultOptions()
-    {
-        return array('input_type' => 'datetime');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRenderSettings()
-    {
-        $name = 'sonata_type_filter_date';
-
-        if ($this->time) {
-            $name .= 'time';
-        }
-
-        if ($this->range) {
-            $name .= '_range';
-        }
-
-        return array($name, array(
-                'field_type'    => $this->getFieldType(),
-                'field_options' => $this->getFieldOptions(),
-                'label'         => $this->getLabel(),
-        ));
-    }
-
-    /**
      * Resolves DataType:: constants to MongoDb operators.
      *
      * @param int $type
@@ -144,13 +143,13 @@ abstract class AbstractDateFilter extends Filter
     protected function getOperator($type)
     {
         $choices = array(
-            DateType::TYPE_NULL          => 'equals',
-            DateType::TYPE_NOT_NULL      => 'notEqual',
-            DateType::TYPE_EQUAL         => 'equals',
+            DateType::TYPE_NULL => 'equals',
+            DateType::TYPE_NOT_NULL => 'notEqual',
+            DateType::TYPE_EQUAL => 'equals',
             DateType::TYPE_GREATER_EQUAL => 'gte',
-            DateType::TYPE_GREATER_THAN  => 'gt',
-            DateType::TYPE_LESS_EQUAL    => 'lte',
-            DateType::TYPE_LESS_THAN     => 'lt',
+            DateType::TYPE_GREATER_THAN => 'gt',
+            DateType::TYPE_LESS_EQUAL => 'lte',
+            DateType::TYPE_LESS_THAN => 'lt',
         );
 
         return $choices[intval($type)];

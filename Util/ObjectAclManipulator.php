@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -51,7 +51,7 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
             $objectIds = array();
 
             foreach ($qb->getQuery()->iterate() as $row) {
-                $objectIds[]      = ObjectIdentity::fromDomainObject($row);
+                $objectIds[] = ObjectIdentity::fromDomainObject($row);
                 $objectIdIterator = new \ArrayIterator($objectIds);
 
                 // detach from Doctrine, so that it can be Garbage-Collected immediately
