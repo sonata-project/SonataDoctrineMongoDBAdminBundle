@@ -28,6 +28,10 @@
             <tag name="sonata.admin.filter.type" alias="doctrine_mongo_choice" />
         </service>
 
+        <service id="sonata.admin.orm.filter.type.model_autocomplete" class="Sonata\DoctrineMongoDBAdminBundle\Filter\ModelAutocompleteFilter">
+            <tag name="sonata.admin.filter.type" alias="doctrine_mongo_autocomplete" />
+        </service>
+
         <service id="sonata.admin.odm.filter.type.model" class="%sonata.admin.odm.filter.type.model.class%">
             <tag name="sonata.admin.filter.type" alias="doctrine_mongo_model" />
         </service>
