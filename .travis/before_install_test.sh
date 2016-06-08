@@ -8,6 +8,10 @@ if [ "${TRAVIS_PHP_VERSION}" != "hhvm" ]; then
     if [ ${TRAVIS_PHP_VERSION} '<' '7.0' ]; then
         echo "extension=mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     fi
+
+    if [ ${TRAVIS_PHP_VERSION} '>=' '7.0' ]; then
+        echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    fi
 fi
 
 # To be removed when following PR will be merged: https://github.com/travis-ci/travis-build/pull/718
