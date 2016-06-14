@@ -19,6 +19,14 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class FormContractor implements FormContractorInterface
 {
+    /**
+     * @var FormFactoryInterface
+     */
+    protected $formFactory;
+
+    /**
+     * @deprecated
+     */
     protected $fieldFactory;
 
     /**
