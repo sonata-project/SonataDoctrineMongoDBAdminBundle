@@ -11,7 +11,6 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
@@ -111,17 +110,17 @@ class ShowBuilder implements ShowBuilderInterface
             $template = $this->getTemplate($fieldDescription->getType());
 
             if ($template === null) {
-                if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
-                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_one.html.twig';
-                } elseif ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
-                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_many.html.twig';
+                if ($fieldDescription->describesSingleValuedAssociation()) {
+                    $template = 'SonataAdminBundle:CRUD/Association:show_single.html.twig';
+                } elseif ($fieldDescription->describesCollectionValuedAssociation()) {
+                    $template = 'SonataAdminBundle:CRUD/Association:show_collection.html.twig';
                 }
             }
 
             $fieldDescription->setTemplate($template);
         }
 
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
+        if ($fieldDescription->describesAssociation()) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
