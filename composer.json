@@ -16,11 +16,18 @@
             "homepage": "https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/contributors"
         }
     ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:ju1ius/SonataAdminBundle.git"
+
+        }
+    ],
     "require": {
         "php": "^5.3",
         "doctrine/mongodb-odm": "^1.0",
         "doctrine/mongodb-odm-bundle": "^3.0",
-        "sonata-project/admin-bundle": "^3.1"
+        "sonata-project/admin-bundle": "dev-refactor/bring-templates-back as 3.1"
     },
     "require-dev": {
         "jmikola/geojson": "^1.0",
