@@ -17,7 +17,8 @@
         }
     ],
     "require": {
-        "php": "^5.3",
+        "php": "^5.3 || ^7.0",
+        "alcaeus/mongo-php-adapter": "^1.0.0",
         "doctrine/mongodb-odm": "^1.0",
         "doctrine/mongodb-odm-bundle": "^3.0",
         "sonata-project/admin-bundle": "^3.1"
@@ -28,6 +29,7 @@
         "symfony/phpunit-bridge": "^2.7 || ^3.0"
     },
     "provide": {
+        "ext-mongo": "*",
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
     "autoload": {
