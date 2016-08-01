@@ -47,7 +47,7 @@ class ModelManager implements ModelManagerInterface
      * Returns the model's metadata holding the fully qualified property, and the last
      * property name.
      *
-     * @param string $baseClass        The base class of the model holding the fully qualified property.
+     * @param string $baseClass        The base class of the model holding the fully qualified property
      * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
      *                                 property string)
      *
@@ -380,7 +380,7 @@ class ModelManager implements ModelManagerInterface
             $values['_sort_order'] = 'ASC';
         }
 
-        $values['_sort_by'] = is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') :  $fieldDescription->getName();
+        $values['_sort_by'] = is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') : $fieldDescription->getName();
 
         return array('filter' => $values);
     }
