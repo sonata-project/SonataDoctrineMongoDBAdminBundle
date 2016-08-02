@@ -380,7 +380,7 @@ class ModelManager implements ModelManagerInterface
             $values['_sort_order'] = 'ASC';
         }
 
-        $values['_sort_by'] = is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') :  $fieldDescription->getName();
+        $values['_sort_by'] = is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') : $fieldDescription->getName();
 
         return array('filter' => $values);
     }
