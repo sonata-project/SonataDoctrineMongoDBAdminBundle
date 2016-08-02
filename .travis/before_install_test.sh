@@ -14,5 +14,7 @@ fi
 composer self-update --stable
 sed --in-place "s/\"dev-master\":/\"dev-${TRAVIS_COMMIT}\":/" composer.json
 
+if [ "$MONGODB_VERSION" != "" ]; then pecl install -f mongodb-$MONGODB_VERSION; fi
+if [ "$ADAPTER_VERSION" != "" ]; then composer require "alcaeus/mongo-php-adapter=$ADAPTER_VERSION" --ignore-platform-reqs; fi
 if [ "$SYMFONY" != "" ]; then composer require "symfony/symfony:$SYMFONY" --no-update; fi;
 if [ "$SONATA_ADMIN" != "" ]; then composer require "sonata-project/admin-bundle:$SONATA_ADMIN" --no-update; fi;
