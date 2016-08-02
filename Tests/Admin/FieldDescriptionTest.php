@@ -11,6 +11,7 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Admin;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 
 class FieldDescriptionTest extends \PHPUnit_Framework_TestCase
@@ -162,7 +163,7 @@ class FieldDescriptionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAssociationAdmin()
     {
-        $adminMock = $this->getMockBuilder('Sonata\AdminBundle\Admin\Admin')
+        $adminMock = $this->getMockBuilder('Sonata\AdminBundle\Admin\AbstractAdmin')
             ->disableOriginalConstructor()
             ->getMock();
         $adminMock->expects($this->once())
@@ -177,7 +178,7 @@ class FieldDescriptionTest extends \PHPUnit_Framework_TestCase
 
     public function testHasAssociationAdmin()
     {
-        $adminMock = $this->getMockBuilder('Sonata\AdminBundle\Admin\Admin')
+        $adminMock = $this->getMockBuilder('Sonata\AdminBundle\Admin\AbstractAdmin')
             ->disableOriginalConstructor()
             ->getMock();
         $adminMock->expects($this->once())
@@ -334,5 +335,65 @@ class FieldDescriptionTest extends \PHPUnit_Framework_TestCase
         $field->setFieldMapping($fieldMapping);
 
         $this->assertEquals($fieldMapping, $field->getFieldMapping());
+    }
+
+    /**
+     * @dataProvider testDescribesSingleValuedAssociationProvider
+     *
+     * @param mixed $mappingType
+     * @param bool  $expected
+     */
+    public function testDescribesSingleValuedAssociation($mappingType, $expected)
+    {
+        $fd = new FieldDescription();
+        $fd->setAssociationMapping(array(
+            'fieldName' => 'foo',
+            'type' => $mappingType,
+        ));
+        $this->assertSame($expected, $fd->describesSingleValuedAssociation());
+    }
+
+    public function testDescribesSingleValuedAssociationProvider()
+    {
+        return array(
+            'one' => array(ClassMetadata::ONE, true),
+            'embed one' => array(ClassMetadata::EMBED_ONE, true),
+            'reference one' => array(ClassMetadata::REFERENCE_ONE, true),
+            'many' => array(ClassMetadata::MANY, false),
+            'embed many' => array(ClassMetadata::EMBED_MANY, false),
+            'reference many' => array(ClassMetadata::REFERENCE_MANY, false),
+            'string' => array('string', false),
+            'null' => array(null, false),
+        );
+    }
+
+    /**
+     * @dataProvider testDescribesCollectionValuedAssociationProvider
+     *
+     * @param mixed $mappingType
+     * @param bool  $expected
+     */
+    public function testDescribesCollectionValuedAssociation($mappingType, $expected)
+    {
+        $fd = new FieldDescription();
+        $fd->setAssociationMapping(array(
+            'fieldName' => 'foo',
+            'type' => $mappingType,
+        ));
+        $this->assertSame($expected, $fd->describesCollectionValuedAssociation());
+    }
+
+    public function testDescribesCollectionValuedAssociationProvider()
+    {
+        return array(
+            'one' => array(ClassMetadata::ONE, false),
+            'embed one' => array(ClassMetadata::EMBED_ONE, false),
+            'reference one' => array(ClassMetadata::REFERENCE_ONE, false),
+            'many' => array(ClassMetadata::MANY, true),
+            'embed many' => array(ClassMetadata::EMBED_MANY, true),
+            'reference many' => array(ClassMetadata::REFERENCE_MANY, true),
+            'string' => array('string', false),
+            'null' => array(null, false),
+        );
     }
 }

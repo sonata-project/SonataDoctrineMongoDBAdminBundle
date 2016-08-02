@@ -11,24 +11,12 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Symfony\Component\Form\FormFactoryInterface;
+use Sonata\AdminBundle\Builder\AbstractFormContractor;
 
-class FormContractor implements FormContractorInterface
+class FormContractor extends AbstractFormContractor
 {
-    protected $fieldFactory;
-
-    /**
-     * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
-     */
-    public function __construct(FormFactoryInterface $formFactory)
-    {
-        $this->formFactory = $formFactory;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -55,62 +43,8 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
+        if ($fieldDescription->describesAssociation()) {
             $admin->attachAdminClass($fieldDescription);
         }
-    }
-
-    /**
-     * @return \Symfony\Component\Form\FormFactoryInterface
-     */
-    public function getFormFactory()
-    {
-        return $this->formFactory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFormBuilder($name, array $options = array())
-    {
-        return $this->getFormFactory()->createNamedBuilder($name, 'form', null, $options);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
-    {
-        $options = array();
-        $options['sonata_field_description'] = $fieldDescription;
-
-        if ($type == 'sonata_type_model' || $type == 'sonata_type_model_list') {
-            if ($fieldDescription->getOption('edit') == 'list') {
-                throw new \LogicException('The ``sonata_type_model`` type does not accept an ``edit`` option anymore, please review the UPGRADE-2.1.md file from the SonataAdminBundle');
-            }
-
-            $options['class'] = $fieldDescription->getTargetEntity();
-            $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-        } elseif ($type == 'sonata_type_admin') {
-            if (!$fieldDescription->getAssociationAdmin()) {
-                throw new \RuntimeException(sprintf('The current field `%s` is not linked to an admin. Please create one for the target entity : `%s`', $fieldDescription->getName(), $fieldDescription->getTargetEntity()));
-            }
-
-            $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
-            $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
-        } elseif ($type == 'sonata_type_collection') {
-            if (!$fieldDescription->getAssociationAdmin()) {
-                throw new \RuntimeException(sprintf('The current field `%s` is not linked to an admin. Please create one for the target entity : `%s`', $fieldDescription->getName(), $fieldDescription->getTargetEntity()));
-            }
-
-            $options['type'] = 'sonata_type_admin';
-            $options['modifiable'] = true;
-            $options['type_options'] = array(
-            'sonata_field_description' => $fieldDescription,
-            'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
-        );
-        }
-
-        return $options;
     }
 }
