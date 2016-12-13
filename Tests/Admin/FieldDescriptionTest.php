@@ -207,7 +207,7 @@ class FieldDescriptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Sonata\AdminBundle\Exception\NoValueException
+     * @expectedException \Sonata\AdminBundle\Exception\NoValueException
      */
     public function testGetValueWhenCannotRetrieve()
     {
