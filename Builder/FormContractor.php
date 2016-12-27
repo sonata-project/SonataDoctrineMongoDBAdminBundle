@@ -22,6 +22,11 @@ class FormContractor implements FormContractorInterface
     protected $fieldFactory;
 
     /**
+     * @var FormFactoryInterface
+     */
+    private $formFactory;
+
+    /**
      * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
      */
     public function __construct(FormFactoryInterface $formFactory)
@@ -84,33 +89,72 @@ class FormContractor implements FormContractorInterface
         $options = array();
         $options['sonata_field_description'] = $fieldDescription;
 
-        if ($type == 'sonata_type_model' || $type == 'sonata_type_model_list') {
+        // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
+        if ($this->checkFormType($type, array(
+            'sonata_type_model',
+            'sonata_type_model_list',
+        )) || $this->checkFormClass($type, array(
+            'Sonata\AdminBundle\Form\Type\ModelType',
+            'Sonata\AdminBundle\Form\Type\ModelListType',
+        ))) {
             if ($fieldDescription->getOption('edit') == 'list') {
                 throw new \LogicException('The ``sonata_type_model`` type does not accept an ``edit`` option anymore, please review the UPGRADE-2.1.md file from the SonataAdminBundle');
             }
 
             $options['class'] = $fieldDescription->getTargetEntity();
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-        } elseif ($type == 'sonata_type_admin') {
+            // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
+        } elseif ($this->checkFormType($type, array('sonata_type_admin')) || $this->checkFormClass($type, array('Sonata\AdminBundle\Form\Type\AdminType'))) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf('The current field `%s` is not linked to an admin. Please create one for the target entity : `%s`', $fieldDescription->getName(), $fieldDescription->getTargetEntity()));
             }
 
             $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
             $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
-        } elseif ($type == 'sonata_type_collection') {
+            // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
+        } elseif ($this->checkFormType($type, array('sonata_type_collection')) || $this->checkFormClass($type, array('Sonata\CoreBundle\Form\Type\CollectionType'))) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf('The current field `%s` is not linked to an admin. Please create one for the target entity : `%s`', $fieldDescription->getName(), $fieldDescription->getTargetEntity()));
             }
 
-            $options['type'] = 'sonata_type_admin';
+            // NEXT_MAJOR: Use only FQCN when dropping support for Symfony <2.8
+            $options['type'] = 'sonata_type_collection' === $type ?
+                'sonata_type_admin' :
+                'Sonata\AdminBundle\Form\Type\AdminType'
+            ;
             $options['modifiable'] = true;
             $options['type_options'] = array(
-            'sonata_field_description' => $fieldDescription,
-            'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
-        );
+                'sonata_field_description' => $fieldDescription,
+                'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
+            );
         }
 
         return $options;
+    }
+
+    /**
+     * NEXT_MAJOR: See next major comments above, this method should be removed when dropping support for Symfony <2.8.
+     *
+     * @param string $type
+     * @param array  $types
+     *
+     * @return bool
+     */
+    private function checkFormType($type, $types)
+    {
+        return in_array($type, $types, true);
+    }
+
+    /**
+     * @param string $type
+     * @param array  $classes
+     *
+     * @return array
+     */
+    private function checkFormClass($type, $classes)
+    {
+        return array_filter($classes, function ($subclass) use ($type) {
+            return is_a($type, $subclass, true);
+        });
     }
 }
