@@ -86,7 +86,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testFilterException()
     {
