@@ -82,7 +82,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testAssociationWithInvalidMapping()
     {
@@ -95,7 +95,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testAssociationWithValidMappingAndEmptyFieldName()
     {
