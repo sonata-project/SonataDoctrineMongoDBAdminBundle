@@ -63,7 +63,12 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $filter->getOption('foo', 'bar'));
 
         $this->assertEquals('field_name', $filter->getName());
-        $this->assertEquals('text', $filter->getFieldType());
+        $this->assertEquals(
+            method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
+            ? 'Symfony\Component\Form\Extension\Core\Type\TextType'
+            : 'text',
+            $filter->getFieldType()
+        );
         $this->assertEquals(array('class' => 'FooBar'), $filter->getFieldOptions());
     }
 
@@ -77,7 +82,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testExceptionOnEmptyFieldName()
     {
