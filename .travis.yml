@@ -10,9 +10,6 @@ branches:
 language: php
 
 php:
-  - '5.3'
-  - '5.4'
-  - '5.5'
   - '5.6'
   - nightly
   - hhvm
@@ -42,12 +39,8 @@ matrix:
       env: TARGET=docs
     - php: '5.6'
       env: TARGET=lint
-    - php: '5.3'
+    - php: '5.6'
       env: COMPOSER_FLAGS="--prefer-lowest"
-    - php: '5.6'
-      env: SYMFONY=2.3.*
-    - php: '5.6'
-      env: SYMFONY=2.7.*
     - php: '5.6'
       env: SYMFONY=2.8.*
     - php: '5.6'
