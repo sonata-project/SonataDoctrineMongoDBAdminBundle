@@ -67,7 +67,13 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
                 }
 
                 if (($count % $batchSizeOutput) == 0) {
-                    $output->writeln(sprintf('   - generated class ACEs%s for %s objects (added %s, updated %s)', $objectOwnersMsg, $count, $countAdded, $countUpdated));
+                    $output->writeln(sprintf(
+                        '   - generated class ACEs%s for %s objects (added %s, updated %s)',
+                        $objectOwnersMsg,
+                        $count,
+                        $countAdded,
+                        $countUpdated
+                    ));
                 }
             }
 
@@ -80,6 +86,12 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
             throw new ModelManagerException('', 0, $e);
         }
 
-        $output->writeln(sprintf('   - [TOTAL] generated class ACEs%s for %s objects (added %s, updated %s)', $objectOwnersMsg, $count, $countAdded, $countUpdated));
+        $output->writeln(sprintf(
+            '   - [TOTAL] generated class ACEs%s for %s objects (added %s, updated %s)',
+            $objectOwnersMsg,
+            $count,
+            $countAdded,
+            $countUpdated
+        ));
     }
 }
