@@ -14,8 +14,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/*
- *
+/**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class AddTemplatesCompilerPass implements CompilerPassInterface
