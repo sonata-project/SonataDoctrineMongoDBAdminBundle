@@ -26,7 +26,10 @@ class CallbackFilter extends Filter
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!is_callable($this->getOption('callback'))) {
-            throw new \RuntimeException(sprintf('Please provide a valid callback option "filter" for field "%s"', $this->getName()));
+            throw new \RuntimeException(sprintf(
+                'Please provide a valid callback option "filter" for field "%s"',
+                $this->getName()
+            ));
         }
 
         call_user_func($this->getOption('callback'), $queryBuilder, $alias, $field, $data);
