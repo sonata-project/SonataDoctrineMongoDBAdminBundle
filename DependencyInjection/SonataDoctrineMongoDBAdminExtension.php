@@ -18,10 +18,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
- * SonataAdminBundleExtension.
- *
- * @author      Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * @author      Michael Williams <michael.williams@funsational.com>
+ * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * @author Michael Williams <michael.williams@funsational.com>
  */
 class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
 {

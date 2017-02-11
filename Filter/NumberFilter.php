@@ -21,8 +21,6 @@ class NumberFilter extends Filter
      * @param string              $alias
      * @param string              $field
      * @param string              $data
-     *
-     * @return
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
