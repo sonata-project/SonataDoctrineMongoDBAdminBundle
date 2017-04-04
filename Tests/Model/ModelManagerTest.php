@@ -18,9 +18,7 @@ class ModelManagerTest extends PHPUnit_Framework_TestCase
 {
     public function testFilterEmpty()
     {
-        $registry = $this->getMockBuilder('Symfony\Bridge\Doctrine\ManagerRegistry')
-                ->disableOriginalConstructor()
-                ->getMock();
+        $registry = $this->createMock('Symfony\Bridge\Doctrine\ManagerRegistry');
 
         $manager = new ModelManager($registry);
     }
