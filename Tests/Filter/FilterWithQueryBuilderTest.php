@@ -11,7 +11,9 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-abstract class FilterWithQueryBuilderTest extends \PHPUnit_Framework_TestCase
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
+
+abstract class FilterWithQueryBuilderTest extends PHPUnit_Framework_TestCase
 {
     private $queryBuilder = null;
     private $expr = null;

@@ -13,9 +13,10 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class FormContractorTest extends \PHPUnit_Framework_TestCase
+class FormContractorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
