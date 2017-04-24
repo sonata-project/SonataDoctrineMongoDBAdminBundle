@@ -163,3 +163,38 @@ or not.
             ;
         }
     }
+
+Filter by referenced document using query
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you are attempting to filter by a referenced document, there is a chance that
+you will want to further configure the way the filter itself is presented. For
+example, if you have a single document controlling tags which features various
+classifications, you won't want all the tags to be displayed. Take note that in
+the example below, you will not be returning any kind of result from
+queryBuilder.
+
+.. code-block:: php
+
+    <?php
+    /* In your document definition, you have the following which is a single
+    /* reference to a tag with type "content-type" */
+    /**
+     * @ODM\ReferenceOne(targetDocument="Tag")
+     */
+    protected $contentType;
+
+    /* In your admin  */
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+          ->add('title')
+          ->add('author')
+          ->add('contentType', null, array(), 'document', array(
+            'class' => 'AppBundle:Tag',
+            'query_builder' => function(\AppBundle\Repository\TagRepository $dr) {
+                return $dr->createQueryBuilder()
+                ->field('type')->equals('content-type')
+                ->sort('title', 'ASC');
+            }
+        ))
