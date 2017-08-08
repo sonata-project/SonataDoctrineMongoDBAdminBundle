@@ -16,8 +16,6 @@ if [ "${TRAVIS_PHP_VERSION}" != "hhvm" ]; then
     fi
     fi
 
-# To be removed when following PR will be merged: https://github.com/travis-ci/travis-build/pull/718
-composer self-update --stable
 sed --in-place "s/\"dev-master\":/\"dev-${TRAVIS_COMMIT}\":/" composer.json
 
 if [ "$SYMFONY" != "" ]; then composer require "symfony/symfony:$SYMFONY" --no-update; fi;
