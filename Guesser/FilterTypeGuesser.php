@@ -13,6 +13,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Model\MissingPropertyMetadataException;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -59,6 +60,10 @@ class FilterTypeGuesser extends AbstractTypeGuesser
 
                     return new TypeGuess('doctrine_mongo_model', $options, Guess::HIGH_CONFIDENCE);
             }
+        }
+
+        if (!array_key_exists($propertyName, $metadata->fieldMappings)) {
+            throw new MissingPropertyMetadataException($class, $property);
         }
 
         $options['field_name'] = $metadata->fieldMappings[$propertyName]['fieldName'];
