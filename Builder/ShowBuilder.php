@@ -86,7 +86,7 @@ class ShowBuilder implements ShowBuilderInterface
                 $fieldDescription->setFieldMapping($metadata->fieldMappings[$lastPropertyName]);
             }
 
-                // set the default association mapping
+            // set the default association mapping
             if (isset($metadata->associationMappings[$lastPropertyName])) {
                 $fieldDescription->setAssociationMapping($metadata->associationMappings[$lastPropertyName]);
             }
