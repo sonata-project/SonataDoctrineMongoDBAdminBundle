@@ -20,6 +20,7 @@ services:
   - mongodb
 
 sudo: false
+dist: precise
 
 cache:
   pip: true
