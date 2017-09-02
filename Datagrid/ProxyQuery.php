@@ -51,7 +51,7 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function execute(array $params = array(), $hydrationMode = null)
     {
-        // always clone the original queryBuilder
+        // always clone the original queryBuilder.
         $queryBuilder = clone $this->queryBuilder;
 
         // todo : check how doctrine behave, potential SQL injection here ...
