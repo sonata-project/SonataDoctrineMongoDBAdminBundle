@@ -52,7 +52,7 @@ This code manage the one-to-many association field popup
 
                 // Maintain state of file inputs
                 $oldForm.find('input[type="file"]').each(function(){
-                    var id = '#'$(this).attr('id');
+                    var id = '#'+$(this).attr('id');
                     $newForm.find(id).replaceWith($(this));
                 });
 
