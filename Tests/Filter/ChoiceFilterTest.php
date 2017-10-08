@@ -20,13 +20,13 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
     public function testFilterEmpty()
     {
         $filter = new ChoiceFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', 'all');
-        $filter->filter($builder, 'alias', 'field', array());
+        $filter->filter($builder, 'alias', 'field', []);
 
         $this->assertEquals(false, $filter->isActive());
     }
@@ -34,11 +34,11 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
     public function testFilterArray()
     {
         $filter = new ChoiceFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter->filter($builder, 'alias', 'field', array('type' => ChoiceType::TYPE_CONTAINS, 'value' => array('1', '2')));
+        $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => ['1', '2']]);
 
         $this->assertEquals(true, $filter->isActive());
     }
@@ -46,11 +46,11 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
     public function testFilterScalar()
     {
         $filter = new ChoiceFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter->filter($builder, 'alias', 'field', array('type' => ChoiceType::TYPE_CONTAINS, 'value' => '1'));
+        $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => '1']);
 
         $this->assertEquals(true, $filter->isActive());
     }
@@ -58,11 +58,11 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
     public function testFilterZero()
     {
         $filter = new ChoiceFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter->filter($builder, 'alias', 'field', array('type' => ChoiceType::TYPE_CONTAINS, 'value' => 0));
+        $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => 0]);
 
         $this->assertEquals(true, $filter->isActive());
     }

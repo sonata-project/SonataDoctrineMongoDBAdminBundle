@@ -21,15 +21,15 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array(
+        $filter->initialize('field_name', [
             'callback' => function ($builder, $alias, $field, $value) {
                 return true;
             },
-        ));
+        ]);
 
         $filter->filter($builder, 'alias', 'field', false);
         $filter->filter($builder, 'alias', 'field', 'scalarValue');
-        $filter->filter($builder, 'alias', 'field', array('value' => ''));
+        $filter->filter($builder, 'alias', 'field', ['value' => '']);
 
         $this->assertEquals(false, $filter->isActive());
     }
@@ -39,13 +39,13 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array(
+        $filter->initialize('field_name', [
             'callback' => function ($builder, $alias, $field, $value) {
                 return true;
             },
-        ));
+        ]);
 
-        $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));
+        $filter->filter($builder, 'alias', 'field', ['value' => 'myValue']);
 
         $this->assertEquals(true, $filter->isActive());
     }
@@ -55,13 +55,13 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array(
-            'callback' => array($this, 'customCallback'),
-        ));
+        $filter->initialize('field_name', [
+            'callback' => [$this, 'customCallback'],
+        ]);
 
         $filter->filter($builder, 'alias', 'field', false);
         $filter->filter($builder, 'alias', 'field', 'scalarValue');
-        $filter->filter($builder, 'alias', 'field', array('value' => ''));
+        $filter->filter($builder, 'alias', 'field', ['value' => '']);
 
         $this->assertEquals(false, $filter->isActive());
     }
@@ -71,11 +71,11 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array(
-            'callback' => array($this, 'customCallback'),
-        ));
+        $filter->initialize('field_name', [
+            'callback' => [$this, 'customCallback'],
+        ]);
 
-        $filter->filter($builder, 'alias', 'field', array('value' => 'myValue'));
+        $filter->filter($builder, 'alias', 'field', ['value' => 'myValue']);
 
         $this->assertEquals(true, $filter->isActive());
     }
@@ -93,7 +93,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array());
+        $filter->initialize('field_name', []);
 
         $filter->filter($builder, 'alias', 'field', 'myValue');
     }
