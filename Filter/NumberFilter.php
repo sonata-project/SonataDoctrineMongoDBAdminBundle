@@ -45,16 +45,16 @@ class NumberFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array();
+        return [];
     }
 
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_number', array(
+        return ['sonata_type_filter_number', [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ));
+        ]];
     }
 
     /**
@@ -64,13 +64,13 @@ class NumberFilter extends Filter
      */
     private function getOperator($type)
     {
-        $choices = array(
+        $choices = [
             NumberType::TYPE_EQUAL => 'equals',
             NumberType::TYPE_GREATER_EQUAL => 'gte',
             NumberType::TYPE_GREATER_THAN => 'gt',
             NumberType::TYPE_LESS_EQUAL => 'lte',
             NumberType::TYPE_LESS_THAN => 'lt',
-        );
+        ];
 
         return isset($choices[$type]) ? $choices[$type] : false;
     }

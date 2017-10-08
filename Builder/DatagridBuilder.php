@@ -102,7 +102,7 @@ class DatagridBuilder implements DatagridBuilderInterface
 
             foreach ($options as $name => $value) {
                 if (is_array($value)) {
-                    $fieldDescription->setOption($name, array_merge($value, $fieldDescription->getOption($name, array())));
+                    $fieldDescription->setOption($name, array_merge($value, $fieldDescription->getOption($name, [])));
                 } else {
                     $fieldDescription->setOption($name, $fieldDescription->getOption($name, $value));
                 }
@@ -114,7 +114,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
         $admin->addFilterFieldDescription($fieldDescription->getName(), $fieldDescription);
 
-        $fieldDescription->mergeOption('field_options', array('required' => false));
+        $fieldDescription->mergeOption('field_options', ['required' => false]);
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());
 
         if (false !== $filter->getLabel() && !$filter->getLabel()) {
@@ -130,17 +130,17 @@ class DatagridBuilder implements DatagridBuilderInterface
      *
      * @return \Sonata\AdminBundle\Datagrid\DatagridInterface
      */
-    public function getBaseDatagrid(AdminInterface $admin, array $values = array())
+    public function getBaseDatagrid(AdminInterface $admin, array $values = [])
     {
         $pager = new Pager();
         $pager->setCountColumn($admin->getModelManager()->getIdentifierFieldNames($admin->getClass()));
 
-        $defaultOptions = array();
+        $defaultOptions = [];
         if ($this->csrfTokenEnabled) {
             $defaultOptions['csrf_protection'] = false;
         }
 
-        $formBuilder = $this->formFactory->createNamedBuilder('filter', 'form', array(), $defaultOptions);
+        $formBuilder = $this->formFactory->createNamedBuilder('filter', 'form', [], $defaultOptions);
 
         return new Datagrid($admin->createQuery(), $admin->getList(), $pager, $formBuilder, $values);
     }
