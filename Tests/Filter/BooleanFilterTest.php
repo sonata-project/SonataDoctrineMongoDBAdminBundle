@@ -20,7 +20,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
     public function testFilterEmpty()
     {
         $filter = new BooleanFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -29,8 +29,8 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', 'test');
         $filter->filter($builder, 'alias', 'field', false);
 
-        $filter->filter($builder, 'alias', 'field', array());
-        $filter->filter($builder, 'alias', 'field', array(null, 'test'));
+        $filter->filter($builder, 'alias', 'field', []);
+        $filter->filter($builder, 'alias', 'field', [null, 'test']);
 
         $this->assertEquals(false, $filter->isActive());
     }
@@ -38,11 +38,11 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
     public function testFilterNo()
     {
         $filter = new BooleanFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter->filter($builder, 'alias', 'field', array('type' => null, 'value' => BooleanType::TYPE_NO));
+        $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_NO]);
 
         $this->assertEquals(true, $filter->isActive());
     }
@@ -50,11 +50,11 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
     public function testFilterYes()
     {
         $filter = new BooleanFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter->filter($builder, 'alias', 'field', array('type' => null, 'value' => BooleanType::TYPE_YES));
+        $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_YES]);
 
         $this->assertEquals(true, $filter->isActive());
     }
@@ -62,11 +62,11 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
     public function testFilterArray()
     {
         $filter = new BooleanFilter();
-        $filter->initialize('field_name', array('field_options' => array('class' => 'FooBar')));
+        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
-        $filter->filter($builder, 'alias', 'field', array('type' => null, 'value' => array(BooleanType::TYPE_NO)));
+        $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => [BooleanType::TYPE_NO]]);
 
         $this->assertEquals(true, $filter->isActive());
     }
