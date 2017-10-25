@@ -48,25 +48,25 @@ class CallbackFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array(
+        return [
             'callback' => null,
             'active_callback' => function ($data) {
                 return isset($data['value']) && $data['value'];
             },
             'field_type' => 'text',
             'operator_type' => 'hidden',
-            'operator_options' => array(),
-        );
+            'operator_options' => [],
+        ];
     }
 
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_default', array(
+        return ['sonata_type_filter_default', [
                 'field_type' => $this->getFieldType(),
                 'field_options' => $this->getFieldOptions(),
                 'operator_type' => $this->getOption('operator_type'),
                 'operator_options' => $this->getOption('operator_options'),
                 'label' => $this->getLabel(),
-        ));
+        ]];
     }
 }

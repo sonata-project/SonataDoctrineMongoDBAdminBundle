@@ -33,11 +33,11 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
             $templates = $container->getParameter('sonata_doctrine_mongodb_admin.templates');
 
             if (!$definition->hasMethodCall('setFormTheme')) {
-                $definition->addMethodCall('setFormTheme', array($templates['form']));
+                $definition->addMethodCall('setFormTheme', [$templates['form']]);
             }
 
             if (!$definition->hasMethodCall('setFilterTheme')) {
-                $definition->addMethodCall('setFilterTheme', array($templates['filter']));
+                $definition->addMethodCall('setFilterTheme', [$templates['filter']]);
             }
         }
     }

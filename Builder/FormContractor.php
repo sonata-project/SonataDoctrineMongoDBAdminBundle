@@ -60,7 +60,7 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
+        if (in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -76,7 +76,7 @@ class FormContractor implements FormContractorInterface
     /**
      * {@inheritdoc}
      */
-    public function getFormBuilder($name, array $options = array())
+    public function getFormBuilder($name, array $options = [])
     {
         return $this->getFormFactory()->createNamedBuilder($name, 'form', null, $options);
     }
@@ -86,17 +86,17 @@ class FormContractor implements FormContractorInterface
      */
     public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
     {
-        $options = array();
+        $options = [];
         $options['sonata_field_description'] = $fieldDescription;
 
         // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
-        if ($this->checkFormType($type, array(
+        if ($this->checkFormType($type, [
             'sonata_type_model',
             'sonata_type_model_list',
-        )) || $this->checkFormClass($type, array(
+        ]) || $this->checkFormClass($type, [
             'Sonata\AdminBundle\Form\Type\ModelType',
             'Sonata\AdminBundle\Form\Type\ModelListType',
-        ))) {
+        ])) {
             if ($fieldDescription->getOption('edit') == 'list') {
                 throw new \LogicException('The ``sonata_type_model`` type does not accept an ``edit`` option anymore, please review the UPGRADE-2.1.md file from the SonataAdminBundle');
             }
@@ -104,7 +104,7 @@ class FormContractor implements FormContractorInterface
             $options['class'] = $fieldDescription->getTargetEntity();
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
             // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
-        } elseif ($this->checkFormType($type, array('sonata_type_admin')) || $this->checkFormClass($type, array('Sonata\AdminBundle\Form\Type\AdminType'))) {
+        } elseif ($this->checkFormType($type, ['sonata_type_admin']) || $this->checkFormClass($type, ['Sonata\AdminBundle\Form\Type\AdminType'])) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf('The current field `%s` is not linked to an admin. Please create one for the target entity : `%s`', $fieldDescription->getName(), $fieldDescription->getTargetEntity()));
             }
@@ -112,7 +112,7 @@ class FormContractor implements FormContractorInterface
             $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
             $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
             // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
-        } elseif ($this->checkFormType($type, array('sonata_type_collection')) || $this->checkFormClass($type, array('Sonata\CoreBundle\Form\Type\CollectionType'))) {
+        } elseif ($this->checkFormType($type, ['sonata_type_collection']) || $this->checkFormClass($type, ['Sonata\CoreBundle\Form\Type\CollectionType'])) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf('The current field `%s` is not linked to an admin. Please create one for the target entity : `%s`', $fieldDescription->getName(), $fieldDescription->getTargetEntity()));
             }
@@ -123,10 +123,10 @@ class FormContractor implements FormContractorInterface
                 'Sonata\AdminBundle\Form\Type\AdminType'
             ;
             $options['modifiable'] = true;
-            $options['type_options'] = array(
+            $options['type_options'] = [
                 'sonata_field_description' => $fieldDescription,
                 'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
-            );
+            ];
         }
 
         return $options;
