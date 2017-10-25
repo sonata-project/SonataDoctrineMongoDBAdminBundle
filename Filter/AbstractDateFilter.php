@@ -81,7 +81,7 @@ abstract class AbstractDateFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array('input_type' => 'datetime');
+        return ['input_type' => 'datetime'];
     }
 
     /**
@@ -99,11 +99,11 @@ abstract class AbstractDateFilter extends Filter
             $name .= '_range';
         }
 
-        return array($name, array(
+        return [$name, [
                 'field_type' => $this->getFieldType(),
                 'field_options' => $this->getFieldOptions(),
                 'label' => $this->getLabel(),
-        ));
+        ]];
     }
 
     /**
@@ -127,9 +127,9 @@ abstract class AbstractDateFilter extends Filter
      */
     protected function typeRequiresValue($type)
     {
-        return in_array($type, array(
+        return in_array($type, [
                     DateType::TYPE_NULL,
-                    DateType::TYPE_NOT_NULL, )
+                    DateType::TYPE_NOT_NULL, ]
         );
     }
 
@@ -142,7 +142,7 @@ abstract class AbstractDateFilter extends Filter
      */
     protected function getOperator($type)
     {
-        $choices = array(
+        $choices = [
             DateType::TYPE_NULL => 'equals',
             DateType::TYPE_NOT_NULL => 'notEqual',
             DateType::TYPE_EQUAL => 'equals',
@@ -150,7 +150,7 @@ abstract class AbstractDateFilter extends Filter
             DateType::TYPE_GREATER_THAN => 'gt',
             DateType::TYPE_LESS_EQUAL => 'lte',
             DateType::TYPE_LESS_THAN => 'lt',
-        );
+        ];
 
         return $choices[intval($type)];
     }
