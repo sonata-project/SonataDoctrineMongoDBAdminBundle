@@ -22,13 +22,13 @@ class ListBuilder implements ListBuilderInterface
 {
     protected $guesser;
 
-    protected $templates = array();
+    protected $templates = [];
 
     /**
      * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
      * @param array                                            $templates
      */
-    public function __construct(TypeGuesserInterface $guesser, array $templates = array())
+    public function __construct(TypeGuesserInterface $guesser, array $templates = [])
     {
         $this->guesser = $guesser;
         $this->templates = $templates;
@@ -37,7 +37,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getBaseList(array $options = array())
+    public function getBaseList(array $options = [])
     {
         return new FieldDescriptionCollection();
     }
@@ -130,7 +130,7 @@ class ListBuilder implements ListBuilderInterface
             $fieldDescription->setTemplate($template);
         }
 
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
+        if (in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
