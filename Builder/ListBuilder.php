@@ -47,7 +47,7 @@ class ListBuilder implements ListBuilderInterface
      */
     public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
-        if ($type == null) {
+        if (null == $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
         } else {
@@ -73,7 +73,7 @@ class ListBuilder implements ListBuilderInterface
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
-        if ($fieldDescription->getName() === '_action' || $fieldDescription->getType() === 'actions') {
+        if ('_action' === $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {
             $this->buildActionFieldDescription($fieldDescription);
         }
 
@@ -86,7 +86,7 @@ class ListBuilder implements ListBuilderInterface
             // set the default field mapping
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
                 $fieldDescription->setFieldMapping($metadata->fieldMappings[$lastPropertyName]);
-                if ($fieldDescription->getOption('sortable') !== false) {
+                if (false !== $fieldDescription->getOption('sortable')) {
                     $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', true));
                     $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
                     $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
@@ -109,20 +109,20 @@ class ListBuilder implements ListBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            if ($fieldDescription->getType() == 'id') {
+            if ('id' == $fieldDescription->getType()) {
                 $fieldDescription->setType('string');
             }
 
-            if ($fieldDescription->getType() == 'int') {
+            if ('int' == $fieldDescription->getType()) {
                 $fieldDescription->setType('integer');
             }
 
             $template = $this->getTemplate($fieldDescription->getType());
 
-            if ($template === null) {
-                if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE) {
+            if (null === $template) {
+                if (ClassMetadataInfo::ONE == $fieldDescription->getMappingType()) {
                     $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_one.html.twig';
-                } elseif ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY) {
+                } elseif (ClassMetadataInfo::MANY == $fieldDescription->getMappingType()) {
                     $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_many.html.twig';
                 }
             }
