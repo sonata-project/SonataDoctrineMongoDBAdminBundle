@@ -35,10 +35,10 @@ class BooleanFilter extends Filter
                     continue;
                 }
 
-                $values[] = ($v == BooleanType::TYPE_YES) ? true : false;
+                $values[] = (BooleanType::TYPE_YES == $v) ? true : false;
             }
 
-            if (count($values) == 0) {
+            if (0 == count($values)) {
                 return;
             }
 
