@@ -30,26 +30,26 @@ class StringFilter extends Filter
 
         $data['value'] = trim($data['value']);
 
-        if (strlen($data['value']) == 0) {
+        if (0 == strlen($data['value'])) {
             return;
         }
 
         $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ChoiceType::TYPE_CONTAINS;
 
         $obj = $queryBuilder;
-        if ($this->condition == self::CONDITION_OR) {
+        if (self::CONDITION_OR == $this->condition) {
             $obj = $queryBuilder->expr();
         }
 
-        if ($data['type'] == ChoiceType::TYPE_EQUAL) {
+        if (ChoiceType::TYPE_EQUAL == $data['type']) {
             $obj->field($field)->equals($data['value']);
-        } elseif ($data['type'] == ChoiceType::TYPE_CONTAINS) {
+        } elseif (ChoiceType::TYPE_CONTAINS == $data['type']) {
             $obj->field($field)->equals(new \MongoRegex(sprintf('/%s/i', $data['value'])));
-        } elseif ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
+        } elseif (ChoiceType::TYPE_NOT_CONTAINS == $data['type']) {
             $obj->field($field)->not(new \MongoRegex(sprintf('/%s/i', $data['value'])));
         }
 
-        if ($this->condition == self::CONDITION_OR) {
+        if (self::CONDITION_OR == $this->condition) {
             $queryBuilder->addOr($obj);
         }
 
