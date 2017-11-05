@@ -62,7 +62,7 @@ class ModelManager implements ModelManagerInterface
         $nameElements = explode('.', $propertyFullName);
         $lastPropertyName = array_pop($nameElements);
         $class = $baseClass;
-        $parentAssociationMappings = array();
+        $parentAssociationMappings = [];
 
         foreach ($nameElements as $nameElement) {
             $metadata = $this->getMetadata($class);
@@ -70,7 +70,7 @@ class ModelManager implements ModelManagerInterface
             $class = $metadata->getAssociationTargetClass($nameElement);
         }
 
-        return array($this->getMetadata($class), $lastPropertyName, $parentAssociationMappings);
+        return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
     }
 
     /**
@@ -84,7 +84,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getNewFieldDescriptionInstance($class, $name, array $options = array())
+    public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if (!is_string($name)) {
             throw new \RunTimeException('The name argument must be a string');
@@ -95,7 +95,7 @@ class ModelManager implements ModelManagerInterface
         }
 
         if (!isset($options['route']['parameters'])) {
-            $options['route']['parameters'] = array();
+            $options['route']['parameters'] = [];
         }
 
         list($metadata, $propertyName, $parentAssociationMappings) = $this->getParentMetadataForProperty($class, $name);
@@ -172,7 +172,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findBy($class, array $criteria = array())
+    public function findBy($class, array $criteria = [])
     {
         return $this->getDocumentManager($class)->getRepository($class)->findBy($criteria);
     }
@@ -180,7 +180,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneBy($class, array $criteria = array())
+    public function findOneBy($class, array $criteria = [])
     {
         return $this->getDocumentManager($class)->getRepository($class)->findOneBy($criteria);
     }
@@ -260,7 +260,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierValues($document)
     {
-        return array($this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document));
+        return [$this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document)];
     }
 
     /**
@@ -268,7 +268,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierFieldNames($class)
     {
-        return array($this->getMetadata($class)->getIdentifier());
+        return [$this->getMetadata($class)->getIdentifier()];
     }
 
     /**
@@ -382,7 +382,7 @@ class ModelManager implements ModelManagerInterface
 
         $values['_sort_by'] = is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') : $fieldDescription->getName();
 
-        return array('filter' => $values);
+        return ['filter' => $values];
     }
 
     /**
@@ -395,7 +395,7 @@ class ModelManager implements ModelManagerInterface
         $values['_sort_by'] = $values['_sort_by']->getName();
         $values['_page'] = $page;
 
-        return array('filter' => $values);
+        return ['filter' => $values];
     }
 
     /**
@@ -403,12 +403,12 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDefaultSortValues($class)
     {
-        return array(
+        return [
             '_sort_order' => 'ASC',
             '_sort_by' => $this->getModelIdentifier($class),
             '_page' => 1,
             '_per_page' => 25,
-        );
+        ];
     }
 
     /**
@@ -422,7 +422,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function modelReverseTransform($class, array $array = array())
+    public function modelReverseTransform($class, array $array = [])
     {
         $instance = $this->getModelInstance($class);
         $metadata = $this->getMetadata($class);
@@ -514,6 +514,6 @@ class ModelManager implements ModelManagerInterface
      */
     protected function camelize($property)
     {
-        return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
+        return preg_replace(['/(^|_)+(.)/e', '/\.(.)/e'], ["strtoupper('\\2')", "'_'.strtoupper('\\1')"], $property);
     }
 }
