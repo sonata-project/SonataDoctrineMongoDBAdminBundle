@@ -61,15 +61,15 @@ class StringFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array();
+        return [];
     }
 
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_choice', array(
+        return ['sonata_type_filter_choice', [
                 'field_type' => $this->getFieldType(),
                 'field_options' => $this->getFieldOptions(),
                 'label' => $this->getLabel(),
-        ));
+        ]];
     }
 }

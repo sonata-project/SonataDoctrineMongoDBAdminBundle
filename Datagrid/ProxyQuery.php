@@ -35,7 +35,7 @@ class ProxyQuery implements ProxyQueryInterface
 
     public function __call($name, $args)
     {
-        return call_user_func_array(array($this->queryBuilder, $name), $args);
+        return call_user_func_array([$this->queryBuilder, $name], $args);
     }
 
     public function __clone()
@@ -49,7 +49,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @return mixed
      */
-    public function execute(array $params = array(), $hydrationMode = null)
+    public function execute(array $params = [], $hydrationMode = null)
     {
         // always clone the original queryBuilder.
         $queryBuilder = clone $this->queryBuilder;

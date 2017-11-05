@@ -39,7 +39,7 @@ class ShowBuilder implements ShowBuilderInterface
      *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionCollection
      */
-    public function getBaseList(array $options = array())
+    public function getBaseList(array $options = [])
     {
         return new FieldDescriptionCollection();
     }
@@ -121,7 +121,7 @@ class ShowBuilder implements ShowBuilderInterface
             $fieldDescription->setTemplate($template);
         }
 
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE, ClassMetadataInfo::MANY))) {
+        if (in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
