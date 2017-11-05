@@ -36,7 +36,7 @@ abstract class AbstractDateFilter extends Filter
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         //check data sanity
-        if (is_array($data) !== true) {
+        if (true !== is_array($data)) {
             return;
         }
 
