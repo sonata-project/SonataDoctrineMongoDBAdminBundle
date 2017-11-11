@@ -11,6 +11,7 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 
@@ -48,7 +49,7 @@ class FilterTest_Filter extends Filter
     }
 }
 
-class FilterTest extends \PHPUnit_Framework_TestCase
+class FilterTest extends TestCase
 {
     public function testFieldDescription()
     {

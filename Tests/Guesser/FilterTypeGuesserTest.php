@@ -11,9 +11,10 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
 
-class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
+class FilterTypeGuesserTest extends TestCase
 {
     private $guesser;
     private $modelManager;
