@@ -11,9 +11,10 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
 
-class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
+class FilterTypeGuesserTest extends TestCase
 {
     private $guesser;
     private $modelManager;
@@ -33,11 +34,11 @@ class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
     {
         $class = 'My\Model';
         $property = 'whatever';
-        $this->modelManager->getParentMetadataForProperty($class, $property)->willReturn(array(
+        $this->modelManager->getParentMetadataForProperty($class, $property)->willReturn([
             $this->metadata->reveal(),
             $property,
             'parent mappings, no idea what it looks like',
-        ));
+        ]);
         $this->guesser->guessType($class, $property, $this->modelManager->reveal());
     }
 }

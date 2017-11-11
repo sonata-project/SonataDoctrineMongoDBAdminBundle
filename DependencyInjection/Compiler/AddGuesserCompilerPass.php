@@ -27,7 +27,7 @@ class AddGuesserCompilerPass implements CompilerPassInterface
     {
         // ListBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_list_chain');
-        $services = array();
+        $services = [];
         foreach ($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_mongodb_list') as $id => $attributes) {
             $services[] = new Reference($id);
         }
@@ -36,7 +36,7 @@ class AddGuesserCompilerPass implements CompilerPassInterface
 
         // DatagridBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_datagrid_chain');
-        $services = array();
+        $services = [];
         foreach ($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_mongodb_datagrid') as $id => $attributes) {
             $services[] = new Reference($id);
         }
@@ -45,7 +45,7 @@ class AddGuesserCompilerPass implements CompilerPassInterface
 
         // ShowBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_show_chain');
-        $services = array();
+        $services = [];
         foreach ($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_mongodb_show') as $id => $attributes) {
             $services[] = new Reference($id);
         }

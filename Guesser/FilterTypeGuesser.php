@@ -28,11 +28,11 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             return false;
         }
 
-        $options = array(
+        $options = [
             'field_type' => null,
-            'field_options' => array(),
-            'options' => array(),
-        );
+            'field_options' => [],
+            'options' => [],
+        ];
 
         list($metadata, $propertyName, $parentAssociationMappings) = $ret;
 
@@ -48,12 +48,12 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                     //case ClassMetadataInfo::MANY_TO_MANY:
 
                     $options['operator_type'] = 'sonata_type_equal';
-                    $options['operator_options'] = array();
+                    $options['operator_options'] = [];
 
                     $options['field_type'] = 'document';
-                    $options['field_options'] = array(
+                    $options['field_options'] = [
                         'class' => $mapping['targetDocument'],
-                    );
+                    ];
 
                     $options['field_name'] = $mapping['fieldName'];
                     $options['mapping_type'] = $mapping['type'];
@@ -71,7 +71,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
         switch ($metadata->getTypeOfField($propertyName)) {
             case 'boolean':
                 $options['field_type'] = 'sonata_type_boolean';
-                $options['field_options'] = array();
+                $options['field_options'] = [];
 
                 return new TypeGuess('doctrine_mongo_boolean', $options, Guess::HIGH_CONFIDENCE);
 //            case 'datetime':
