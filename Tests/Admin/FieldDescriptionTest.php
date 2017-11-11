@@ -11,10 +11,10 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Admin;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Helpers\PHPUnit_Framework_TestCase;
 
-class FieldDescriptionTest extends PHPUnit_Framework_TestCase
+class FieldDescriptionTest extends TestCase
 {
     public function testOptions()
     {
