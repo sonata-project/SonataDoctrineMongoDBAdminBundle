@@ -20,7 +20,7 @@ class FieldDescription extends BaseFieldDescription
      */
     public function __construct()
     {
-        $this->parentAssociationMappings = array();
+        $this->parentAssociationMappings = [];
     }
 
     /**

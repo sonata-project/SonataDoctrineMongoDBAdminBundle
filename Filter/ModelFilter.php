@@ -44,25 +44,25 @@ class ModelFilter extends Filter
 
     public function getDefaultOptions()
     {
-        return array(
+        return [
             'mapping_type' => false,
             'field_name' => false,
             'field_type' => 'document',
-            'field_options' => array(),
+            'field_options' => [],
             'operator_type' => 'sonata_type_equal',
-            'operator_options' => array(),
-        );
+            'operator_options' => [],
+        ];
     }
 
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_default', array(
+        return ['sonata_type_filter_default', [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => $this->getOption('operator_type'),
             'operator_options' => $this->getOption('operator_options'),
             'label' => $this->getLabel(),
-        ));
+        ]];
     }
 
     /**
@@ -79,7 +79,7 @@ class ModelFilter extends Filter
             return;
         }
 
-        $ids = array();
+        $ids = [];
         foreach ($data['value'] as $value) {
             $ids[] = self::fixIdentifier($value->getId());
         }
