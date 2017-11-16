@@ -39,7 +39,6 @@
     "autoload-dev": {
         "psr-4": { "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\": "tests/" }
     },
-    "target-dir": "Sonata/DoctrineMongoDBAdminBundle",
     "config": {
         "sort-packages": true
     },
