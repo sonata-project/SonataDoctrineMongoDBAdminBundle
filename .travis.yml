@@ -10,14 +10,14 @@ branches:
 language: php
 
 php:
-  - '5.6'
+  - '7.1'
   - nightly
 
 services:
   - mongodb
 
 sudo: false
-dist: precise
+dist: trusty
 
 cache:
   pip: true
@@ -35,34 +35,31 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: '5.6'
+    - php: '7.1'
       env: TARGET=docs
-    - php: '5.6'
+    - php: '7.1'
       env: TARGET=lint
-    - php: '5.6'
+    - php: '7.1'
       env: COMPOSER_FLAGS="--prefer-lowest"
-    - php: '5.6'
+    - php: '7.1'
       env: SYMFONY=2.8.*
-    - php: '5.6'
+    - php: '7.1'
       env: SYMFONY=3.2.*
-    - php: '5.6'
+    - php: '7.1'
       env: SYMFONY=3.3.*
-    - php: '5.6'
-      env: SYMFONY=dev-master@dev
-    - php: '5.6'
+    - php: '7.1'
+      env: SYMFONY='dev-master as 3.3'
+    - php: '7.1'
       env: SONATA_ADMIN=3.*
-    - php: '5.6'
-      env: SONATA_ADMIN=dev-master@dev
-    - php: '5.6'
+    - php: '7.1'
+      env: SONATA_ADMIN='dev-master as 3'
+    - php: '7.1'
       env: SYMFONY_DEPRECATIONS_HELPER=0
-    - php: hhvm
-      dist: trusty
   allow_failures:
     - php: nightly
-    - php: hhvm
     - env: SYMFONY_DEPRECATIONS_HELPER=0
-    - env: SYMFONY=dev-master@dev
-    - env: SONATA_ADMIN=dev-master@dev
+    - env: SYMFONY='dev-master as 3.3'
+    - env: SONATA_ADMIN='dev-master as 3'
 
 before_install:
   - git remote add upstream ${UPSTREAM_URL} && git fetch --all
