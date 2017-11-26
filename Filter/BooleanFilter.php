@@ -29,9 +29,9 @@ class BooleanFilter extends Filter
         }
 
         if (is_array($data['value'])) {
-            $values = array();
+            $values = [];
             foreach ($data['value'] as $v) {
-                if (!in_array($v, array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
+                if (!in_array($v, [BooleanType::TYPE_NO, BooleanType::TYPE_YES])) {
                     continue;
                 }
 
@@ -45,7 +45,7 @@ class BooleanFilter extends Filter
             $queryBuilder->field($field)->in($values);
             $this->active = true;
         } else {
-            if (!in_array($data['value'], array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
+            if (!in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES])) {
                 return;
             }
 
@@ -61,17 +61,17 @@ class BooleanFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array();
+        return [];
     }
 
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_default', array(
+        return ['sonata_type_filter_default', [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => 'hidden',
-            'operator_options' => array(),
+            'operator_options' => [],
             'label' => $this->getLabel(),
-        ));
+        ]];
     }
 }
