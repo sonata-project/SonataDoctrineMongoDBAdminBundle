@@ -12,6 +12,9 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\DateRangeType;
+use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
+use Sonata\AdminBundle\Form\Type\Filter\DateTimeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateType;
 
 abstract class AbstractDateFilter extends Filter
@@ -89,20 +92,20 @@ abstract class AbstractDateFilter extends Filter
      */
     public function getRenderSettings()
     {
-        $name = 'sonata_type_filter_date';
+        $name = DateType::class;
 
-        if ($this->time) {
-            $name .= 'time';
-        }
-
-        if ($this->range) {
-            $name .= '_range';
+        if ($this->time && $this->range) {
+            $name = DateTimeRangeType::class;
+        } elseif ($this->time) {
+            $name = DateTimeType::class;
+        } elseif ($this->range) {
+            $name = DateRangeType::class;
         }
 
         return [$name, [
-                'field_type' => $this->getFieldType(),
-                'field_options' => $this->getFieldOptions(),
-                'label' => $this->getLabel(),
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'label' => $this->getLabel(),
         ]];
     }
 

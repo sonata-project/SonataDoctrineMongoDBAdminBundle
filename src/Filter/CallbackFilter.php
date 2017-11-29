@@ -12,6 +12,9 @@
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CallbackFilter extends Filter
 {
@@ -53,15 +56,15 @@ class CallbackFilter extends Filter
             'active_callback' => function ($data) {
                 return isset($data['value']) && $data['value'];
             },
-            'field_type' => 'text',
-            'operator_type' => 'hidden',
+            'field_type' => TextType::class,
+            'operator_type' => HiddenType::class,
             'operator_options' => [],
         ];
     }
 
     public function getRenderSettings()
     {
-        return ['sonata_type_filter_default', [
+        return [DefaultType::class, [
                 'field_type' => $this->getFieldType(),
                 'field_options' => $this->getFieldOptions(),
                 'operator_type' => $this->getOption('operator_type'),

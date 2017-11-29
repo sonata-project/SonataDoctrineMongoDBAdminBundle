@@ -66,10 +66,10 @@ class StringFilter extends Filter
 
     public function getRenderSettings()
     {
-        return ['sonata_type_filter_choice', [
-                'field_type' => $this->getFieldType(),
-                'field_options' => $this->getFieldOptions(),
-                'label' => $this->getLabel(),
+        return [ChoiceType::class, [
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'label' => $this->getLabel(),
         ]];
     }
 }

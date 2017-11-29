@@ -11,9 +11,14 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
+use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\CoreBundle\Form\Type\BooleanType;
+use Sonata\CoreBundle\Form\Type\EqualType;
 use Sonata\DoctrineMongoDBAdminBundle\Model\MissingPropertyMetadataException;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -47,10 +52,10 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                     //case ClassMetadataInfo::MANY_TO_ONE:
                     //case ClassMetadataInfo::MANY_TO_MANY:
 
-                    $options['operator_type'] = 'sonata_type_equal';
+                    $options['operator_type'] = EqualType::class;
                     $options['operator_options'] = [];
 
-                    $options['field_type'] = 'document';
+                    $options['field_type'] = DocumentType::class;
                     $options['field_options'] = [
                         'class' => $mapping['targetDocument'],
                     ];
@@ -70,7 +75,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
 
         switch ($metadata->getTypeOfField($propertyName)) {
             case 'boolean':
-                $options['field_type'] = 'sonata_type_boolean';
+                $options['field_type'] = BooleanType::class;
                 $options['field_options'] = [];
 
                 return new TypeGuess('doctrine_mongo_boolean', $options, Guess::HIGH_CONFIDENCE);
@@ -86,13 +91,13 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             case 'int':
             case 'bigint':
             case 'smallint':
-                $options['field_type'] = 'number';
+                $options['field_type'] = NumberType::class;
 
                 return new TypeGuess('doctrine_mongo_number', $options, Guess::MEDIUM_CONFIDENCE);
             case 'id':
             case 'string':
             case 'text':
-                $options['field_type'] = 'text';
+                $options['field_type'] = TextType::class;
 
                 return new TypeGuess('doctrine_mongo_string', $options, Guess::MEDIUM_CONFIDENCE);
             case 'time':
