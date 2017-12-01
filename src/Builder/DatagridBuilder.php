@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactory;
 
 class DatagridBuilder implements DatagridBuilderInterface
@@ -140,7 +141,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             $defaultOptions['csrf_protection'] = false;
         }
 
-        $formBuilder = $this->formFactory->createNamedBuilder('filter', 'form', [], $defaultOptions);
+        $formBuilder = $this->formFactory->createNamedBuilder('filter', FormType::class, [], $defaultOptions);
 
         return new Datagrid($admin->createQuery(), $admin->getList(), $pager, $formBuilder, $values);
     }

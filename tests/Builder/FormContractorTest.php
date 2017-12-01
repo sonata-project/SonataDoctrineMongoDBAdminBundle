@@ -55,6 +55,7 @@ class FormContractorTest extends TestCase
         $fieldDescription->method('getAdmin')->willReturn($admin);
         $fieldDescription->method('getTargetEntity')->willReturn($modelClass);
         $fieldDescription->method('getAssociationAdmin')->willReturn($admin);
+
         $modelTypes = [
             'sonata_type_model',
             'sonata_type_model_list',

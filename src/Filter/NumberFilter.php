@@ -50,7 +50,7 @@ class NumberFilter extends Filter
 
     public function getRenderSettings()
     {
-        return ['sonata_type_filter_number', [
+        return [NumberType::class, [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),

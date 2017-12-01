@@ -11,8 +11,10 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\Common\Collections\Collection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\CoreBundle\Form\Type\EqualType;
 
 class ModelFilter extends Filter
@@ -47,16 +49,16 @@ class ModelFilter extends Filter
         return [
             'mapping_type' => false,
             'field_name' => false,
-            'field_type' => 'document',
+            'field_type' => DocumentType::class,
             'field_options' => [],
-            'operator_type' => 'sonata_type_equal',
+            'operator_type' => EqualType::class,
             'operator_options' => [],
         ];
     }
 
     public function getRenderSettings()
     {
-        return ['sonata_type_filter_default', [
+        return [DefaultType::class, [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => $this->getOption('operator_type'),
