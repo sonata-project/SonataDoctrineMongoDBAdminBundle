@@ -27,7 +27,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', 'asds');
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testFilterInvalidOperator()
@@ -39,7 +39,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => 'foo']);
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testFilter()
@@ -56,6 +56,6 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_LESS_THAN, 'value' => 42]);
         $filter->filter($builder, 'alias', 'field', ['value' => 42]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 }

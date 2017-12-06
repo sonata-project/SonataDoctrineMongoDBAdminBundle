@@ -28,7 +28,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', '');
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testContains()
@@ -42,7 +42,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => null]);
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testNotContains()
@@ -53,7 +53,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_NOT_CONTAINS]);
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testEquals()
@@ -64,7 +64,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_EQUAL]);
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testEqualsWithValidParentAssociationMappings()
@@ -89,7 +89,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->apply($builder, ['type' => ChoiceType::TYPE_EQUAL, 'value' => 'asd']);
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testOr()
@@ -101,13 +101,13 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
         $builder->getQueryBuilder()->expects($this->once())->method('addOr');
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_CONTAINS]);
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
 
         $filter->setCondition(Filter::CONDITION_AND);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
         $builder->getQueryBuilder()->expects($this->never())->method('addOr');
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_CONTAINS]);
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 }

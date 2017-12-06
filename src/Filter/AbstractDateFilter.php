@@ -155,6 +155,6 @@ abstract class AbstractDateFilter extends Filter
             DateType::TYPE_LESS_THAN => 'lt',
         ];
 
-        return $choices[intval($type)];
+        return $choices[(int) $type];
     }
 }
