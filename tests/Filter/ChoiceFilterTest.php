@@ -28,7 +28,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', 'all');
         $filter->filter($builder, 'alias', 'field', []);
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testFilterArray()
@@ -40,7 +40,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => ['1', '2']]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testFilterScalar()
@@ -52,7 +52,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => '1']);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testFilterZero()
@@ -64,6 +64,6 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => 0]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 }

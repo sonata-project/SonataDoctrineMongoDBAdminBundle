@@ -50,7 +50,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', []);
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testFilterArray()
@@ -66,7 +66,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         ]);
 
         // the alias is now computer by the entityJoin method
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testFilterScalar()
@@ -78,14 +78,13 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testAssociationWithInvalidMapping()
     {
+        $this->expectException(\RuntimeException::class);
+
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['mapping_type' => 'foo', 'field_mapping' => true]);
 
@@ -94,18 +93,17 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter->apply($builder, 'asd');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testAssociationWithValidMappingAndEmptyFieldName()
     {
+        $this->expectException(\RuntimeException::class);
+
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['mapping_type' => ClassMetadataInfo::ONE, 'field_mapping' => true]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter->apply($builder, 'asd');
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testAssociationWithValidMapping()
@@ -123,7 +121,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testAssociationWithValidParentAssociationMappings()
@@ -149,6 +147,6 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 }
