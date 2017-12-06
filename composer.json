@@ -29,7 +29,6 @@
     },
     "require-dev": {
         "jmikola/geojson": "^1.0",
-        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
         "symfony/phpunit-bridge": "^3.3"
     },
     "suggest": {
