@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ class DocumentStub
 {
     public function getId()
     {
-        return decbin(rand());
+        return decbin(random_int(0, getrandmax()));
     }
 }
 
@@ -40,7 +42,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         return $fieldDescription;
     }
 
-    public function testFilterEmpty()
+    public function testFilterEmpty(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -53,7 +55,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterArray()
+    public function testFilterArray(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
@@ -69,7 +71,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testFilterScalar()
+    public function testFilterScalar(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
@@ -81,7 +83,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testAssociationWithInvalidMapping()
+    public function testAssociationWithInvalidMapping(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -93,7 +95,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter->apply($builder, 'asd');
     }
 
-    public function testAssociationWithValidMappingAndEmptyFieldName()
+    public function testAssociationWithValidMappingAndEmptyFieldName(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -106,7 +108,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testAssociationWithValidMapping()
+    public function testAssociationWithValidMapping(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
@@ -124,7 +126,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testAssociationWithValidParentAssociationMappings()
+    public function testAssociationWithValidParentAssociationMappings(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [

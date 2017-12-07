@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -18,7 +20,7 @@ abstract class FilterWithQueryBuilderTest extends TestCase
     private $queryBuilder = null;
     private $expr = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->queryBuilder = $this->createMock('Doctrine\ODM\MongoDB\Query\Builder');
         $this->queryBuilder

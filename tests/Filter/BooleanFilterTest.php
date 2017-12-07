@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -17,7 +19,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 
 class BooleanFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterEmpty()
+    public function testFilterEmpty(): void
     {
         $filter = new BooleanFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -35,7 +37,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterNo()
+    public function testFilterNo(): void
     {
         $filter = new BooleanFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -47,7 +49,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testFilterYes()
+    public function testFilterYes(): void
     {
         $filter = new BooleanFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -59,7 +61,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testFilterArray()
+    public function testFilterArray(): void
     {
         $filter = new BooleanFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);

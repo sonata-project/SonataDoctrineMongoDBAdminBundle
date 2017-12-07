@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ class DateFilter extends AbstractDateFilter
      * @param string                                           $field
      * @param array                                            $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data): void
     {
         $data['value']->add(new \DateInterval('P1D'));
 
@@ -32,7 +34,7 @@ class DateFilter extends AbstractDateFilter
      * @param string                                           $field
      * @param array                                            $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data): void
     {
         $data['value']->add(new \DateInterval('P1D'));
 
@@ -48,7 +50,7 @@ class DateFilter extends AbstractDateFilter
      * @param string                                           $field
      * @param array                                            $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data): void
     {
         $end = clone $data['value'];
         $end->add(new \DateInterval('P1D'));

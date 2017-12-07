@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -63,7 +65,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $queryBuilder->getQuery()->execute($params, $hydrationMode);
     }
 
-    public function setSortBy($parentAssociationMappings, $fieldMapping)
+    public function setSortBy($parentAssociationMappings, $fieldMapping): void
     {
         $this->sortBy = $fieldMapping['fieldName'];
     }
@@ -73,7 +75,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->sortBy;
     }
 
-    public function setSortOrder($sortOrder)
+    public function setSortOrder($sortOrder): void
     {
         $this->sortOrder = $sortOrder;
     }
@@ -95,7 +97,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->queryBuilder;
     }
 
-    public function setFirstResult($firstResult)
+    public function setFirstResult($firstResult): void
     {
         $this->firstResult = $firstResult;
         $this->queryBuilder->skip($firstResult);
@@ -106,7 +108,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->firstResult;
     }
 
-    public function setMaxResults($maxResults)
+    public function setMaxResults($maxResults): void
     {
         $this->maxResults = $maxResults;
         $this->queryBuilder->limit($maxResults);

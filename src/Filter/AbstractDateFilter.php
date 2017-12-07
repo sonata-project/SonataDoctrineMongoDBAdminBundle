@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -115,7 +117,7 @@ abstract class AbstractDateFilter extends Filter
      * @param string                                           $field
      * @param \DateTime                                        $datetime
      */
-    protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, \DateTime $datetime = null)
+    protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, \DateTime $datetime = null): void
     {
         $queryBuilder->field($field)->$operation($datetime);
         $this->active = true;
