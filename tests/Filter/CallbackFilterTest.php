@@ -31,7 +31,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', 'scalarValue');
         $filter->filter($builder, 'alias', 'field', ['value' => '']);
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testFilterClosureNotEmpty()
@@ -47,7 +47,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'myValue']);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testFilterMethodEmpty()
@@ -63,7 +63,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', 'scalarValue');
         $filter->filter($builder, 'alias', 'field', ['value' => '']);
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testFilterMethodNotEmpty()
@@ -77,7 +77,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'myValue']);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function customCallback($builder, $alias, $field, $value)
@@ -85,11 +85,10 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         return true;
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testFilterException()
     {
+        $this->expectException(\RuntimeException::class);
+
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();

@@ -19,12 +19,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class CallbackFilter extends Filter
 {
     /**
-     * @throws \RuntimeException
-     *
      * @param ProxyQueryInterface $queryBuilder
      * @param string              $alias
      * @param string              $field
      * @param string              $data
+     *
+     * @throws \RuntimeException
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {

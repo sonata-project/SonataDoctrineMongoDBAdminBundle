@@ -35,7 +35,7 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
         }
 
         $output->writeln(sprintf(' > generate ACLs for %s', $admin->getCode()));
-        $objectOwnersMsg = is_null($securityIdentity) ? '' : ' and set the object owner';
+        $objectOwnersMsg = null === $securityIdentity ? '' : ' and set the object owner';
 
         /** @var DocumentManager $om */
         $om = $admin->getModelManager()->getDocumentManager();

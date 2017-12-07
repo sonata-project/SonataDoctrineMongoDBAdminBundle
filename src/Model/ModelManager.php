@@ -159,7 +159,7 @@ class ModelManager implements ModelManagerInterface
         $documentManager = $this->getDocumentManager($class);
 
         if (is_numeric($id)) {
-            $value = $documentManager->getRepository($class)->find(intval($id));
+            $value = $documentManager->getRepository($class)->find((int) $id);
 
             if (!empty($value)) {
                 return $value;

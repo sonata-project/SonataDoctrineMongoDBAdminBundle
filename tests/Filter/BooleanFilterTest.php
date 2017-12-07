@@ -32,7 +32,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
         $filter->filter($builder, 'alias', 'field', []);
         $filter->filter($builder, 'alias', 'field', [null, 'test']);
 
-        $this->assertEquals(false, $filter->isActive());
+        $this->assertFalse($filter->isActive());
     }
 
     public function testFilterNo()
@@ -44,7 +44,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_NO]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testFilterYes()
@@ -56,7 +56,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_YES]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 
     public function testFilterArray()
@@ -68,6 +68,6 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => [BooleanType::TYPE_NO]]);
 
-        $this->assertEquals(true, $filter->isActive());
+        $this->assertTrue($filter->isActive());
     }
 }

@@ -100,7 +100,7 @@ class FormContractorTest extends TestCase
             $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription);
             $this->assertSame($fieldDescription, $options['sonata_field_description']);
             $this->assertSame($adminTypes[$index], $options['type']);
-            $this->assertSame(true, $options['modifiable']);
+            $this->assertTrue($options['modifiable']);
             $this->assertSame($fieldDescription, $options['type_options']['sonata_field_description']);
             $this->assertSame($modelClass, $options['type_options']['data_class']);
         }
