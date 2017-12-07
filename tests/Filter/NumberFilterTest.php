@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -17,7 +19,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 
 class NumberFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterEmpty()
+    public function testFilterEmpty(): void
     {
         $filter = new NumberFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -30,7 +32,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterInvalidOperator()
+    public function testFilterInvalidOperator(): void
     {
         $filter = new NumberFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -42,7 +44,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilter()
+    public function testFilter(): void
     {
         $filter = new NumberFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);

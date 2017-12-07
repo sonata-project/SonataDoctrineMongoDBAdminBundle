@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ abstract class Filter extends BaseFilter
     /**
      * {@inheritdoc}
      */
-    public function apply($queryBuilder, $value)
+    public function apply($queryBuilder, $value): void
     {
         $this->value = $value;
 

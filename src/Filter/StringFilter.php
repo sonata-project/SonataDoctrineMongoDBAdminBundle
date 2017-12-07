@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -22,7 +24,7 @@ class StringFilter extends Filter
      * @param string              $field
      * @param string              $data
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data): void
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;

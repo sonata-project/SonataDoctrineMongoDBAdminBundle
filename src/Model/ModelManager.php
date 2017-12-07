@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -24,7 +26,7 @@ use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 class ModelManager implements ModelManagerInterface
 {
-    const ID_SEPARATOR = '-';
+    public const ID_SEPARATOR = '-';
     protected $registry;
 
     /**
@@ -120,7 +122,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function create($object)
+    public function create($object): void
     {
         $documentManager = $this->getDocumentManager($object);
         $documentManager->persist($object);
@@ -130,7 +132,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function update($object)
+    public function update($object): void
     {
         $documentManager = $this->getDocumentManager($object);
         $documentManager->persist($object);
@@ -140,7 +142,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function delete($object)
+    public function delete($object): void
     {
         $documentManager = $this->getDocumentManager($object);
         $documentManager->remove($object);
@@ -301,7 +303,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
+    public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx): void
     {
         $queryBuilder = $queryProxy->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
@@ -310,7 +312,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function batchDelete($class, ProxyQueryInterface $queryProxy)
+    public function batchDelete($class, ProxyQueryInterface $queryProxy): void
     {
         /** @var Query $queryBuilder */
         $queryBuilder = $queryProxy->getQuery();

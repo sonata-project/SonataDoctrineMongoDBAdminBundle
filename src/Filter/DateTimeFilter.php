@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,7 +29,7 @@ class DateTimeFilter extends AbstractDateFilter
      * @param string                                           $field
      * @param array                                            $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data): void
     {
         // Add a minute so less then equal selects all seconds.
         $data['value']->add(new \DateInterval('PT1M'));
@@ -40,7 +42,7 @@ class DateTimeFilter extends AbstractDateFilter
      * @param string                                           $field
      * @param array                                            $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data): void
     {
         // Add 59 seconds so anything above the minute is selected
         $data['value']->add(new \DateInterval('PT59S'));
@@ -55,7 +57,7 @@ class DateTimeFilter extends AbstractDateFilter
      * @param string                                           $field
      * @param array                                            $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data): void
     {
         /** @var \DateTime $end */
         $end = clone $data['value'];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
 class ModelManagerTest extends TestCase
 {
-    public function testFilterEmpty()
+    public function testFilterEmpty(): void
     {
         $registry = $this->createMock('Symfony\Bridge\Doctrine\ManagerRegistry');
 

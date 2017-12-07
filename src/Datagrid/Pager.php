@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -56,7 +58,7 @@ class Pager extends BasePager
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function init(): void
     {
         $this->resetIterator();
 
