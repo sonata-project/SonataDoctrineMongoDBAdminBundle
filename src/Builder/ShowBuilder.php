@@ -112,9 +112,9 @@ class ShowBuilder implements ShowBuilderInterface
 
             if (null === $template) {
                 if (ClassMetadataInfo::ONE == $fieldDescription->getMappingType()) {
-                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_one.html.twig';
+                    $template = '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig';
                 } elseif (ClassMetadataInfo::MANY == $fieldDescription->getMappingType()) {
-                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:show_mongo_many.html.twig';
+                    $template = '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig';
                 }
             }
 
