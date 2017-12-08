@@ -15,15 +15,15 @@ file that was distributed with this source code.
 
 {# Custom Sonata Admin Extension #}
 {% block sonata_admin_mongo_one_widget %}
-    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_one.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_many_to_one.html.twig' %}
 {% endblock %}
 
 {% block sonata_admin_mongo_many_widget %}
-    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_many.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_many_to_many.html.twig' %}
 {% endblock %}
 
 {% block sonata_admin_mongo_collection %}
-    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_collection.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_one_to_many.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_model_widget %}
@@ -110,7 +110,7 @@ file that was distributed with this source code.
         </div>
     </div>
 
-    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_association_script.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_many_script.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_admin_widget %}

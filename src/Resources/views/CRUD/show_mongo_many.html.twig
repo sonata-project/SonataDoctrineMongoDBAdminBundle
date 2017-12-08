@@ -12,6 +12,8 @@ file that was distributed with this source code.
 
 {% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
 
+{% sonata_template_deprecate '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig' %}
+
 {% block field%}
     <ul class="sonata-ba-show-many-to-many">
     {% if field_description.hasassociationadmin and field_description.associationadmin.hasRoute('edit') and field_description.associationadmin.isGranted('edit')%}
