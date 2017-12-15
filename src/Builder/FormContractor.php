@@ -94,9 +94,14 @@ class FormContractor implements FormContractorInterface
         if ($this->checkFormType($type, [
             'sonata_type_model',
             'sonata_type_model_list',
+            'sonata_type_model_hidden',
+            'sonata_type_model_autocomplete',
         ]) || $this->checkFormClass($type, [
             'Sonata\AdminBundle\Form\Type\ModelType',
+            'Sonata\AdminBundle\Form\Type\ModelTypeList',
             'Sonata\AdminBundle\Form\Type\ModelListType',
+            'Sonata\AdminBundle\Form\Type\ModelHiddenType',
+            'Sonata\AdminBundle\Form\Type\ModelAutocompleteType',
         ])) {
             if ('list' == $fieldDescription->getOption('edit')) {
                 throw new \LogicException(
