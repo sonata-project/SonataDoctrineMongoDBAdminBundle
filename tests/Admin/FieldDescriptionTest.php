@@ -11,6 +11,7 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Admin;
 
+use Doctrine\Common\Util\Inflector;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 
@@ -106,9 +107,9 @@ class FieldDescriptionTest extends TestCase
 
     public function testCamelize()
     {
-        $this->assertEquals('FooBar', FieldDescription::camelize('foo_bar'));
-        $this->assertEquals('FooBar', FieldDescription::camelize('foo bar'));
-        $this->assertEquals('FOoBar', FieldDescription::camelize('fOo bar'));
+        $this->assertEquals('FooBar', Inflector::classify('foo_bar'));
+        $this->assertEquals('FooBar', Inflector::classify('foo bar'));
+        $this->assertEquals('FOoBar', Inflector::classify('fOo bar'));
     }
 
     public function testSetName()
@@ -164,7 +165,7 @@ class FieldDescriptionTest extends TestCase
 
     public function testGetAssociationAdmin()
     {
-        $adminMock = $this->createMock('Sonata\AdminBundle\Admin\Admin');
+        $adminMock = $this->createMock('Sonata\AdminBundle\Admin\AbstractAdmin');
         $adminMock->expects($this->once())
             ->method('setParentFieldDescription')
             ->with($this->isInstanceOf('Sonata\AdminBundle\Admin\FieldDescriptionInterface'));
@@ -177,7 +178,7 @@ class FieldDescriptionTest extends TestCase
 
     public function testHasAssociationAdmin()
     {
-        $adminMock = $this->createMock('Sonata\AdminBundle\Admin\Admin');
+        $adminMock = $this->createMock('Sonata\AdminBundle\Admin\AbstractAdmin');
         $adminMock->expects($this->once())
             ->method('setParentFieldDescription')
             ->with($this->isInstanceOf('Sonata\AdminBundle\Admin\FieldDescriptionInterface'));
