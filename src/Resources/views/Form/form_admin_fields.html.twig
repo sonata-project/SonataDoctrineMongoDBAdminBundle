@@ -10,20 +10,20 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'SonataAdminBundle:Form:form_admin_fields.html.twig' %}
+{% extends '@SonataAdmin/Form/form_admin_fields.html.twig' %}
 
 
 {# Custom Sonata Admin Extension #}
 {% block sonata_admin_mongo_one_widget %}
-    {% include 'SonataDoctrineMongoDBAdminBundle:CRUD:edit_mongo_one.html.twig' %}
+    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_one.html.twig' %}
 {% endblock %}
 
 {% block sonata_admin_mongo_many_widget %}
-    {% include 'SonataDoctrineMongoDBAdminBundle:CRUD:edit_mongo_many.html.twig' %}
+    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_many.html.twig' %}
 {% endblock %}
 
 {% block sonata_admin_mongo_collection %}
-    {% include 'SonataDoctrineMongoDBAdminBundle:CRUD:edit_mongo_collection.html.twig' %}
+    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_collection.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_model_widget %}
@@ -110,7 +110,7 @@ file that was distributed with this source code.
         </div>
     </div>
 
-    {% include 'SonataDoctrineMongoDBAdminBundle:CRUD:edit_mongo_association_script.html.twig' %}
+    {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_association_script.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_admin_widget %}
