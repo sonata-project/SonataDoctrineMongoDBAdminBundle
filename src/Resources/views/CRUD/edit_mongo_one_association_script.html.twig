@@ -52,11 +52,14 @@ This code manage the one-to-many association field popup
 
                 // Maintain state of file inputs
                 $oldForm.find('input[type="file"]').each(function(){
-                    var id = '#'$(this).attr('id');
+                    var id = '#' + $(this).attr('id');
                     $newForm.find(id).replaceWith($(this));
                 });
 
                 $oldForm.replaceWith($newForm);  // replace the html
+                
+                Admin.shared_setup(jQuery('#field_container_{{ id }}'));
+                    
                 if(jQuery('input[type="file"]', form).length > 0) {
                     jQuery(form).attr('enctype', 'multipart/form-data');
                     jQuery(form).attr('encoding', 'multipart/form-data');
