@@ -132,7 +132,7 @@ file that was distributed with this source code.
             {% endif %}
 
             {# include association code #}
-            {% include 'SonataDoctrineMongoDBAdminBundle:CRUD:edit_mongo_one_association_script.html.twig' %}
+            {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_one_association_script.html.twig' %}
 
         {% else %}
             <span id="field_actions_{{ id }}" >
@@ -153,7 +153,7 @@ file that was distributed with this source code.
 
             </div>
 
-            {% include 'SonataDoctrineMongoDBAdminBundle:CRUD:edit_mongo_association_script.html.twig' %}
+            {% include '@SonataDoctrineMongoDBAdmin/CRUD/edit_mongo_association_script.html.twig' %}
         {% endif %}
     </div>
 {% endif %}
