@@ -123,9 +123,9 @@ class ListBuilder implements ListBuilderInterface
 
             if (null === $template) {
                 if (ClassMetadataInfo::ONE == $fieldDescription->getMappingType()) {
-                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_one.html.twig';
+                    $template = '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig';
                 } elseif (ClassMetadataInfo::MANY == $fieldDescription->getMappingType()) {
-                    $template = 'SonataDoctrineMongoDBAdminBundle:CRUD:list_mongo_many.html.twig';
+                    $template = '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig';
                 }
             }
 
