@@ -143,7 +143,7 @@ class ListBuilder implements ListBuilderInterface
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
     {
         if (null === $fieldDescription->getTemplate()) {
-            $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list__action.html.twig');
+            $fieldDescription->setTemplate('@SonataAdmin/CRUD/list__action.html.twig');
         }
 
         if (null === $fieldDescription->getType()) {
@@ -162,7 +162,7 @@ class ListBuilder implements ListBuilderInterface
             $actions = $fieldDescription->getOption('actions');
             foreach ($actions as $k => $action) {
                 if (!isset($action['template'])) {
-                    $actions[$k]['template'] = sprintf('SonataAdminBundle:CRUD:list__action_%s.html.twig', $k);
+                    $actions[$k]['template'] = sprintf('@SonataAdmin/CRUD/list__action_%s.html.twig', $k);
                 }
             }
 

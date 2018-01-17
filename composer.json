@@ -20,7 +20,7 @@
         "php": "^5.6 || ^7.0",
         "doctrine/mongodb-odm": "^1.0",
         "doctrine/mongodb-odm-bundle": "^3.0",
-        "sonata-project/admin-bundle": "^3.29",
+        "sonata-project/admin-bundle": "^3.31",
         "sonata-project/core-bundle": "^3.8",
         "symfony/config": "^2.8 || ^3.2 || ^4.0",
         "symfony/dependency-injection": "^2.8 || ^3.2 || ^4.0",
