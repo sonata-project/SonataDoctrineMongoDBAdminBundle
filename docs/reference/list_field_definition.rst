@@ -76,7 +76,7 @@ You can set actions for the list items by adding an '_action' field in ``configu
     ))
 
 Edit and delete actions are enabled in the default configuration. You can add
-your own! Default template file is: ``SonataAdminBundle:CRUD:list__action_[ACTION_NAME].html.twig``
+your own! Default template file is: ``@SonataAdmin/CRUD/list__action_[ACTION_NAME].html.twig``
 
 You can specify your own by setting up the 'template' option like so:
 
@@ -87,7 +87,7 @@ You can specify your own by setting up the 'template' option like so:
         'actions' => array(
             'view' => array(),
             'edit' => array(),
-            'delete' => array('template' => 'MyBundle:MyController:my_partial.html.twig'),
+            'delete' => array('template' => '@My/MyController/my_partial.html.twig'),
         )
     ))
 
@@ -150,8 +150,8 @@ If you need a specific layout for a row cell, you can define a custom template
         {
             $listMapper
                 ->addIdentifier('id')
-                ->add('image', 'string', array('template' => 'SonataMediaBundle:MediaAdmin:list_image.html.twig'))
-                ->add('custom', 'string', array('template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'))
+                ->add('image', 'string', array('template' => '@SonataMedia/MediaAdmin/list_image.html.twig'))
+                ->add('custom', 'string', array('template' => '@SonataMedia/MediaAdmin/list_custom.html.twig'))
             ;
         }
     }
@@ -160,7 +160,7 @@ The related template :
 
 .. code-block:: jinja
 
-    {% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+    {% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
 
     {% block field%}
         <div>

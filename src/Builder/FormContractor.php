@@ -114,7 +114,7 @@ class FormContractor implements FormContractorInterface
 
             $options['class'] = $fieldDescription->getTargetEntity();
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-            // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
+        // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
         } elseif ($this->checkFormType($type, ['sonata_type_admin']) || $this->checkFormClass($type, ['Sonata\AdminBundle\Form\Type\AdminType'])) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf(
@@ -127,7 +127,7 @@ class FormContractor implements FormContractorInterface
 
             $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
             $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
-            // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
+        // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony <2.8
         } elseif ($this->checkFormType($type, ['sonata_type_collection']) || $this->checkFormClass($type, ['Sonata\CoreBundle\Form\Type\CollectionType'])) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf(
