@@ -14,6 +14,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
+use Sonata\CoreBundle\Form\Type\BooleanType;
 
 class ChoiceFilter extends Filter
 {
@@ -71,10 +72,10 @@ class ChoiceFilter extends Filter
     public function getRenderSettings()
     {
         return [DefaultType::class, [
-                'operator_type' => 'sonata_type_boolean',
-                'field_type' => $this->getFieldType(),
-                'field_options' => $this->getFieldOptions(),
-                'label' => $this->getLabel(),
+            'operator_type' => BooleanType::class,
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'label' => $this->getLabel(),
         ]];
     }
 }
