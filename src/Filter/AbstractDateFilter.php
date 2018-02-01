@@ -133,9 +133,9 @@ abstract class AbstractDateFilter extends Filter
     protected function typeRequiresValue($type)
     {
         return in_array($type, [
-                    DateType::TYPE_NULL,
-                    DateType::TYPE_NOT_NULL, ]
-        );
+            DateType::TYPE_NULL,
+            DateType::TYPE_NOT_NULL,
+        ]);
     }
 
     /**
