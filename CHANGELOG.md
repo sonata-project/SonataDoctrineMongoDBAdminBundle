@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [3.1.0](https://github.com/sonata-project/SonataBlockBundle/compare/3.0.0...3.1.0) - 2018-01-08
+## [3.1.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.0.0...3.1.0) - 2018-01-08
 ### Added
 - Added php 7.0 support
 - Added twig dependency
