@@ -17,7 +17,7 @@ master | [![Build Status][travis_unstable_badge]][travis_unstable_link] | [![Cov
 
 ## Documentation
 
-Check out the documentation on the [official website](https://sonata-project.org/bundles/doctrine-mongodb-admin).
+Check out the documentation on the [official website](https://sonata-project.org/bundles/mongo-admin).
 
 ## Support
 
