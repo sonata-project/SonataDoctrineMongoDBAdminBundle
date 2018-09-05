@@ -39,7 +39,7 @@ abstract class AbstractDateFilter extends Filter
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         //check data sanity
-        if (true !== is_array($data)) {
+        if (true !== \is_array($data)) {
             return;
         }
 
@@ -130,7 +130,7 @@ abstract class AbstractDateFilter extends Filter
      */
     protected function typeRequiresValue($type)
     {
-        return in_array($type, [
+        return \in_array($type, [
             DateType::TYPE_NULL,
             DateType::TYPE_NOT_NULL,
         ]);

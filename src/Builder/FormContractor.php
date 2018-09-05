@@ -64,14 +64,14 @@ class FormContractor implements FormContractorInterface
             throw new \RuntimeException(sprintf(
                 'Please define a type for field `%s` in `%s`',
                 $fieldDescription->getName(),
-                get_class($admin)
+                \get_class($admin)
             ));
         }
 
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        if (in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
+        if (\in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -95,7 +95,7 @@ class FormContractor implements FormContractorInterface
         $options['sonata_field_description'] = $fieldDescription;
 
         // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony 2.8
-        if (in_array($type, [
+        if (\in_array($type, [
             'sonata_type_model',
             'sonata_type_model_list',
             'sonata_type_model_hidden',
@@ -139,7 +139,7 @@ class FormContractor implements FormContractorInterface
                 ));
             }
 
-            if (!in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
+            if (!\in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
                 throw new \RuntimeException(sprintf(
                     'You are trying to add `sonata_type_admin` field `%s` which is not One-To-One or  Many-To-One.'
                     .' Maybe you want `sonata_type_collection` instead?',
