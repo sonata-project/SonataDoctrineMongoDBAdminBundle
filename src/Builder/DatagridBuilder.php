@@ -11,6 +11,7 @@
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
@@ -82,6 +83,10 @@ class DatagridBuilder implements DatagridBuilderInterface
 
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
         $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
+
+        if (in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY])) {
+            $admin->attachAdminClass($fieldDescription);
+        }
     }
 
     /**
