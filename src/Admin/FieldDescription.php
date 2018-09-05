@@ -28,7 +28,7 @@ class FieldDescription extends BaseFieldDescription
      */
     public function setAssociationMapping($associationMapping)
     {
-        if (!is_array($associationMapping)) {
+        if (!\is_array($associationMapping)) {
             throw new \RuntimeException('The association mapping must be an array');
         }
 
@@ -54,7 +54,7 @@ class FieldDescription extends BaseFieldDescription
      */
     public function setFieldMapping($fieldMapping)
     {
-        if (!is_array($fieldMapping)) {
+        if (!\is_array($fieldMapping)) {
             throw new \RuntimeException('The field mapping must be an array');
         }
 
@@ -71,7 +71,7 @@ class FieldDescription extends BaseFieldDescription
     public function setParentAssociationMappings(array $parentAssociationMappings)
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {
-            if (!is_array($parentAssociationMapping)) {
+            if (!\is_array($parentAssociationMapping)) {
                 throw new \RuntimeException('An association mapping must be an array');
             }
         }

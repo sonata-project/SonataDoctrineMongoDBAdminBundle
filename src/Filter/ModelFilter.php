@@ -27,7 +27,7 @@ class ModelFilter extends Filter
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
-        if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
+        if (!$data || !\is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
 
@@ -37,7 +37,7 @@ class ModelFilter extends Filter
 
         $field = $this->getIdentifierField($field);
 
-        if (is_array($data['value'])) {
+        if (\is_array($data['value'])) {
             $this->handleMultiple($queryBuilder, $alias, $field, $data);
         } else {
             $this->handleScalar($queryBuilder, $alias, $field, $data);
@@ -77,7 +77,7 @@ class ModelFilter extends Filter
      */
     protected function handleMultiple(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
-        if (0 == count($data['value'])) {
+        if (0 == \count($data['value'])) {
             return;
         }
 

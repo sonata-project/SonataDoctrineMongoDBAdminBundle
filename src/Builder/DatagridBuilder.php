@@ -68,7 +68,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
                 $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $metadata->fieldMappings[$lastPropertyName]));
 
-                if ($metadata->fieldMappings[$lastPropertyName]['type'] == 'string') {
+                if ('string' == $metadata->fieldMappings[$lastPropertyName]['type']) {
                     $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
                 }
             }
@@ -84,7 +84,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
         $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
 
-        if (in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY])) {
+        if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY])) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -107,7 +107,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             $options = $guessType->getOptions();
 
             foreach ($options as $name => $value) {
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     $fieldDescription->setOption($name, array_merge($value, $fieldDescription->getOption($name, [])));
                 } else {
                     $fieldDescription->setOption($name, $fieldDescription->getOption($name, $value));
