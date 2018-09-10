@@ -88,7 +88,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
-        if (!is_string($name)) {
+        if (!\is_string($name)) {
             throw new \RunTimeException('The name argument must be a string');
         }
 
@@ -196,8 +196,8 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDocumentManager($class)
     {
-        if (is_object($class)) {
-            $class = get_class($class);
+        if (\is_object($class)) {
+            $class = \get_class($class);
         }
 
         $dm = $this->registry->getManagerForClass($class);
@@ -382,7 +382,7 @@ class ModelManager implements ModelManagerInterface
             $values['_sort_order'] = 'ASC';
         }
 
-        $values['_sort_by'] = is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') : $fieldDescription->getName();
+        $values['_sort_by'] = \is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') : $fieldDescription->getName();
 
         return ['filter' => $values];
     }

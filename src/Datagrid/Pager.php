@@ -32,7 +32,7 @@ class Pager extends BasePager
     {
         $countQuery = clone $this->getQuery();
 
-        if (count($this->getParameters()) > 0) {
+        if (\count($this->getParameters()) > 0) {
             $countQuery->setParameters($this->getParameters());
         }
 
@@ -67,7 +67,7 @@ class Pager extends BasePager
         $this->getQuery()->setFirstResult(0);
         $this->getQuery()->setMaxResults(0);
 
-        if (count($this->getParameters()) > 0) {
+        if (\count($this->getParameters()) > 0) {
             $this->getQuery()->setParameters($this->getParameters());
         }
 

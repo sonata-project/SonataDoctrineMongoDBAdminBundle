@@ -27,7 +27,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {
-            if (!isset($attributes[0]['manager_type']) || $attributes[0]['manager_type'] != 'doctrine_mongodb') {
+            if (!isset($attributes[0]['manager_type']) || 'doctrine_mongodb' != $attributes[0]['manager_type']) {
                 continue;
             }
 
