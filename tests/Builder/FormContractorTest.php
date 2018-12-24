@@ -21,9 +21,10 @@ use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\CoreBundle\Form\Type\CollectionType;
+use Sonata\CoreBundle\Form\Type\CollectionType as DeprecatedCollectionType;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -88,8 +89,12 @@ class FormContractorTest extends TestCase
         ];
         $collectionTypes = [
             'sonata_type_collection',
-            CollectionType::class,
+            DeprecatedCollectionType::class,
         ];
+
+        if (class_exists(CollectionType::class)) {
+            $collectionTypes[] = CollectionType::class;
+        }
 
         // model types
         foreach ($modelTypes as $formType) {
