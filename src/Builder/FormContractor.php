@@ -21,7 +21,8 @@ use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Form\Type\ModelTypeList;
-use Sonata\CoreBundle\Form\Type\CollectionType;
+use Sonata\CoreBundle\Form\Type\CollectionType as DeprecatedCollectionType;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -154,7 +155,10 @@ class FormContractor implements FormContractorInterface
             $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
             $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
         // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony 2.8
-        } elseif ('sonata_type_collection' === $type || $this->checkFormClass($type, [CollectionType::class])) {
+        } elseif ('sonata_type_collection' === $type || $this->checkFormClass($type, [
+            CollectionType::class,
+            DeprecatedCollectionType::class,
+        ])) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf(
                     'The current field `%s` is not linked to an admin.'
