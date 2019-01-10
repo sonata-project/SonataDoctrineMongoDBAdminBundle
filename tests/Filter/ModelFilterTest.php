@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -20,7 +22,7 @@ class DocumentStub
 {
     public function getId()
     {
-        return decbin(rand());
+        return decbin(random_int(0, getrandmax()));
     }
 }
 
