@@ -39,23 +39,19 @@ Example
 
 .. code-block:: php
 
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
-        protected function configureDatagridFilters(DatagridMapper $datagrid)
+        protected function configureDatagridFilters(DatagridMapper $datagriMapper)
         {
-            $datagrid
+            $datagridMapper
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
+                ->add('tags', null, [], null, ['expanded' => true, 'multiple' => true])
             ;
         }
     }
@@ -67,25 +63,19 @@ Filtering by sub entity properties
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you need to filter your base entities by the value of a sub entity property,
-you can simply use the dot-separated notation (note that this only makes sense
-when the prefix path is made of entities, not collections):
+you can use the dot-separated notation (note that this only makes sense
+when the prefix path is made of entities, not collections)::
 
-.. code-block:: php
+    namespace App\Admin;
 
-    <?php
-    namespace Acme\AcmeBundle\Admin;
-
-    use Sonata\AdminBundle\Admin\Admin;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
 
-    class UserAdmin extends Admin
+    final class UserAdmin extends AbstractAdmin
     {
-        protected function configureDatagridFilters(DatagridMapper $datagrid)
+        protected function configureDatagridFilters(DatagridMapper $datagridMapper)
         {
-            $datagrid
+            $datagridMapper
                 ->add('id')
                 ->add('firstName')
                 ->add('lastName')
@@ -96,25 +86,16 @@ when the prefix path is made of entities, not collections):
         }
     }
 
-
 Label
 ^^^^^
 
-You can customize the label which appears on the main widget by using a ``label`` option.
+You can customize the label which appears on the main widget by using a ``label`` option::
 
-.. code-block:: php
-
-    <?php
-
-    protected function configureDatagridFilters(DatagridMapper $datagrid)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagrid
-            // ..
-            ->add('tags', null, array('label' => 'les tags'), null, array('expanded' => true, 'multiple' => true)
-            // ..
-        ;
+        $datagridMapper
+            ->add('tags', null, ['label' => 'les tags'], null, ['expanded' => true, 'multiple' => true]);
     }
-
 
 Callback
 ^^^^^^^^
@@ -122,31 +103,25 @@ Callback
 To create a custom callback filter, two methods need to be implemented; one to
 define the field type and one to define how to use the field's value. The
 latter shall return whether the filter actually is applied to the queryBuilder
-or not.
+or not::
 
-.. code-block:: php
-
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
 
-    use Application\Sonata\NewsBundle\Entity\Comment;
+    use App\Application\Sonata\NewsBundle\Entity\Comment;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
         protected function configureDatagridFilters(DatagridMapper $datagridMapper)
         {
             $datagridMapper
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
+                ->add('tags', null, [], null, ['expanded' => true, 'multiple' => true])
                 ->add('author')
-                ->add('finished', 'doctrine_mongo_callback', array(
+                ->add('finished', 'doctrine_mongo_callback', [
                     'callback' => function($queryBuilder, $alias, $field, $value) {
                         if (!$value) {
                             return;
@@ -158,8 +133,8 @@ or not.
 
                         return true;
                     },
-                    'field_type' => 'checkbox'
-                ))
+                    'field_type' => 'checkbox',
+                ])
             ;
         }
     }

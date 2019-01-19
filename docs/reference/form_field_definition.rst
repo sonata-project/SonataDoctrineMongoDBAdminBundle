@@ -6,32 +6,30 @@ Example
 
 .. code-block:: php
 
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
     use Sonata\AdminBundle\Show\ShowMapper;
     use Sonata\AdminBundle\Validator\ErrorElement;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
         protected function configureFormFields(FormMapper $formMapper)
         {
             $formMapper
-                ->add('author', 'sonata_type_model', array(), array('edit' => 'list'))
+                ->add('author', 'sonata_type_model', [], ['edit' => 'list'])
                 ->add('enabled')
                 ->add('title')
-                ->add('abstract', null, array('required' => false))
+                ->add('abstract', null, ['required' => false])
                 ->add('content')
 
                 // you can define help messages like this
-                ->setHelps(array(
+                ->setHelps([
                    'title' => $this->trans('help_post_title')
-                ));
-
+                ]);
         }
 
         public function validate(ErrorElement $errorElement, $object)
@@ -54,7 +52,6 @@ Example
     By default, the form framework always sets ``required=true`` for each
     field. This can be an issue for HTML5 browsers as they provide client-side
     validation.
-
 
 Types available
 ---------------
@@ -79,29 +76,23 @@ Short Object Placeholder
 When using Many-to-One or One-to-One relations with Sonata Type fields, a short
 object description is used to represent the target object. If no object is selected,
 a 'No selection' placeholder will be used. If you want to customize this placeholder,
-you can use the corresponding option in the form field definition:
+you can use the corresponding option in the form field definition::
 
-.. code-block:: php
-
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
         protected function configureFormFields(FormMapper $formMapper)
         {
             $formMapper
                 ->with('General')
-                    ->add('enabled', null, array('required' => false))
-                    ->add('author', 'sonata_type_model_list', array(
-                    ), array(
-                        'placeholder' => 'No author selected'
-                    ))
-
-            ;
+                    ->add('enabled', null, ['required' => false])
+                    ->add('author', 'sonata_type_model_list', [], [
+                        'placeholder' => 'No author selected',
+                    ]);
         }
     }
 
@@ -112,31 +103,25 @@ Advanced Usage: File Management
 
 If you want to use custom types from the Form framework you must use the
 ``addType`` method. (The ``add`` method uses the information provided by the
-model definition).
+model definition)::
 
-.. code-block:: php
-
-    <?php
     namespace Sonata\MediaBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
 
-    class MediaAdmin extends Admin
+    final class MediaAdmin extends AbstractAdmin
     {
-        protected function configureFormFields(FormMapper $form)
+        protected function configureFormFields(FormMapper $formMapper)
         {
             $formMapper
-                ->add('name', null, array('required' => false))
-                ->add('enabled', null, array('required' => false))
-                ->add('authorName', null, array('required' => false))
-                ->add('cdnIsFlushable', null, array('required' => false))
-                ->add('description', null, array('required' => false))
-                ->add('copyright', null, array('required' => false))
-                ->add('binaryContent', 'file', array('required' => false));
+                ->add('name', null, ['required' => false])
+                ->add('enabled', null, ['required' => false])
+                ->add('authorName', null, ['required' => false])
+                ->add('cdnIsFlushable', null, ['required' => false])
+                ->add('description', null, ['required' => false])
+                ->add('copyright', null, ['required' => false])
+                ->add('binaryContent', 'file', ['required' => false]);
         }
   }
 
@@ -158,43 +143,48 @@ The AdminBundle provides 3 edit options:
  - ``list``: the ``User`` list is set in a model where you can search and select a user
  - ``inline``: embed the ``User`` form into the ``Post`` form, great for one-to-one, or if your want to allow the user to edit the ``User`` information.
 
-With the ``standard`` and ``list`` options, you can create a new ``User`` by clicking on the "+" icon.
+With the ``standard`` and ``list`` options, you can create a new ``User`` by clicking on the "+" icon::
 
-.. code-block:: php
-
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
     use Sonata\AdminBundle\Show\ShowMapper;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
         protected function configureFormFields(FormMapper $formMapper)
         {
             $formMapper
                 ->with('General')
-                    ->add('enabled', null, array('required' => false))
-                    ->add('author', 'sonata_type_model_list', array(
-                        'btn_add'       => 'Add author',      //Specify a custom label
-                        'btn_list'      => 'button.list',     //which will be translated
-                        'btn_delete'    => false,             //or hide the button.
-                        'btn_catalogue' => 'SonataNewsBundle' //Custom translation domain for buttons
-                    ), array('edit' => 'list'))
+                    ->add('enabled', null, ['required' => false])
+                    ->add('author', 'sonata_type_model_list', [
+
+                        // Specify a custom label
+                        'btn_add' => 'Add author',
+
+                        // which will be translated
+                        'btn_list' => 'button.list',
+
+                        // or hide the button
+                        'btn_delete' => false,
+
+                        //Custom translation domain for buttons
+                        'btn_catalogue' => 'SonataNewsBundle',
+                    ], ['edit' => 'list'])
                     ->add('title')
                     ->add('abstract')
                     ->add('content')
                 ->end()
                 ->with('Tags')
-                    ->add('tags', 'sonata_type_model', array('expanded' => true))
+                    ->add('tags', 'sonata_type_model', ['expanded' => true])
                 ->end()
-                ->with('Options', array('collapsed' => true))
+                ->with('Options', ['collapsed' => true])
                     ->add('commentsCloseAt')
-                    ->add('commentsEnabled', null, array('required' => false))
-                    ->add('commentsDefaultStatus', 'choice', array('choices' => Comment::getStatusList()))
+                    ->add('commentsEnabled', null, ['required' => false])
+                    ->add('commentsDefaultStatus', 'choice', ['choices' => Comment::getStatusList()])
                 ->end()
             ;
         }
@@ -214,15 +204,14 @@ defining one of these options:
 
 .. code-block:: php
 
-    <?php
     namespace Sonata\MediaBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
 
-    class GalleryAdmin extends Admin
+    final class GalleryAdmin extends AbstractAdmin
     {
         protected function configureFormFields(FormMapper $formMapper)
         {
@@ -231,11 +220,10 @@ defining one of these options:
                 ->add('enabled')
                 ->add('name')
                 ->add('defaultFormat')
-                ->add('galleryHasMedias', 'sonata_type_collection', array(), array(
+                ->add('galleryHasMedias', 'sonata_type_collection', [], [
                     'edit' => 'inline',
                     'inline' => 'table',
-                    'sortable'  => 'position'
-                ))
-            ;
+                    'sortable'  => 'position',
+                ]);
         }
     }
