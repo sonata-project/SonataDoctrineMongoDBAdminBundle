@@ -32,25 +32,25 @@ class FieldDescriptionTest extends TestCase
         $this->assertNull($field->getOption('template'));
         $this->assertNull($field->getOption('type'));
 
-        $this->assertEquals('foo', $field->getTemplate());
-        $this->assertEquals('bar', $field->getType());
+        $this->assertSame('foo', $field->getTemplate());
+        $this->assertSame('bar', $field->getType());
 
         // test the default value option
-        $this->assertEquals('default', $field->getOption('template', 'default'));
+        $this->assertSame('default', $field->getOption('template', 'default'));
 
         // test the merge options
         $field->setOption('array', ['key1' => 'val1']);
         $field->mergeOption('array', ['key1' => 'key_1', 'key2' => 'key_2']);
 
-        $this->assertEquals(['key1' => 'key_1', 'key2' => 'key_2'], $field->getOption('array'));
+        $this->assertSame(['key1' => 'key_1', 'key2' => 'key_2'], $field->getOption('array'));
 
         $field->mergeOption('non_existant', ['key1' => 'key_1', 'key2' => 'key_2']);
 
-        $this->assertEquals(['key1' => 'key_1', 'key2' => 'key_2'], $field->getOption('array'));
+        $this->assertSame(['key1' => 'key_1', 'key2' => 'key_2'], $field->getOption('array'));
 
         $field->mergeOptions(['array' => ['key3' => 'key_3']]);
 
-        $this->assertEquals(['key1' => 'key_1', 'key2' => 'key_2', 'key3' => 'key_3'], $field->getOption('array'));
+        $this->assertSame(['key1' => 'key_1', 'key2' => 'key_2', 'key3' => 'key_3'], $field->getOption('array'));
 
         $field->setOption('integer', 1);
 
@@ -65,6 +65,7 @@ class FieldDescriptionTest extends TestCase
         $expected = [
           'misc' => 'foobar',
           'placeholder' => 'short_object_description_placeholder',
+          'link_parameters' => [],
           'array' => [
             'key1' => 'key_1',
             'key2' => 'key_2',
@@ -76,10 +77,9 @@ class FieldDescriptionTest extends TestCase
           ],
           'integer' => 1,
           'final' => 'test',
-          'link_parameters' => [],
         ];
 
-        $this->assertEquals($expected, $field->getOptions());
+        $this->assertSame($expected, $field->getOptions());
     }
 
     public function testAssociationMapping()
@@ -90,8 +90,8 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ]);
 
-        $this->assertEquals('integer', $field->getType());
-        $this->assertEquals('position', $field->getFieldName());
+        $this->assertSame('integer', $field->getType());
+        $this->assertSame('position', $field->getFieldName());
 
         // cannot overwrite defined definition
         $field->setAssociationMapping([
@@ -99,19 +99,19 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'overwritten',
         ]);
 
-        $this->assertEquals('integer', $field->getType());
-        $this->assertEquals('overwritten', $field->getFieldName());
+        $this->assertSame('integer', $field->getType());
+        $this->assertSame('overwritten', $field->getFieldName());
 
         $field->setMappingType('string');
-        $this->assertEquals('string', $field->getMappingType());
-        $this->assertEquals('integer', $field->getType());
+        $this->assertSame('string', $field->getMappingType());
+        $this->assertSame('integer', $field->getType());
     }
 
     public function testCamelize()
     {
-        $this->assertEquals('FooBar', Inflector::classify('foo_bar'));
-        $this->assertEquals('FooBar', Inflector::classify('foo bar'));
-        $this->assertEquals('FOoBar', Inflector::classify('fOo bar'));
+        $this->assertSame('FooBar', Inflector::classify('foo_bar'));
+        $this->assertSame('FooBar', Inflector::classify('foo bar'));
+        $this->assertSame('FOoBar', Inflector::classify('fOo bar'));
     }
 
     public function testSetName()
@@ -119,7 +119,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setName('New field description name');
 
-        $this->assertEquals($field->getName(), 'New field description name');
+        $this->assertSame($field->getName(), 'New field description name');
     }
 
     public function testSetNameSetFieldNameToo()
@@ -127,7 +127,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setName('New field description name');
 
-        $this->assertEquals($field->getFieldName(), 'New field description name');
+        $this->assertSame($field->getFieldName(), 'New field description name');
     }
 
     public function testSetNameDoesNotSetFieldNameWhenSetBefore()
@@ -136,7 +136,7 @@ class FieldDescriptionTest extends TestCase
         $field->setFieldName('field name');
         $field->setName('New field description name');
 
-        $this->assertEquals($field->getFieldName(), 'field name');
+        $this->assertSame($field->getFieldName(), 'field name');
     }
 
     public function testGetParent()
@@ -153,7 +153,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setHelp('help message');
 
-        $this->assertEquals($field->getHelp(), 'help message');
+        $this->assertSame($field->getHelp(), 'help message');
     }
 
     public function testGetAdmin()
@@ -206,7 +206,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setOption('code', 'myMethod');
 
-        $this->assertEquals($field->getValue($mockedObject), 'myMethodValue');
+        $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
     }
 
     public function testGetValueWhenCannotRetrieve()
@@ -222,7 +222,7 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription();
 
-        $this->assertEquals($field->getValue($mockedObject), 'myMethodValue');
+        $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
     }
 
     public function testGetAssociationMapping()
@@ -235,7 +235,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setAssociationMapping($assocationMapping);
 
-        $this->assertEquals($assocationMapping, $field->getAssociationMapping());
+        $this->assertSame($assocationMapping, $field->getAssociationMapping());
     }
 
     public function testSetAssociationMappingAllowOnlyForArray()
@@ -264,7 +264,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setFieldMapping($fieldMapping);
 
-        $this->assertEquals('integer', $field->getType());
+        $this->assertSame('integer', $field->getType());
     }
 
     public function testSetFieldMappingSetMappingType()
@@ -277,7 +277,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setFieldMapping($fieldMapping);
 
-        $this->assertEquals('integer', $field->getMappingType());
+        $this->assertSame('integer', $field->getMappingType());
     }
 
     public function testSetFieldMappingSetFieldName()
@@ -290,7 +290,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setFieldMapping($fieldMapping);
 
-        $this->assertEquals('position', $field->getFieldName());
+        $this->assertSame('position', $field->getFieldName());
     }
 
     public function testGetTargetEntity()
@@ -307,7 +307,7 @@ class FieldDescriptionTest extends TestCase
 
         $field->setAssociationMapping($assocationMapping);
 
-        $this->assertEquals('someValue', $field->getTargetEntity());
+        $this->assertSame('someValue', $field->getTargetEntity());
     }
 
     public function testIsIdentifierFromFieldMapping()
@@ -321,7 +321,7 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setFieldMapping($fieldMapping);
 
-        $this->assertEquals('someId', $field->isIdentifier());
+        $this->assertSame('someId', $field->isIdentifier());
     }
 
     public function testGetFieldMapping()
@@ -335,6 +335,6 @@ class FieldDescriptionTest extends TestCase
         $field = new FieldDescription();
         $field->setFieldMapping($fieldMapping);
 
-        $this->assertEquals($fieldMapping, $field->getFieldMapping());
+        $this->assertSame($fieldMapping, $field->getFieldMapping());
     }
 }

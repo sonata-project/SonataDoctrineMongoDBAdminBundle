@@ -26,32 +26,32 @@ class StringFilter extends Filter
      */
     public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)
     {
-        if (!$data || !\is_array($data) || !array_key_exists('value', $data) || null == $data['value']) {
+        if (!$data || !\is_array($data) || !array_key_exists('value', $data) || null === $data['value']) {
             return;
         }
 
         $data['value'] = trim($data['value']);
 
-        if (0 == \strlen($data['value'])) {
+        if (0 === \strlen($data['value'])) {
             return;
         }
 
         $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ChoiceType::TYPE_CONTAINS;
 
         $obj = $queryBuilder;
-        if (self::CONDITION_OR == $this->condition) {
+        if (self::CONDITION_OR === $this->condition) {
             $obj = $queryBuilder->expr();
         }
 
-        if (ChoiceType::TYPE_EQUAL == $data['type']) {
+        if (ChoiceType::TYPE_EQUAL === $data['type']) {
             $obj->field($field)->equals($data['value']);
-        } elseif (ChoiceType::TYPE_CONTAINS == $data['type']) {
+        } elseif (ChoiceType::TYPE_CONTAINS === $data['type']) {
             $obj->field($field)->equals(new \MongoRegex(sprintf('/%s/i', $data['value'])));
-        } elseif (ChoiceType::TYPE_NOT_CONTAINS == $data['type']) {
+        } elseif (ChoiceType::TYPE_NOT_CONTAINS === $data['type']) {
             $obj->field($field)->not(new \MongoRegex(sprintf('/%s/i', $data['value'])));
         }
 
-        if (self::CONDITION_OR == $this->condition) {
+        if (self::CONDITION_OR === $this->condition) {
             $queryBuilder->addOr($obj);
         }
 

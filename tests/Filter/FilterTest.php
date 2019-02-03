@@ -56,23 +56,23 @@ class FilterTest extends TestCase
     public function testFieldDescription()
     {
         $filter = new FilterTest_Filter();
-        $this->assertEquals(['option1' => 2], $filter->getDefaultOptions());
+        $this->assertSame(['option1' => 2], $filter->getDefaultOptions());
         $this->assertNull($filter->getOption('1'));
 
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
-        $this->assertEquals(2, $filter->getOption('option1'));
+        $this->assertSame(2, $filter->getOption('option1'));
         $this->assertNull($filter->getOption('foo'));
-        $this->assertEquals('bar', $filter->getOption('foo', 'bar'));
+        $this->assertSame('bar', $filter->getOption('foo', 'bar'));
 
-        $this->assertEquals('field_name', $filter->getName());
-        $this->assertEquals(
+        $this->assertSame('field_name', $filter->getName());
+        $this->assertSame(
             method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
             ? 'Symfony\Component\Form\Extension\Core\Type\TextType'
             : 'text',
             $filter->getFieldType()
         );
-        $this->assertEquals(['class' => 'FooBar'], $filter->getFieldOptions());
+        $this->assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
     }
 
     public function testValues()
@@ -81,7 +81,7 @@ class FilterTest extends TestCase
         $this->assertEmpty($filter->getValue());
 
         $filter->setValue(42);
-        $this->assertEquals(42, $filter->getValue());
+        $this->assertSame(42, $filter->getValue());
     }
 
     public function testExceptionOnEmptyFieldName()

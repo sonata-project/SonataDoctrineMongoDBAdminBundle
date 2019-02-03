@@ -70,7 +70,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
                 $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $metadata->fieldMappings[$lastPropertyName]));
 
-                if ('string' == $metadata->fieldMappings[$lastPropertyName]['type']) {
+                if ('string' === $metadata->fieldMappings[$lastPropertyName]['type']) {
                     $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
                 }
             }
@@ -86,7 +86,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
         $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
 
-        if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY])) {
+        if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -99,7 +99,7 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
-        if (null == $type) {
+        if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
 
             $type = $guessType->getType();
