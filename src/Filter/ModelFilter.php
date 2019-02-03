@@ -79,7 +79,7 @@ class ModelFilter extends Filter
      */
     protected function handleMultiple(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
-        if (0 == \count($data['value'])) {
+        if (0 === \count($data['value'])) {
             return;
         }
 
@@ -88,7 +88,7 @@ class ModelFilter extends Filter
             $ids[] = self::fixIdentifier($value->getId());
         }
 
-        if (isset($data['type']) && EqualType::TYPE_IS_NOT_EQUAL == $data['type']) {
+        if (isset($data['type']) && EqualType::TYPE_IS_NOT_EQUAL === $data['type']) {
             $queryBuilder->field($field)->notIn($ids);
         } else {
             $queryBuilder->field($field)->in($ids);
@@ -113,7 +113,7 @@ class ModelFilter extends Filter
 
         $id = self::fixIdentifier($data['value']->getId());
 
-        if (isset($data['type']) && EqualType::TYPE_IS_NOT_EQUAL == $data['type']) {
+        if (isset($data['type']) && EqualType::TYPE_IS_NOT_EQUAL === $data['type']) {
             $queryBuilder->field($field)->notEqual($id);
         } else {
             $queryBuilder->field($field)->equals($id);
