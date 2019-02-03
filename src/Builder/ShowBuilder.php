@@ -56,7 +56,7 @@ class ShowBuilder implements ShowBuilderInterface
      */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
-        if (null == $type) {
+        if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
         } else {
@@ -102,20 +102,20 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            if ('id' == $fieldDescription->getType()) {
+            if ('id' === $fieldDescription->getType()) {
                 $fieldDescription->setType('string');
             }
 
-            if ('int' == $fieldDescription->getType()) {
+            if ('int' === $fieldDescription->getType()) {
                 $fieldDescription->setType('integer');
             }
 
             $template = $this->getTemplate($fieldDescription->getType());
 
             if (null === $template) {
-                if (ClassMetadataInfo::ONE == $fieldDescription->getMappingType()) {
+                if (ClassMetadataInfo::ONE === $fieldDescription->getMappingType()) {
                     $template = '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig';
-                } elseif (ClassMetadataInfo::MANY == $fieldDescription->getMappingType()) {
+                } elseif (ClassMetadataInfo::MANY === $fieldDescription->getMappingType()) {
                     $template = '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig';
                 }
             }
@@ -123,7 +123,7 @@ class ShowBuilder implements ShowBuilderInterface
             $fieldDescription->setTemplate($template);
         }
 
-        if (\in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY])) {
+        if (\in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY], true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }

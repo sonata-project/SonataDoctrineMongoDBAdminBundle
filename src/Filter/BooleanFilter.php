@@ -35,25 +35,25 @@ class BooleanFilter extends Filter
         if (\is_array($data['value'])) {
             $values = [];
             foreach ($data['value'] as $v) {
-                if (!\in_array($v, [BooleanType::TYPE_NO, BooleanType::TYPE_YES])) {
+                if (!\in_array($v, [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                     continue;
                 }
 
-                $values[] = (BooleanType::TYPE_YES == $v) ? true : false;
+                $values[] = (BooleanType::TYPE_YES === $v) ? true : false;
             }
 
-            if (0 == \count($values)) {
+            if (0 === \count($values)) {
                 return;
             }
 
             $queryBuilder->field($field)->in($values);
             $this->active = true;
         } else {
-            if (!\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES])) {
+            if (!\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                 return;
             }
 
-            $value = BooleanType::TYPE_YES == $data['value'] ? true : false;
+            $value = BooleanType::TYPE_YES === $data['value'] ? true : false;
 
             $queryBuilder->field($field)->equals($value);
             $this->active = true;

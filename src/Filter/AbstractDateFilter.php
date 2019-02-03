@@ -135,7 +135,7 @@ abstract class AbstractDateFilter extends Filter
         return \in_array($type, [
             DateType::TYPE_NULL,
             DateType::TYPE_NOT_NULL,
-        ]);
+        ], true);
     }
 
     /**

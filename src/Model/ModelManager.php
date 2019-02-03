@@ -323,7 +323,7 @@ class ModelManager implements ModelManagerInterface
         foreach ($queryBuilder->execute() as $object) {
             $documentManager->remove($object);
 
-            if (0 == (++$i % 20)) {
+            if (0 === (++$i % 20)) {
                 $documentManager->flush();
                 $documentManager->clear();
             }
@@ -372,8 +372,8 @@ class ModelManager implements ModelManagerInterface
     {
         $values = $datagrid->getValues();
 
-        if ($fieldDescription->getName() == $values['_sort_by']->getName() || $values['_sort_by']->getName() === $fieldDescription->getOption('sortable')) {
-            if ('ASC' == $values['_sort_order']) {
+        if ($fieldDescription->getName() === $values['_sort_by']->getName() || $values['_sort_by']->getName() === $fieldDescription->getOption('sortable')) {
+            if ('ASC' === $values['_sort_order']) {
                 $values['_sort_order'] = 'DESC';
             } else {
                 $values['_sort_order'] = 'ASC';

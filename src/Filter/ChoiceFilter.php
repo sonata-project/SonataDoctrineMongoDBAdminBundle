@@ -33,15 +33,15 @@ class ChoiceFilter extends Filter
         }
 
         if (\is_array($data['value'])) {
-            if (0 == \count($data['value'])) {
+            if (0 === \count($data['value'])) {
                 return;
             }
 
-            if (\in_array('all', $data['value'])) {
+            if (\in_array('all', $data['value'], true)) {
                 return;
             }
 
-            if (ChoiceType::TYPE_NOT_CONTAINS == $data['type']) {
+            if (ChoiceType::TYPE_NOT_CONTAINS === $data['type']) {
                 $queryBuilder->field($field)->notIn($data['value']);
             } else {
                 $queryBuilder->field($field)->in($data['value']);
@@ -53,7 +53,7 @@ class ChoiceFilter extends Filter
                 return;
             }
 
-            if (ChoiceType::TYPE_NOT_CONTAINS == $data['type']) {
+            if (ChoiceType::TYPE_NOT_CONTAINS === $data['type']) {
                 $queryBuilder->field($field)->notEqual($data['value']);
             } else {
                 $queryBuilder->field($field)->equals($data['value']);
