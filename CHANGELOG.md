@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.1.1...3.2.0) - 2019-04-03
+### Fixed
+- using the new collection type namespace
+- deprecation for symfony/config 4.2+
+- missing association admin class in datagrid filters.
+- `isLastPage`() always returning `false`
+
+### Removed
+- support for php 5 and php 7.0
+
 ## [3.1.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.1.0...3.1.1) - 2018-02-08
 ### Changed
 - All templates references are updated to twig namespaced syntax
