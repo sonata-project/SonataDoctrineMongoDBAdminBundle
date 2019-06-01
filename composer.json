@@ -43,7 +43,7 @@
     },
     "require-dev": {
         "jmikola/geojson": "^1.0",
-        "symfony/phpunit-bridge": "^4.2"
+        "symfony/phpunit-bridge": "^4.3",
     },
     "suggest": {
         "alcaeus/mongo-php-adapter": "Allows usage of PHP 7"
