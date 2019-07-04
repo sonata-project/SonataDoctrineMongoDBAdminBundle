@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.2.0...3.2.1) - 2019-07-03
+### Fixed
+- Use proper namespace for `Sonata\Exporter\Source\DoctrineODMQuerySourceIterator`
+
 ## [3.2.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.1.1...3.2.0) - 2019-04-03
 ### Fixed
 - using the new collection type namespace
