@@ -19,14 +19,12 @@ use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 class StringFilter extends Filter
 {
     /**
-     * @param ProxyQueryInterface $queryBuilder
-     * @param string              $alias
-     * @param string              $field
-     * @param string              $data
+     * @param string $field
+     * @param string $data
      */
     public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
+        if (!$data || !\is_array($data) || !array_key_exists('value', $data) || null === $data['value']) {
             return;
         }
 

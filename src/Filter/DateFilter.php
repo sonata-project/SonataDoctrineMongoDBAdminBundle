@@ -18,9 +18,8 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 class DateFilter extends AbstractDateFilter
 {
     /**
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
-     * @param string                                           $field
-     * @param array                                            $data
+     * @param string $field
+     * @param array  $data
      */
     protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data)
     {
@@ -30,9 +29,8 @@ class DateFilter extends AbstractDateFilter
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
-     * @param string                                           $field
-     * @param array                                            $data
+     * @param string $field
+     * @param array  $data
      */
     protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data)
     {
@@ -46,9 +44,8 @@ class DateFilter extends AbstractDateFilter
      *
      * @author Wesley van Opdorp <wesley.van.opdorp@freshheads.com>
      *
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryBuilder
-     * @param string                                           $field
-     * @param array                                            $data
+     * @param string $field
+     * @param array  $data
      */
     protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data)
     {

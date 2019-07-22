@@ -24,7 +24,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
-            'callback' => function ($builder, $alias, $field, $value) {
+            'callback' => static function ($builder, $alias, $field, $value) {
                 return true;
             },
         ]);
@@ -42,7 +42,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
-            'callback' => function ($builder, $alias, $field, $value) {
+            'callback' => static function ($builder, $alias, $field, $value) {
                 return true;
             },
         ]);

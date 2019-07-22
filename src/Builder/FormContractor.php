@@ -189,7 +189,7 @@ class FormContractor implements FormContractorInterface
      */
     private function checkFormClass($type, $classes)
     {
-        return array_filter($classes, function ($subclass) use ($type) {
+        return array_filter($classes, static function ($subclass) use ($type) {
             return is_a($type, $subclass, true);
         });
     }

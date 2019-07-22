@@ -21,10 +21,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class CallbackFilter extends Filter
 {
     /**
-     * @param ProxyQueryInterface $queryBuilder
-     * @param string              $alias
-     * @param string              $field
-     * @param string              $data
+     * @param string $alias
+     * @param string $field
+     * @param string $data
      *
      * @throws \RuntimeException
      */
@@ -55,7 +54,7 @@ class CallbackFilter extends Filter
     {
         return [
             'callback' => null,
-            'active_callback' => function ($data) {
+            'active_callback' => static function ($data) {
                 return isset($data['value']) && $data['value'];
             },
             'field_type' => TextType::class,
