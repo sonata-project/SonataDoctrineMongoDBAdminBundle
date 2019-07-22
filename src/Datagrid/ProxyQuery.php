@@ -27,9 +27,6 @@ class ProxyQuery implements ProxyQueryInterface
     protected $firstResult;
     protected $maxResults;
 
-    /**
-     * @param \Doctrine\ODM\MongoDB\Query\Builder $queryBuilder
-     */
     public function __construct(Builder $queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;
@@ -46,9 +43,6 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @param array $params
-     * @param null  $hydrationMode
-     *
      * @return mixed
      */
     public function execute(array $params = [], $hydrationMode = null)
@@ -128,8 +122,6 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @param array $associationMappings
-     *
      * @return mixed
      */
     public function entityJoin(array $associationMappings)

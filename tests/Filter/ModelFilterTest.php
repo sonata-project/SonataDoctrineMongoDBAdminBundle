@@ -29,8 +29,6 @@ class DocumentStub
 class ModelFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @param array $options
-     *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function getFieldDescription(array $options)

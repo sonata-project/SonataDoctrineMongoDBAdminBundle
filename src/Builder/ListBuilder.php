@@ -26,10 +26,6 @@ class ListBuilder implements ListBuilderInterface
 
     protected $templates = [];
 
-    /**
-     * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
-     * @param array                                            $templates
-     */
     public function __construct(TypeGuesserInterface $guesser, array $templates = [])
     {
         $this->guesser = $guesser;
@@ -138,8 +134,6 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)

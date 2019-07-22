@@ -20,9 +20,8 @@ use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 abstract class AbstractTypeGuesser implements TypeGuesserInterface
 {
     /**
-     * @param string                                                $baseClass
-     * @param string                                                $propertyFullName
-     * @param \Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager $modelManager
+     * @param string $baseClass
+     * @param string $propertyFullName
      *
      * @return array|null
      */

@@ -22,14 +22,13 @@ use Sonata\CoreBundle\Form\Type\EqualType;
 class ModelFilter extends Filter
 {
     /**
-     * @param ProxyQueryInterface $queryBuilder
-     * @param string              $alias
-     * @param string              $field
-     * @param mixed               $data
+     * @param string $alias
+     * @param string $field
+     * @param mixed  $data
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
+        if (!$data || !\is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
 
@@ -70,10 +69,9 @@ class ModelFilter extends Filter
     }
 
     /**
-     * @param ProxyQueryInterface $queryBuilder
-     * @param type                $alias
-     * @param type                $field
-     * @param type                $data
+     * @param type $alias
+     * @param type $field
+     * @param type $data
      *
      * @return type
      */
@@ -98,10 +96,9 @@ class ModelFilter extends Filter
     }
 
     /**
-     * @param ProxyQueryInterface $queryBuilder
-     * @param type                $alias
-     * @param type                $field
-     * @param type                $data
+     * @param type $alias
+     * @param type $field
+     * @param type $data
      *
      * @return type
      */

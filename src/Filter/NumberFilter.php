@@ -19,14 +19,13 @@ use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 class NumberFilter extends Filter
 {
     /**
-     * @param ProxyQueryInterface $queryBuilder
-     * @param string              $alias
-     * @param string              $field
-     * @param string              $data
+     * @param string $alias
+     * @param string $field
+     * @param string $data
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || !is_numeric($data['value'])) {
+        if (!$data || !\is_array($data) || !array_key_exists('value', $data) || !is_numeric($data['value'])) {
             return;
         }
 

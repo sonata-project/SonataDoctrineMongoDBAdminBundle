@@ -29,9 +29,6 @@ class ModelManager implements ModelManagerInterface
     public const ID_SEPARATOR = '-';
     protected $registry;
 
-    /**
-     * @param \Symfony\Bridge\Doctrine\ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -433,10 +430,10 @@ class ModelManager implements ModelManagerInterface
         foreach ($array as $name => $value) {
             $reflection_property = false;
             // property or association ?
-            if (\array_key_exists($name, $metadata->fieldMappings)) {
+            if (array_key_exists($name, $metadata->fieldMappings)) {
                 $property = $metadata->fieldMappings[$name]['fieldName'];
                 $reflection_property = $metadata->reflFields[$name];
-            } elseif (\array_key_exists($name, $metadata->associationMappings)) {
+            } elseif (array_key_exists($name, $metadata->associationMappings)) {
                 $property = $metadata->associationMappings[$name]['fieldName'];
             } else {
                 $property = $name;
