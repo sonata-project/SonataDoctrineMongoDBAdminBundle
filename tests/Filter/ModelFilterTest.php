@@ -29,15 +29,13 @@ class DocumentStub
 class ModelFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @param array $options
-     *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function getFieldDescription(array $options)
     {
         $fieldDescription = $this->createMock('Sonata\AdminBundle\Admin\FieldDescriptionInterface');
-        $fieldDescription->expects($this->once())->method('getOptions')->will($this->returnValue($options));
-        $fieldDescription->expects($this->once())->method('getName')->will($this->returnValue('field_name'));
+        $fieldDescription->expects($this->once())->method('getOptions')->willReturn($options);
+        $fieldDescription->expects($this->once())->method('getName')->willReturn('field_name');
 
         return $fieldDescription;
     }

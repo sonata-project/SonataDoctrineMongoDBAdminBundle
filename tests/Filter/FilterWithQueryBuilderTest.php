@@ -26,18 +26,18 @@ abstract class FilterWithQueryBuilderTest extends TestCase
         $this->queryBuilder
                 ->expects($this->any())
                 ->method('field')
-                ->will($this->returnSelf())
+                ->willReturnSelf()
         ;
         $this->expr = $this->createMock('Doctrine\ODM\MongoDB\Query\Expr');
         $this->expr
             ->expects($this->any())
             ->method('field')
-            ->will($this->returnSelf())
+            ->willReturnSelf()
         ;
         $this->queryBuilder
             ->expects($this->any())
             ->method('expr')
-            ->will($this->returnValue($this->expr))
+            ->willReturn($this->expr)
         ;
     }
 

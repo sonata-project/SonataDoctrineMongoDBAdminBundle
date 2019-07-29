@@ -21,10 +21,9 @@ use Sonata\CoreBundle\Form\Type\BooleanType;
 class ChoiceFilter extends Filter
 {
     /**
-     * @param ProxyQueryInterface $queryBuilder
-     * @param string              $alias
-     * @param string              $field
-     * @param mixed               $data
+     * @param string $alias
+     * @param string $field
+     * @param mixed  $data
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
     {

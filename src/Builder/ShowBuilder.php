@@ -26,10 +26,6 @@ class ShowBuilder implements ShowBuilderInterface
 
     protected $templates;
 
-    /**
-     * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
-     * @param array                                            $templates
-     */
     public function __construct(TypeGuesserInterface $guesser, array $templates)
     {
         $this->guesser = $guesser;
@@ -37,8 +33,6 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * @param array $options
-     *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionCollection
      */
     public function getBaseList(array $options = [])
@@ -47,10 +41,7 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionCollection $list
-     * @param string|null                                          $type
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface  $fieldDescription
-     * @param \Sonata\AdminBundle\Admin\AdminInterface             $admin
+     * @param string|null $type
      *
      * @return mixed
      */
@@ -71,9 +62,6 @@ class ShowBuilder implements ShowBuilderInterface
 
     /**
      * The method defines the correct default settings for the provided FieldDescription.
-     *
-     * @param \Sonata\AdminBundle\Admin\AdminInterface            $admin
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {

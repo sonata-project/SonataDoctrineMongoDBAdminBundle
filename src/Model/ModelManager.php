@@ -29,9 +29,6 @@ class ModelManager implements ModelManagerInterface
     public const ID_SEPARATOR = '-';
     protected $registry;
 
-    /**
-     * @param \Symfony\Bridge\Doctrine\ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;

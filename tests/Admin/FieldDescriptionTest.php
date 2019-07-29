@@ -201,7 +201,7 @@ class FieldDescriptionTest extends TestCase
             ->getMock();
         $mockedObject->expects($this->once())
             ->method('myMethod')
-            ->will($this->returnValue('myMethodValue'));
+            ->willReturn('myMethodValue');
 
         $field = new FieldDescription();
         $field->setOption('code', 'myMethod');
@@ -218,7 +218,7 @@ class FieldDescriptionTest extends TestCase
             ->getMock();
         $mockedObject->expects($this->never())
             ->method('myMethod')
-            ->will($this->returnValue('myMethodValue'));
+            ->willReturn('myMethodValue');
 
         $field = new FieldDescription();
 
