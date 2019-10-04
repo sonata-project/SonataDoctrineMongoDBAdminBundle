@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
@@ -35,10 +35,10 @@ class TypeGuesser extends AbstractTypeGuesser
             $mapping = $metadata->fieldMappings[$propertyName];
 
             switch ($mapping['type']) {
-                case ClassMetadataInfo::ONE:
+                case ClassMetadata::ONE:
                     return new TypeGuess('mongo_one', [], Guess::HIGH_CONFIDENCE);
 
-                case ClassMetadataInfo::MANY:
+                case ClassMetadata::MANY:
                     return new TypeGuess('mongo_many', [], Guess::HIGH_CONFIDENCE);
             }
         }

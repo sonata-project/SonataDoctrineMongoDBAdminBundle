@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\CoreBundle\Form\Type\EqualType;
@@ -49,10 +49,10 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             $mapping = $metadata->fieldMappings[$propertyName];
 
             switch ($mapping['type']) {
-                case ClassMetadataInfo::ONE:
-                case ClassMetadataInfo::MANY:
-                    //case ClassMetadataInfo::MANY_TO_ONE:
-                    //case ClassMetadataInfo::MANY_TO_MANY:
+                case ClassMetadata::ONE:
+                case ClassMetadata::MANY:
+                    //case ClassMetadata::MANY_TO_ONE:
+                    //case ClassMetadata::MANY_TO_MANY:
 
                     $options['operator_type'] = EqualType::class;
                     $options['operator_options'] = [];

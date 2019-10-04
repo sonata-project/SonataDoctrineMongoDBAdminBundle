@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
@@ -118,9 +118,9 @@ class ListBuilder implements ListBuilderInterface
             $template = $this->getTemplate($fieldDescription->getType());
 
             if (null === $template) {
-                if (ClassMetadataInfo::ONE === $fieldDescription->getMappingType()) {
+                if (ClassMetadata::ONE === $fieldDescription->getMappingType()) {
                     $template = '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig';
-                } elseif (ClassMetadataInfo::MANY === $fieldDescription->getMappingType()) {
+                } elseif (ClassMetadata::MANY === $fieldDescription->getMappingType()) {
                     $template = '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig';
                 }
             }
@@ -128,7 +128,7 @@ class ListBuilder implements ListBuilderInterface
             $fieldDescription->setTemplate($template);
         }
 
-        if (\in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY], true)) {
+        if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
