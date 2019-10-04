@@ -51,9 +51,6 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             switch ($mapping['type']) {
                 case ClassMetadata::ONE:
                 case ClassMetadata::MANY:
-                    //case ClassMetadata::MANY_TO_ONE:
-                    //case ClassMetadata::MANY_TO_MANY:
-
                     $options['operator_type'] = EqualType::class;
                     $options['operator_options'] = [];
 
