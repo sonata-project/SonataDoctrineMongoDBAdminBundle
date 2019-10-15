@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.2.2](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.2.1...3.2.2) - 2019-10-16
+### Added
+- support for `doctrine/mongodb-odm` 2.x and `doctrine/mongodb-odm-bundle` 4.x
+
 ## [3.2.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.2.0...3.2.1) - 2019-07-03
 ### Fixed
 - Use proper namespace for `Sonata\Exporter\Source\DoctrineODMQuerySourceIterator`
