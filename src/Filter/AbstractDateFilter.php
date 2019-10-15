@@ -58,14 +58,14 @@ abstract class AbstractDateFilter extends Filter
                 return $this->applyTypeIsEqual($queryBuilder, $field, $data);
 
             case DateType::TYPE_GREATER_THAN:
-                if (!array_key_exists('value', $data) || !$data['value']) {
+                if (!\array_key_exists('value', $data) || !$data['value']) {
                     return;
                 }
 
                 return $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
 
             case DateType::TYPE_LESS_EQUAL:
-                if (!array_key_exists('value', $data) || !$data['value']) {
+                if (!\array_key_exists('value', $data) || !$data['value']) {
                     return;
                 }
 
