@@ -66,7 +66,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             }
         }
 
-        if (!array_key_exists($propertyName, $metadata->fieldMappings)) {
+        if (!\array_key_exists($propertyName, $metadata->fieldMappings)) {
             throw new MissingPropertyMetadataException($class, $property);
         }
 
