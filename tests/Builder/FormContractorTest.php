@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
@@ -107,7 +107,7 @@ class FormContractorTest extends TestCase
         }
 
         // admin type
-        $fieldDescription->method('getMappingType')->willReturn(ClassMetadataInfo::ONE);
+        $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::ONE);
         foreach ($adminTypes as $formType) {
             $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription);
             $this->assertSame($fieldDescription, $options['sonata_field_description']);
@@ -117,7 +117,7 @@ class FormContractorTest extends TestCase
         }
 
         // collection type
-        $fieldDescription->method('getMappingType')->willReturn(ClassMetadataInfo::MANY);
+        $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::MANY);
         foreach ($collectionTypes as $index => $formType) {
             $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription);
             $this->assertSame($fieldDescription, $options['sonata_field_description']);

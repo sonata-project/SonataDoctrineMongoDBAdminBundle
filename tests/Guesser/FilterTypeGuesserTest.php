@@ -35,6 +35,9 @@ class FilterTypeGuesserTest extends TestCase
 
         $class = 'My\Model';
         $property = 'whatever';
+
+        $this->metadata->hasAssociation($property)->willReturn(false);
+
         $this->modelManager->getParentMetadataForProperty($class, $property)->willReturn([
             $this->metadata->reveal(),
             $property,

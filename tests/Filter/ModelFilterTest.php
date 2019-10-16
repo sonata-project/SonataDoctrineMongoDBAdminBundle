@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\CoreBundle\Form\Type\EqualType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
@@ -98,7 +98,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $this->expectException(\RuntimeException::class);
 
         $filter = new ModelFilter();
-        $filter->initialize('field_name', ['mapping_type' => ClassMetadataInfo::ONE, 'field_mapping' => true]);
+        $filter->initialize('field_name', ['mapping_type' => ClassMetadata::ONE, 'field_mapping' => true]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -110,7 +110,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
-            'mapping_type' => ClassMetadataInfo::ONE,
+            'mapping_type' => ClassMetadata::ONE,
             'field_name' => 'field_name',
             'association_mapping' => [
                 'fieldName' => 'association_mapping',
@@ -128,7 +128,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
-            'mapping_type' => ClassMetadataInfo::ONE,
+            'mapping_type' => ClassMetadata::ONE,
             'field_name' => 'field_name',
             'parent_association_mappings' => [
                 [

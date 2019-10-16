@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\FormContractorInterface;
@@ -74,7 +74,7 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        if (\in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY], true)) {
+        if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -142,7 +142,7 @@ class FormContractor implements FormContractorInterface
                 ));
             }
 
-            if (!\in_array($fieldDescription->getMappingType(), [ClassMetadataInfo::ONE, ClassMetadataInfo::MANY], true)) {
+            if (!\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
                 throw new \RuntimeException(sprintf(
                     'You are trying to add `sonata_type_admin` field `%s` which is not One-To-One or  Many-To-One.'
                     .' Maybe you want `sonata_type_collection` instead?',
