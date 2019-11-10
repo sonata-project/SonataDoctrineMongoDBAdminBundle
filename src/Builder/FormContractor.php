@@ -97,13 +97,7 @@ class FormContractor implements FormContractorInterface
         $options = [];
         $options['sonata_field_description'] = $fieldDescription;
 
-        // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony 2.8
-        if (\in_array($type, [
-            'sonata_type_model',
-            'sonata_type_model_list',
-            'sonata_type_model_hidden',
-            'sonata_type_model_autocomplete',
-        ], true) || $this->checkFormClass($type, [
+        if ($this->checkFormClass($type, [
             ModelType::class,
             ModelTypeList::class,
             ModelListType::class,
@@ -120,8 +114,7 @@ class FormContractor implements FormContractorInterface
             $options['class'] = $fieldDescription->getTargetEntity();
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
-            // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony 2.8
-            if ('sonata_type_model_autocomplete' === $type || $this->checkFormClass($type, [ModelAutocompleteType::class])) {
+            if ($this->checkFormClass($type, [ModelAutocompleteType::class])) {
                 if (!$fieldDescription->getAssociationAdmin()) {
                     throw new \RuntimeException(sprintf(
                         'The current field `%s` is not linked to an admin.'
@@ -131,8 +124,7 @@ class FormContractor implements FormContractorInterface
                     ));
                 }
             }
-            // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony 2.8
-        } elseif ('sonata_type_admin' === $type || $this->checkFormClass($type, [AdminType::class])) {
+        } elseif ($this->checkFormClass($type, [AdminType::class])) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf(
                     'The current field `%s` is not linked to an admin.'
@@ -156,8 +148,7 @@ class FormContractor implements FormContractorInterface
 
             $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
             $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
-        // NEXT_MAJOR: Check only against FQCNs when dropping support for Symfony 2.8
-        } elseif ('sonata_type_collection' === $type || $this->checkFormClass($type, [
+        } elseif ($this->checkFormClass($type, [
             CollectionType::class,
             DeprecatedCollectionType::class,
         ])) {

@@ -74,23 +74,16 @@ class FormContractorTest extends TestCase
         $fieldDescription->method('getTargetEntity')->willReturn($modelClass);
         $fieldDescription->method('getAssociationAdmin')->willReturn($admin);
 
-        // NEXT_MAJOR: Use only FQCNs when dropping support for Symfony 2.8
         $modelTypes = [
-            'sonata_type_model',
-            'sonata_type_model_list',
-            'sonata_type_model_hidden',
-            'sonata_type_model_autocomplete',
             ModelType::class,
             ModelListType::class,
             ModelHiddenType::class,
             ModelAutocompleteType::class,
         ];
         $adminTypes = [
-            'sonata_type_admin',
             AdminType::class,
         ];
         $collectionTypes = [
-            'sonata_type_collection',
             DeprecatedCollectionType::class,
         ];
 
