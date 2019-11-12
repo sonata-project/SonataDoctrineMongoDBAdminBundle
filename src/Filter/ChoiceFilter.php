@@ -16,7 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
-use Sonata\CoreBundle\Form\Type\BooleanType;
+use Sonata\Form\Type\BooleanType;
 
 class ChoiceFilter extends Filter
 {
