@@ -16,6 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class FilterTest_Filter extends Filter
 {
@@ -66,12 +67,7 @@ class FilterTest extends TestCase
         $this->assertSame('bar', $filter->getOption('foo', 'bar'));
 
         $this->assertSame('field_name', $filter->getName());
-        $this->assertSame(
-            method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Symfony\Component\Form\Extension\Core\Type\TextType'
-            : 'text',
-            $filter->getFieldType()
-        );
+        $this->assertSame(TextType::class, $filter->getFieldType());
         $this->assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
     }
 
