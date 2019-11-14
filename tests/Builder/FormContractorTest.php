@@ -85,11 +85,8 @@ class FormContractorTest extends TestCase
         ];
         $collectionTypes = [
             DeprecatedCollectionType::class,
+            CollectionType::class,
         ];
-
-        if (class_exists(CollectionType::class)) {
-            $collectionTypes[] = CollectionType::class;
-        }
 
         // model types
         foreach ($modelTypes as $formType) {

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
+use Sonata\Form\Type\BooleanType;
 
 class BooleanFilterTest extends FilterWithQueryBuilderTest
 {
