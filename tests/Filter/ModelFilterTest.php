@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use MongoDB\BSON\ObjectId;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
@@ -27,7 +28,8 @@ class DocumentStub
 
     public function __construct()
     {
-        $this->id = new \MongoId();
+        // NEXT_MAJOR: Use only ObjectId when dropping support for doctrine/mongodb-odm 1.x
+        $this->id = class_exists(ObjectId::class) ? new ObjectId() : new MongoId();
     }
 
     public function getId()

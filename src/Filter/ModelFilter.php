@@ -16,6 +16,8 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use MongoDB\BSON\ObjectId;
+use MongoDB\Exception\InvalidArgumentException;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\Form\Type\EqualType;
@@ -70,11 +72,11 @@ class ModelFilter extends Filter
     }
 
     /**
-     * @param type $alias
-     * @param type $field
-     * @param type $data
+     * @param string $alias
+     * @param string $field
+     * @param array $data
      *
-     * @return type
+     * @return void
      */
     protected function handleMultiple(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
@@ -97,11 +99,11 @@ class ModelFilter extends Filter
     }
 
     /**
-     * @param type $alias
-     * @param type $field
-     * @param type $data
+     * @param string $alias
+     * @param string $field
+     * @param array $data
      *
-     * @return type
+     * @return void
      */
     protected function handleScalar(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
@@ -121,14 +123,23 @@ class ModelFilter extends Filter
     }
 
     /**
-     * Return \MongoId if $id is MongoId in string representation, otherwise custom string.
+     * Return \MongoId|\ObjectId if $id is MongoId|ObjectId in string representation, otherwise custom string.
      *
      * @param mixed $id
      *
-     * @return \MongoId|string
+     * @return \MongoId|string|\ObjectId
      */
     protected static function fixIdentifier($id)
     {
+        // NEXT_MAJOR: Use only ObjectId when dropping support for doctrine/mongodb-odm 1.x
+        if (class_exists(ObjectId::class)) {
+            try {
+                return new ObjectId($id);
+            } catch (InvalidArgumentException $ex) {
+                return $id;
+            }
+        }
+
         try {
             return new \MongoId($id);
         } catch (\MongoException $ex) {
