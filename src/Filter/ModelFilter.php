@@ -74,7 +74,7 @@ class ModelFilter extends Filter
     /**
      * @param string $alias
      * @param string $field
-     * @param array $data
+     * @param array  $data
      *
      * @return void
      */
@@ -101,7 +101,7 @@ class ModelFilter extends Filter
     /**
      * @param string $alias
      * @param string $field
-     * @param array $data
+     * @param array  $data
      *
      * @return void
      */
@@ -161,15 +161,15 @@ class ModelFilter extends Filter
         if (isset($field_mapping['storeAs'])) {
             switch ($field_mapping['storeAs']) {
                 case ClassMetadata::REFERENCE_STORE_AS_REF:
-                    return $field . '.id';
-                case ClassMetadata::REFERENCE_STORE_AS_ID;
+                    return $field.'.id';
+                case ClassMetadata::REFERENCE_STORE_AS_ID:
                     return $field;
-                case ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB;
-                case ClassMetadata::REFERENCE_STORE_AS_DB_REF;
+                case ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB:
+                case ClassMetadata::REFERENCE_STORE_AS_DB_REF:
                     return $field.'.$id';
             }
         }
 
-        return $field . '._id';
+        return $field.'._id';
     }
 }

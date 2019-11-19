@@ -21,7 +21,7 @@ class StringFilter extends Filter
 {
     /**
      * @param string $field
-     * @param array $data
+     * @param array  $data
      */
     public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data)
     {
@@ -58,20 +58,6 @@ class StringFilter extends Filter
     }
 
     /**
-     * NEXT_MAJOR: Use only Regex when dropping support for doctrine/mongodb-odm 1.x
-     *
-     * @return Regex|\MongoRegex
-     */
-    private function getRegexExpression(string $pattern)
-    {
-        if (class_exists(Regex::class)) {
-            return new Regex($pattern, 'i');
-        }
-
-        return new \MongoRegex(sprintf('/%s/i', $pattern));
-    }
-
-    /**
      * @return array
      */
     public function getDefaultOptions()
@@ -86,5 +72,19 @@ class StringFilter extends Filter
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
         ]];
+    }
+
+    /**
+     * NEXT_MAJOR: Use only Regex when dropping support for doctrine/mongodb-odm 1.x.
+     *
+     * @return Regex|\MongoRegex
+     */
+    private function getRegexExpression(string $pattern)
+    {
+        if (class_exists(Regex::class)) {
+            return new Regex($pattern, 'i');
+        }
+
+        return new \MongoRegex(sprintf('/%s/i', $pattern));
     }
 }
