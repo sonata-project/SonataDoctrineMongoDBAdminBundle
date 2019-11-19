@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\Form\Type\EqualType;
@@ -136,7 +137,7 @@ class ModelFilter extends Filter
     }
 
     /**
-     * Identifier field name is 'field' if mapping type is simple; otherwise, it's 'field.$id'.
+     * Get identifier field name based on mapping type.
      *
      * @param string $field
      *
@@ -146,6 +147,18 @@ class ModelFilter extends Filter
     {
         $field_mapping = $this->getFieldMapping();
 
-        return (true === $field_mapping['simple']) ? $field : $field.'.$id';
+        if (isset($field_mapping['storeAs'])) {
+            switch ($field_mapping['storeAs']) {
+                case ClassMetadata::REFERENCE_STORE_AS_REF:
+                    return $field . '.id';
+                case ClassMetadata::REFERENCE_STORE_AS_ID;
+                    return $field;
+                case ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB;
+                case ClassMetadata::REFERENCE_STORE_AS_DB_REF;
+                    return $field.'.$id';
+            }
+        }
+
+        return $field . '._id';
     }
 }
