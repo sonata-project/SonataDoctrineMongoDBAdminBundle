@@ -26,6 +26,11 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->never())
+            ->method('field')
+        ;
+
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', 'asds');
 
@@ -39,6 +44,11 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->never())
+            ->method('field')
+        ;
+
         $filter->filter($builder, 'alias', 'field', ['type' => 'foo']);
 
         $this->assertFalse($filter->isActive());
@@ -50,6 +60,36 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $builder->getQueryBuilder()
+            ->expects($this->exactly(2))
+            ->method('equals')
+            ->with('42')
+        ;
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('gte')
+            ->with('42')
+        ;
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('gt')
+            ->with('42')
+        ;
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('lte')
+            ->with('42')
+        ;
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('lt')
+            ->with('42')
+        ;
 
         $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_EQUAL, 'value' => 42]);
         $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_GREATER_EQUAL, 'value' => 42]);

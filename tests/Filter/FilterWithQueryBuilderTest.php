@@ -14,29 +14,28 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Query\Expr;
 use PHPUnit\Framework\TestCase;
 
 abstract class FilterWithQueryBuilderTest extends TestCase
 {
-    private $queryBuilder = null;
-    private $expr = null;
+    private $queryBuilder;
+    private $expr;
 
     public function setUp()
     {
-        $this->queryBuilder = $this->createMock('Doctrine\ODM\MongoDB\Query\Builder');
+        $this->queryBuilder = $this->createMock(Builder::class);
         $this->queryBuilder
-                ->expects($this->any())
-                ->method('field')
-                ->willReturnSelf()
+            ->method('field')
+            ->with('field')
+            ->willReturnSelf()
         ;
-        $this->expr = $this->createMock('Doctrine\ODM\MongoDB\Query\Expr');
+        $this->expr = $this->createMock(Expr::class);
         $this->expr
-            ->expects($this->any())
             ->method('field')
             ->willReturnSelf()
         ;
         $this->queryBuilder
-            ->expects($this->any())
             ->method('expr')
             ->willReturn($this->expr)
         ;

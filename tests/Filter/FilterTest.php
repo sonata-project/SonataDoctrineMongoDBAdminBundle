@@ -17,6 +17,7 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -32,7 +33,7 @@ class FilterTest_Filter extends Filter
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
-        // TODO: Implement filter() method.
+        $queryBuilder->field($field)->equals($value);
     }
 
     public function getDefaultOptions()
@@ -46,11 +47,6 @@ class FilterTest_Filter extends Filter
             'type' => $this->getFieldType(),
             'options' => $this->getFieldOptions(),
         ]];
-    }
-
-    public function testAssociation(ProxyQueryInterface $queryBuilder, $value)
-    {
-        return $this->association($queryBuilder, $value);
     }
 }
 

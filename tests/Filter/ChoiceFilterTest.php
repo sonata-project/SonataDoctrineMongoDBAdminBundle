@@ -26,6 +26,11 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->never())
+            ->method('field')
+        ;
+
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', 'all');
         $filter->filter($builder, 'alias', 'field', []);
@@ -40,6 +45,12 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('in')
+            ->with(['1', '2'])
+        ;
+
         $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => ['1', '2']]);
 
         $this->assertTrue($filter->isActive());
@@ -52,6 +63,12 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('equals')
+            ->with('1')
+        ;
+
         $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => '1']);
 
         $this->assertTrue($filter->isActive());
@@ -63,6 +80,12 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('equals')
+            ->with('0')
+        ;
 
         $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => 0]);
 
