@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
+use MongoDB\BSON\Regex;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
@@ -49,7 +50,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder->getQueryBuilder()
             ->expects($this->exactly(2))
             ->method('equals')
-            ->with($this->isInstanceOf($this->getMongoRegexClass()))
+            ->with($this->getMongoRegex('asd'))
         ;
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_CONTAINS]);
@@ -67,7 +68,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('not')
-            ->with($this->isInstanceOf($this->getMongoRegexClass()))
+            ->with($this->getMongoRegex('asd'))
         ;
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_NOT_CONTAINS]);
@@ -149,8 +150,17 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    private function getMongoRegexClass()
+    /**
+     * NEXT_MAJOR: Use only Regex when dropping support for doctrine/mongodb-odm 1.x.
+     *
+     * @return Regex|\MongoRegex
+     */
+    private function getMongoRegex(string $pattern)
     {
-        return \MongoRegex::class;
+        if (class_exists(Regex::class)) {
+            return new Regex($pattern, 'i');
+        }
+
+        return new \MongoRegex(sprintf('/%s/i', $pattern));
     }
 }

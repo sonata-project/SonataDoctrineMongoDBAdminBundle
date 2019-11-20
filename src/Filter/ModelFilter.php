@@ -123,11 +123,11 @@ class ModelFilter extends Filter
     }
 
     /**
-     * Return \MongoId|\ObjectId if $id is MongoId|ObjectId in string representation, otherwise custom string.
+     * Return \MongoId|ObjectId if $id is MongoId|ObjectId in string representation, otherwise custom string.
      *
      * @param mixed $id
      *
-     * @return \MongoId|string|\ObjectId
+     * @return \MongoId|string|ObjectId
      */
     protected static function fixIdentifier($id)
     {

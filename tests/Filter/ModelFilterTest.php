@@ -87,7 +87,7 @@ class ModelFilterTest extends TestCase
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('field')
-            ->with('field.$id')
+            ->with('field._id')
             ->willReturnSelf()
         ;
 
@@ -97,7 +97,7 @@ class ModelFilterTest extends TestCase
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('in')
-            ->with([new \MongoId($oneDocument->getId()), new \MongoId($otherDocument->getId())])
+            ->with([$this->getMongoIdentifier($oneDocument->getId()), $this->getMongoIdentifier($otherDocument->getId())])
         ;
 
         $filter->filter($builder, 'alias', 'field', [
@@ -118,7 +118,7 @@ class ModelFilterTest extends TestCase
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('field')
-            ->with('field.$id')
+            ->with('field._id')
             ->willReturnSelf()
         ;
 
@@ -127,7 +127,7 @@ class ModelFilterTest extends TestCase
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('equals')
-            ->with(new \MongoId($document1->getId()))
+            ->with($this->getMongoIdentifier($document1->getId()))
         ;
 
         $filter->filter($builder, 'alias', 'field', ['type' => EqualType::TYPE_IS_EQUAL, 'value' => $document1]);
@@ -175,7 +175,7 @@ class ModelFilterTest extends TestCase
 
         $builder->getQueryBuilder()
             ->method('field')
-            ->with('field_name.$id')
+            ->with('field_name._id')
             ->willReturnSelf()
         ;
 
@@ -207,12 +207,59 @@ class ModelFilterTest extends TestCase
 
         $builder->getQueryBuilder()
             ->method('field')
-            ->with('field_name.$id')
+            ->with('field_name._id')
             ->willReturnSelf()
         ;
 
         $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
 
         $this->assertTrue($filter->isActive());
+    }
+
+    /**
+     * @dataProvider getMappings
+     */
+    public function testDifferentIdentifiersBasedOnMapping(string $storeAs, string $fieldIdentifier): void
+    {
+        $filter = new ModelFilter();
+        $filter->initialize('field_name', [
+            'mapping_type' => ClassMetadata::ONE,
+            'field_name' => 'field_name',
+            'field_mapping' => [
+                'storeAs' => $storeAs,
+            ],
+        ]);
+
+        $builder = new ProxyQuery($this->queryBuilder);
+
+        $builder->getQueryBuilder()
+            ->method('field')
+            ->with('field_name'.$fieldIdentifier)
+            ->willReturnSelf()
+        ;
+
+        $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
+
+        $this->assertTrue($filter->isActive());
+    }
+
+    public function getMappings(): array
+    {
+        return [
+            [ClassMetadata::REFERENCE_STORE_AS_REF, '.id'],
+            [ClassMetadata::REFERENCE_STORE_AS_ID, ''],
+            [ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB, '.$id'],
+            [ClassMetadata::REFERENCE_STORE_AS_DB_REF, '.$id'],
+        ];
+    }
+
+    /**
+     * NEXT_MAJOR: Use only ObjectId when dropping support for doctrine/mongodb-odm 1.x.
+     *
+     * @return ObjectId|\MongoId
+     */
+    private function getMongoIdentifier(string $id)
+    {
+        return class_exists(ObjectId::class) ? new ObjectId($id) : new MongoId($id);
     }
 }
