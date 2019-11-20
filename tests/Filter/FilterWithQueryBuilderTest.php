@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Doctrine\ODM\MongoDB\Query\Builder;
 use PHPUnit\Framework\TestCase;
 
 abstract class FilterWithQueryBuilderTest extends TestCase

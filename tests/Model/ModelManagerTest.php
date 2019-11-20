@@ -15,12 +15,13 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Model;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 class ModelManagerTest extends TestCase
 {
     public function testFilterEmpty()
     {
-        $registry = $this->createMock('Symfony\Bridge\Doctrine\ManagerRegistry');
+        $registry = $this->createMock(ManagerRegistry::class);
 
         $manager = new ModelManager($registry);
     }

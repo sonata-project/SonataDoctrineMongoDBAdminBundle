@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Query\Builder;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
@@ -92,5 +94,67 @@ class FilterTest extends TestCase
     {
         $filter = new FilterTest_Filter();
         $this->assertFalse($filter->isActive());
+    }
+
+    public function testUseNameWithParentAssociationMappings(): void
+    {
+        $filter = new FilterTest_Filter();
+        $filter->initialize('field.name', [
+            'mapping_type' => ClassMetadata::ONE,
+            'field_name' => 'field_name',
+            'parent_association_mappings' => [
+                [
+                    'fieldName' => 'field',
+                ],
+            ], 'field_mapping' => true,
+        ]);
+
+        $queryBuilder = $this->createMock(Builder::class);
+
+        $builder = new ProxyQuery($queryBuilder);
+
+        $queryBuilder
+            ->expects($this->once())
+            ->method('field')
+            ->with('field_name')
+            ->willReturnSelf()
+        ;
+
+        $queryBuilder
+            ->expects($this->once())
+            ->method('equals')
+            ->with('foo')
+        ;
+
+        $filter->apply($builder, 'foo');
+    }
+
+    public function testUseFieldNameWithoutParentAssociationMappings(): void
+    {
+        $filter = new FilterTest_Filter();
+        $filter->initialize('field_name', [
+            'mapping_type' => ClassMetadata::ONE,
+            'field_name' => 'field_name',
+            'field_mapping' => true,
+        ]);
+
+        $queryBuilder = $this->createMock(Builder::class);
+
+        $builder = new ProxyQuery($queryBuilder);
+
+        $queryBuilder
+            ->expects($this->once())
+            ->method('field')
+            ->with('field_name')
+            ->willReturnSelf()
+        ;
+
+        $queryBuilder
+            ->expects($this->once())
+            ->method('equals')
+            ->with('foo')
+        ;
+
+        $filter->apply($builder, 'foo');
     }
 }
