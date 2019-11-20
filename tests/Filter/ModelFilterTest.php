@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use MongoDB\BSON\ObjectId;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\EqualType;
@@ -33,7 +35,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
      */
     public function getFieldDescription(array $options)
     {
-        $fieldDescription = $this->createMock('Sonata\AdminBundle\Admin\FieldDescriptionInterface');
+        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $fieldDescription->expects($this->once())->method('getOptions')->willReturn($options);
         $fieldDescription->expects($this->once())->method('getName')->willReturn('field_name');
 
