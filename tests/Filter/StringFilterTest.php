@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
@@ -27,6 +28,11 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->never())
+            ->method('field')
+        ;
+
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', '');
 
@@ -39,10 +45,14 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', ['format' => '%s']);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $builder->getQueryBuilder()
+            ->expects($this->exactly(2))
+            ->method('equals')
+            ->with($this->isInstanceOf($this->getMongoRegexClass()))
+        ;
+
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_CONTAINS]);
-
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => null]);
         $this->assertTrue($filter->isActive());
     }
@@ -54,6 +64,12 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('not')
+            ->with($this->isInstanceOf($this->getMongoRegexClass()))
+        ;
+
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_NOT_CONTAINS]);
         $this->assertTrue($filter->isActive());
     }
@@ -64,6 +80,12 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', ['format' => '%s']);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('equals')
+            ->with('asd')
+        ;
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_EQUAL]);
         $this->assertTrue($filter->isActive());
@@ -88,7 +110,21 @@ class StringFilterTest extends FilterWithQueryBuilderTest
             ],
         ]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $queryBuilder = $this->createMock(Builder::class);
+
+        $builder = new ProxyQuery($queryBuilder);
+
+        $builder->getQueryBuilder()
+            ->method('field')
+            ->with('field_name')
+            ->willReturnSelf()
+        ;
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('equals')
+            ->with('asd')
+        ;
 
         $filter->apply($builder, ['type' => ChoiceType::TYPE_EQUAL, 'value' => 'asd']);
         $this->assertTrue($filter->isActive());
@@ -111,5 +147,10 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder->getQueryBuilder()->expects($this->never())->method('addOr');
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ChoiceType::TYPE_CONTAINS]);
         $this->assertTrue($filter->isActive());
+    }
+
+    private function getMongoRegexClass()
+    {
+        return \MongoRegex::class;
     }
 }

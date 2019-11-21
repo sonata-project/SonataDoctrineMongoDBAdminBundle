@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
+use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
 class FilterTypeGuesserTest extends TestCase
 {
@@ -25,8 +27,8 @@ class FilterTypeGuesserTest extends TestCase
     protected function setUp(): void
     {
         $this->guesser = new FilterTypeGuesser();
-        $this->modelManager = $this->prophesize('Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager');
-        $this->metadata = $this->prophesize('Doctrine\ODM\MongoDB\Mapping\ClassMetadata');
+        $this->modelManager = $this->prophesize(ModelManager::class);
+        $this->metadata = $this->prophesize(ClassMetadata::class);
     }
 
     public function testThrowsOnMissingField(): void

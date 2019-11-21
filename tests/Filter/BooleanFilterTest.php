@@ -26,6 +26,11 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->never())
+            ->method('field')
+        ;
+
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', '');
         $filter->filter($builder, 'alias', 'field', 'test');
@@ -44,6 +49,12 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('equals')
+            ->with(false)
+        ;
+
         $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_NO]);
 
         $this->assertTrue($filter->isActive());
@@ -56,6 +67,12 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('equals')
+            ->with(true)
+        ;
+
         $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_YES]);
 
         $this->assertTrue($filter->isActive());
@@ -67,6 +84,12 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('in')
+            ->with([false])
+        ;
 
         $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => [BooleanType::TYPE_NO]]);
 

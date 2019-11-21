@@ -14,26 +14,43 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Query\Builder;
+use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\EqualType;
 
 class DocumentStub
 {
+    private $id;
+
+    public function __construct()
+    {
+        $this->id = new \MongoId();
+    }
+
     public function getId()
     {
-        return decbin(random_int(0, getrandmax()));
+        return (string) ($this->id);
     }
 }
 
-class ModelFilterTest extends FilterWithQueryBuilderTest
+class ModelFilterTest extends TestCase
 {
+    private $queryBuilder;
+
+    protected function setUp()
+    {
+        $this->queryBuilder = $this->createMock(Builder::class);
+    }
+
     /**
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function getFieldDescription(array $options)
     {
-        $fieldDescription = $this->createMock('Sonata\AdminBundle\Admin\FieldDescriptionInterface');
+        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $fieldDescription->expects($this->once())->method('getOptions')->willReturn($options);
         $fieldDescription->expects($this->once())->method('getName')->willReturn('field_name');
 
@@ -45,7 +62,12 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $builder = new ProxyQuery($this->queryBuilder);
+
+        $builder->getQueryBuilder()
+            ->expects($this->never())
+            ->method('field')
+        ;
 
         $filter->filter($builder, 'alias', 'field', null);
         $filter->filter($builder, 'alias', 'field', []);
@@ -58,14 +80,29 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $builder = new ProxyQuery($this->queryBuilder);
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('field')
+            ->with('field.$id')
+            ->willReturnSelf()
+        ;
+
+        $oneDocument = new DocumentStub();
+        $otherDocument = new DocumentStub();
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('in')
+            ->with([new \MongoId($oneDocument->getId()), new \MongoId($otherDocument->getId())])
+        ;
 
         $filter->filter($builder, 'alias', 'field', [
             'type' => EqualType::TYPE_IS_EQUAL,
-            'value' => [new DocumentStub(), new DocumentStub()],
+            'value' => [$oneDocument, $otherDocument],
         ]);
 
-        // the alias is now computer by the entityJoin method
         $this->assertTrue($filter->isActive());
     }
 
@@ -74,9 +111,24 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->filter($builder, 'alias', 'field', ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('field')
+            ->with('field.$id')
+            ->willReturnSelf()
+        ;
+
+        $document1 = new DocumentStub();
+
+        $builder->getQueryBuilder()
+            ->expects($this->once())
+            ->method('equals')
+            ->with(new \MongoId($document1->getId()))
+        ;
+
+        $filter->filter($builder, 'alias', 'field', ['type' => EqualType::TYPE_IS_EQUAL, 'value' => $document1]);
 
         $this->assertTrue($filter->isActive());
     }
@@ -88,7 +140,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['mapping_type' => 'foo', 'field_mapping' => true]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, 'asd');
     }
@@ -100,7 +152,7 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['mapping_type' => ClassMetadata::ONE, 'field_mapping' => true]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, 'asd');
         $this->assertTrue($filter->isActive());
@@ -117,7 +169,13 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
             ], 'field_mapping' => true,
         ]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $builder = new ProxyQuery($this->queryBuilder);
+
+        $builder->getQueryBuilder()
+            ->method('field')
+            ->with('field_name.$id')
+            ->willReturnSelf()
+        ;
 
         $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
 
@@ -143,7 +201,13 @@ class ModelFilterTest extends FilterWithQueryBuilderTest
             ], 'field_mapping' => true,
         ]);
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
+        $builder = new ProxyQuery($this->queryBuilder);
+
+        $builder->getQueryBuilder()
+            ->method('field')
+            ->with('field_name.$id')
+            ->willReturnSelf()
+        ;
 
         $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
 
