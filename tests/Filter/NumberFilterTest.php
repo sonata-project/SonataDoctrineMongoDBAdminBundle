@@ -54,7 +54,10 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilter()
+    /**
+     * @dataProvider getNumberExamples
+     */
+    public function testFilter(array $data, string $method): void
     {
         $filter = new NumberFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -62,42 +65,25 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $builder->getQueryBuilder()
-            ->expects($this->exactly(2))
-            ->method('equals')
-            ->with('42')
-        ;
-
-        $builder->getQueryBuilder()
             ->expects($this->once())
-            ->method('gte')
-            ->with('42')
+            ->method($method)
+            ->with($data['value'])
         ;
 
-        $builder->getQueryBuilder()
-            ->expects($this->once())
-            ->method('gt')
-            ->with('42')
-        ;
-
-        $builder->getQueryBuilder()
-            ->expects($this->once())
-            ->method('lte')
-            ->with('42')
-        ;
-
-        $builder->getQueryBuilder()
-            ->expects($this->once())
-            ->method('lt')
-            ->with('42')
-        ;
-
-        $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_EQUAL, 'value' => 42]);
-        $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_GREATER_EQUAL, 'value' => 42]);
-        $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_GREATER_THAN, 'value' => 42]);
-        $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_LESS_EQUAL, 'value' => 42]);
-        $filter->filter($builder, 'alias', 'field', ['type' => NumberType::TYPE_LESS_THAN, 'value' => 42]);
-        $filter->filter($builder, 'alias', 'field', ['value' => 42]);
+        $filter->filter($builder, 'alias', 'field', $data);
 
         $this->assertTrue($filter->isActive());
+    }
+
+    public function getNumberExamples(): array
+    {
+        return [
+            [['type' => NumberType::TYPE_EQUAL, 'value' => 42], 'equals'],
+            [['type' => NumberType::TYPE_GREATER_EQUAL, 'value' => 42], 'gte'],
+            [['type' => NumberType::TYPE_GREATER_THAN, 'value' => 42], 'gt'],
+            [['type' => NumberType::TYPE_LESS_EQUAL, 'value' => 42], 'lte'],
+            [['type' => NumberType::TYPE_LESS_THAN, 'value' => 42], 'lt'],
+            [['value' => 42], 'equals'],
+        ];
     }
 }
