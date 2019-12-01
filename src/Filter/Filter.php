@@ -26,7 +26,9 @@ abstract class Filter extends BaseFilter
     {
         $this->value = $value;
 
-        $this->filter($queryBuilder, null, $this->getFieldName(), $value);
+        $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
+
+        $this->filter($queryBuilder, null, $field, $value);
     }
 
     /**

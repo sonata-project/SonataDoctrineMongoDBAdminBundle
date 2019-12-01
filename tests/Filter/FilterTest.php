@@ -112,7 +112,7 @@ class FilterTest extends TestCase
         $queryBuilder
             ->expects($this->once())
             ->method('field')
-            ->with('field_name')
+            ->with('field.name')
             ->willReturnSelf()
         ;
 
