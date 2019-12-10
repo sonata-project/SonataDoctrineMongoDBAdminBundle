@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Types\Type;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
@@ -44,30 +45,44 @@ class TypeGuesser extends AbstractTypeGuesser
         }
 
         switch ($metadata->getTypeOfField($propertyName)) {
-            case 'collection':
-            case 'hash':
+            case Type::COLLECTION:
+            case Type::HASH:
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'array':
               return new TypeGuess('array', [], Guess::HIGH_CONFIDENCE);
-            case 'boolean':
+            case Type::BOOL:
+            case Type::BOOLEAN:
                 return new TypeGuess('boolean', [], Guess::HIGH_CONFIDENCE);
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'datetime':
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'vardatetime':
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'datetimetz':
-            case 'timestamp':
+            case Type::TIMESTAMP:
                 return new TypeGuess('datetime', [], Guess::HIGH_CONFIDENCE);
-            case 'date':
+            case Type::DATE:
+            // NEXT_MAJOR: Use only the constant when dropping support for doctrine/mongodb-odm 1.3.
+            // case Type::DATE_IMMUTABLE:
+            case 'date_immutable':
                 return new TypeGuess('date', [], Guess::HIGH_CONFIDENCE);
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'decimal':
-            case 'float':
+            case Type::FLOAT:
                 return new TypeGuess('number', [], Guess::MEDIUM_CONFIDENCE);
-            case 'integer':
+            case Type::INTEGER:
+            case Type::INT:
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'bigint':
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'smallint':
                 return new TypeGuess('integer', [], Guess::MEDIUM_CONFIDENCE);
-            case 'string':
+            case Type::STRING:
                 return new TypeGuess('text', [], Guess::MEDIUM_CONFIDENCE);
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'text':
                 return new TypeGuess('textarea', [], Guess::MEDIUM_CONFIDENCE);
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'time':
                 return new TypeGuess('time', [], Guess::HIGH_CONFIDENCE);
             default:

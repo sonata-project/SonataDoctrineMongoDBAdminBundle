@@ -15,10 +15,19 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Types\Type;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Model\MissingPropertyMetadataException;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\EqualType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
@@ -62,7 +71,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                     $options['field_name'] = $mapping['fieldName'];
                     $options['mapping_type'] = $mapping['type'];
 
-                    return new TypeGuess('doctrine_mongo_model', $options, Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess(ModelFilter::class, $options, Guess::HIGH_CONFIDENCE);
             }
         }
 
@@ -73,36 +82,46 @@ class FilterTypeGuesser extends AbstractTypeGuesser
         $options['field_name'] = $metadata->fieldMappings[$propertyName]['fieldName'];
 
         switch ($metadata->getTypeOfField($propertyName)) {
-            case 'boolean':
+            case Type::BOOL:
+            case Type::BOOLEAN:
                 $options['field_type'] = BooleanType::class;
                 $options['field_options'] = [];
 
-                return new TypeGuess('doctrine_mongo_boolean', $options, Guess::HIGH_CONFIDENCE);
-//            case 'datetime':
-//            case 'vardatetime':
-//            case 'datetimetz':
-//                return new TypeGuess('doctrine_orm_datetime', $options, Guess::HIGH_CONFIDENCE);
-//            case 'date':
-//                return new TypeGuess('doctrine_orm_date', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
+            case 'datetime':
+            case Type::TIMESTAMP:
+                $options['field_type'] = DateTimeType::class;
+
+                return new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            case Type::DATE:
+
+            // NEXT_MAJOR: Use only the constant when dropping support for doctrine/mongodb-odm 1.3.
+            // case Type::DATE_IMMUTABLE:
+                $options['field_type'] = DateType::class;
+
+                return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'decimal':
-            case 'float':
-                return new TypeGuess('doctrine_mongo_number', $options, Guess::MEDIUM_CONFIDENCE);
-            case 'int':
+            case Type::FLOAT:
+            case Type::INT:
+            case Type::INTEGER:
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'bigint':
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'smallint':
                 $options['field_type'] = NumberType::class;
 
-                return new TypeGuess('doctrine_mongo_number', $options, Guess::MEDIUM_CONFIDENCE);
-            case 'id':
-            case 'string':
+                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
+            case Type::ID:
+            case Type::STRING:
+            /* @deprecated This type was deprecated since version 3.x, to be removed in 4.0 */
             case 'text':
                 $options['field_type'] = TextType::class;
 
-                return new TypeGuess('doctrine_mongo_string', $options, Guess::MEDIUM_CONFIDENCE);
-            case 'time':
-                return new TypeGuess('doctrine_mongo_time', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(StringFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             default:
-                return new TypeGuess('doctrine_mongo_string', $options, Guess::LOW_CONFIDENCE);
+                return new TypeGuess(StringFilter::class, $options, Guess::LOW_CONFIDENCE);
         }
     }
 }

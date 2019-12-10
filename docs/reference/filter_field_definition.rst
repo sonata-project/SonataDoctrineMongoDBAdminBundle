@@ -27,12 +27,12 @@ Filter types available
 
 Some filter types are missing. Contributions are welcome.
 
-  - doctrine_mongo_boolean        : depends on the ``sonata_type_filter_default`` Form Type, renders yes or no field
-  - doctrine_mongo_callback       : depends on the ``sonata_type_filter_default`` Form Type, types can be configured as needed
-  - doctrine_mongo_choice         : depends on the ``sonata_type_filter_choice`` Form Type, renders yes or no field
-  - doctrine_mongo_model          : depends on the ``sonata_type_filter_number`` Form Type
-  - doctrine_mongo_string         : depends on the ``sonata_type_filter_choice``
-  - doctrine_mongo_number         : depends on the ``sonata_type_filter_choice`` Form Type, renders yes or no field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter``        : depends on the ``sonata_type_filter_default`` Form Type, renders yes or no field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter``       : depends on the ``sonata_type_filter_default`` Form Type, types can be configured as needed
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter``         : depends on the ``sonata_type_filter_choice`` Form Type, renders yes or no field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter``          : depends on the ``sonata_type_filter_number`` Form Type
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter``         : depends on the ``sonata_type_filter_choice``
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter``         : depends on the ``sonata_type_filter_choice`` Form Type, renders yes or no field
 
 Example
 -------
@@ -109,6 +109,7 @@ or not::
 
     use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
+    use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
     use App\Application\Sonata\NewsBundle\Entity\Comment;
 
@@ -121,7 +122,7 @@ or not::
                 ->add('enabled')
                 ->add('tags', null, [], null, ['expanded' => true, 'multiple' => true])
                 ->add('author')
-                ->add('finished', 'doctrine_mongo_callback', [
+                ->add('finished', CallbackFilter::class', [
                     'callback' => function($queryBuilder, $alias, $field, $value) {
                         if (!$value) {
                             return;
