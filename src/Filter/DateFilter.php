@@ -14,9 +14,15 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class DateFilter extends AbstractDateFilter
 {
+    public function getFieldType()
+    {
+        return $this->getOption('field_type', DateType::class);
+    }
+
     /**
      * @param string $field
      * @param array  $data

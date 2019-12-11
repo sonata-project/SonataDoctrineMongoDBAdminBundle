@@ -359,6 +359,17 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelInstance($class)
     {
+        $r = new \ReflectionClass($class);
+        if ($r->isAbstract()) {
+            throw new \InvalidArgumentException(sprintf('Cannot initialize abstract class: %s', $class));
+        }
+
+        $constructor = $r->getConstructor();
+
+        if (null !== $constructor && (!$constructor->isPublic() || $constructor->getNumberOfRequiredParameters() > 0)) {
+            return $r->newInstanceWithoutConstructor();
+        }
+
         return new $class();
     }
 
@@ -443,7 +454,7 @@ class ModelManager implements ModelManagerInterface
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
+                    throw new \BadMethodCallException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
                 }
 
                 $instance->$setter($value);
@@ -452,7 +463,7 @@ class ModelManager implements ModelManagerInterface
                 $instance->$property = $value;
             } elseif ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new \RuntimeException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
+                    throw new \BadMethodCallException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;

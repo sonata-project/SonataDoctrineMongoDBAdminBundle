@@ -49,18 +49,22 @@ abstract class AbstractDateFilter extends Filter
         $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateType::TYPE_EQUAL : $data['type'];
 
         // Some types do not require a value to be set (NULL, NOT NULL).
-        if (!$this->typeRequiresValue($data['type']) && !$data['value']) {
+        if (!($data['value'] ?? false) && !$this->typeRequiresValue($data['type'])) {
             return;
         }
 
         switch ($data['type']) {
             case DateType::TYPE_EQUAL:
+                $this->active = true;
+
                 return $this->applyTypeIsEqual($queryBuilder, $field, $data);
 
             case DateType::TYPE_GREATER_THAN:
                 if (!\array_key_exists('value', $data) || !$data['value']) {
                     return;
                 }
+
+                $this->active = true;
 
                 return $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
 
@@ -69,14 +73,20 @@ abstract class AbstractDateFilter extends Filter
                     return;
                 }
 
+                $this->active = true;
+
                 return $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
 
             case DateType::TYPE_NULL:
             case DateType::TYPE_NOT_NULL:
+                $this->active = true;
+
                 return $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
 
             case DateType::TYPE_GREATER_EQUAL:
             case DateType::TYPE_LESS_THAN:
+                $this->active = true;
+
                 return $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
         }
     }
@@ -109,6 +119,30 @@ abstract class AbstractDateFilter extends Filter
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
         ]];
+    }
+
+    /**
+     * @param string $field
+     * @param array  $data
+     */
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    {
+    }
+
+    /**
+     * @param string $field
+     * @param array  $data
+     */
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data)
+    {
+    }
+
+    /**
+     * @param string $field
+     * @param array  $data
+     */
+    protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    {
     }
 
     /**
