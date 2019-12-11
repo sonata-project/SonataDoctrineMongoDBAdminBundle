@@ -1,0 +1,30 @@
+parameters:
+    level: 1
+
+    paths:
+        - src
+# Uncomment this, when phpstan extensions are allowed
+#        - tests
+
+    excludes_analyse:
+        - src/Test/AbstractWidgetTestCase.php
+        - tests/bootstrap.php
+
+    autoload_files:
+        - vendor/autoload.php
+
+    ignoreErrors:
+            -
+                message: "#^Instantiated class MongoId not found\\.$#"
+                count: 1
+                path: src/Filter/ModelFilter.php
+
+            -
+                message: "#^Caught class MongoException not found\\.$#"
+                count: 1
+                path: src/Filter/ModelFilter.php
+
+            -
+                message: "#^Instantiated class MongoRegex not found\\.$#"
+                count: 1
+                path: src/Filter/StringFilter.php
