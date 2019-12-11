@@ -86,7 +86,7 @@ class FieldDescription extends BaseFieldDescription
      */
     public function isIdentifier()
     {
-        return isset($this->fieldMapping['id']) ? $this->fieldMapping['id'] : false;
+        return $this->fieldMapping['id'] ?? false;
     }
 
     /**
