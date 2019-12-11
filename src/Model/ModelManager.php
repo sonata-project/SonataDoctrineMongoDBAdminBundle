@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Query\Query;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -22,7 +23,6 @@ use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 class ModelManager implements ModelManagerInterface
 {
@@ -97,7 +97,7 @@ class ModelManager implements ModelManagerInterface
             $options['route']['parameters'] = [];
         }
 
-        list($metadata, $propertyName, $parentAssociationMappings) = $this->getParentMetadataForProperty($class, $name);
+        [$metadata, $propertyName, $parentAssociationMappings] = $this->getParentMetadataForProperty($class, $name);
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName($name);
@@ -449,7 +449,7 @@ class ModelManager implements ModelManagerInterface
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
+                    throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
                 }
 
                 $instance->$setter($value);
@@ -458,7 +458,7 @@ class ModelManager implements ModelManagerInterface
                 $instance->$property = $value;
             } elseif ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
+                    throw new \RuntimeException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;
@@ -511,7 +511,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * method taken from PropertyPath.
+     * method taken from Symfony\Component\PropertyAccess\PropertyAccessor.
      *
      * @param string $property
      *
@@ -519,7 +519,7 @@ class ModelManager implements ModelManagerInterface
      */
     protected function camelize($property)
     {
-        return preg_replace(['/(^|_)+(.)/e', '/\.(.)/e'], ["strtoupper('\\2')", "'_'.strtoupper('\\1')"], $property);
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }
 
     private function isFieldAlreadySorted(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid): bool

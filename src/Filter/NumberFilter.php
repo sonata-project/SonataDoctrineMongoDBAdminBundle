@@ -59,7 +59,7 @@ class NumberFilter extends Filter
     }
 
     /**
-     * @param $type
+     * @param string $type
      *
      * @return bool
      */

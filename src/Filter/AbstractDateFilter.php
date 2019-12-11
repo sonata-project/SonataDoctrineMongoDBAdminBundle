@@ -49,7 +49,7 @@ abstract class AbstractDateFilter extends Filter
         $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateType::TYPE_EQUAL : $data['type'];
 
         // Some types do not require a value to be set (NULL, NOT NULL).
-        if (!$this->typeRequiresValue($data['type']) && !$data['value']) {
+        if (!$this->typeRequiresValue($data['type']) && !isset($data['value'])) {
             return;
         }
 
@@ -60,18 +60,12 @@ abstract class AbstractDateFilter extends Filter
                 return;
 
             case DateType::TYPE_GREATER_THAN:
-                if (!\array_key_exists('value', $data) || !$data['value']) {
-                    return;
-                }
 
                 $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
 
                 return;
 
             case DateType::TYPE_LESS_EQUAL:
-                if (!\array_key_exists('value', $data) || !$data['value']) {
-                    return;
-                }
 
                 $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
 
@@ -118,6 +112,24 @@ abstract class AbstractDateFilter extends Filter
             'label' => $this->getLabel(),
         ]];
     }
+
+    /**
+     * @param string $field
+     * @param array  $data
+     */
+    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data);
+
+    /**
+     * @param string $field
+     * @param array  $data
+     */
+    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data);
+
+    /**
+     * @param string $field
+     * @param array  $data
+     */
+    abstract protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data);
 
     /**
      * @param string    $operation

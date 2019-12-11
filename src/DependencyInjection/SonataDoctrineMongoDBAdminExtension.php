@@ -42,8 +42,6 @@ class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
         $processor = new Processor();
         $config = $processor->processConfiguration($configuration, $configs);
 
-        $pool = $container->getDefinition('sonata.admin.manager.doctrine_mongodb');
-
         $container->setParameter('sonata_doctrine_mongodb_admin.templates', $config['templates']);
 
         // define the templates

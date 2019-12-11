@@ -50,14 +50,6 @@ class Pager extends BasePager
     /**
      * {@inheritdoc}
      */
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function init()
     {
         $this->resetIterator();

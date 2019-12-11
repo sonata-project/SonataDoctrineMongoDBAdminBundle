@@ -38,7 +38,7 @@ class BooleanFilter extends Filter
                     continue;
                 }
 
-                $values[] = (BooleanType::TYPE_YES === $v) ? true : false;
+                $values[] = BooleanType::TYPE_YES === $v;
             }
 
             if (0 === \count($values)) {
@@ -52,7 +52,7 @@ class BooleanFilter extends Filter
                 return;
             }
 
-            $value = BooleanType::TYPE_YES === $data['value'] ? true : false;
+            $value = BooleanType::TYPE_YES === $data['value'];
 
             $queryBuilder->field($field)->equals($value);
             $this->active = true;

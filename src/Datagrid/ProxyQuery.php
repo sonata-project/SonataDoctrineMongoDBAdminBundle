@@ -56,7 +56,7 @@ class ProxyQuery implements ProxyQueryInterface
             $queryBuilder->sort($sortBy, $this->getSortOrder());
         }
 
-        return $queryBuilder->getQuery()->execute($params, $hydrationMode);
+        return $queryBuilder->getQuery()->execute();
     }
 
     public function setSortBy($parentAssociationMappings, $fieldMapping)

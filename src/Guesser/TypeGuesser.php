@@ -30,7 +30,7 @@ class TypeGuesser extends AbstractTypeGuesser
             return new TypeGuess('text', [], Guess::LOW_CONFIDENCE);
         }
 
-        list($metadata, $propertyName, $parentAssociationMappings) = $ret;
+        [$metadata, $propertyName,] = $ret;
 
         if ($metadata->hasAssociation($propertyName)) {
             $mapping = $metadata->fieldMappings[$propertyName];
