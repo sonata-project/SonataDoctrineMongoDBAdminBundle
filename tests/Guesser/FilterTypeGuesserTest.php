@@ -109,7 +109,7 @@ class FilterTypeGuesserTest extends TestCase
     /**
      * @dataProvider noAssociationData
      */
-    public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence, string $fieldType = null): void
+    public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence, ?string $fieldType = null): void
     {
         $classMetadata = $this->prophesize(ClassMetadata::class);
 

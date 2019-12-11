@@ -55,17 +55,21 @@ abstract class AbstractDateFilter extends Filter
 
         switch ($data['type']) {
             case DateType::TYPE_EQUAL:
+                $this->active = true;
+
                 $this->applyTypeIsEqual($queryBuilder, $field, $data);
 
                 return;
 
             case DateType::TYPE_GREATER_THAN:
+                $this->active = true;
 
                 $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
 
                 return;
 
             case DateType::TYPE_LESS_EQUAL:
+                $this->active = true;
 
                 $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
 
@@ -73,13 +77,19 @@ abstract class AbstractDateFilter extends Filter
 
             case DateType::TYPE_NULL:
             case DateType::TYPE_NOT_NULL:
+                $this->active = true;
+
                 $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
 
                 return;
 
             case DateType::TYPE_GREATER_EQUAL:
             case DateType::TYPE_LESS_THAN:
+                $this->active = true;
+
                 $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+
+                return;
         }
     }
 
@@ -113,30 +123,18 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
-    /**
-     * @param string $field
-     * @param array  $data
-     */
-    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data);
+    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
-    /**
-     * @param string $field
-     * @param array  $data
-     */
-    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data);
+    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
-    /**
-     * @param string $field
-     * @param array  $data
-     */
-    abstract protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data);
+    abstract protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
     /**
      * @param string    $operation
      * @param string    $field
      * @param \DateTime $datetime
      */
-    protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, \DateTime $datetime = null)
+    protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, ?\DateTime $datetime = null)
     {
         $queryBuilder->field($field)->$operation($datetime);
         $this->active = true;
