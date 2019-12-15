@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
-use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
