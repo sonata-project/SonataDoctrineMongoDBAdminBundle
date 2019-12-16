@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrineORMAdminBundle\Tests\Builder;
+namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
