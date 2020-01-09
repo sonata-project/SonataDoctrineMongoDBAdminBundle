@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.3.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.2.2...3.3.0) - 2020-01-08
+### Fixed
+- Fixed filtering by a field of an embedded object
+- Fixed `_action` item in ListMapper when type is `null`
+- Fixed support for doctrine/mongodb-odm 2.x
+
+### Removed
+- Support for Symfony < 3.4
+- Support for Symfony >= 4, < 4.2
+
 ## [3.2.2](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.2.1...3.2.2) - 2019-10-16
 ### Added
 - support for `doctrine/mongodb-odm` 2.x and `doctrine/mongodb-odm-bundle` 4.x
