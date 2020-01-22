@@ -279,6 +279,10 @@ class ModelManager implements ModelManagerInterface
             throw new \RunTimeException('Invalid argument, object or null required');
         }
 
+        // not managed
+        if (!$this->registry->getManagerForClass(\get_class($document))) {
+            return;
+        }
         // the entities is not managed
         if (!$document || !$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
             return;
