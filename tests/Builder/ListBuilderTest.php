@@ -49,7 +49,7 @@ class ListBuilderTest extends TestCase
      */
     protected $modelManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->typeGuesser = $this->prophesize(TypeGuesserInterface::class);
 
@@ -65,7 +65,7 @@ class ListBuilderTest extends TestCase
         $this->listBuilder = new ListBuilder($this->typeGuesser->reveal());
     }
 
-    public function testAddListActionField()
+    public function testAddListActionField(): void
     {
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('foo');
@@ -80,7 +80,7 @@ class ListBuilderTest extends TestCase
         );
     }
 
-    public function testCorrectFixedActionsFieldType()
+    public function testCorrectFixedActionsFieldType(): void
     {
         $this->typeGuesser->guessType(
             Argument::any(), Argument::any(), Argument::any()

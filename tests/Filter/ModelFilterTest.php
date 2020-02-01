@@ -42,7 +42,7 @@ class ModelFilterTest extends TestCase
 {
     private $queryBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->queryBuilder = $this->createMock(Builder::class);
     }
@@ -59,7 +59,7 @@ class ModelFilterTest extends TestCase
         return $fieldDescription;
     }
 
-    public function testFilterEmpty()
+    public function testFilterEmpty(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -77,7 +77,7 @@ class ModelFilterTest extends TestCase
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterArray()
+    public function testFilterArray(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
@@ -108,7 +108,7 @@ class ModelFilterTest extends TestCase
         $this->assertTrue($filter->isActive());
     }
 
-    public function testFilterScalar()
+    public function testFilterScalar(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
@@ -135,7 +135,7 @@ class ModelFilterTest extends TestCase
         $this->assertTrue($filter->isActive());
     }
 
-    public function testAssociationWithInvalidMapping()
+    public function testAssociationWithInvalidMapping(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -147,7 +147,7 @@ class ModelFilterTest extends TestCase
         $filter->apply($builder, 'asd');
     }
 
-    public function testAssociationWithValidMappingAndEmptyFieldName()
+    public function testAssociationWithValidMappingAndEmptyFieldName(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -160,7 +160,7 @@ class ModelFilterTest extends TestCase
         $this->assertTrue($filter->isActive());
     }
 
-    public function testAssociationWithValidMapping()
+    public function testAssociationWithValidMapping(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
@@ -184,7 +184,7 @@ class ModelFilterTest extends TestCase
         $this->assertTrue($filter->isActive());
     }
 
-    public function testAssociationWithValidParentAssociationMappings()
+    public function testAssociationWithValidParentAssociationMappings(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
