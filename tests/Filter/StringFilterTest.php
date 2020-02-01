@@ -22,7 +22,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 
 class StringFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testEmpty()
+    public function testEmpty(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
@@ -40,7 +40,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testContains()
+    public function testContains(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', ['format' => '%s']);
@@ -58,7 +58,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testNotContains()
+    public function testNotContains(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', ['format' => '%s']);
@@ -75,7 +75,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testEquals()
+    public function testEquals(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', ['format' => '%s']);
@@ -92,7 +92,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testEqualsWithValidParentAssociationMappings()
+    public function testEqualsWithValidParentAssociationMappings(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', [
@@ -131,7 +131,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testOr()
+    public function testOr(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', ['format' => '%s']);

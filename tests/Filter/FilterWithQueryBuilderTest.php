@@ -22,7 +22,7 @@ abstract class FilterWithQueryBuilderTest extends TestCase
     private $queryBuilder;
     private $expr;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->queryBuilder = $this->createMock(Builder::class);
         $this->queryBuilder

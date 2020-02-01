@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 class ModelManagerTest extends TestCase
 {
-    public function testFilterEmpty()
+    public function testFilterEmpty(): void
     {
         $registry = $this->createMock(ManagerRegistry::class);
 

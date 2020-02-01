@@ -22,7 +22,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 
 class FieldDescriptionTest extends TestCase
 {
-    public function testOptions()
+    public function testOptions(): void
     {
         $field = new FieldDescription();
         $field->setOptions([
@@ -85,7 +85,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($expected, $field->getOptions());
     }
 
-    public function testAssociationMapping()
+    public function testAssociationMapping(): void
     {
         $field = new FieldDescription();
         $field->setAssociationMapping([
@@ -110,14 +110,14 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('integer', $field->getType());
     }
 
-    public function testCamelize()
+    public function testCamelize(): void
     {
         $this->assertSame('FooBar', Inflector::classify('foo_bar'));
         $this->assertSame('FooBar', Inflector::classify('foo bar'));
         $this->assertSame('FOoBar', Inflector::classify('fOo bar'));
     }
 
-    public function testSetName()
+    public function testSetName(): void
     {
         $field = new FieldDescription();
         $field->setName('New field description name');
@@ -125,7 +125,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($field->getName(), 'New field description name');
     }
 
-    public function testSetNameSetFieldNameToo()
+    public function testSetNameSetFieldNameToo(): void
     {
         $field = new FieldDescription();
         $field->setName('New field description name');
@@ -133,7 +133,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($field->getFieldName(), 'New field description name');
     }
 
-    public function testSetNameDoesNotSetFieldNameWhenSetBefore()
+    public function testSetNameDoesNotSetFieldNameWhenSetBefore(): void
     {
         $field = new FieldDescription();
         $field->setFieldName('field name');
@@ -142,7 +142,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($field->getFieldName(), 'field name');
     }
 
-    public function testGetParent()
+    public function testGetParent(): void
     {
         $adminMock = $this->createMock(AdminInterface::class);
         $field = new FieldDescription();
@@ -151,7 +151,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($adminMock, $field->getParent());
     }
 
-    public function testGetHelp()
+    public function testGetHelp(): void
     {
         $field = new FieldDescription();
         $field->setHelp('help message');
@@ -159,7 +159,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($field->getHelp(), 'help message');
     }
 
-    public function testGetAdmin()
+    public function testGetAdmin(): void
     {
         $adminMock = $this->createMock(AdminInterface::class);
         $field = new FieldDescription();
@@ -168,7 +168,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($adminMock, $field->getAdmin());
     }
 
-    public function testGetAssociationAdmin()
+    public function testGetAssociationAdmin(): void
     {
         $adminMock = $this->createMock(AbstractAdmin::class);
         $adminMock->expects($this->once())
@@ -181,7 +181,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($adminMock, $field->getAssociationAdmin());
     }
 
-    public function testHasAssociationAdmin()
+    public function testHasAssociationAdmin(): void
     {
         $adminMock = $this->createMock(AbstractAdmin::class);
         $adminMock->expects($this->once())
@@ -197,7 +197,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertTrue($field->hasAssociationAdmin());
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $mockedObject = $this->getMockBuilder('MockedTestObject')
             ->setMethods(['myMethod'])
@@ -212,7 +212,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
     }
 
-    public function testGetValueWhenCannotRetrieve()
+    public function testGetValueWhenCannotRetrieve(): void
     {
         $this->expectException(\Sonata\AdminBundle\Exception\NoValueException::class);
 
@@ -228,7 +228,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
     }
 
-    public function testGetAssociationMapping()
+    public function testGetAssociationMapping(): void
     {
         $assocationMapping = [
             'type' => 'integer',
@@ -241,7 +241,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($assocationMapping, $field->getAssociationMapping());
     }
 
-    public function testSetAssociationMappingAllowOnlyForArray()
+    public function testSetAssociationMappingAllowOnlyForArray(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -249,7 +249,7 @@ class FieldDescriptionTest extends TestCase
         $field->setAssociationMapping('test');
     }
 
-    public function testSetFieldMappingAllowOnlyForArray()
+    public function testSetFieldMappingAllowOnlyForArray(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -257,7 +257,7 @@ class FieldDescriptionTest extends TestCase
         $field->setFieldMapping('test');
     }
 
-    public function testSetFieldMappingSetType()
+    public function testSetFieldMappingSetType(): void
     {
         $fieldMapping = [
             'type' => 'integer',
@@ -270,7 +270,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('integer', $field->getType());
     }
 
-    public function testSetFieldMappingSetMappingType()
+    public function testSetFieldMappingSetMappingType(): void
     {
         $fieldMapping = [
             'type' => 'integer',
@@ -283,7 +283,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('integer', $field->getMappingType());
     }
 
-    public function testSetFieldMappingSetFieldName()
+    public function testSetFieldMappingSetFieldName(): void
     {
         $fieldMapping = [
             'type' => 'integer',
@@ -296,7 +296,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('position', $field->getFieldName());
     }
 
-    public function testGetTargetEntity()
+    public function testGetTargetEntity(): void
     {
         $assocationMapping = [
             'type' => 'integer',
@@ -313,7 +313,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('someValue', $field->getTargetEntity());
     }
 
-    public function testIsIdentifierFromFieldMapping()
+    public function testIsIdentifierFromFieldMapping(): void
     {
         $fieldMapping = [
             'type' => 'integer',
@@ -327,7 +327,7 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('someId', $field->isIdentifier());
     }
 
-    public function testGetFieldMapping()
+    public function testGetFieldMapping(): void
     {
         $fieldMapping = [
             'type' => 'integer',

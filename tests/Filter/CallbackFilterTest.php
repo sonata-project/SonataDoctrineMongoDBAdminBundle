@@ -18,7 +18,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
 class CallbackFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterClosureEmpty()
+    public function testFilterClosureEmpty(): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -36,7 +36,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterClosureNotEmpty()
+    public function testFilterClosureNotEmpty(): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -52,7 +52,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function testFilterMethodEmpty()
+    public function testFilterMethodEmpty(): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -68,7 +68,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterMethodNotEmpty()
+    public function testFilterMethodNotEmpty(): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -87,7 +87,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         return true;
     }
 
-    public function testFilterException()
+    public function testFilterException(): void
     {
         $this->expectException(\RuntimeException::class);
 
