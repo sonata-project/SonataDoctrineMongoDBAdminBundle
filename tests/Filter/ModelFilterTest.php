@@ -42,7 +42,7 @@ class ModelFilterTest extends TestCase
 {
     private $queryBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->queryBuilder = $this->createMock(Builder::class);
     }
