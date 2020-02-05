@@ -53,7 +53,7 @@ Example
     field. This can be an issue for HTML5 browsers as they provide client-side
     validation.
 
-Types available
+Available Types
 ---------------
 
     - array
@@ -75,7 +75,7 @@ Short Object Placeholder
 
 When using Many-to-One or One-to-One relations with Sonata Type fields, a short
 object description is used to represent the target object. If no object is selected,
-a 'No selection' placeholder will be used. If you want to customize this placeholder,
+a "No selection" placeholder will be used. If you want to customize this placeholder,
 you can use the corresponding option in the form field definition::
 
     namespace Sonata\NewsBundle\Admin;
@@ -92,7 +92,8 @@ you can use the corresponding option in the form field definition::
                     ->add('enabled', null, ['required' => false])
                     ->add('author', 'sonata_type_model_list', [], [
                         'placeholder' => 'No author selected',
-                    ]);
+                    ])
+                ->end();
         }
     }
 
@@ -131,13 +132,13 @@ model definition)::
     provide an instance of ``UploadedFile`` for the ``Media::setBinaryContent``
     method. Otherwise, the full path will be provided.
 
-Advanced Usage: Many-to-one
+Advanced Usage: Many-to-One
 ---------------------------
 
 If you have many ``Post``s linked to one ``User``, then the ``Post`` form should
 display a ``User`` field.
 
-The AdminBundle provides 3 edit options:
+SonataAdminBundle provides 3 edit options:
 
  - ``standard``: default value, the ``User`` list is set in a select widget
  - ``list``: the ``User`` list is set in a model where you can search and select a user
@@ -171,7 +172,7 @@ With the ``standard`` and ``list`` options, you can create a new ``User`` by cli
                         // or hide the button
                         'btn_delete' => false,
 
-                        //Custom translation domain for buttons
+                        // Custom translation domain for buttons
                         'btn_catalogue' => 'SonataNewsBundle',
                     ], ['edit' => 'list'])
                     ->add('title')
@@ -184,25 +185,52 @@ With the ``standard`` and ``list`` options, you can create a new ``User`` by cli
                 ->with('Options', ['collapsed' => true])
                     ->add('commentsCloseAt')
                     ->add('commentsEnabled', null, ['required' => false])
-                    ->add('commentsDefaultStatus', 'choice', ['choices' => Comment::getStatusList()])
+                    ->add('commentsDefaultStatus', 'choice', [
+                        'choices' => Comment::getStatusList(),
+                    ])
                 ->end()
             ;
         }
     }
 
-Advanced Usage: One-to-many
+Advanced Usage: One-to-Many
 ---------------------------
 
 Let's say you have a ``Gallery`` that links to some ``Media``s with a join table
-``galleryHasMedias``. You can easily add a new ``galleryHasMedias`` row by
-defining one of these options:
+``galleryHasMedias`` you can reference them like::
 
-  - ``edit``: ``inline|standard``, the inline mode allows you to add new rows
-  - ``inline``: ``table|standard``, the fields are displayed into table
-  - ``sortable``: if the model has a position field, you can enable a drag and
-    drop sortable effect by setting ``sortable=field_name``
+    namespace Sonata\MediaBundle\Admin;
 
-.. code-block:: php
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
+    use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Datagrid\DatagridMapper;
+    use Sonata\AdminBundle\Datagrid\ListMapper;
+
+    final class GalleryAdmin extends AbstractAdmin
+    {
+        protected function configureFormFields(FormMapper $formMapper)
+        {
+            $formMapper
+                ->add('code')
+                ->add('enabled')
+                ->add('name')
+                ->add('defaultFormat')
+                ->add('galleryHasMedias', 'sonata_type_collection');
+        }
+    }
+
+Add a new ``Media`` (via ``galleryHasMedias``) row by defining one of these options:
+
+``edit``
+    ``inline`` or ``standard``, the inline mode allows you to add new rows
+
+``inline``
+    ``table`` or ``standard``, the fields are displayed into table
+
+``sortable``
+    if the model has a position field, you can enable a drag and drop sortable effect by setting ``sortable=field_name``
+
+After choosing your action, your admin would llok like this::
 
     namespace Sonata\MediaBundle\Admin;
 
