@@ -36,10 +36,6 @@ class ChoiceFilter extends Filter
                 return;
             }
 
-            if (\in_array('all', $data['value'], true)) {
-                return;
-            }
-
             if (ChoiceType::TYPE_NOT_CONTAINS === $data['type']) {
                 $queryBuilder->field($field)->notIn($data['value']);
             } else {
@@ -48,7 +44,7 @@ class ChoiceFilter extends Filter
 
             $this->active = true;
         } else {
-            if ('' === $data['value'] || null === $data['value'] || false === $data['value'] || 'all' === $data['value']) {
+            if ('' === $data['value'] || null === $data['value'] || false === $data['value']) {
                 return;
             }
 
