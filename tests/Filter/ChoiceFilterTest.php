@@ -32,7 +32,6 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
         ;
 
         $filter->filter($builder, 'alias', 'field', null);
-        $filter->filter($builder, 'alias', 'field', 'all');
         $filter->filter($builder, 'alias', 'field', []);
 
         $this->assertFalse($filter->isActive());
