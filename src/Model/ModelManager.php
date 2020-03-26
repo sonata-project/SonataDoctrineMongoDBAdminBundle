@@ -403,8 +403,6 @@ class ModelManager implements ModelManagerInterface
     public function getDefaultSortValues($class)
     {
         return [
-            '_sort_order' => 'ASC',
-            '_sort_by' => $this->getModelIdentifier($class),
             '_page' => 1,
             '_per_page' => 25,
         ];
