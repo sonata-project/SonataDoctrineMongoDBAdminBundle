@@ -23,6 +23,42 @@ class ModelManagerTest extends TestCase
     {
         $registry = $this->createMock(ManagerRegistry::class);
 
-        $manager = new ModelManager($registry);
+        new ModelManager($registry);
+    }
+
+    /**
+     * @dataProvider getWrongDocuments
+     *
+     * @param mixed $document
+     */
+    public function testNormalizedIdentifierException($document): void
+    {
+        $registry = $this->createMock(ManagerRegistry::class);
+
+        $model = new ModelManager($registry);
+
+        $this->expectException(\RuntimeException::class);
+
+        $model->getNormalizedIdentifier($document);
+    }
+
+    public function getWrongDocuments(): iterable
+    {
+        yield [0];
+        yield [1];
+        yield [false];
+        yield [true];
+        yield [[]];
+        yield [''];
+        yield ['sonata-project'];
+    }
+
+    public function testGetNormalizedIdentifierNull(): void
+    {
+        $registry = $this->createMock(ManagerRegistry::class);
+
+        $model = new ModelManager($registry);
+
+        $this->assertNull($model->getNormalizedIdentifier(null));
     }
 }
