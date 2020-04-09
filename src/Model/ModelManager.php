@@ -152,7 +152,7 @@ class ModelManager implements ModelManagerInterface
     public function find($class, $id)
     {
         if (!isset($id)) {
-            return;
+            return null;
         }
 
         $documentManager = $this->getDocumentManager($class);
@@ -185,7 +185,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
+     * @param object|string $class
      *
      * @throw \RuntimeException
      *
@@ -275,13 +275,17 @@ class ModelManager implements ModelManagerInterface
      */
     public function getNormalizedIdentifier($document)
     {
-        if (is_scalar($document)) {
+        if (null === $document) {
+            return null;
+        }
+
+        if (!\is_object($document)) {
             throw new \RunTimeException('Invalid argument, object or null required');
         }
 
         // the document is not managed
-        if (!$document || !$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
-            return;
+        if (!$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
+            return null;
         }
 
         $values = $this->getIdentifierValues($document);
@@ -292,9 +296,9 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getUrlsafeIdentifier($entity)
+    public function getUrlSafeIdentifier($document)
     {
-        return $this->getNormalizedIdentifier($entity);
+        return $this->getNormalizedIdentifier($document);
     }
 
     /**
