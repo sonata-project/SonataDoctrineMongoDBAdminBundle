@@ -55,29 +55,37 @@ abstract class AbstractDateFilter extends Filter
 
         switch ($data['type']) {
             case DateType::TYPE_EQUAL:
-                return $this->applyTypeIsEqual($queryBuilder, $field, $data);
+                $this->applyTypeIsEqual($queryBuilder, $field, $data);
+
+                return;
 
             case DateType::TYPE_GREATER_THAN:
                 if (!\array_key_exists('value', $data) || !$data['value']) {
                     return;
                 }
 
-                return $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
+                $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
+
+                return;
 
             case DateType::TYPE_LESS_EQUAL:
                 if (!\array_key_exists('value', $data) || !$data['value']) {
                     return;
                 }
 
-                return $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
+                $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
+
+                return;
 
             case DateType::TYPE_NULL:
             case DateType::TYPE_NOT_NULL:
-                return $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
+                $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
+
+                return;
 
             case DateType::TYPE_GREATER_EQUAL:
             case DateType::TYPE_LESS_THAN:
-                return $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+                $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
         }
     }
 
