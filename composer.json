@@ -42,6 +42,7 @@
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
     "require-dev": {
+        "jetbrains/phpstorm-stubs": "^2019.3",
         "jmikola/geojson": "^1.0",
         "symfony/phpunit-bridge": "^5.0"
     },
