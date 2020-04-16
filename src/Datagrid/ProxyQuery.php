@@ -47,6 +47,16 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function execute(array $params = [], $hydrationMode = null)
     {
+        if ([] !== $params) {
+            @trigger_error(
+                sprintf(
+                    'Calling %s() with params does not have any effect, they are not used',
+                    __METHOD__
+                ),
+                E_USER_WARNING
+            );
+        }
+
         // always clone the original queryBuilder.
         $queryBuilder = clone $this->queryBuilder;
 
