@@ -124,7 +124,7 @@ abstract class AbstractDateFilter extends Filter
      * @param string    $field
      * @param \DateTime $datetime
      */
-    protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, \DateTime $datetime = null)
+    protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, ?\DateTime $datetime = null)
     {
         $queryBuilder->field($field)->$operation($datetime);
         $this->active = true;
