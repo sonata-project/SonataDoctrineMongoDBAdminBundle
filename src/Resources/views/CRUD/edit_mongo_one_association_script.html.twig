@@ -16,7 +16,7 @@ This code manage the one-to-many association field popup
 
 #}
 
-{% sonata_template_deprecate '@SonataAdmin/CRUD/Association/edit_many_script.html.twig' %}
+{% deprecated 'The "edit_mongo_one_association_script.html.twig" template is deprecated, use "@SonataAdmin/CRUD/Association/edit_many_script.html.twig" instead.' %}
 
 {% autoescape false %}
 
@@ -48,7 +48,7 @@ This code manage the one-to-many association field popup
                 if (!html.length) {
                     return;
                 }
-                
+
                 var $newForm = jQuery(html);
                 var $oldForm = jQuery('#field_container_{{ id }}');
 
@@ -59,9 +59,9 @@ This code manage the one-to-many association field popup
                 });
 
                 $oldForm.replaceWith($newForm);  // replace the html
-                
+
                 Admin.shared_setup(jQuery('#field_container_{{ id }}'));
-                    
+
                 if(jQuery('input[type="file"]', form).length > 0) {
                     jQuery(form).attr('enctype', 'multipart/form-data');
                     jQuery(form).attr('encoding', 'multipart/form-data');
