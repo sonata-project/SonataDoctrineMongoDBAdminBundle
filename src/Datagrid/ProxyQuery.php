@@ -94,7 +94,7 @@ class ProxyQuery implements ProxyQueryInterface
     public function setFirstResult($firstResult)
     {
         $this->firstResult = $firstResult;
-        $this->queryBuilder->skip($firstResult);
+        $this->queryBuilder->skip($firstResult ?? 0);
     }
 
     public function getFirstResult()
@@ -105,7 +105,9 @@ class ProxyQuery implements ProxyQueryInterface
     public function setMaxResults($maxResults)
     {
         $this->maxResults = $maxResults;
-        $this->queryBuilder->limit($maxResults);
+
+        // @see https://docs.mongodb.com/manual/reference/method/cursor.limit/#zero-value
+        $this->queryBuilder->limit($maxResults ?? 0);
     }
 
     public function getMaxResults()
