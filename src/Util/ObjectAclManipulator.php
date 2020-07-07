@@ -27,7 +27,7 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
     /**
      * {@inheritdoc}
      */
-    public function batchConfigureAcls(OutputInterface $output, AdminInterface $admin, UserSecurityIdentity $securityIdentity = null): void
+    public function batchConfigureAcls(OutputInterface $output, AdminInterface $admin, ?UserSecurityIdentity $securityIdentity = null): void
     {
         $securityHandler = $admin->getSecurityHandler();
         if (!$securityHandler instanceof AclSecurityHandlerInterface) {
