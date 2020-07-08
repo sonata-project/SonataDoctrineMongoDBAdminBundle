@@ -36,7 +36,7 @@
         "symfony/form": "^4.4",
         "symfony/http-kernel": "^4.4",
         "twig/extensions": "^1.0",
-        "twig/twig": "^1.34 || ^2.0"
+        "twig/twig": "^2.6"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
