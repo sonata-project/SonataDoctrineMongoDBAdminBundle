@@ -16,7 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
-use Sonata\Form\Type\BooleanType;
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 
 class ChoiceFilter extends Filter
 {
@@ -40,7 +40,7 @@ class ChoiceFilter extends Filter
                 return;
             }
 
-            if (ChoiceType::TYPE_NOT_CONTAINS === $data['type']) {
+            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
                 $queryBuilder->field($field)->notIn($data['value']);
             } else {
                 $queryBuilder->field($field)->in($data['value']);
@@ -52,7 +52,7 @@ class ChoiceFilter extends Filter
                 return;
             }
 
-            if (ChoiceType::TYPE_NOT_CONTAINS === $data['type']) {
+            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
                 $queryBuilder->field($field)->notEqual($data['value']);
             } else {
                 $queryBuilder->field($field)->equals($data['value']);
@@ -73,7 +73,7 @@ class ChoiceFilter extends Filter
     public function getRenderSettings()
     {
         return [DefaultType::class, [
-            'operator_type' => BooleanType::class,
+            'operator_type' => ChoiceType::class,
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
 
@@ -51,7 +51,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
             ->with(['1', '2'])
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => ['1', '2']]);
+        $filter->filter($builder, 'alias', 'field', ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]);
 
         $this->assertTrue($filter->isActive());
     }
@@ -69,7 +69,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
             ->with('1')
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => '1']);
+        $filter->filter($builder, 'alias', 'field', ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']);
 
         $this->assertTrue($filter->isActive());
     }
@@ -87,7 +87,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
             ->with('0')
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => ChoiceType::TYPE_CONTAINS, 'value' => 0]);
+        $filter->filter($builder, 'alias', 'field', ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]);
 
         $this->assertTrue($filter->isActive());
     }

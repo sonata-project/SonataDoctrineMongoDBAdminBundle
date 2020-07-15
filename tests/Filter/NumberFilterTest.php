@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\NumberType;
+use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 
@@ -78,11 +78,11 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
     public function getNumberExamples(): array
     {
         return [
-            [['type' => NumberType::TYPE_EQUAL, 'value' => 42], 'equals'],
-            [['type' => NumberType::TYPE_GREATER_EQUAL, 'value' => 42], 'gte'],
-            [['type' => NumberType::TYPE_GREATER_THAN, 'value' => 42], 'gt'],
-            [['type' => NumberType::TYPE_LESS_EQUAL, 'value' => 42], 'lte'],
-            [['type' => NumberType::TYPE_LESS_THAN, 'value' => 42], 'lt'],
+            [['type' => NumberOperatorType::TYPE_EQUAL, 'value' => 42], 'equals'],
+            [['type' => NumberOperatorType::TYPE_GREATER_EQUAL, 'value' => 42], 'gte'],
+            [['type' => NumberOperatorType::TYPE_GREATER_THAN, 'value' => 42], 'gt'],
+            [['type' => NumberOperatorType::TYPE_LESS_EQUAL, 'value' => 42], 'lte'],
+            [['type' => NumberOperatorType::TYPE_LESS_THAN, 'value' => 42], 'lt'],
             [['value' => 42], 'equals'],
         ];
     }
