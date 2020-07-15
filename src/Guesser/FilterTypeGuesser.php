@@ -16,6 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Types\Type;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
@@ -25,7 +26,6 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Model\MissingPropertyMetadataException;
 use Sonata\Form\Type\BooleanType;
-use Sonata\Form\Type\EqualType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -50,7 +50,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             'options' => [],
         ];
 
-        list($metadata, $propertyName, $parentAssociationMappings) = $ret;
+        [$metadata, $propertyName, $parentAssociationMappings] = $ret;
 
         $options['parent_association_mappings'] = $parentAssociationMappings;
 
@@ -60,7 +60,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             switch ($mapping['type']) {
                 case ClassMetadata::ONE:
                 case ClassMetadata::MANY:
-                    $options['operator_type'] = EqualType::class;
+                    $options['operator_type'] = EqualOperatorType::class;
                     $options['operator_options'] = [];
 
                     $options['field_type'] = DocumentType::class;

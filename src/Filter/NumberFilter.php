@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
+use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 
 class NumberFilter extends Filter
 {
@@ -66,11 +67,11 @@ class NumberFilter extends Filter
     private function getOperator($type)
     {
         $choices = [
-            NumberType::TYPE_EQUAL => 'equals',
-            NumberType::TYPE_GREATER_EQUAL => 'gte',
-            NumberType::TYPE_GREATER_THAN => 'gt',
-            NumberType::TYPE_LESS_EQUAL => 'lte',
-            NumberType::TYPE_LESS_THAN => 'lt',
+            NumberOperatorType::TYPE_EQUAL => 'equals',
+            NumberOperatorType::TYPE_GREATER_EQUAL => 'gte',
+            NumberOperatorType::TYPE_GREATER_THAN => 'gt',
+            NumberOperatorType::TYPE_LESS_EQUAL => 'lte',
+            NumberOperatorType::TYPE_LESS_THAN => 'lt',
         ];
 
         return $choices[$type] ?? false;
