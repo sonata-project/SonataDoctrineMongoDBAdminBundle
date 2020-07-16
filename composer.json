@@ -42,7 +42,6 @@
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
     "require-dev": {
-        "jmikola/geojson": "^1.0",
         "symfony/phpunit-bridge": "^5.0"
     },
     "suggest": {
