@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -475,7 +476,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelCollectionInstance($class)
     {
-        return new \Doctrine\Common\Collections\ArrayCollection();
+        return new ArrayCollection();
     }
 
     /**
