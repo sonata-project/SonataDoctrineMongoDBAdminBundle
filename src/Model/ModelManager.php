@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -86,7 +87,7 @@ class ModelManager implements ModelManagerInterface
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if (!\is_string($name)) {
-            throw new \RunTimeException('The name argument must be a string');
+            throw new \RuntimeException('The name argument must be a string');
         }
 
         if (!isset($options['route']['name'])) {
@@ -280,7 +281,7 @@ class ModelManager implements ModelManagerInterface
         }
 
         if (!\is_object($document)) {
-            throw new \RunTimeException('Invalid argument, object or null required');
+            throw new \RuntimeException('Invalid argument, object or null required');
         }
 
         // the document is not managed
@@ -475,7 +476,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelCollectionInstance($class)
     {
-        return new \Doctrine\Common\Collections\ArrayCollection();
+        return new ArrayCollection();
     }
 
     /**
