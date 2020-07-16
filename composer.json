@@ -36,7 +36,6 @@
         "symfony/doctrine-bridge": "^4.4",
         "symfony/form": "^4.4",
         "symfony/http-kernel": "^4.4",
-        "twig/extensions": "^1.0",
         "twig/twig": "^2.6"
     },
     "provide": {
