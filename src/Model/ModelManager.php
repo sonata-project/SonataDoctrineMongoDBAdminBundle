@@ -86,7 +86,7 @@ class ModelManager implements ModelManagerInterface
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if (!\is_string($name)) {
-            throw new \RunTimeException('The name argument must be a string');
+            throw new \RuntimeException('The name argument must be a string');
         }
 
         if (!isset($options['route']['name'])) {
@@ -280,7 +280,7 @@ class ModelManager implements ModelManagerInterface
         }
 
         if (!\is_object($document)) {
-            throw new \RunTimeException('Invalid argument, object or null required');
+            throw new \RuntimeException('Invalid argument, object or null required');
         }
 
         // the document is not managed
