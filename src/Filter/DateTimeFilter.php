@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class DateTimeFilter extends AbstractDateFilter
 {
@@ -23,6 +24,11 @@ class DateTimeFilter extends AbstractDateFilter
      * @var bool
      */
     protected $time = true;
+
+    public function getFieldType(): string
+    {
+        return $this->getOption('field_type', DateTimeType::class);
+    }
 
     /**
      * @param string $field

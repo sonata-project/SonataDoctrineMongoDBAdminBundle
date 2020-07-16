@@ -23,7 +23,6 @@ use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 class ModelManager implements ModelManagerInterface
 {
@@ -364,6 +363,21 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelInstance($class)
     {
+        if (!class_exists($class)) {
+            throw new \InvalidArgumentException(sprintf('Class "%s" not found', $class));
+        }
+
+        $r = new \ReflectionClass($class);
+        if ($r->isAbstract()) {
+            throw new \InvalidArgumentException(sprintf('Cannot initialize abstract class: %s', $class));
+        }
+
+        $constructor = $r->getConstructor();
+
+        if (null !== $constructor && (!$constructor->isPublic() || $constructor->getNumberOfRequiredParameters() > 0)) {
+            return $r->newInstanceWithoutConstructor();
+        }
+
         return new $class();
     }
 
@@ -455,7 +469,7 @@ class ModelManager implements ModelManagerInterface
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
+                    throw new \BadMethodCallException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
                 }
 
                 $instance->$setter($value);
@@ -464,7 +478,7 @@ class ModelManager implements ModelManagerInterface
                 $instance->$property = $value;
             } elseif ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
+                    throw new \BadMethodCallException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;
@@ -525,7 +539,7 @@ class ModelManager implements ModelManagerInterface
      */
     protected function camelize($property)
     {
-        return preg_replace(['/(^|_)+(.)/e', '/\.(.)/e'], ["strtoupper('\\2')", "'_'.strtoupper('\\1')"], $property);
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }
 
     private function isFieldAlreadySorted(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid): bool
