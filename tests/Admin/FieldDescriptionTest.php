@@ -288,6 +288,11 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('position', $field->getFieldName());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetTargetEntity(): void
     {
         $assocationMapping = [
@@ -303,6 +308,23 @@ class FieldDescriptionTest extends TestCase
         $field->setAssociationMapping($assocationMapping);
 
         $this->assertSame('someValue', $field->getTargetEntity());
+    }
+
+    public function testGetTargetModel(): void
+    {
+        $assocationMapping = [
+            'type' => 'integer',
+            'fieldName' => 'position',
+            'targetDocument' => 'someValue',
+        ];
+
+        $field = new FieldDescription();
+
+        $this->assertNull($field->getTargetModel());
+
+        $field->setAssociationMapping($assocationMapping);
+
+        $this->assertSame('someValue', $field->getTargetModel());
     }
 
     public function testIsIdentifierFromFieldMapping(): void

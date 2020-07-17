@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\Form\Type\CollectionType;
@@ -68,9 +69,10 @@ class FormContractorTest extends TestCase
         $admin->method('getModelManager')->willReturn($modelManager);
         $admin->method('getClass')->willReturn($modelClass);
 
-        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
+        // NEXT_MAJOR: Mock `FieldDescriptionInterface` instead and replace `getTargetEntity()` with `getTargetModel().
+        $fieldDescription = $this->createMock(FieldDescription::class);
         $fieldDescription->method('getAdmin')->willReturn($admin);
-        $fieldDescription->method('getTargetEntity')->willReturn($modelClass);
+        $fieldDescription->method('getTargetModel')->willReturn($modelClass);
         $fieldDescription->method('getAssociationAdmin')->willReturn($admin);
 
         $modelTypes = [
