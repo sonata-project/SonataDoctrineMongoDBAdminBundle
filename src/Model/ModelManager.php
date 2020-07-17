@@ -417,6 +417,11 @@ class ModelManager implements ModelManagerInterface
         ];
     }
 
+    public function getDefaultPerPageOptions(string $class): array
+    {
+        return [10, 25, 50, 100, 250];
+    }
+
     /**
      * {@inheritdoc}
      */
