@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Admin;
 
-use Doctrine\Common\Inflector\Inflector;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
@@ -108,13 +107,6 @@ class FieldDescriptionTest extends TestCase
         $field->setMappingType('string');
         $this->assertSame('string', $field->getMappingType());
         $this->assertSame('integer', $field->getType());
-    }
-
-    public function testCamelize(): void
-    {
-        $this->assertSame('FooBar', Inflector::classify('foo_bar'));
-        $this->assertSame('FooBar', Inflector::classify('foo bar'));
-        $this->assertSame('FOoBar', Inflector::classify('fOo bar'));
     }
 
     public function testSetName(): void
