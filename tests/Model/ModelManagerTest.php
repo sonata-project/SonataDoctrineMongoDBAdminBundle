@@ -18,6 +18,7 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
@@ -30,10 +31,32 @@ use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ContainerDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\EmbeddedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ProtectedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-class ModelManagerTest extends TestCase
+final class ModelManagerTest extends TestCase
 {
+    /**
+     * @var PropertyAccessor
+     */
+    private $propertyAccessor;
+
+    /**
+     * @var Stub&ManagerRegistry
+     */
+    private $registry;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->registry = $this->createStub(ManagerRegistry::class);
+        $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
+    }
+
     /**
      * @dataProvider getWrongDocuments
      *
@@ -41,13 +64,11 @@ class ModelManagerTest extends TestCase
      */
     public function testNormalizedIdentifierException($document): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-
-        $model = new ModelManager($registry);
+        $manager = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->expectException(\RuntimeException::class);
 
-        $model->getNormalizedIdentifier($document);
+        $manager->getNormalizedIdentifier($document);
     }
 
     public function getWrongDocuments(): iterable
@@ -63,18 +84,14 @@ class ModelManagerTest extends TestCase
 
     public function testGetNormalizedIdentifierNull(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
+        $manager = new ModelManager($this->registry, $this->propertyAccessor);
 
-        $model = new ModelManager($registry);
-
-        $this->assertNull($model->getNormalizedIdentifier(null));
+        $this->assertNull($manager->getNormalizedIdentifier(null));
     }
 
     public function testSortParameters(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-
-        $manager = new ModelManager($registry);
+        $manager = new ModelManager($this->registry, $this->propertyAccessor);
 
         $datagrid1 = $this->createStub(Datagrid::class);
         $datagrid2 = $this->createStub(Datagrid::class);
@@ -132,11 +149,9 @@ class ModelManagerTest extends TestCase
 
         $dm = $this->createStub(DocumentManager::class);
 
-        $registry = $this->createStub(ManagerRegistry::class);
+        $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
-        $modelManager = new ModelManager($registry);
-
-        $registry
+        $this->registry
             ->method('getManagerForClass')
             ->willReturn($dm);
 
@@ -175,11 +190,11 @@ class ModelManagerTest extends TestCase
         $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'boolean');
     }
 
-    public function testModelReverseTransform(): void
+    public function testModelReverseTransformWithSetter(): void
     {
         $class = SimpleDocument::class;
 
-        $manager = $this->createModelManager($class);
+        $manager = $this->createModelManagerForClass($class);
         $object = $manager->modelReverseTransform(
             $class,
             [
@@ -194,10 +209,39 @@ class ModelManagerTest extends TestCase
         $this->assertTrue($object->schwifty);
     }
 
+    public function testModelReverseTransformFailsWithPrivateSetter(): void
+    {
+        $class = SimpleDocumentWithPrivateSetter::class;
+        $manager = $this->createModelManagerForClass($class);
+
+        $this->expectException(NoSuchPropertyException::class);
+
+        $manager->modelReverseTransform($class, ['schmeckles' => 42]);
+    }
+
+    public function testModelReverseTransformFailsWithPrivateProperties(): void
+    {
+        $class = SimpleDocument::class;
+        $manager = $this->createModelManagerForClass($class);
+
+        $this->expectException(NoSuchPropertyException::class);
+
+        $manager->modelReverseTransform($class, ['plumbus' => 42]);
+    }
+
+    public function testModelReverseTransformFailsWithPrivateProperties2(): void
+    {
+        $class = SimpleDocument::class;
+        $manager = $this->createModelManagerForClass($class);
+
+        $this->expectException(NoSuchPropertyException::class);
+
+        $manager->modelReverseTransform($class, ['plumbus' => 42]);
+    }
+
     public function testCollections(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $collection = $model->getModelCollectionInstance('whyDoWeEvenHaveThisParameter');
         $this->assertInstanceOf(ArrayCollection::class, $collection);
@@ -220,8 +264,7 @@ class ModelManagerTest extends TestCase
 
     public function testModelTransform(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $instance = new \stdClass();
         $result = $model->modelTransform('thisIsNotUsed', $instance);
@@ -233,7 +276,6 @@ class ModelManagerTest extends TestCase
     {
         $datagrid = $this->createMock(DatagridInterface::class);
         $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
-        $registry = $this->createStub(ManagerRegistry::class);
 
         $datagrid->expects($this->once())
             ->method('getValues')
@@ -243,7 +285,7 @@ class ModelManagerTest extends TestCase
             ->method('getName')
             ->willReturn($name = 'test');
 
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $result = $model->getPaginationParameters($datagrid, $page = 5);
 
@@ -253,9 +295,7 @@ class ModelManagerTest extends TestCase
 
     public function testGetModelInstanceException(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->expectException(\InvalidArgumentException::class);
 
@@ -264,27 +304,21 @@ class ModelManagerTest extends TestCase
 
     public function testGetModelInstanceForProtectedDocument(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->assertInstanceOf(ProtectedDocument::class, $model->getModelInstance(ProtectedDocument::class));
     }
 
     public function testFindBadId(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->assertNull($model->find('notImportant', null));
     }
 
     public function testGetUrlSafeIdentifierException(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->expectException(\RuntimeException::class);
 
@@ -293,14 +327,12 @@ class ModelManagerTest extends TestCase
 
     public function testGetUrlSafeIdentifierNull(): void
     {
-        $registry = $this->createStub(ManagerRegistry::class);
-
-        $model = new ModelManager($registry);
+        $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->assertNull($model->getNormalizedIdentifier(null));
     }
 
-    private function createModelManager(string $class): ModelManager
+    private function createModelManagerForClass(string $class): ModelManager
     {
         $metadataFactory = $this->createMock(ClassMetadataFactory::class);
         $modelManager = $this->createMock(ObjectManager::class);
@@ -321,7 +353,7 @@ class ModelManagerTest extends TestCase
             ->with($class)
             ->willReturn($modelManager);
 
-        return new ModelManager($registry);
+        return new ModelManager($registry, $this->propertyAccessor);
     }
 
     private function getMetadataForEmbeddedDocument(): ClassMetadata

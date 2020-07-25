@@ -4,6 +4,12 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
+
+Deprecated `camelize()` method.
+
+Deprecated not passing an instance of `PropertyAccessInterface` as second argument in the constructor.
+
 ### Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
 
 Deprecated `getTargetEntity()`, use `getTargetModel()` instead.
