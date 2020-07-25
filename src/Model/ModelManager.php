@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata as CommonClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -23,15 +25,44 @@ use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class ModelManager implements ModelManagerInterface
 {
     public const ID_SEPARATOR = '-';
+
+    /**
+     * @var ManagerRegistry
+     */
     protected $registry;
 
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
+    /**
+     * NEXT_MAJOR: Make $propertyAccessor mandatory.
+     */
+    public function __construct(ManagerRegistry $registry, ?PropertyAccessorInterface $propertyAccessor = null)
     {
         $this->registry = $registry;
+
+        // NEXT_MAJOR: Remove this block.
+        if (!$propertyAccessor instanceof PropertyAccessorInterface) {
+            @trigger_error(sprintf(
+                'Not passing an object implementing "%s" as argument 2 for "%s()" is deprecated since'
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw a %s error in 4.0.',
+                PropertyAccessorInterface::class,
+                __METHOD__,
+                \TypeError::class
+            ), E_USER_DEPRECATED);
+
+            $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        }
+
+        $this->propertyAccessor = $propertyAccessor;
     }
 
     /**
@@ -452,39 +483,10 @@ class ModelManager implements ModelManagerInterface
         $instance = $this->getModelInstance($class);
         $metadata = $this->getMetadata($class);
 
-        $reflClass = $metadata->reflClass;
         foreach ($array as $name => $value) {
-            $reflection_property = false;
-            // property or association ?
-            if (\array_key_exists($name, $metadata->fieldMappings)) {
-                $property = $metadata->fieldMappings[$name]['fieldName'];
-                $reflection_property = $metadata->reflFields[$name];
-            } elseif (\array_key_exists($name, $metadata->associationMappings)) {
-                $property = $metadata->associationMappings[$name]['fieldName'];
-            } else {
-                $property = $name;
-            }
+            $property = $this->getFieldName($metadata, $name);
 
-            $setter = 'set'.$this->camelize($name);
-
-            if ($reflClass->hasMethod($setter)) {
-                if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new \BadMethodCallException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
-                }
-
-                $instance->$setter($value);
-            } elseif ($reflClass->hasMethod('__set')) {
-                // needed to support magic method __set
-                $instance->$property = $value;
-            } elseif ($reflClass->hasProperty($property)) {
-                if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new \BadMethodCallException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
-                }
-
-                $instance->$property = $value;
-            } elseif ($reflection_property) {
-                $reflection_property->setValue($instance, $value);
-            }
+            $this->propertyAccessor->setValue($instance, $property, $value);
         }
 
         return $instance;
@@ -531,7 +533,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * method taken from PropertyPath.
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
      *
      * @param string $property
      *
@@ -539,7 +543,30 @@ class ModelManager implements ModelManagerInterface
      */
     protected function camelize($property)
     {
+        @trigger_error(sprintf(
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
+    }
+
+    /**
+     * NEXT_MAJOR: Remove CommonClassMetadata and add ClassMetadata as type hint when dropping doctrine/mongodb-odm 1.3.x.
+     *
+     * @param ClassMetadata|CommonClassMetadata $metadata
+     */
+    private function getFieldName($metadata, string $name): string
+    {
+        if (\array_key_exists($name, $metadata->fieldMappings)) {
+            return $metadata->fieldMappings[$name]['fieldName'];
+        }
+
+        if (\array_key_exists($name, $metadata->associationMappings)) {
+            return $metadata->associationMappings[$name]['fieldName'];
+        }
+
+        return $name;
     }
 
     private function isFieldAlreadySorted(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid): bool
