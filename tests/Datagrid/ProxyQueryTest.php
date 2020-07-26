@@ -40,6 +40,8 @@ final class ProxyQueryTest extends TestCase
             ->with(0);
 
         $proxyQuery->setMaxResults(null);
+
+        $this->assertNull($proxyQuery->getMaxResults());
     }
 
     public function testSetSkipToZeroWhenResettingFirstResult(): void
@@ -52,5 +54,24 @@ final class ProxyQueryTest extends TestCase
             ->with(0);
 
         $proxyQuery->setFirstResult(null);
+
+        $this->assertNull($proxyQuery->getFirstResult());
+    }
+
+    public function testSorting(): void
+    {
+        $proxyQuery = new ProxyQuery($this->queryBuilder);
+        $proxyQuery->setSortBy([], ['fieldName' => 'name']);
+        $proxyQuery->setSortOrder('ASC');
+
+        $this->assertSame(
+            'name',
+            $proxyQuery->getSortBy()
+        );
+
+        $this->assertSame(
+            'ASC',
+            $proxyQuery->getSortOrder()
+        );
     }
 }
