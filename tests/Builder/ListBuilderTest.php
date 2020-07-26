@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -100,5 +101,49 @@ class ListBuilderTest extends TestCase
             $list->get('_action')->getType(),
             'Standard list _action field has "actions" type'
         );
+    }
+
+    /**
+     * @dataProvider fixFieldDescriptionData
+     */
+    public function testFixFieldDescription(string $type, string $template): void
+    {
+        $classMetadata = $this->prophesize(ClassMetadata::class);
+        $this->modelManager->hasMetadata(Argument::any())->willReturn(true);
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('test');
+        $fieldDescription->setOption('sortable', true);
+        $fieldDescription->setType('fakeType');
+        $fieldDescription->setMappingType($type);
+
+        $this->admin->attachAdminClass(Argument::any())->shouldBeCalledTimes(1);
+
+        $classMetadata->fieldMappings = [2 => [1 => 'test', 'type' => 'string']];
+        $this->modelManager->getParentMetadataForProperty(Argument::cetera())
+            ->willReturn([$classMetadata, 2, $parentAssociationMapping = []]);
+
+        $this->listBuilder->fixFieldDescription($this->admin->reveal(), $fieldDescription);
+
+        $this->assertSame($template, $fieldDescription->getTemplate());
+    }
+
+    public function fixFieldDescriptionData(): array
+    {
+        return [
+            'one-to-one' => [
+                ClassMetadata::ONE,
+                '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig',
+            ],
+            'many-to-one' => [
+                ClassMetadata::MANY,
+                '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig',
+            ],
+        ];
+    }
+
+    public function testFixFieldDescriptionException(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->listBuilder->fixFieldDescription($this->admin->reveal(), new FieldDescription());
     }
 }
