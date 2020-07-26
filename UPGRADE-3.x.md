@@ -4,6 +4,11 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\DatagridBuilder
+
+Changed constructor's first parameter typehint from `Symfony\Component\Form\FormFactory` to
+`Symfony\Component\Form\FormFactoryInterface`.
+
 ### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
 
 Deprecated `camelize()` method.

@@ -23,14 +23,23 @@ use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class DatagridBuilder implements DatagridBuilderInterface
 {
+    /**
+     * @var FilterFactoryInterface
+     */
     protected $filterFactory;
 
+    /**
+     * @var FormFactoryInterface
+     */
     protected $formFactory;
 
+    /**
+     * @var TypeGuesserInterface
+     */
     protected $guesser;
 
     /**
@@ -43,7 +52,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param bool $csrfTokenEnabled
      */
-    public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
+    public function __construct(FormFactoryInterface $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {
         $this->formFactory = $formFactory;
         $this->filterFactory = $filterFactory;
