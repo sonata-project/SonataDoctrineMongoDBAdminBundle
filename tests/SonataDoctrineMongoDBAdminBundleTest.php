@@ -19,9 +19,6 @@ use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler\AddTemplatesC
 use Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * @author Marko Kunic <kunicmarko20@gmail.com>
- */
 class SonataDoctrineMongoDBAdminBundleTest extends TestCase
 {
     public function testBuild(): void

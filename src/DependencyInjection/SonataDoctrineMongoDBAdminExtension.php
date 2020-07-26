@@ -25,10 +25,6 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
  */
 class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
 {
-    /**
-     * @param array            $configs   An array of configuration settings
-     * @param ContainerBuilder $container A ContainerBuilder instance
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configs = $this->fixTemplatesConfiguration($configs, $container);
@@ -41,8 +37,6 @@ class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
         $configuration = new Configuration();
         $processor = new Processor();
         $config = $processor->processConfiguration($configuration, $configs);
-
-        $pool = $container->getDefinition('sonata.admin.manager.doctrine_mongodb');
 
         $container->setParameter('sonata_doctrine_mongodb_admin.templates', $config['templates']);
 

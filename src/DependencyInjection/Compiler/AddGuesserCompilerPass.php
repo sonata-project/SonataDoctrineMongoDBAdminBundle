@@ -22,33 +22,36 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddGuesserCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
-        // ListBuilder
-        $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_list_chain');
-        $services = [];
-        foreach ($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_mongodb_list') as $id => $attributes) {
-            $services[] = new Reference($id);
+        $this->addGuessersToBuilder(
+            $container,
+            'sonata.admin.guesser.doctrine_mongodb_list_chain',
+            'sonata.admin.guesser.doctrine_mongodb_list'
+        );
+
+        $this->addGuessersToBuilder(
+            $container,
+            'sonata.admin.guesser.doctrine_mongodb_datagrid_chain',
+            'sonata.admin.guesser.doctrine_mongodb_datagrid'
+        );
+
+        $this->addGuessersToBuilder(
+            $container,
+            'sonata.admin.guesser.doctrine_mongodb_show_chain',
+            'sonata.admin.guesser.doctrine_mongodb_show'
+        );
+    }
+
+    private function addGuessersToBuilder(ContainerBuilder $container, string $builderDefinitionId, string $guessersTag): void
+    {
+        if (!$container->hasDefinition($builderDefinitionId)) {
+            return;
         }
 
-        $definition->replaceArgument(0, $services);
-
-        // DatagridBuilder
-        $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_datagrid_chain');
+        $definition = $container->getDefinition($builderDefinitionId);
         $services = [];
-        foreach ($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_mongodb_datagrid') as $id => $attributes) {
-            $services[] = new Reference($id);
-        }
-
-        $definition->replaceArgument(0, $services);
-
-        // ShowBuilder
-        $definition = $container->getDefinition('sonata.admin.guesser.doctrine_mongodb_show_chain');
-        $services = [];
-        foreach ($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_mongodb_show') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds($guessersTag) as $id => $attributes) {
             $services[] = new Reference($id);
         }
 

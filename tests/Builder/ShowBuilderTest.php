@@ -26,9 +26,6 @@ use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-/**
- * @author Marko Kunic <kunicmarko20@gmail.com>
- */
 final class ShowBuilderTest extends TestCase
 {
     /**
