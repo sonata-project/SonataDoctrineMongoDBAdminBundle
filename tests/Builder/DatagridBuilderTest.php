@@ -34,10 +34,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-/**
- * @author Sullivan Senechal <soullivaneuh@gmail.com>
- * @author Marko Kunic <kunicmarko20@gmail.com>
- */
 final class DatagridBuilderTest extends TestCase
 {
     /**
