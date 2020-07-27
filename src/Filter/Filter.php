@@ -19,9 +19,6 @@ abstract class Filter extends BaseFilter
 {
     protected $active = false;
 
-    /**
-     * {@inheritdoc}
-     */
     public function apply($queryBuilder, $value)
     {
         $this->value = $value;
@@ -31,9 +28,6 @@ abstract class Filter extends BaseFilter
         $this->filter($queryBuilder, null, $field, $value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isActive()
     {
         return $this->active;
