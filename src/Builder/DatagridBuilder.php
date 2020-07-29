@@ -66,7 +66,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->setAdmin($admin);
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            list($metadata, $lastPropertyName, $parentAssociationMappings) = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
 
             // set the default field mapping
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
@@ -98,9 +98,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
 
-            $type = $guessType->getType();
-
-            $fieldDescription->setType($type);
+            $fieldDescription->setType($guessType->getType());
 
             $options = $guessType->getOptions();
 

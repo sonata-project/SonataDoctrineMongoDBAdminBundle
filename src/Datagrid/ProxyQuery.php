@@ -115,17 +115,11 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->maxResults;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUniqueParameterId()
     {
         // TODO: Implement getUniqueParameterId() method.
     }
 
-    /**
-     * @return mixed
-     */
     public function entityJoin(array $associationMappings)
     {
         // TODO: Implement entityJoin() method.

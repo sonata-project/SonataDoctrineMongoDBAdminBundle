@@ -66,7 +66,7 @@ class ListBuilder implements ListBuilderInterface
         $fieldDescription->setAdmin($admin);
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            list($metadata, $lastPropertyName, $parentAssociationMappings) = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
             $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
             // set the default field mapping
@@ -157,14 +157,12 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param string $type
-     *
-     * @return string
+     * @param int|string $type
      */
-    private function getTemplate($type)
+    private function getTemplate($type): ?string
     {
         if (!isset($this->templates[$type])) {
-            return;
+            return null;
         }
 
         return $this->templates[$type];

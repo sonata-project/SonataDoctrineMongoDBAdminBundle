@@ -260,6 +260,6 @@ class ModelFilterTest extends TestCase
      */
     private function getMongoIdentifier(string $id)
     {
-        return class_exists(ObjectId::class) ? new ObjectId($id) : new MongoId($id);
+        return class_exists(ObjectId::class) ? new ObjectId($id) : new \MongoId($id);
     }
 }

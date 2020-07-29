@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 
 class FieldDescriptionTest extends TestCase
@@ -191,33 +192,33 @@ class FieldDescriptionTest extends TestCase
 
     public function testGetValue(): void
     {
-        $mockedObject = $this->getMockBuilder('MockedTestObject')
-            ->setMethods(['myMethod'])
-            ->getMock();
-        $mockedObject->expects($this->once())
-            ->method('myMethod')
-            ->willReturn('myMethodValue');
+        $object = new class() {
+            public function myMethod()
+            {
+                return 'myMethodValue';
+            }
+        };
 
         $field = new FieldDescription();
         $field->setOption('code', 'myMethod');
 
-        $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
+        $this->assertSame($field->getValue($object), 'myMethodValue');
     }
 
     public function testGetValueWhenCannotRetrieve(): void
     {
-        $this->expectException(\Sonata\AdminBundle\Exception\NoValueException::class);
-
-        $mockedObject = $this->getMockBuilder('MockedTestObject')
-            ->setMethods(['myMethod'])
-            ->getMock();
-        $mockedObject->expects($this->never())
-            ->method('myMethod')
-            ->willReturn('myMethodValue');
+        $object = new class() {
+            public function myMethod()
+            {
+                return 'myMethodValue';
+            }
+        };
 
         $field = new FieldDescription();
 
-        $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
+        $this->expectException(NoValueException::class);
+
+        $this->assertSame($field->getValue($object), 'myMethodValue');
     }
 
     public function testGetAssociationMapping(): void
