@@ -267,7 +267,7 @@ class ModelManager implements ModelManagerInterface
         }
 
         // the document is not managed
-        if (!$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
+        if (!$this->getDocumentManager($document)->contains($document)) {
             return null;
         }
 
