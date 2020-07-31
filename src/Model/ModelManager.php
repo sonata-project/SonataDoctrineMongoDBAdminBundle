@@ -210,8 +210,19 @@ class ModelManager implements ModelManagerInterface
         return $dm;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0
+     */
     public function getParentFieldDescription($parentAssociationMapping, $class)
     {
+        @trigger_error(sprintf(
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+            .' and will be removed in 4.0',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         $fieldName = $parentAssociationMapping['fieldName'];
 
         $metadata = $this->getMetadata($class);
