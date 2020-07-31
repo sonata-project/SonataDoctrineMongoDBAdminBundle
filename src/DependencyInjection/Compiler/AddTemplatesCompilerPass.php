@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AddTemplatesCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {

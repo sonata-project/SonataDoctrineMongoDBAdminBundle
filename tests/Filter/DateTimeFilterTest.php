@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\DateType;
+use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -68,13 +68,13 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     public function getExamples(): array
     {
         return [
-            [['type' => DateType::TYPE_EQUAL, 'value' => new \DateTime('now')], 'range'],
-            [['type' => DateType::TYPE_GREATER_EQUAL, 'value' => new \DateTime('now')], 'gte'],
-            [['type' => DateType::TYPE_GREATER_THAN, 'value' => new \DateTime('now')], 'gt'],
-            [['type' => DateType::TYPE_LESS_EQUAL, 'value' => new \DateTime('now')], 'lte'],
-            [['type' => DateType::TYPE_LESS_THAN, 'value' => new \DateTime('now')], 'lt'],
-            [['type' => DateType::TYPE_NULL], 'equals'],
-            [['type' => DateType::TYPE_NOT_NULL], 'notEqual'],
+            [['type' => DateOperatorType::TYPE_EQUAL, 'value' => new \DateTime('now')], 'range'],
+            [['type' => DateOperatorType::TYPE_GREATER_EQUAL, 'value' => new \DateTime('now')], 'gte'],
+            [['type' => DateOperatorType::TYPE_GREATER_THAN, 'value' => new \DateTime('now')], 'gt'],
+            [['type' => DateOperatorType::TYPE_LESS_EQUAL, 'value' => new \DateTime('now')], 'lte'],
+            [['type' => DateOperatorType::TYPE_LESS_THAN, 'value' => new \DateTime('now')], 'lt'],
+            [['type' => DateOperatorType::TYPE_NULL], 'equals'],
+            [['type' => DateOperatorType::TYPE_NOT_NULL], 'notEqual'],
             [['value' => new \DateTime('now')], 'range'],
         ];
     }

@@ -21,16 +21,13 @@ use Symfony\Component\Form\Guess\TypeGuess;
 
 class TypeGuesser extends AbstractTypeGuesser
 {
-    /**
-     * {@inheritdoc}
-     */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
         if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager)) {
             return new TypeGuess('text', [], Guess::LOW_CONFIDENCE);
         }
 
-        list($metadata, $propertyName, $parentAssociationMappings) = $ret;
+        [$metadata, $propertyName, $parentAssociationMappings] = $ret;
 
         if ($metadata->hasAssociation($propertyName)) {
             $mapping = $metadata->fieldMappings[$propertyName];

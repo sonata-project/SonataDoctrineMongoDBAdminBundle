@@ -17,17 +17,11 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 class FieldDescription extends BaseFieldDescription
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->parentAssociationMappings = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAssociationMapping($associationMapping)
     {
         if (!\is_array($associationMapping)) {
@@ -70,9 +64,6 @@ class FieldDescription extends BaseFieldDescription
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setFieldMapping($fieldMapping)
     {
         if (!\is_array($fieldMapping)) {
@@ -86,9 +77,6 @@ class FieldDescription extends BaseFieldDescription
         $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setParentAssociationMappings(array $parentAssociationMappings)
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {
@@ -100,17 +88,11 @@ class FieldDescription extends BaseFieldDescription
         $this->parentAssociationMappings = $parentAssociationMappings;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isIdentifier()
     {
-        return isset($this->fieldMapping['id']) ? $this->fieldMapping['id'] : false;
+        return $this->fieldMapping['id'] ?? false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($object)
     {
         foreach ($this->parentAssociationMappings as $parentAssociationMapping) {

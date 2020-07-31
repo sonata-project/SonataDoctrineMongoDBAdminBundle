@@ -4,6 +4,10 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery
+
+Deprecated passing arguments to `execute()` method.
+
 ### Sonata\DoctrineMongoDBAdminBundle\DatagridBuilder
 
 Changed constructor's first parameter typehint from `Symfony\Component\Form\FormFactory` to

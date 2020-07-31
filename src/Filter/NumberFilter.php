@@ -19,32 +19,28 @@ use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 
 class NumberFilter extends Filter
 {
-    /**
-     * @param string $alias
-     * @param string $field
-     * @param string $data
-     */
+    private const CHOICES = [
+        NumberOperatorType::TYPE_EQUAL => 'equals',
+        NumberOperatorType::TYPE_GREATER_EQUAL => 'gte',
+        NumberOperatorType::TYPE_GREATER_THAN => 'gt',
+        NumberOperatorType::TYPE_LESS_EQUAL => 'lte',
+        NumberOperatorType::TYPE_LESS_THAN => 'lt',
+    ];
+
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || !is_numeric($data['value'])) {
             return;
         }
 
-        $type = $data['type'] ?? false;
+        $type = $data['type'] ?? NumberOperatorType::TYPE_EQUAL;
 
-        $operator = $this->getOperator($type);
-
-        if (!$operator) {
-            $operator = 'equals';
-        }
+        $operator = $this->getOperator((int) $type);
 
         $queryBuilder->field($field)->$operator((float) $data['value']);
         $this->active = true;
     }
 
-    /**
-     * @return array
-     */
     public function getDefaultOptions()
     {
         return [];
@@ -59,21 +55,8 @@ class NumberFilter extends Filter
         ]];
     }
 
-    /**
-     * @param $type
-     *
-     * @return bool
-     */
-    private function getOperator($type)
+    private function getOperator(int $type): string
     {
-        $choices = [
-            NumberOperatorType::TYPE_EQUAL => 'equals',
-            NumberOperatorType::TYPE_GREATER_EQUAL => 'gte',
-            NumberOperatorType::TYPE_GREATER_THAN => 'gt',
-            NumberOperatorType::TYPE_LESS_EQUAL => 'lte',
-            NumberOperatorType::TYPE_LESS_THAN => 'lt',
-        ];
-
-        return $choices[$type] ?? false;
+        return self::CHOICES[$type] ?? self::CHOICES[NumberOperatorType::TYPE_EQUAL];
     }
 }

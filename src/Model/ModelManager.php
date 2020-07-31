@@ -65,9 +65,6 @@ class ModelManager implements ModelManagerInterface
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMetadata($class)
     {
         return $this->getDocumentManager($class)->getMetadataFactory()->getMetadataFor($class);
@@ -103,17 +100,11 @@ class ModelManager implements ModelManagerInterface
         return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasMetadata($class)
     {
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if (!\is_string($name)) {
@@ -128,7 +119,7 @@ class ModelManager implements ModelManagerInterface
             $options['route']['parameters'] = [];
         }
 
-        list($metadata, $propertyName, $parentAssociationMappings) = $this->getParentMetadataForProperty($class, $name);
+        [$metadata, $propertyName, $parentAssociationMappings] = $this->getParentMetadataForProperty($class, $name);
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName($name);
@@ -147,9 +138,6 @@ class ModelManager implements ModelManagerInterface
         return $fieldDescription;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create($object)
     {
         $documentManager = $this->getDocumentManager($object);
@@ -157,9 +145,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update($object)
     {
         $documentManager = $this->getDocumentManager($object);
@@ -167,9 +152,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete($object)
     {
         $documentManager = $this->getDocumentManager($object);
@@ -177,9 +159,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function find($class, $id)
     {
         if (!isset($id)) {
@@ -199,17 +178,11 @@ class ModelManager implements ModelManagerInterface
         return $documentManager->getRepository($class)->find($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findBy($class, array $criteria = [])
     {
         return $this->getDocumentManager($class)->getRepository($class)->findBy($criteria);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findOneBy($class, array $criteria = [])
     {
         return $this->getDocumentManager($class)->getRepository($class)->findOneBy($criteria);
@@ -237,9 +210,6 @@ class ModelManager implements ModelManagerInterface
         return $dm;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParentFieldDescription($parentAssociationMapping, $class)
     {
         $fieldName = $parentAssociationMapping['fieldName'];
@@ -255,9 +225,6 @@ class ModelManager implements ModelManagerInterface
         return $fieldDescription;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createQuery($class, $alias = 'o')
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);
@@ -265,9 +232,6 @@ class ModelManager implements ModelManagerInterface
         return new ProxyQuery($repository->createQueryBuilder());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function executeQuery($query)
     {
         if ($query instanceof Builder) {
@@ -277,33 +241,21 @@ class ModelManager implements ModelManagerInterface
         return $query->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getModelIdentifier($class)
     {
         return $this->getMetadata($class)->identifier;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIdentifierValues($document)
     {
         return [$this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document)];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIdentifierFieldNames($class)
     {
         return [$this->getMetadata($class)->getIdentifier()];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNormalizedIdentifier($document)
     {
         if (null === $document) {
@@ -315,7 +267,7 @@ class ModelManager implements ModelManagerInterface
         }
 
         // the document is not managed
-        if (!$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
+        if (!$this->getDocumentManager($document)->contains($document)) {
             return null;
         }
 
@@ -324,26 +276,17 @@ class ModelManager implements ModelManagerInterface
         return implode(self::ID_SEPARATOR, $values);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUrlSafeIdentifier($document)
     {
         return $this->getNormalizedIdentifier($document);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
         $queryBuilder = $queryProxy->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
         /** @var Query $queryBuilder */
@@ -365,9 +308,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->clear();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
         $datagrid->buildPager();
@@ -379,9 +319,6 @@ class ModelManager implements ModelManagerInterface
         return new DoctrineODMQuerySourceIterator($query instanceof ProxyQuery ? $query->getQuery() : $query, $fields);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getExportFields($class)
     {
         $metadata = $this->getDocumentManager($class)->getClassMetadata($class);
@@ -389,9 +326,6 @@ class ModelManager implements ModelManagerInterface
         return $metadata->getFieldNames();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getModelInstance($class)
     {
         if (!class_exists($class)) {
@@ -412,9 +346,6 @@ class ModelManager implements ModelManagerInterface
         return new $class();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
     {
         $values = $datagrid->getValues();
@@ -434,9 +365,6 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
         $values = $datagrid->getValues();
@@ -449,9 +377,6 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefaultSortValues($class)
     {
         return [
@@ -467,17 +392,11 @@ class ModelManager implements ModelManagerInterface
         return [10, 25, 50, 100, 250];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function modelTransform($class, $instance)
     {
         return $instance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function modelReverseTransform($class, array $array = [])
     {
         $instance = $this->getModelInstance($class);
@@ -492,41 +411,26 @@ class ModelManager implements ModelManagerInterface
         return $instance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getModelCollectionInstance($class)
     {
         return new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionClear(&$collection)
     {
         return $collection->clear();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionHasElement(&$collection, &$element)
     {
         return $collection->contains($element);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionAddElement(&$collection, &$element)
     {
         return $collection->add($element);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionRemoveElement(&$collection, &$element)
     {
         return $collection->removeElement($element);

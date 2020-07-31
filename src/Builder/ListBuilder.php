@@ -32,17 +32,11 @@ class ListBuilder implements ListBuilderInterface
         $this->templates = $templates;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBaseList(array $options = [])
     {
         return new FieldDescriptionCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if (null === $type) {
@@ -55,9 +49,6 @@ class ListBuilder implements ListBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         $this->buildField($type, $fieldDescription, $admin);
@@ -66,9 +57,6 @@ class ListBuilder implements ListBuilderInterface
         $list->add($fieldDescription);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
         if ('_action' === $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {
@@ -78,7 +66,7 @@ class ListBuilder implements ListBuilderInterface
         $fieldDescription->setAdmin($admin);
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            list($metadata, $lastPropertyName, $parentAssociationMappings) = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
             $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
             // set the default field mapping
@@ -169,14 +157,12 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param string $type
-     *
-     * @return string
+     * @param int|string $type
      */
-    private function getTemplate($type)
+    private function getTemplate($type): ?string
     {
         if (!isset($this->templates[$type])) {
-            return;
+            return null;
         }
 
         return $this->templates[$type];

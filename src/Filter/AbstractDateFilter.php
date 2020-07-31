@@ -36,9 +36,6 @@ abstract class AbstractDateFilter extends Filter
      */
     protected $time = false;
 
-    /**
-     * {@inheritdoc}
-     */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         //check data sanity
@@ -94,17 +91,11 @@ abstract class AbstractDateFilter extends Filter
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefaultOptions()
     {
         return ['input_type' => 'datetime'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRenderSettings()
     {
         $name = DateType::class;
