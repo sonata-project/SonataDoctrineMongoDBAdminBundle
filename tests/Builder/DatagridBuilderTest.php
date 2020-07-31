@@ -69,7 +69,7 @@ final class DatagridBuilderTest extends TestCase
     protected function setUp(): void
     {
         $this->formFactory = $this->createStub(FormFactoryInterface::class);
-        $this->filterFactory = $this->createStub(FilterFactoryInterface::class);
+        $this->filterFactory = $this->createMock(FilterFactoryInterface::class);
         $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);
 
         $this->datagridBuilder = new DatagridBuilder(
@@ -161,6 +161,11 @@ final class DatagridBuilderTest extends TestCase
             ->expects($this->once())
             ->method('addFilter')
             ->with($this->isInstanceOf(ModelFilter::class));
+
+        $this->filterFactory
+            ->expects($this->once())
+            ->method('create')
+            ->with('test', ModelFilter::class);
 
         $this->datagridBuilder->addFilter(
             $datagrid,
