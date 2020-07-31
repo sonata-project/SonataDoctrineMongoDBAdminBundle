@@ -26,23 +26,24 @@
     ],
     "require": {
         "php": "^7.2",
+        "doctrine/collections": "^1.6",
         "doctrine/mongodb-odm": "^1.3 || ^2.0",
         "doctrine/mongodb-odm-bundle": "^3.0 || ^4.0",
-        "sonata-project/admin-bundle": "^3.63",
+        "sonata-project/admin-bundle": "^3.69",
         "sonata-project/form-extensions": "^0.1 || ^1.4",
         "symfony/config": "^4.4",
         "symfony/dependency-injection": "^4.4",
         "symfony/doctrine-bridge": "^4.4",
         "symfony/form": "^4.4",
         "symfony/http-kernel": "^4.4",
-        "twig/extensions": "^1.0",
+        "symfony/property-access": "^4.4",
         "twig/twig": "^2.6"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
     "require-dev": {
-        "jmikola/geojson": "^1.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "symfony/phpunit-bridge": "^5.0"
     },
     "suggest": {

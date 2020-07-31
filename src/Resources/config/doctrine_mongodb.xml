@@ -3,6 +3,7 @@
     <services>
         <service id="sonata.admin.manager.doctrine_mongodb" class="Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager">
             <argument type="service" id="doctrine_mongodb" on-invalid="ignore"/>
+            <argument type="service" id="property_accessor"/>
             <tag name="sonata.admin.manager"/>
         </service>
         <!-- FormBuilder -->

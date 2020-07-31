@@ -25,9 +25,6 @@ class Pager extends BasePager
 {
     protected $queryBuilder = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function computeNbResult()
     {
         $countQuery = clone $this->getQuery();
@@ -39,25 +36,11 @@ class Pager extends BasePager
         return $countQuery->count()->getQuery()->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getResults()
     {
         return $this->getQuery()->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function init(): void
     {
         $this->resetIterator();

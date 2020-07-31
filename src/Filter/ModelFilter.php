@@ -20,7 +20,7 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\Exception\InvalidArgumentException;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
-use Sonata\Form\Type\EqualType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 
 class ModelFilter extends Filter
 {
@@ -55,7 +55,7 @@ class ModelFilter extends Filter
             'field_name' => false,
             'field_type' => DocumentType::class,
             'field_options' => [],
-            'operator_type' => EqualType::class,
+            'operator_type' => EqualOperatorType::class,
             'operator_options' => [],
         ];
     }
@@ -89,7 +89,7 @@ class ModelFilter extends Filter
             $ids[] = self::fixIdentifier($value->getId());
         }
 
-        if (isset($data['type']) && EqualType::TYPE_IS_NOT_EQUAL === $data['type']) {
+        if (isset($data['type']) && EqualOperatorType::TYPE_NOT_EQUAL === $data['type']) {
             $queryBuilder->field($field)->notIn($ids);
         } else {
             $queryBuilder->field($field)->in($ids);
@@ -113,7 +113,7 @@ class ModelFilter extends Filter
 
         $id = self::fixIdentifier($data['value']->getId());
 
-        if (isset($data['type']) && EqualType::TYPE_IS_NOT_EQUAL === $data['type']) {
+        if (isset($data['type']) && EqualOperatorType::TYPE_NOT_EQUAL === $data['type']) {
             $queryBuilder->field($field)->notEqual($id);
         } else {
             $queryBuilder->field($field)->equals($id);

@@ -23,14 +23,23 @@ use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class DatagridBuilder implements DatagridBuilderInterface
 {
+    /**
+     * @var FilterFactoryInterface
+     */
     protected $filterFactory;
 
+    /**
+     * @var FormFactoryInterface
+     */
     protected $formFactory;
 
+    /**
+     * @var TypeGuesserInterface
+     */
     protected $guesser;
 
     /**
@@ -43,7 +52,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param bool $csrfTokenEnabled
      */
-    public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
+    public function __construct(FormFactoryInterface $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {
         $this->formFactory = $formFactory;
         $this->filterFactory = $filterFactory;
@@ -57,7 +66,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->setAdmin($admin);
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            list($metadata, $lastPropertyName, $parentAssociationMappings) = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
 
             // set the default field mapping
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
@@ -89,9 +98,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
 
-            $type = $guessType->getType();
-
-            $fieldDescription->setType($type);
+            $fieldDescription->setType($guessType->getType());
 
             $options = $guessType->getOptions();
 

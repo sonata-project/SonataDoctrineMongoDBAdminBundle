@@ -18,9 +18,9 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\ObjectId;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
-use Sonata\Form\Type\EqualType;
 
 class DocumentStub
 {
@@ -101,7 +101,7 @@ class ModelFilterTest extends TestCase
         ;
 
         $filter->filter($builder, 'alias', 'field', [
-            'type' => EqualType::TYPE_IS_EQUAL,
+            'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => [$oneDocument, $otherDocument],
         ]);
 
@@ -130,7 +130,7 @@ class ModelFilterTest extends TestCase
             ->with($this->getMongoIdentifier($document1->getId()))
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => EqualType::TYPE_IS_EQUAL, 'value' => $document1]);
+        $filter->filter($builder, 'alias', 'field', ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $document1]);
 
         $this->assertTrue($filter->isActive());
     }
@@ -179,7 +179,7 @@ class ModelFilterTest extends TestCase
             ->willReturnSelf()
         ;
 
-        $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
+        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
         $this->assertTrue($filter->isActive());
     }
@@ -211,7 +211,7 @@ class ModelFilterTest extends TestCase
             ->willReturnSelf()
         ;
 
-        $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
+        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
         $this->assertTrue($filter->isActive());
     }
@@ -238,7 +238,7 @@ class ModelFilterTest extends TestCase
             ->willReturnSelf()
         ;
 
-        $filter->apply($builder, ['type' => EqualType::TYPE_IS_EQUAL, 'value' => new DocumentStub()]);
+        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
         $this->assertTrue($filter->isActive());
     }
@@ -260,6 +260,6 @@ class ModelFilterTest extends TestCase
      */
     private function getMongoIdentifier(string $id)
     {
-        return class_exists(ObjectId::class) ? new ObjectId($id) : new MongoId($id);
+        return class_exists(ObjectId::class) ? new ObjectId($id) : new \MongoId($id);
     }
 }

@@ -32,19 +32,11 @@ class ShowBuilder implements ShowBuilderInterface
         $this->templates = $templates;
     }
 
-    /**
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionCollection
-     */
     public function getBaseList(array $options = [])
     {
         return new FieldDescriptionCollection();
     }
 
-    /**
-     * @param string|null $type
-     *
-     * @return mixed
-     */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if (null === $type) {
@@ -68,7 +60,7 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setAdmin($admin);
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            list($metadata, $lastPropertyName, $parentAssociationMappings) = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
             $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
             // set the default field mapping
@@ -117,14 +109,12 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * @param string $type
-     *
-     * @return string
+     * @param int|string $type
      */
-    private function getTemplate($type)
+    private function getTemplate($type): ?string
     {
         if (!isset($this->templates[$type])) {
-            return;
+            return null;
         }
 
         return $this->templates[$type];

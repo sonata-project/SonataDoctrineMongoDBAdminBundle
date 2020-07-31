@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Admin;
 
-use Doctrine\Common\Inflector\Inflector;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 
 class FieldDescriptionTest extends TestCase
@@ -110,13 +110,6 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('integer', $field->getType());
     }
 
-    public function testCamelize(): void
-    {
-        $this->assertSame('FooBar', Inflector::classify('foo_bar'));
-        $this->assertSame('FooBar', Inflector::classify('foo bar'));
-        $this->assertSame('FOoBar', Inflector::classify('fOo bar'));
-    }
-
     public function testSetName(): void
     {
         $field = new FieldDescription();
@@ -199,33 +192,33 @@ class FieldDescriptionTest extends TestCase
 
     public function testGetValue(): void
     {
-        $mockedObject = $this->getMockBuilder('MockedTestObject')
-            ->setMethods(['myMethod'])
-            ->getMock();
-        $mockedObject->expects($this->once())
-            ->method('myMethod')
-            ->willReturn('myMethodValue');
+        $object = new class() {
+            public function myMethod()
+            {
+                return 'myMethodValue';
+            }
+        };
 
         $field = new FieldDescription();
         $field->setOption('code', 'myMethod');
 
-        $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
+        $this->assertSame($field->getValue($object), 'myMethodValue');
     }
 
     public function testGetValueWhenCannotRetrieve(): void
     {
-        $this->expectException(\Sonata\AdminBundle\Exception\NoValueException::class);
-
-        $mockedObject = $this->getMockBuilder('MockedTestObject')
-            ->setMethods(['myMethod'])
-            ->getMock();
-        $mockedObject->expects($this->never())
-            ->method('myMethod')
-            ->willReturn('myMethodValue');
+        $object = new class() {
+            public function myMethod()
+            {
+                return 'myMethodValue';
+            }
+        };
 
         $field = new FieldDescription();
 
-        $this->assertSame($field->getValue($mockedObject), 'myMethodValue');
+        $this->expectException(NoValueException::class);
+
+        $this->assertSame($field->getValue($object), 'myMethodValue');
     }
 
     public function testGetAssociationMapping(): void
@@ -296,6 +289,11 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame('position', $field->getFieldName());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetTargetEntity(): void
     {
         $assocationMapping = [
@@ -311,6 +309,23 @@ class FieldDescriptionTest extends TestCase
         $field->setAssociationMapping($assocationMapping);
 
         $this->assertSame('someValue', $field->getTargetEntity());
+    }
+
+    public function testGetTargetModel(): void
+    {
+        $assocationMapping = [
+            'type' => 'integer',
+            'fieldName' => 'position',
+            'targetDocument' => 'someValue',
+        ];
+
+        $field = new FieldDescription();
+
+        $this->assertNull($field->getTargetModel());
+
+        $field->setAssociationMapping($assocationMapping);
+
+        $this->assertSame('someValue', $field->getTargetModel());
     }
 
     public function testIsIdentifierFromFieldMapping(): void

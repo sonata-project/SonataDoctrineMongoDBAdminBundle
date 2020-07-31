@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata as CommonClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -22,21 +25,46 @@ use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class ModelManager implements ModelManagerInterface
 {
     public const ID_SEPARATOR = '-';
-    protected $registry;
-
-    public function __construct(ManagerRegistry $registry)
-    {
-        $this->registry = $registry;
-    }
 
     /**
-     * {@inheritdoc}
+     * @var ManagerRegistry
      */
+    protected $registry;
+
+    /**
+     * @var PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
+    /**
+     * NEXT_MAJOR: Make $propertyAccessor mandatory.
+     */
+    public function __construct(ManagerRegistry $registry, ?PropertyAccessorInterface $propertyAccessor = null)
+    {
+        $this->registry = $registry;
+
+        // NEXT_MAJOR: Remove this block.
+        if (!$propertyAccessor instanceof PropertyAccessorInterface) {
+            @trigger_error(sprintf(
+                'Not passing an object implementing "%s" as argument 2 for "%s()" is deprecated since'
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw a %s error in 4.0.',
+                PropertyAccessorInterface::class,
+                __METHOD__,
+                \TypeError::class
+            ), E_USER_DEPRECATED);
+
+            $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        }
+
+        $this->propertyAccessor = $propertyAccessor;
+    }
+
     public function getMetadata($class)
     {
         return $this->getDocumentManager($class)->getMetadataFactory()->getMetadataFor($class);
@@ -72,21 +100,15 @@ class ModelManager implements ModelManagerInterface
         return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasMetadata($class)
     {
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if (!\is_string($name)) {
-            throw new \RunTimeException('The name argument must be a string');
+            throw new \RuntimeException('The name argument must be a string');
         }
 
         if (!isset($options['route']['name'])) {
@@ -97,7 +119,7 @@ class ModelManager implements ModelManagerInterface
             $options['route']['parameters'] = [];
         }
 
-        list($metadata, $propertyName, $parentAssociationMappings) = $this->getParentMetadataForProperty($class, $name);
+        [$metadata, $propertyName, $parentAssociationMappings] = $this->getParentMetadataForProperty($class, $name);
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName($name);
@@ -116,9 +138,6 @@ class ModelManager implements ModelManagerInterface
         return $fieldDescription;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create($object): void
     {
         $documentManager = $this->getDocumentManager($object);
@@ -126,9 +145,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update($object): void
     {
         $documentManager = $this->getDocumentManager($object);
@@ -136,9 +152,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete($object): void
     {
         $documentManager = $this->getDocumentManager($object);
@@ -146,9 +159,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function find($class, $id)
     {
         if (!isset($id)) {
@@ -168,17 +178,11 @@ class ModelManager implements ModelManagerInterface
         return $documentManager->getRepository($class)->find($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findBy($class, array $criteria = [])
     {
         return $this->getDocumentManager($class)->getRepository($class)->findBy($criteria);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findOneBy($class, array $criteria = [])
     {
         return $this->getDocumentManager($class)->getRepository($class)->findOneBy($criteria);
@@ -206,9 +210,6 @@ class ModelManager implements ModelManagerInterface
         return $dm;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParentFieldDescription($parentAssociationMapping, $class)
     {
         $fieldName = $parentAssociationMapping['fieldName'];
@@ -224,9 +225,6 @@ class ModelManager implements ModelManagerInterface
         return $fieldDescription;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createQuery($class, $alias = 'o')
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);
@@ -234,9 +232,6 @@ class ModelManager implements ModelManagerInterface
         return new ProxyQuery($repository->createQueryBuilder());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function executeQuery($query)
     {
         if ($query instanceof Builder) {
@@ -246,33 +241,21 @@ class ModelManager implements ModelManagerInterface
         return $query->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getModelIdentifier($class)
     {
         return $this->getMetadata($class)->identifier;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIdentifierValues($document)
     {
         return [$this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document)];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIdentifierFieldNames($class)
     {
         return [$this->getMetadata($class)->getIdentifier()];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNormalizedIdentifier($document)
     {
         if (null === $document) {
@@ -280,11 +263,11 @@ class ModelManager implements ModelManagerInterface
         }
 
         if (!\is_object($document)) {
-            throw new \RunTimeException('Invalid argument, object or null required');
+            throw new \RuntimeException('Invalid argument, object or null required');
         }
 
         // the document is not managed
-        if (!$this->getDocumentManager($document)->getUnitOfWork()->isInIdentityMap($document)) {
+        if (!$this->getDocumentManager($document)->contains($document)) {
             return null;
         }
 
@@ -293,26 +276,17 @@ class ModelManager implements ModelManagerInterface
         return implode(self::ID_SEPARATOR, $values);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUrlSafeIdentifier($document)
     {
         return $this->getNormalizedIdentifier($document);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx): void
     {
         $queryBuilder = $queryProxy->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function batchDelete($class, ProxyQueryInterface $queryProxy): void
     {
         /** @var Query $queryBuilder */
@@ -334,9 +308,6 @@ class ModelManager implements ModelManagerInterface
         $documentManager->clear();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
         $datagrid->buildPager();
@@ -348,9 +319,6 @@ class ModelManager implements ModelManagerInterface
         return new DoctrineODMQuerySourceIterator($query instanceof ProxyQuery ? $query->getQuery() : $query, $fields);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getExportFields($class)
     {
         $metadata = $this->getDocumentManager($class)->getClassMetadata($class);
@@ -358,17 +326,26 @@ class ModelManager implements ModelManagerInterface
         return $metadata->getFieldNames();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getModelInstance($class)
     {
+        if (!class_exists($class)) {
+            throw new \InvalidArgumentException(sprintf('Class "%s" not found', $class));
+        }
+
+        $r = new \ReflectionClass($class);
+        if ($r->isAbstract()) {
+            throw new \InvalidArgumentException(sprintf('Cannot initialize abstract class: %s', $class));
+        }
+
+        $constructor = $r->getConstructor();
+
+        if (null !== $constructor && (!$constructor->isPublic() || $constructor->getNumberOfRequiredParameters() > 0)) {
+            return $r->newInstanceWithoutConstructor();
+        }
+
         return new $class();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
     {
         $values = $datagrid->getValues();
@@ -388,9 +365,6 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
         $values = $datagrid->getValues();
@@ -403,9 +377,6 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefaultSortValues($class)
     {
         return [
@@ -414,102 +385,59 @@ class ModelManager implements ModelManagerInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function getDefaultPerPageOptions(string $class): array
+    {
+        return [10, 25, 50, 100, 250];
+    }
+
     public function modelTransform($class, $instance)
     {
         return $instance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function modelReverseTransform($class, array $array = [])
     {
         $instance = $this->getModelInstance($class);
         $metadata = $this->getMetadata($class);
 
-        $reflClass = $metadata->reflClass;
         foreach ($array as $name => $value) {
-            $reflection_property = false;
-            // property or association ?
-            if (\array_key_exists($name, $metadata->fieldMappings)) {
-                $property = $metadata->fieldMappings[$name]['fieldName'];
-                $reflection_property = $metadata->reflFields[$name];
-            } elseif (\array_key_exists($name, $metadata->associationMappings)) {
-                $property = $metadata->associationMappings[$name]['fieldName'];
-            } else {
-                $property = $name;
-            }
+            $property = $this->getFieldName($metadata, $name);
 
-            $setter = 'set'.$this->camelize($name);
-
-            if ($reflClass->hasMethod($setter)) {
-                if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
-                }
-
-                $instance->$setter($value);
-            } elseif ($reflClass->hasMethod('__set')) {
-                // needed to support magic method __set
-                $instance->$property = $value;
-            } elseif ($reflClass->hasProperty($property)) {
-                if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
-                }
-
-                $instance->$property = $value;
-            } elseif ($reflection_property) {
-                $reflection_property->setValue($instance, $value);
-            }
+            $this->propertyAccessor->setValue($instance, $property, $value);
         }
 
         return $instance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getModelCollectionInstance($class)
     {
-        return new \Doctrine\Common\Collections\ArrayCollection();
+        return new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionClear(&$collection)
     {
         return $collection->clear();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionHasElement(&$collection, &$element)
     {
         return $collection->contains($element);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionAddElement(&$collection, &$element)
     {
         return $collection->add($element);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collectionRemoveElement(&$collection, &$element)
     {
         return $collection->removeElement($element);
     }
 
     /**
-     * method taken from PropertyPath.
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
      *
      * @param string $property
      *
@@ -517,7 +445,30 @@ class ModelManager implements ModelManagerInterface
      */
     protected function camelize($property)
     {
-        return preg_replace(['/(^|_)+(.)/e', '/\.(.)/e'], ["strtoupper('\\2')", "'_'.strtoupper('\\1')"], $property);
+        @trigger_error(sprintf(
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
+    }
+
+    /**
+     * NEXT_MAJOR: Remove CommonClassMetadata and add ClassMetadata as type hint when dropping doctrine/mongodb-odm 1.3.x.
+     *
+     * @param ClassMetadata|CommonClassMetadata $metadata
+     */
+    private function getFieldName($metadata, string $name): string
+    {
+        if (\array_key_exists($name, $metadata->fieldMappings)) {
+            return $metadata->fieldMappings[$name]['fieldName'];
+        }
+
+        if (\array_key_exists($name, $metadata->associationMappings)) {
+            return $metadata->associationMappings[$name]['fieldName'];
+        }
+
+        return $name;
     }
 
     private function isFieldAlreadySorted(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid): bool

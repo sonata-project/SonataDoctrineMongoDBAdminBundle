@@ -16,6 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use MongoDB\BSON\Regex;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 
 class StringFilter extends Filter
 {
@@ -31,22 +32,22 @@ class StringFilter extends Filter
 
         $data['value'] = trim($data['value']);
 
-        if (0 === \strlen($data['value'])) {
+        if ('' === $data['value']) {
             return;
         }
 
-        $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ChoiceType::TYPE_CONTAINS;
+        $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ContainsOperatorType::TYPE_CONTAINS;
 
         $obj = $queryBuilder;
         if (self::CONDITION_OR === $this->condition) {
             $obj = $queryBuilder->expr();
         }
 
-        if (ChoiceType::TYPE_EQUAL === $data['type']) {
+        if (ContainsOperatorType::TYPE_EQUAL === $data['type']) {
             $obj->field($field)->equals($data['value']);
-        } elseif (ChoiceType::TYPE_CONTAINS === $data['type']) {
+        } elseif (ContainsOperatorType::TYPE_CONTAINS === $data['type']) {
             $obj->field($field)->equals($this->getRegexExpression($data['value']));
-        } elseif (ChoiceType::TYPE_NOT_CONTAINS === $data['type']) {
+        } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
             $obj->field($field)->not($this->getRegexExpression($data['value']));
         }
 

@@ -110,7 +110,7 @@ class FormContractor implements FormContractorInterface
                 );
             }
 
-            $options['class'] = $fieldDescription->getTargetEntity();
+            $options['class'] = $fieldDescription->getTargetModel();
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
             if ($this->checkFormClass($type, [ModelAutocompleteType::class])) {
@@ -119,7 +119,7 @@ class FormContractor implements FormContractorInterface
                         'The current field `%s` is not linked to an admin.'
                         .' Please create one for the target entity: `%s`',
                         $fieldDescription->getName(),
-                        $fieldDescription->getTargetEntity()
+                        $fieldDescription->getTargetModel()
                     ));
                 }
             }
@@ -129,7 +129,7 @@ class FormContractor implements FormContractorInterface
                     'The current field `%s` is not linked to an admin.'
                     .' Please create one for the target entity : `%s`',
                     $fieldDescription->getName(),
-                    $fieldDescription->getTargetEntity()
+                    $fieldDescription->getTargetModel()
                 ));
             }
 
@@ -155,7 +155,7 @@ class FormContractor implements FormContractorInterface
                     'The current field `%s` is not linked to an admin.'
                     .' Please create one for the target entity : `%s`',
                     $fieldDescription->getName(),
-                    $fieldDescription->getTargetEntity()
+                    $fieldDescription->getTargetModel()
                 ));
             }
 

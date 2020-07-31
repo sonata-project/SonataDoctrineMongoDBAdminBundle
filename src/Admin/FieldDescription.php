@@ -17,17 +17,11 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 class FieldDescription extends BaseFieldDescription
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->parentAssociationMappings = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAssociationMapping($associationMapping): void
     {
         if (!\is_array($associationMapping)) {
@@ -42,18 +36,34 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritdoc}
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0. Use FieldDescription::getTargetModel() instead.
      */
     public function getTargetEntity()
+    {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.'
+            .' Use %s::getTargetModel() instead.',
+            __METHOD__,
+            __CLASS__
+        ), E_USER_DEPRECATED);
+
+        return $this->getTargetModel();
+    }
+
+    /**
+     * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+     */
+    public function getTargetModel(): ?string
     {
         if ($this->associationMapping) {
             return $this->associationMapping['targetDocument'];
         }
+
+        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setFieldMapping($fieldMapping): void
     {
         if (!\is_array($fieldMapping)) {
@@ -67,9 +77,6 @@ class FieldDescription extends BaseFieldDescription
         $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setParentAssociationMappings(array $parentAssociationMappings): void
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {
@@ -81,17 +88,11 @@ class FieldDescription extends BaseFieldDescription
         $this->parentAssociationMappings = $parentAssociationMappings;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isIdentifier()
     {
-        return isset($this->fieldMapping['id']) ? $this->fieldMapping['id'] : false;
+        return $this->fieldMapping['id'] ?? false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($object)
     {
         foreach ($this->parentAssociationMappings as $parentAssociationMapping) {

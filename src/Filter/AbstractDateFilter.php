@@ -18,6 +18,7 @@ use Sonata\AdminBundle\Form\Type\Filter\DateRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateType;
+use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
 
 abstract class AbstractDateFilter extends Filter
 {
@@ -35,9 +36,6 @@ abstract class AbstractDateFilter extends Filter
      */
     protected $time = false;
 
-    /**
-     * {@inheritdoc}
-     */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         //check data sanity
@@ -46,60 +44,58 @@ abstract class AbstractDateFilter extends Filter
         }
 
         //default type for simple filter
-        $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateType::TYPE_EQUAL : $data['type'];
+        $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateOperatorType::TYPE_EQUAL : $data['type'];
 
         // Some types do not require a value to be set (NULL, NOT NULL).
-        if (!$this->typeRequiresValue($data['type']) && !$data['value']) {
+        if (!isset($data['value']) && $this->typeDoesRequireValue($data['type'])) {
             return;
         }
 
         switch ($data['type']) {
-            case DateType::TYPE_EQUAL:
+            case DateOperatorType::TYPE_EQUAL:
+                $this->active = true;
+
                 $this->applyTypeIsEqual($queryBuilder, $field, $data);
 
                 return;
 
-            case DateType::TYPE_GREATER_THAN:
-                if (!\array_key_exists('value', $data) || !$data['value']) {
-                    return;
-                }
+            case DateOperatorType::TYPE_GREATER_THAN:
+                $this->active = true;
 
                 $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
 
                 return;
 
-            case DateType::TYPE_LESS_EQUAL:
-                if (!\array_key_exists('value', $data) || !$data['value']) {
-                    return;
-                }
+            case DateOperatorType::TYPE_LESS_EQUAL:
+                $this->active = true;
 
                 $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
 
                 return;
 
-            case DateType::TYPE_NULL:
-            case DateType::TYPE_NOT_NULL:
+            case DateOperatorType::TYPE_NULL:
+            case DateOperatorType::TYPE_NOT_NULL:
+                $this->active = true;
+
                 $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
 
                 return;
 
-            case DateType::TYPE_GREATER_EQUAL:
-            case DateType::TYPE_LESS_THAN:
+            case DateOperatorType::TYPE_GREATER_EQUAL:
+            case DateOperatorType::TYPE_LESS_THAN:
+                $this->active = true;
+
                 $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+
+                return;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefaultOptions()
     {
         return ['input_type' => 'datetime'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRenderSettings()
     {
         $name = DateType::class;
@@ -119,6 +115,12 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
+    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
+
+    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, string $field, array $data);
+
+    abstract protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
+
     /**
      * @param string    $operation
      * @param string    $field
@@ -131,17 +133,26 @@ abstract class AbstractDateFilter extends Filter
     }
 
     /**
+     * NEXT_MAJOR: Remove this method.
+     *
      * Returns if the filter type requires a value to be set.
      *
      * @param int $type
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
      *
      * @return bool
      */
     protected function typeRequiresValue($type)
     {
+        @trigger_error(sprintf(
+            '"%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return \in_array($type, [
-            DateType::TYPE_NULL,
-            DateType::TYPE_NOT_NULL,
+            DateOperatorType::TYPE_NULL,
+            DateOperatorType::TYPE_NOT_NULL,
         ], true);
     }
 
@@ -155,15 +166,23 @@ abstract class AbstractDateFilter extends Filter
     protected function getOperator($type)
     {
         $choices = [
-            DateType::TYPE_NULL => 'equals',
-            DateType::TYPE_NOT_NULL => 'notEqual',
-            DateType::TYPE_EQUAL => 'equals',
-            DateType::TYPE_GREATER_EQUAL => 'gte',
-            DateType::TYPE_GREATER_THAN => 'gt',
-            DateType::TYPE_LESS_EQUAL => 'lte',
-            DateType::TYPE_LESS_THAN => 'lt',
+            DateOperatorType::TYPE_NULL => 'equals',
+            DateOperatorType::TYPE_NOT_NULL => 'notEqual',
+            DateOperatorType::TYPE_EQUAL => 'equals',
+            DateOperatorType::TYPE_GREATER_EQUAL => 'gte',
+            DateOperatorType::TYPE_GREATER_THAN => 'gt',
+            DateOperatorType::TYPE_LESS_EQUAL => 'lte',
+            DateOperatorType::TYPE_LESS_THAN => 'lt',
         ];
 
         return $choices[(int) $type];
+    }
+
+    private function typeDoesRequireValue(int $type): bool
+    {
+        return !\in_array($type, [
+            DateOperatorType::TYPE_NULL,
+            DateOperatorType::TYPE_NOT_NULL,
+        ], true);
     }
 }
