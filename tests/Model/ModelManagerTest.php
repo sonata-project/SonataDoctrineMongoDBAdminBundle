@@ -332,6 +332,41 @@ final class ModelManagerTest extends TestCase
         $this->assertNull($model->getNormalizedIdentifier(null));
     }
 
+    public function testGetNewFieldDescriptionInstanceCreatesAFieldDescription(): void
+    {
+        $dm = $this->createStub(DocumentManager::class);
+
+        $this->registry
+            ->method('getManagerForClass')
+            ->willReturn($dm);
+
+        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
+
+        $dm
+            ->method('getMetadataFactory')
+            ->willReturn($metadataFactory);
+
+        $containerDocumentClass = ContainerDocument::class;
+        $containerDocumentMetadata = $this->getMetadataForContainerDocument();
+
+        $metadataFactory->method('getMetadataFor')
+            ->willReturnMap(
+                [
+                    [$containerDocumentClass, $containerDocumentMetadata],
+                ]
+            );
+
+        $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
+
+        $fieldDescription = $modelManager->getNewFieldDescriptionInstance($containerDocumentClass, 'plainField');
+
+        $this->assertSame('edit', $fieldDescription->getOption('route')['name']);
+        $this->assertSame(['fieldName' => 'plainField',
+            'name' => 'plainField',
+            'columnName' => 'plainField',
+            'type' => 'integer', ], $fieldDescription->getFieldMapping());
+    }
+
     private function createModelManagerForClass(string $class): ModelManager
     {
         $metadataFactory = $this->createMock(ClassMetadataFactory::class);
