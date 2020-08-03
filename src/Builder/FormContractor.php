@@ -135,9 +135,11 @@ class FormContractor implements FormContractorInterface
 
             if (!\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
                 throw new \RuntimeException(sprintf(
-                    'You are trying to add `sonata_type_admin` field `%s` which is not One-To-One or  Many-To-One.'
-                    .' Maybe you want `sonata_type_collection` instead?',
-                    $fieldDescription->getName()
+                    'You are trying to add `%s` field `%s` which is not One-To-One or Many-To-One.'
+                    .' Maybe you want `%s` instead?',
+                    AdminType::class,
+                    $fieldDescription->getName(),
+                    CollectionType::class
                 ));
             }
 
