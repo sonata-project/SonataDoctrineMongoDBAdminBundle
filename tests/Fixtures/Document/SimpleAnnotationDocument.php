@@ -24,6 +24,21 @@ class SimpleAnnotationDocument
     /** @ODM\Field(type="string") */
     private $name;
 
+    /**
+     * @ODM\EmbedOne()
+     */
+    private $associatedDocument;
+
+    /**
+     * @ODM\EmbedMany()
+     */
+    private $embeddedDocument;
+
+    /**
+     * @ODM\ReferenceOne(targetDocument=SimpleDocument::class)
+     */
+    private $referenceOne;
+
     public function __construct(string $name)
     {
         $this->name = $name;

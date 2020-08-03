@@ -29,6 +29,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleAnnotationDocument;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Guess\Guess;
@@ -111,10 +112,37 @@ final class DatagridBuilderTest extends TestCase
 
     public function testFixFieldDescription(): void
     {
-        $classMetadata = $this->createMock(ClassMetadata::class);
+        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
+        $classMetadata->mapField([
+            'fieldName' => 'name',
+            'type' => 'string',
+        ]);
 
         $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('test');
+        $fieldDescription->setName('name');
+
+        $this->modelManager->method('hasMetadata')->willReturn(true);
+
+        $this->modelManager
+            ->expects($this->once())
+            ->method('getParentMetadataForProperty')
+            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
+
+        $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
+
+        $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
+        $this->assertTrue($fieldDescription->getOption('global_search'));
+    }
+
+    public function testFixFieldDescriptionWithAssociationMapping(): void
+    {
+        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
+        $classMetadata->mapOneEmbedded([
+            'fieldName' => 'associatedDocument',
+        ]);
+
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('associatedDocument');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
 
         $this->admin
@@ -126,9 +154,11 @@ final class DatagridBuilderTest extends TestCase
         $this->modelManager
             ->expects($this->once())
             ->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'someField', $parentAssociationMapping = []]);
+            ->willReturn([$classMetadata, 'associatedDocument', $parentAssociationMapping = []]);
 
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
+
+        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getOption('association_mapping'));
     }
 
     public function testAddFilterNoType(): void
@@ -139,7 +169,10 @@ final class DatagridBuilderTest extends TestCase
 
         $datagrid = $this->createMock(DatagridInterface::class);
         $guessType = new TypeGuess(ModelFilter::class, [
-            'name' => 'value',
+            'guess_option' => 'guess_value',
+            'guess_array_option' => [
+                'guess_array_value',
+            ],
         ], Guess::VERY_HIGH_CONFIDENCE);
 
         $fieldDescription = new FieldDescription();
@@ -173,5 +206,38 @@ final class DatagridBuilderTest extends TestCase
             $fieldDescription,
             $this->admin
         );
+
+        $this->assertSame('guess_value', $fieldDescription->getOption('guess_option'));
+        $this->assertSame(['guess_array_value'], $fieldDescription->getOption('guess_array_option'));
+    }
+
+    public function testAddFilterWithType(): void
+    {
+        $this->admin
+            ->expects($this->once())
+            ->method('addFilterFieldDescription');
+
+        $datagrid = $this->createMock(DatagridInterface::class);
+
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('test');
+
+        $this->filterFactory->method('create')->willReturn(new ModelFilter());
+
+        $this->admin->method('getLabelTranslatorStrategy')->willReturn(new FormLabelTranslatorStrategy());
+
+        $datagrid
+            ->expects($this->once())
+            ->method('addFilter')
+            ->with($this->isInstanceOf(ModelFilter::class));
+
+        $this->datagridBuilder->addFilter(
+            $datagrid,
+            ModelFilter::class,
+            $fieldDescription,
+            $this->admin
+        );
+
+        $this->assertSame(ModelFilter::class, $fieldDescription->getType());
     }
 }

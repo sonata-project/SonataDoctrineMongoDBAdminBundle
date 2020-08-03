@@ -19,6 +19,7 @@ use Prophecy\Argument;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
@@ -63,7 +64,10 @@ class ListBuilderTest extends TestCase
         $this->admin->addListFieldDescription(Argument::any(), Argument::any())
             ->willReturn();
 
-        $this->listBuilder = new ListBuilder($this->typeGuesser->reveal());
+        $this->listBuilder = new ListBuilder($this->typeGuesser->reveal(), [
+            'fakeTemplate' => 'fake',
+            TemplateRegistry::TYPE_STRING => '@SonataAdmin/CRUD/list_string.html.twig',
+        ]);
     }
 
     public function testAddListActionField(): void
@@ -103,28 +107,56 @@ class ListBuilderTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider fixFieldDescriptionData
-     */
-    public function testFixFieldDescription(string $type, string $template): void
+    public function testFixFieldDescriptionWithFieldMapping(): void
     {
         $classMetadata = $this->prophesize(ClassMetadata::class);
         $this->modelManager->hasMetadata(Argument::any())->willReturn(true);
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('test');
         $fieldDescription->setOption('sortable', true);
-        $fieldDescription->setType('fakeType');
+        $fieldDescription->setType('string');
+
+        $classMetadata->fieldMappings = ['test' => ['type' => 'string']];
+        $this->modelManager->getParentMetadataForProperty(Argument::cetera())
+            ->willReturn([$classMetadata, 'test', $parentAssociationMapping = []]);
+
+        $this->listBuilder->fixFieldDescription($this->admin->reveal(), $fieldDescription);
+
+        $this->assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
+        $this->assertSame(['type' => 'string'], $fieldDescription->getFieldMapping());
+    }
+
+    /**
+     * @dataProvider fixFieldDescriptionData
+     */
+    public function testFixFieldDescriptionWithAssociationMapping(string $type, string $template): void
+    {
+        $classMetadata = $this->prophesize(ClassMetadata::class);
+        $this->modelManager->hasMetadata(Argument::any())->willReturn(true);
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('test');
+        $fieldDescription->setOption('sortable', true);
+        $fieldDescription->setType($type);
         $fieldDescription->setMappingType($type);
 
         $this->admin->attachAdminClass(Argument::any())->shouldBeCalledTimes(1);
 
-        $classMetadata->fieldMappings = [2 => [1 => 'test', 'type' => 'string']];
+        $associationMapping = [
+            'fieldName' => 'associatedDocument',
+            'name' => 'associatedDocument',
+        ];
+
+        $classMetadata->associationMappings = [
+            'test' => $associationMapping,
+        ];
+
         $this->modelManager->getParentMetadataForProperty(Argument::cetera())
-            ->willReturn([$classMetadata, 2, $parentAssociationMapping = []]);
+            ->willReturn([$classMetadata, 'test', $parentAssociationMapping = []]);
 
         $this->listBuilder->fixFieldDescription($this->admin->reveal(), $fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
+        $this->assertSame($associationMapping, $fieldDescription->getAssociationMapping());
     }
 
     public function fixFieldDescriptionData(): array
@@ -138,6 +170,29 @@ class ListBuilderTest extends TestCase
                 ClassMetadata::MANY,
                 '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig',
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider fixFieldDescriptionTypes
+     */
+    public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
+    {
+        $this->modelManager->hasMetadata(Argument::any())->willReturn(false);
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('test');
+        $fieldDescription->setType($type);
+
+        $this->listBuilder->fixFieldDescription($this->admin->reveal(), $fieldDescription);
+
+        $this->assertSame($expectedType, $fieldDescription->getType());
+    }
+
+    public function fixFieldDescriptionTypes(): array
+    {
+        return [
+            ['string', 'id'],
+            ['integer', 'int'],
         ];
     }
 
