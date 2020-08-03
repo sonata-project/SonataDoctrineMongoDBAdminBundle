@@ -6,10 +6,10 @@ the list of entities by a number of different methods.
 
 A filter instance is always linked to a Form Type, there are 3 types available :
 
-  - sonata_type_filter_number  :  display 2 widgets, the operator ( >, >=, <= , <, =) and the value
-  - sonata_type_filter_choice  :  display 2 widgets, the operator (yes and no) and the value
-  - sonata_type_filter_default :  display 2 widgets, an hidden operator (can be changed on demand) and the value
-  - sonata_type_filter_date ( not implemented yet )
+  - ``Sonata\AdminBundle\Form\Type\Filter\NumberType``: displays 2 widgets, the operator ( >, >=, <= , <, =) and the value
+  - ``Sonata\AdminBundle\Form\Type\Filter\ChoiceType``: displays 2 widgets, the operator (yes and no) and the value
+  - ``Sonata\AdminBundle\Form\Type\Filter\DefaultType``: displays 2 widgets, an hidden operator (can be changed on demand) and the value
+  - ``Sonata\AdminBundle\Form\Type\Filter\DateType``: displays 2 widgets, the operator ( >, >=, <= , <, =, is null, is not null) and the value
 
 The Form Type configuration is provided by the filter itself. But they can be tweaked in the ``configureDatagridFilters``
 process with the ``add`` method.
@@ -27,12 +27,12 @@ Filter types available
 
 Some filter types are missing. Contributions are welcome.
 
-  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter``        : depends on the ``sonata_type_filter_default`` Form Type, renders yes or no field
-  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter``       : depends on the ``sonata_type_filter_default`` Form Type, types can be configured as needed
-  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter``         : depends on the ``sonata_type_filter_choice`` Form Type, renders yes or no field
-  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter``          : depends on the ``sonata_type_filter_number`` Form Type
-  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter``         : depends on the ``sonata_type_filter_choice``
-  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter``         : depends on the ``sonata_type_filter_choice`` Form Type, renders yes or no field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\DefaultType`` form type, renders yes or no field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\DefaultType`` form type, types can be configured as needed
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\ChoiceType`` form type, renders yes or no field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\NumberType`` form type
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\ChoiceType``
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\ChoiceType`` form type, renders yes or no field
 
 Example
 -------

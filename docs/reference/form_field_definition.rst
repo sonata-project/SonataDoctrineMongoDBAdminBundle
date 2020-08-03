@@ -10,6 +10,7 @@ Example
 
     use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Form\Type\ModelType;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
     use Sonata\AdminBundle\Show\ShowMapper;
@@ -20,16 +21,11 @@ Example
         protected function configureFormFields(FormMapper $formMapper)
         {
             $formMapper
-                ->add('author', 'sonata_type_model', [], ['edit' => 'list'])
+                ->add('author', ModelType::class, [], ['edit' => 'list'])
                 ->add('enabled')
-                ->add('title')
+                ->add('title', null, ['help' => 'help_post_title'])
                 ->add('abstract', null, ['required' => false])
-                ->add('content')
-
-                // you can define help messages like this
-                ->setHelps([
-                   'title' => $this->trans('help_post_title')
-                ]);
+                ->add('content');
         }
 
         public function validate(ErrorElement $errorElement, $object)
@@ -82,6 +78,7 @@ you can use the corresponding option in the form field definition::
 
     use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Form\Type\ModelListType;
 
     final class PostAdmin extends AbstractAdmin
     {
@@ -90,7 +87,7 @@ you can use the corresponding option in the form field definition::
             $formMapper
                 ->with('General')
                     ->add('enabled', null, ['required' => false])
-                    ->add('author', 'sonata_type_model_list', [], [
+                    ->add('author', ModelListType::class, [], [
                         'placeholder' => 'No author selected',
                     ])
                 ->end();
@@ -150,9 +147,12 @@ With the ``standard`` and ``list`` options, you can create a new ``User`` by cli
 
     use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Form\Type\ModelListType;
+    use Sonata\AdminBundle\Form\Type\ModelType;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
     use Sonata\AdminBundle\Show\ShowMapper;
+    use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
     final class PostAdmin extends AbstractAdmin
     {
@@ -161,7 +161,7 @@ With the ``standard`` and ``list`` options, you can create a new ``User`` by cli
             $formMapper
                 ->with('General')
                     ->add('enabled', null, ['required' => false])
-                    ->add('author', 'sonata_type_model_list', [
+                    ->add('author', ModelListType::class, [
 
                         // Specify a custom label
                         'btn_add' => 'Add author',
@@ -180,12 +180,12 @@ With the ``standard`` and ``list`` options, you can create a new ``User`` by cli
                     ->add('content')
                 ->end()
                 ->with('Tags')
-                    ->add('tags', 'sonata_type_model', ['expanded' => true])
+                    ->add('tags', ModelType::class, ['expanded' => true])
                 ->end()
                 ->with('Options', ['collapsed' => true])
                     ->add('commentsCloseAt')
                     ->add('commentsEnabled', null, ['required' => false])
-                    ->add('commentsDefaultStatus', 'choice', [
+                    ->add('commentsDefaultStatus', ChoiceType::class, [
                         'choices' => Comment::getStatusList(),
                     ])
                 ->end()
@@ -205,6 +205,7 @@ Let's say you have a ``Gallery`` that links to some ``Media``s with a join table
     use Sonata\AdminBundle\Form\FormMapper;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
+    use Sonata\Form\Type\CollectionType;
 
     final class GalleryAdmin extends AbstractAdmin
     {
@@ -215,7 +216,7 @@ Let's say you have a ``Gallery`` that links to some ``Media``s with a join table
                 ->add('enabled')
                 ->add('name')
                 ->add('defaultFormat')
-                ->add('galleryHasMedias', 'sonata_type_collection');
+                ->add('galleryHasMedias', CollectionType::class);
         }
     }
 
@@ -238,6 +239,7 @@ After choosing your action, your admin would llok like this::
     use Sonata\AdminBundle\Form\FormMapper;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
+    use Sonata\Form\Type\CollectionType;
 
     final class GalleryAdmin extends AbstractAdmin
     {
@@ -248,7 +250,7 @@ After choosing your action, your admin would llok like this::
                 ->add('enabled')
                 ->add('name')
                 ->add('defaultFormat')
-                ->add('galleryHasMedias', 'sonata_type_collection', [], [
+                ->add('galleryHasMedias', CollectionType::class, [], [
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable'  => 'position',
