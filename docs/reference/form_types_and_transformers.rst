@@ -7,17 +7,17 @@ to handle the different model's workflows and lifecycle.
 Form types
 ----------
 
-    - ``sonata_type_admin`` : this type is linked to an Admin class and the field construction is
+    - ``Sonata\AdminBundle\Form\Type\AdminType``: this type is linked to an Admin class and the field construction is
       delegated to an Admin class.
 
-    - ``sonata_type_collection`` : this type works like the native ``CollectionType`` but contains two extra
+    - ``Sonata\Form\Type\CollectionType``: this type works like the native ``CollectionType`` but contains two extra
       features : the data layer is abstracted to work with any implemented layer and a delete option is added
       so a collection entry can be deleted.
 
-    - ``sonata_type_model`` : this type works like the native ``EntityType`` but this internal is abstracted
+    - ``Sonata\AdminBundle\Form\Type\ModelType``: this type works like the native ``EntityType`` but this internal is abstracted
       to work with any implemented layer.
 
-    - ``sonata_type_immutable_array``: this type allows to edit a fixed array, like a settings array.
+    - ``Sonata\Form\Type\ImmutableArrayType``: this type allows to edit a fixed array, like a settings array.
 
 Let's say, the object has settings properties::
 
@@ -36,6 +36,7 @@ Now you can edit the settings array with::
 
     use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\Form\Type\ImmutableArrayType;
 
     final class PageAdmin extends AbstractAdmin
     {
@@ -43,7 +44,7 @@ Now you can edit the settings array with::
         {
             $formMapper
                 ->add('enabled')
-                ->add('settings', 'sonata_type_immutable_array', [
+                ->add('settings', ImmutableArrayType::class, [
                     'keys' => [
                         ['content', 'textarea', []],
                         ['public', 'checkbox', []],
@@ -63,10 +64,11 @@ Other options::
 
     namespace Sonata\NewsBundle\Admin;
 
+    use App\Entity\Comment;
     use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
-
-    use App\Application\Sonata\NewsBundle\Entity\Comment;
+    use Sonata\AdminBundle\Form\Type\ModelType;
+    use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
     final class PostAdmin extends AbstractAdmin
     {
@@ -75,18 +77,18 @@ Other options::
             $formMapper
                 ->with('General')
                     ->add('enabled', null, ['required' => false])
-                    ->add('author', 'sonata_type_model', [], ['edit' => 'list'])
+                    ->add('author', ModelType::class, [], ['edit' => 'list'])
                     ->add('title')
                     ->add('abstract')
                     ->add('content')
                 ->end()
                 ->with('Tags')
-                    ->add('tags', 'sonata_type_model', ['expanded' => true])
+                    ->add('tags', ModelType::class, ['expanded' => true])
                 ->end()
                 ->with('Options', ['collapsed' => true])
                     ->add('commentsCloseAt')
                     ->add('commentsEnabled', null, ['required' => false])
-                    ->add('commentsDefaultStatus', 'choice', ['choices' => Comment::getStatusList()])
+                    ->add('commentsDefaultStatus', ChoiceType::class, ['choices' => Comment::getStatusList()])
                 ->end()
             ;
         }

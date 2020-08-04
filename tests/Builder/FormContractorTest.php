@@ -26,6 +26,7 @@ use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleAnnotationDocument;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -128,8 +129,8 @@ class FormContractorTest extends TestCase
         $admin->method('getModelManager')->willReturn($modelManager);
 
         $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
-        $fieldDescription->method('getMappingType')->willReturn('one');
-        $fieldDescription->method('getType')->willReturn('sonata_type_model_list');
+        $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::ONE);
+        $fieldDescription->method('getType')->willReturn(ModelListType::class);
         $fieldDescription->method('getOption')->with($this->logicalOr(
             $this->equalTo('edit'),
             $this->equalTo('admin_code')
@@ -144,5 +145,53 @@ class FormContractorTest extends TestCase
 
         // When
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
+    }
+
+    public function testFixFieldDescriptionForFieldMapping(): void
+    {
+        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
+        $classMetadata->mapField([
+            'fieldName' => 'name',
+            'type' => 'string',
+        ]);
+
+        $modelManager = $this->createMock(ModelManager::class);
+        $modelManager->method('hasMetadata')->willReturn(true);
+        $modelManager->method('getMetadata')->willReturn($classMetadata);
+
+        $admin = $this->createMock(AdminInterface::class);
+        $admin->method('getModelManager')->willReturn($modelManager);
+
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setMappingType(ClassMetadata::ONE);
+        $fieldDescription->setName('name');
+
+        $this->formContractor->fixFieldDescription($admin, $fieldDescription);
+
+        $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getFieldMapping());
+    }
+
+    public function testFixFieldDescriptionForAssociationMapping(): void
+    {
+        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
+        $classMetadata->mapOneEmbedded([
+            'fieldName' => 'name',
+            'type' => 'string',
+        ]);
+
+        $modelManager = $this->createMock(ModelManager::class);
+        $modelManager->method('hasMetadata')->willReturn(true);
+        $modelManager->method('getMetadata')->willReturn($classMetadata);
+
+        $admin = $this->createMock(AdminInterface::class);
+        $admin->method('getModelManager')->willReturn($modelManager);
+
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setMappingType(ClassMetadata::ONE);
+        $fieldDescription->setName('name');
+
+        $this->formContractor->fixFieldDescription($admin, $fieldDescription);
+
+        $this->assertSame($classMetadata->associationMappings['name'], $fieldDescription->getAssociationMapping());
     }
 }

@@ -137,6 +137,6 @@ file that was distributed with this source code.
     {% if sonata_admin.field_description.mappingtype == 'many' %}
         {{ block('sonata_admin_mongo_collection') }}
     {% else %}
-        INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
+        INVALID MODE : {{ id }}
     {% endif %}
 {% endblock %}

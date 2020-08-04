@@ -57,7 +57,6 @@ final class ShowBuilderTest extends TestCase
             [
                 'fakeTemplate' => 'fake',
                 TemplateRegistry::TYPE_MANY_TO_ONE => '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
-                TemplateRegistry::TYPE_MANY_TO_MANY => '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
             ]
         );
 
@@ -96,6 +95,8 @@ final class ShowBuilderTest extends TestCase
             $fieldDescription,
             $this->admin
         );
+
+        $this->assertSame('fakeType', $fieldDescription->getType());
     }
 
     public function testAddFieldWithType(): void
@@ -113,6 +114,8 @@ final class ShowBuilderTest extends TestCase
             $fieldDescription,
             $this->admin
         );
+
+        $this->assertSame('someType', $fieldDescription->getType());
     }
 
     /**
@@ -132,11 +135,11 @@ final class ShowBuilderTest extends TestCase
         $this->modelManager->method('hasMetadata')->willReturn(true);
 
         $this->modelManager->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 2, $parentAssociationMapping = []]);
+            ->willReturn([$classMetadata, 'fakeName', $parentAssociationMapping = []]);
 
-        $classMetadata->fieldMappings = [2 => []];
+        $classMetadata->fieldMappings = ['fakeName' => []];
 
-        $classMetadata->associationMappings = [2 => ['fieldName' => 'fakeField']];
+        $classMetadata->associationMappings = ['fakeName' => ['fieldName' => 'fakeField', 'type' => $type]];
 
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
@@ -156,6 +159,28 @@ final class ShowBuilderTest extends TestCase
                 ClassMetadata::MANY,
                 '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider fixFieldDescriptionTypes
+     */
+    public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
+    {
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('FakeName');
+        $fieldDescription->setType($type);
+
+        $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
+
+        $this->assertSame($expectedType, $fieldDescription->getType());
+    }
+
+    public function fixFieldDescriptionTypes(): iterable
+    {
+        return [
+            ['string', 'id'],
+            ['integer', 'int'],
         ];
     }
 
