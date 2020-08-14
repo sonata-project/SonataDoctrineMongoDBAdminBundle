@@ -23,6 +23,7 @@ Example
             $formMapper
                 ->add('author', ModelType::class, [], ['edit' => 'list'])
                 ->add('enabled')
+                // you can define help messages using Symfony help option
                 ->add('title', null, ['help' => 'help_post_title'])
                 ->add('abstract', null, ['required' => false])
                 ->add('content');
