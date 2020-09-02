@@ -37,15 +37,15 @@
         "symfony/doctrine-bridge": "^4.4",
         "symfony/form": "^4.4",
         "symfony/http-kernel": "^4.4",
-        "symfony/property-access": "^4.4",
-        "twig/twig": "^2.6"
+        "symfony/property-access": "^4.4 || ^5.1",
+        "twig/twig": "^2.6 || ^3.0"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
-        "symfony/phpunit-bridge": "^5.0"
+        "symfony/phpunit-bridge": "^5.1.1"
     },
     "suggest": {
         "alcaeus/mongo-php-adapter": "Allows usage of PHP 7"
