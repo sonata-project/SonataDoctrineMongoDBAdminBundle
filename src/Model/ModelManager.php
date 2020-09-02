@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata as CommonClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
@@ -466,12 +465,7 @@ class ModelManager implements ModelManagerInterface
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }
 
-    /**
-     * NEXT_MAJOR: Remove CommonClassMetadata and add ClassMetadata as type hint when dropping doctrine/mongodb-odm 1.3.x.
-     *
-     * @param ClassMetadata|CommonClassMetadata $metadata
-     */
-    private function getFieldName($metadata, string $name): string
+    private function getFieldName(ClassMetadata $metadata, string $name): string
     {
         if (\array_key_exists($name, $metadata->fieldMappings)) {
             return $metadata->fieldMappings[$name]['fieldName'];
