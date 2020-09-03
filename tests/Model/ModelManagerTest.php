@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;

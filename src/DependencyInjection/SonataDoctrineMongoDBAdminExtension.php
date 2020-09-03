@@ -17,7 +17,7 @@ use Sonata\AdminBundle\DependencyInjection\AbstractSonataAdminExtension;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -29,10 +29,10 @@ class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
     {
         $configs = $this->fixTemplatesConfiguration($configs, $container);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('doctrine_mongodb.xml');
-        $loader->load('doctrine_mongodb_filter_types.xml');
-        $loader->load('security.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('doctrine_mongodb.php');
+        $loader->load('doctrine_mongodb_filter_types.php');
+        $loader->load('security.php');
 
         $configuration = new Configuration();
         $processor = new Processor();
