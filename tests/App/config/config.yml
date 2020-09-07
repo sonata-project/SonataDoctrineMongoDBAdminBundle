@@ -1,0 +1,34 @@
+framework:
+    assets:
+        enabled: true
+    form:
+        enabled: true
+    session:
+        handler_id: session.handler.native_file
+        storage_id: session.storage.mock_file
+        name: MOCKSESSID
+    test: true
+    translator:
+        enabled: true
+
+twig:
+    exception_controller: null
+    strict_variables: false
+
+sonata_admin:
+    options:
+        legacy_twig_text_extension: false
+
+doctrine_mongodb:
+    connections:
+        default:
+            server: "mongodb://localhost:27017"
+    default_database: test_database
+    document_managers:
+        default:
+            mappings:
+                SonataMongoDBTest:
+                    type: annotation
+                    dir: "%kernel.project_dir%/Document"
+                    is_bundle: false
+                    prefix: Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document
