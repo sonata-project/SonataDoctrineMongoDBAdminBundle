@@ -46,6 +46,9 @@
     "require-dev": {
         "doctrine/annotations": "^1.10",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
+        "symfony/browser-kit": "^4.4 || ^5.1",
+        "symfony/css-selector": "^4.4 || ^5.1",
+        "symfony/panther": "^0.7.1",
         "symfony/phpunit-bridge": "^5.1.1"
     },
     "suggest": {
