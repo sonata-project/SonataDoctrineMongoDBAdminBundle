@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-class Category
+class Author
 {
     /**
      * @ODM\Id(strategy="NONE", type="string")
@@ -32,10 +34,25 @@ class Category
      */
     private $name;
 
+    /**
+     * @ODM\EmbedOne(targetDocument=Address::class)
+     *
+     * @var Address|null
+     */
+    private $address;
+
+    /**
+     * @ODM\EmbedMany(targetDocument=PhoneNumber::class)
+     *
+     * @var Collection<array-key, PhoneNumber)
+     */
+    private $phoneNumbers;
+
     public function __construct(string $id = '', string $name = '')
     {
         $this->id = $id;
         $this->name = $name;
+        $this->phoneNumbers = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -61,5 +78,30 @@ class Category
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): void
+    {
+        $this->address = $address;
+    }
+
+    public function addPhoneNumber(PhoneNumber $phonenumber): void
+    {
+        $this->phoneNumbers->add($phonenumber);
+    }
+
+    public function removePhoneNumber(PhoneNumber $phonenumber): void
+    {
+        $this->phoneNumbers->removeElement($phonenumber);
+    }
+
+    public function getPhoneNumbers(): Collection
+    {
+        return $this->phoneNumbers;
     }
 }
