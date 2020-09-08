@@ -17,9 +17,10 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Form\Type\AdminType;
+use Sonata\Form\Type\CollectionType;
 
-final class CategoryAdmin extends AbstractAdmin
+final class AuthorAdmin extends AbstractAdmin
 {
     protected function configureListFields(ListMapper $list): void
     {
@@ -28,32 +29,39 @@ final class CategoryAdmin extends AbstractAdmin
             ->addIdentifier('name');
     }
 
+    protected function configureDatagridFilters(DatagridMapper $filter): void
+    {
+        $filter
+            ->add('name')
+            ->add('address.street')
+            ->add('phoneNumbers.number');
+    }
+
     protected function configureFormFields(FormMapper $form): void
     {
         $form
             ->add('id', null, [
                 'attr' => [
-                    'class' => 'category_id',
+                    'class' => 'author_id',
                 ],
             ])
             ->add('name', null, [
                 'attr' => [
-                    'class' => 'category_name',
+                    'class' => 'author_name',
                 ],
+            ])
+            ->add('address', AdminType::class, [
+                'attr' => [
+                    'class' => 'author_address',
+                ],
+            ])
+            ->add('phoneNumbers', CollectionType::class, [
+                'attr' => [
+                    'class' => 'author_phoneNumbers',
+                ],
+            ], [
+                'edit' => 'inline',
+                'inline' => 'table',
             ]);
-    }
-
-    protected function configureDatagridFilters(DatagridMapper $filter): void
-    {
-        $filter
-            ->add('id')
-            ->add('name');
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        $show
-            ->add('id')
-            ->add('name');
     }
 }

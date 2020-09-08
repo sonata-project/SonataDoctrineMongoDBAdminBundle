@@ -20,6 +20,13 @@ declare(strict_types=1);
 /*
  * fix encoding issue while running text on different host with different locale configuration
  */
+
+use Sonata\DoctrineMongoDBAdminBundle\Tests\App\AppKernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\NullOutput;
+
 setlocale(LC_ALL, 'en_US.UTF-8');
 
 if (file_exists($file = __DIR__.'/autoload.php')) {
@@ -41,3 +48,24 @@ $files = array_filter([
 if ($files) {
     require_once current($files);
 }
+
+$publicDir = __DIR__.'/App/public';
+$_SERVER['PANTHER_WEB_SERVER_DIR'] = $publicDir;
+
+$application = new Application(new AppKernel());
+$application->setAutoExit(false);
+
+// Load fixtures of the AppTestBundle
+$input = new ArrayInput([
+    'command' => 'doctrine:mongodb:fixtures:load',
+    '--no-interaction' => false,
+]);
+$application->run($input, new ConsoleOutput());
+
+// Install Assets
+$input = new ArrayInput([
+    'command' => 'assets:install',
+    'target' => $publicDir,
+    '--symlink' => true,
+]);
+$application->run($input, new NullOutput());

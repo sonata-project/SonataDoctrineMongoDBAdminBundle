@@ -17,15 +17,24 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
-final class CategoryAdmin extends AbstractAdmin
+final class BookAdmin extends AbstractAdmin
 {
     protected function configureListFields(ListMapper $list): void
     {
         $list
             ->add('id')
-            ->addIdentifier('name');
+            ->addIdentifier('name')
+            ->add('author')
+            ->add('categories');
+    }
+
+    protected function configureDatagridFilters(DatagridMapper $filter): void
+    {
+        $filter
+            ->add('author')
+            ->add('categories');
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -33,27 +42,23 @@ final class CategoryAdmin extends AbstractAdmin
         $form
             ->add('id', null, [
                 'attr' => [
-                    'class' => 'category_id',
+                    'class' => 'book_id',
                 ],
             ])
             ->add('name', null, [
                 'attr' => [
-                    'class' => 'category_name',
+                    'class' => 'book_name',
+                ],
+            ])
+            ->add('author', ModelListType::class, [
+                'attr' => [
+                    'class' => 'book_author',
+                ],
+            ])
+            ->add('categories', null, [
+                'attr' => [
+                    'class' => 'book_categories',
                 ],
             ]);
-    }
-
-    protected function configureDatagridFilters(DatagridMapper $filter): void
-    {
-        $filter
-            ->add('id')
-            ->add('name');
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        $show
-            ->add('id')
-            ->add('name');
     }
 }
