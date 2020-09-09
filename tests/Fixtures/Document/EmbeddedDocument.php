@@ -13,10 +13,16 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+
+/**
+ * @ODM\EmbeddedDocument
+ */
 class EmbeddedDocument
 {
     /**
+     * @ODM\Field(type="bool")
      * @var bool
      */
-    protected $plainField;
+    private $plainField;
 }

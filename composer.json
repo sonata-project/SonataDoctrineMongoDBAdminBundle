@@ -44,6 +44,7 @@
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
     "require-dev": {
+        "doctrine/annotations": "^1.10",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "symfony/phpunit-bridge": "^5.1.1"
     },

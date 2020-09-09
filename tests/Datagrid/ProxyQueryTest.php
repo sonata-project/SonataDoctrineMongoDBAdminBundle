@@ -19,7 +19,7 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleAnnotationDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 
 final class ProxyQueryTest extends TestCase
 {
@@ -42,7 +42,7 @@ final class ProxyQueryTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->dm->createQueryBuilder(SimpleAnnotationDocument::class)
+        $this->dm->createQueryBuilder(DocumentWithReferences::class)
             ->remove()
             ->getQuery()
             ->execute();
@@ -102,7 +102,7 @@ final class ProxyQueryTest extends TestCase
      */
     public function testExecuteWithParameters(array $parameters, ?int $hydrationMode): void
     {
-        $queryBuilder = $this->dm->createQueryBuilder(SimpleAnnotationDocument::class);
+        $queryBuilder = $this->dm->createQueryBuilder(DocumentWithReferences::class);
 
         $proxyQuery = new ProxyQuery($queryBuilder);
 
@@ -122,14 +122,14 @@ final class ProxyQueryTest extends TestCase
 
     public function testExecuteAllowsSorting(): void
     {
-        $documentA = new SimpleAnnotationDocument('A');
-        $documentB = new SimpleAnnotationDocument('B');
+        $documentA = new DocumentWithReferences('A');
+        $documentB = new DocumentWithReferences('B');
 
         $this->dm->persist($documentA);
         $this->dm->persist($documentB);
         $this->dm->flush();
 
-        $queryBuilder = $this->dm->createQueryBuilder(SimpleAnnotationDocument::class);
+        $queryBuilder = $this->dm->createQueryBuilder(DocumentWithReferences::class);
         $queryBuilder->select('name')->hydrate(false);
         $proxyQuery = new ProxyQuery($queryBuilder);
         $proxyQuery->setSortBy([], ['fieldName' => 'name']);
