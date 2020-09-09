@@ -13,29 +13,53 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
-class SimpleDocument
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+
+/**
+ * @ODM\Document
+ */
+class TestDocument
 {
+    /**
+     * @ODM\Field(type="bool")
+     * @var bool
+     */
     public $schwifty;
+
+    /**
+     * @ODM\Field(type="int")
+     * @var int
+     */
     private $schmeckles;
+
+    /**
+     * @ODM\Field(type="string")
+     * @var string
+     */
     private $multiWordProperty;
+
+    /**
+     * @ODM\Field(type="int")
+     * @var int
+     */
     private $plumbus;
 
-    public function getSchmeckles()
+    public function getSchmeckles(): int
     {
         return $this->schmeckles;
     }
 
-    public function setSchmeckles($value): void
+    public function setSchmeckles(int $value): void
     {
         $this->schmeckles = $value;
     }
 
-    public function getMultiWordProperty()
+    public function getMultiWordProperty(): string
     {
         return $this->multiWordProperty;
     }
 
-    public function setMultiWordProperty($value): void
+    public function setMultiWordProperty(string $value): void
     {
         $this->multiWordProperty = $value;
     }

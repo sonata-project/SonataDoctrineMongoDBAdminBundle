@@ -16,7 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-class SimpleAnnotationDocument
+class DocumentWithReferences
 {
     /** @ODM\Id */
     private $id;
@@ -35,7 +35,7 @@ class SimpleAnnotationDocument
     private $embeddedDocument;
 
     /**
-     * @ODM\ReferenceOne(targetDocument=SimpleDocument::class)
+     * @ODM\ReferenceOne(targetDocument=TestDocument::class)
      */
     private $referenceOne;
 

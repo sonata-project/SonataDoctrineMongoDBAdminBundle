@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Model;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\Stub;
@@ -30,8 +32,8 @@ use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AssociatedDocument
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ContainerDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\EmbeddedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ProtectedDocument;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -161,9 +163,9 @@ final class ModelManagerTest extends TestCase
             ->method('getMetadataFactory')
             ->willReturn($metadataFactory);
 
-        $containerDocumentMetadata = $this->getMetadataForContainerDocument();
-        $associatedDocumentMetadata = $this->getMetadataForAssociatedDocument();
-        $embeddedDocumentMetadata = $this->getMetadataForEmbeddedDocument();
+        $containerDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($containerDocumentClass);
+        $associatedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($associatedDocumentClass);
+        $embeddedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($embeddedDocumentClass);
 
         $metadataFactory->method('getMetadataFor')
             ->willReturnMap(
@@ -177,22 +179,22 @@ final class ModelManagerTest extends TestCase
         /** @var ClassMetadata $metadata */
         [$metadata, $lastPropertyName] = $modelManager
             ->getParentMetadataForProperty($containerDocumentClass, 'plainField');
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'integer');
+        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'int');
 
         [$metadata, $lastPropertyName] = $modelManager
             ->getParentMetadataForProperty($containerDocumentClass, 'associatedDocument.plainField');
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'string');
+        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'int');
 
         [$metadata, $lastPropertyName] = $modelManager
             ->getParentMetadataForProperty($containerDocumentClass, 'embeddedDocument.plainField');
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'boolean');
+        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'bool');
 
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'boolean');
+        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'bool');
     }
 
     public function testModelReverseTransformWithSetter(): void
     {
-        $class = SimpleDocument::class;
+        $class = TestDocument::class;
 
         $manager = $this->createModelManagerForClass($class);
         $object = $manager->modelReverseTransform(
@@ -221,7 +223,7 @@ final class ModelManagerTest extends TestCase
 
     public function testModelReverseTransformFailsWithPrivateProperties(): void
     {
-        $class = SimpleDocument::class;
+        $class = TestDocument::class;
         $manager = $this->createModelManagerForClass($class);
 
         $this->expectException(NoSuchPropertyException::class);
@@ -231,7 +233,7 @@ final class ModelManagerTest extends TestCase
 
     public function testModelReverseTransformFailsWithPrivateProperties2(): void
     {
-        $class = SimpleDocument::class;
+        $class = TestDocument::class;
         $manager = $this->createModelManagerForClass($class);
 
         $this->expectException(NoSuchPropertyException::class);
@@ -347,7 +349,7 @@ final class ModelManagerTest extends TestCase
             ->willReturn($metadataFactory);
 
         $containerDocumentClass = ContainerDocument::class;
-        $containerDocumentMetadata = $this->getMetadataForContainerDocument();
+        $containerDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($containerDocumentClass);
 
         $metadataFactory->method('getMetadataFor')
             ->willReturnMap(
@@ -361,10 +363,7 @@ final class ModelManagerTest extends TestCase
         $fieldDescription = $modelManager->getNewFieldDescriptionInstance($containerDocumentClass, 'plainField');
 
         $this->assertSame('edit', $fieldDescription->getOption('route')['name']);
-        $this->assertSame(['fieldName' => 'plainField',
-            'name' => 'plainField',
-            'columnName' => 'plainField',
-            'type' => 'integer', ], $fieldDescription->getFieldMapping());
+        $this->assertSame($containerDocumentMetadata->getFieldMapping('plainField'), $fieldDescription->getFieldMapping());
     }
 
     private function createModelManagerForClass(string $class): ModelManager
@@ -373,8 +372,7 @@ final class ModelManagerTest extends TestCase
         $modelManager = $this->createMock(ObjectManager::class);
         $registry = $this->createMock(ManagerRegistry::class);
 
-        $classMetadata = new ClassMetadata($class);
-        $classMetadata->reflClass = new \ReflectionClass($class);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations($class);
 
         $modelManager->expects($this->once())
             ->method('getMetadataFactory')
@@ -391,75 +389,14 @@ final class ModelManagerTest extends TestCase
         return new ModelManager($registry, $this->propertyAccessor);
     }
 
-    private function getMetadataForEmbeddedDocument(): ClassMetadata
+    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
     {
-        $metadata = new ClassMetadata(EmbeddedDocument::class);
+        $classMetadata = new ClassMetadata($class);
+        $reader = new AnnotationReader();
 
-        $metadata->fieldMappings = [
-            'plainField' => [
-                'fieldName' => 'plainField',
-                'columnName' => 'plainField',
-                'type' => 'boolean',
-            ],
-        ];
+        $annotationDriver = new AnnotationDriver($reader);
+        $annotationDriver->loadMetadataForClass($class, $classMetadata);
 
-        return $metadata;
-    }
-
-    private function getMetadataForAssociatedDocument(): ClassMetadata
-    {
-        $embeddedDocumentClass = EmbeddedDocument::class;
-
-        $metadata = new ClassMetadata(AssociatedDocument::class);
-
-        $metadata->fieldMappings = [
-            'plainField' => [
-                'fieldName' => 'plainField',
-                'name' => 'plainField',
-                'columnName' => 'plainField',
-                'type' => 'string',
-            ],
-        ];
-
-        $metadata->mapOneEmbedded([
-            'fieldName' => 'embeddedDocument',
-            'name' => 'embeddedDocument',
-            'targetDocument' => $embeddedDocumentClass,
-        ]);
-
-        return $metadata;
-    }
-
-    private function getMetadataForContainerDocument(): ClassMetadata
-    {
-        $containerDocumentClass = ContainerDocument::class;
-        $associatedDocumentClass = AssociatedDocument::class;
-        $embeddedDocumentClass = EmbeddedDocument::class;
-
-        $metadata = new ClassMetadata($containerDocumentClass);
-
-        $metadata->fieldMappings = [
-            'plainField' => [
-                'fieldName' => 'plainField',
-                'name' => 'plainField',
-                'columnName' => 'plainField',
-                'type' => 'integer',
-            ],
-        ];
-
-        $metadata->associationMappings['associatedDocument'] = [
-            'fieldName' => 'associatedDocument',
-            'name' => 'associatedDocument',
-            'targetDocument' => $associatedDocumentClass,
-            'sourceDocument' => $containerDocumentClass,
-        ];
-
-        $metadata->mapOneEmbedded([
-            'fieldName' => 'embeddedDocument',
-            'name' => 'embeddedDocument',
-            'targetDocument' => $embeddedDocumentClass,
-        ]);
-
-        return $metadata;
+        return $classMetadata;
     }
 }

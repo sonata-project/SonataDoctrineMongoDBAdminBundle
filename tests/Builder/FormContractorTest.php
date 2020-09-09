@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
@@ -26,7 +28,7 @@ use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleAnnotationDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -149,11 +151,7 @@ class FormContractorTest extends TestCase
 
     public function testFixFieldDescriptionForFieldMapping(): void
     {
-        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
-        $classMetadata->mapField([
-            'fieldName' => 'name',
-            'type' => 'string',
-        ]);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
         $modelManager = $this->createMock(ModelManager::class);
         $modelManager->method('hasMetadata')->willReturn(true);
@@ -173,11 +171,7 @@ class FormContractorTest extends TestCase
 
     public function testFixFieldDescriptionForAssociationMapping(): void
     {
-        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
-        $classMetadata->mapOneEmbedded([
-            'fieldName' => 'name',
-            'type' => 'string',
-        ]);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
         $modelManager = $this->createMock(ModelManager::class);
         $modelManager->method('hasMetadata')->willReturn(true);
@@ -188,10 +182,21 @@ class FormContractorTest extends TestCase
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setMappingType(ClassMetadata::ONE);
-        $fieldDescription->setName('name');
+        $fieldDescription->setName('associatedDocument');
 
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
 
-        $this->assertSame($classMetadata->associationMappings['name'], $fieldDescription->getAssociationMapping());
+        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getAssociationMapping());
+    }
+
+    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
+    {
+        $classMetadata = new ClassMetadata($class);
+        $reader = new AnnotationReader();
+
+        $annotationDriver = new AnnotationDriver($reader);
+        $annotationDriver->loadMetadataForClass($class, $classMetadata);
+
+        return $classMetadata;
     }
 }
