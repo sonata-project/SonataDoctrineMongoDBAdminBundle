@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -238,6 +240,8 @@ class ModelManager implements ModelManagerInterface
     public function createQuery($class, $alias = 'o')
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);
+
+        \assert($repository instanceof DocumentManager);
 
         return new ProxyQuery($repository->createQueryBuilder());
     }
