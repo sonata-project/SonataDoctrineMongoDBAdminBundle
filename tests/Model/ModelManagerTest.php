@@ -35,12 +35,15 @@ use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ProtectedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 final class ModelManagerTest extends TestCase
 {
+    use ExpectDeprecationTrait;
+
     /**
      * @var PropertyAccessor
      */
@@ -91,6 +94,11 @@ final class ModelManagerTest extends TestCase
         $this->assertNull($manager->getNormalizedIdentifier(null));
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @group legacy
+     */
     public function testSortParameters(): void
     {
         $manager = new ModelManager($this->registry, $this->propertyAccessor);
@@ -122,6 +130,7 @@ final class ModelManagerTest extends TestCase
                 '_sort_order' => 'ASC',
             ]);
 
+        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getSortParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.');
         $parameters = $manager->getSortParameters($field1, $datagrid1);
 
         $this->assertSame('DESC', $parameters['filter']['_sort_order']);
@@ -241,10 +250,16 @@ final class ModelManagerTest extends TestCase
         $manager->modelReverseTransform($class, ['plumbus' => 42]);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testCollections(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
+        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getModelCollectionInstance() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.');
         $collection = $model->getModelCollectionInstance('whyDoWeEvenHaveThisParameter');
         $this->assertInstanceOf(ArrayCollection::class, $collection);
 
@@ -274,6 +289,11 @@ final class ModelManagerTest extends TestCase
         $this->assertSame($instance, $result);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetPaginationParameters(): void
     {
         $datagrid = $this->createMock(DatagridInterface::class);
@@ -289,6 +309,7 @@ final class ModelManagerTest extends TestCase
 
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
+        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getPaginationParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.');
         $result = $model->getPaginationParameters($datagrid, $page = 5);
 
         $this->assertSame($page, $result['filter']['_page']);
