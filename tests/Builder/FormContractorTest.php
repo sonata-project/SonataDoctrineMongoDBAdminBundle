@@ -161,6 +161,7 @@ class FormContractorTest extends AbstractBuilderTestCase
         $fieldDescription = new FieldDescription();
         $fieldDescription->setMappingType(ClassMetadata::ONE);
         $fieldDescription->setName('name');
+        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
 
@@ -181,6 +182,8 @@ class FormContractorTest extends AbstractBuilderTestCase
         $fieldDescription = new FieldDescription();
         $fieldDescription->setMappingType(ClassMetadata::ONE);
         $fieldDescription->setName('associatedDocument');
+        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
+        $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
 
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
 
