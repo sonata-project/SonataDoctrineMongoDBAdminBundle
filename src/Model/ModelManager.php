@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -239,6 +241,8 @@ class ModelManager implements ModelManagerInterface
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);
 
+        \assert($repository instanceof DocumentManager);
+
         return new ProxyQuery($repository->createQueryBuilder());
     }
 
@@ -356,8 +360,18 @@ class ModelManager implements ModelManagerInterface
         return new $class();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         $values = $datagrid->getValues();
 
         if ($this->isFieldAlreadySorted($fieldDescription, $datagrid)) {
@@ -375,8 +389,18 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         $values = $datagrid->getValues();
 
         if (isset($values['_sort_by']) && $values['_sort_by'] instanceof FieldDescriptionInterface) {
@@ -419,28 +443,78 @@ class ModelManager implements ModelManagerInterface
         return $instance;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getModelCollectionInstance($class)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return new ArrayCollection();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function collectionClear(&$collection)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $collection->clear();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function collectionHasElement(&$collection, &$element)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $collection->contains($element);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function collectionAddElement(&$collection, &$element)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $collection->add($element);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function collectionRemoveElement(&$collection, &$element)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $collection->removeElement($element);
     }
 

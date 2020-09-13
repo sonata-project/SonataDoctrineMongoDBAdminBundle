@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
@@ -29,7 +31,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleAnnotationDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Guess\Guess;
@@ -112,11 +114,7 @@ final class DatagridBuilderTest extends TestCase
 
     public function testFixFieldDescription(): void
     {
-        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
-        $classMetadata->mapField([
-            'fieldName' => 'name',
-            'type' => 'string',
-        ]);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('name');
@@ -136,10 +134,7 @@ final class DatagridBuilderTest extends TestCase
 
     public function testFixFieldDescriptionWithAssociationMapping(): void
     {
-        $classMetadata = new ClassMetadata(SimpleAnnotationDocument::class);
-        $classMetadata->mapOneEmbedded([
-            'fieldName' => 'associatedDocument',
-        ]);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('associatedDocument');
@@ -239,5 +234,16 @@ final class DatagridBuilderTest extends TestCase
         );
 
         $this->assertSame(ModelFilter::class, $fieldDescription->getType());
+    }
+
+    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
+    {
+        $classMetadata = new ClassMetadata($class);
+        $reader = new AnnotationReader();
+
+        $annotationDriver = new AnnotationDriver($reader);
+        $annotationDriver->loadMetadataForClass($class, $classMetadata);
+
+        return $classMetadata;
     }
 }
