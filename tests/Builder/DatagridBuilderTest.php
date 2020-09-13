@@ -115,6 +115,7 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('name');
+        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
         $this->modelManager->method('hasMetadata')->willReturn(true);
 
@@ -136,6 +137,8 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('associatedDocument');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
+        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
+        $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
 
         $this->admin
             ->expects($this->once())
