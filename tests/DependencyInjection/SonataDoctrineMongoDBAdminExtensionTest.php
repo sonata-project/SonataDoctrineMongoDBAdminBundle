@@ -47,6 +47,11 @@ final class SonataDoctrineMongoDBAdminExtensionTest extends AbstractExtensionTes
         $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.datetime');
 
         $this->assertContainerBuilderHasService('sonata.admin.manipulator.acl.object.doctrine_mongodb');
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'sonata.admin.manipulator.acl.object.doctrine_mongodb',
+            0,
+            'doctrine_mongodb'
+        );
     }
 
     protected function getContainerExtensions(): array
