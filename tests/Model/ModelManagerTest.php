@@ -18,6 +18,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
+use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\Stub;
@@ -385,6 +387,27 @@ final class ModelManagerTest extends TestCase
 
         $this->assertSame('edit', $fieldDescription->getOption('route')['name']);
         $this->assertSame($containerDocumentMetadata->getFieldMapping('plainField'), $fieldDescription->getFieldMapping());
+    }
+
+    public function testCreateQuery(): void
+    {
+        $repository = $this->createMock(DocumentRepository::class);
+        $repository
+            ->expects(self::once())
+            ->method('createQueryBuilder')
+            ->willReturn($this->createStub(Builder::class));
+
+        $documentManager = $this->createMock(DocumentManager::class);
+        $documentManager
+            ->method('getRepository')
+            ->willReturn($repository);
+
+        $this->registry
+            ->method('getManagerForClass')
+            ->willReturn($documentManager);
+
+        $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
+        $modelManager->createQuery(TestDocument::class);
     }
 
     private function createModelManagerForClass(string $class): ModelManager
