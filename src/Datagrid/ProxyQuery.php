@@ -93,6 +93,8 @@ class ProxyQuery implements ProxyQueryInterface
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
         $this->sortBy = $fieldMapping['fieldName'];
+
+        return $this;
     }
 
     public function getSortBy()
@@ -103,6 +105,8 @@ class ProxyQuery implements ProxyQueryInterface
     public function setSortOrder($sortOrder)
     {
         $this->sortOrder = $sortOrder;
+
+        return $this;
     }
 
     public function getSortOrder()
@@ -126,6 +130,8 @@ class ProxyQuery implements ProxyQueryInterface
     {
         $this->firstResult = $firstResult;
         $this->queryBuilder->skip($firstResult ?? 0);
+
+        return $this;
     }
 
     public function getFirstResult()
@@ -139,6 +145,8 @@ class ProxyQuery implements ProxyQueryInterface
 
         // @see https://docs.mongodb.com/manual/reference/method/cursor.limit/#zero-value
         $this->queryBuilder->limit($maxResults ?? 0);
+
+        return $this;
     }
 
     public function getMaxResults()
