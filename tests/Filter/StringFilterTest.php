@@ -50,7 +50,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder->getQueryBuilder()
             ->expects($this->exactly(2))
             ->method('equals')
-            ->with($this->getMongoRegex('asd'))
+            ->with(new Regex('asd', 'i'))
         ;
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
@@ -68,7 +68,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('not')
-            ->with($this->getMongoRegex('asd'))
+            ->with(new Regex('asd', 'i'))
         ;
 
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_NOT_CONTAINS]);
@@ -148,19 +148,5 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $builder->getQueryBuilder()->expects($this->never())->method('addOr');
         $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
         $this->assertTrue($filter->isActive());
-    }
-
-    /**
-     * NEXT_MAJOR: Use only Regex when dropping support for doctrine/mongodb-odm 1.x.
-     *
-     * @return Regex|\MongoRegex
-     */
-    private function getMongoRegex(string $pattern)
-    {
-        if (class_exists(Regex::class)) {
-            return new Regex($pattern, 'i');
-        }
-
-        return new \MongoRegex(sprintf('/%s/i', $pattern));
     }
 }

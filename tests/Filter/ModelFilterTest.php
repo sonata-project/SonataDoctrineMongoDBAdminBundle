@@ -28,8 +28,7 @@ class DocumentStub
 
     public function __construct()
     {
-        // NEXT_MAJOR: Use only ObjectId when dropping support for doctrine/mongodb-odm 1.x
-        $this->id = class_exists(ObjectId::class) ? new ObjectId() : new MongoId();
+        $this->id = new ObjectId();
     }
 
     public function getId()
@@ -97,7 +96,7 @@ class ModelFilterTest extends TestCase
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('in')
-            ->with([$this->getMongoIdentifier($oneDocument->getId()), $this->getMongoIdentifier($otherDocument->getId())])
+            ->with([new ObjectId($oneDocument->getId()), new ObjectId($otherDocument->getId())])
         ;
 
         $filter->filter($builder, 'alias', 'field', [
@@ -127,7 +126,7 @@ class ModelFilterTest extends TestCase
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('equals')
-            ->with($this->getMongoIdentifier($document1->getId()))
+            ->with(new ObjectId($document1->getId()))
         ;
 
         $filter->filter($builder, 'alias', 'field', ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $document1]);
@@ -251,15 +250,5 @@ class ModelFilterTest extends TestCase
             [ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB, '.$id'],
             [ClassMetadata::REFERENCE_STORE_AS_DB_REF, '.$id'],
         ];
-    }
-
-    /**
-     * NEXT_MAJOR: Use only ObjectId when dropping support for doctrine/mongodb-odm 1.x.
-     *
-     * @return ObjectId|\MongoId
-     */
-    private function getMongoIdentifier(string $id)
-    {
-        return class_exists(ObjectId::class) ? new ObjectId($id) : new \MongoId($id);
     }
 }

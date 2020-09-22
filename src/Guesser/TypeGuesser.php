@@ -79,9 +79,7 @@ class TypeGuesser extends AbstractTypeGuesser
             case Type::TIMESTAMP:
                 return new TypeGuess('datetime', [], Guess::HIGH_CONFIDENCE);
             case Type::DATE:
-            // NEXT_MAJOR: Use only the constant when dropping support for doctrine/mongodb-odm 1.3.
-            // case Type::DATE_IMMUTABLE:
-            case 'date_immutable':
+            case Type::DATE_IMMUTABLE:
                 return new TypeGuess('date', [], Guess::HIGH_CONFIDENCE);
             case 'decimal':
                 @trigger_error(

@@ -100,9 +100,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case Type::DATE:
 
-            // NEXT_MAJOR: Use only the constant when dropping support for doctrine/mongodb-odm 1.3.
-            // case Type::DATE_IMMUTABLE:
-            case 'date_immutable':
+            case Type::DATE_IMMUTABLE:
                 $options['field_type'] = DateType::class;
 
                 return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);

@@ -46,9 +46,9 @@ class StringFilter extends Filter
         if (ContainsOperatorType::TYPE_EQUAL === $data['type']) {
             $obj->field($field)->equals($data['value']);
         } elseif (ContainsOperatorType::TYPE_CONTAINS === $data['type']) {
-            $obj->field($field)->equals($this->getRegexExpression($data['value']));
+            $obj->field($field)->equals(new Regex($data['value'], 'i'));
         } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
-            $obj->field($field)->not($this->getRegexExpression($data['value']));
+            $obj->field($field)->not(new Regex($data['value'], 'i'));
         }
 
         if (self::CONDITION_OR === $this->condition) {
@@ -73,19 +73,5 @@ class StringFilter extends Filter
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
         ]];
-    }
-
-    /**
-     * NEXT_MAJOR: Use only Regex when dropping support for doctrine/mongodb-odm 1.x.
-     *
-     * @return Regex|\MongoRegex
-     */
-    private function getRegexExpression(string $pattern)
-    {
-        if (class_exists(Regex::class)) {
-            return new Regex($pattern, 'i');
-        }
-
-        return new \MongoRegex(sprintf('/%s/i', $pattern));
     }
 }
