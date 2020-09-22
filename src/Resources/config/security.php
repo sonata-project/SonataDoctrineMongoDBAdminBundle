@@ -13,14 +13,19 @@ declare(strict_types=1);
 
 use Sonata\DoctrineMongoDBAdminBundle\Util\ObjectAclManipulator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->parameters()
 
         ->set('sonata.admin.manipulator.acl.object.doctrine_mongodb.class', ObjectAclManipulator::class);
 
+    // Use "service" function for creating references to services when dropping support for Symfony 4.4
     // Use "param" function for creating references to parameters when dropping support for Symfony 5.1
     $containerConfigurator->services()
 
-        ->set('sonata.admin.manipulator.acl.object.doctrine_mongodb', '%sonata.admin.manipulator.acl.object.doctrine_mongodb.class%');
+        ->set('sonata.admin.manipulator.acl.object.doctrine_mongodb', '%sonata.admin.manipulator.acl.object.doctrine_mongodb.class%')
+            ->args([
+                new ReferenceConfigurator('doctrine_mongodb'),
+            ]);
 };
