@@ -141,7 +141,7 @@ final class TypeGuesserTest extends TestCase
 
     public function noAssociationData(): array
     {
-        $noAssociationData = [
+        return [
             'collection' => [
                 Type::COLLECTION,
                 'array',
@@ -167,6 +167,11 @@ final class TypeGuesserTest extends TestCase
                 'date',
                 Guess::HIGH_CONFIDENCE,
             ],
+            'date_immutable' => [
+                Type::DATE_IMMUTABLE,
+                'date',
+                Guess::HIGH_CONFIDENCE,
+            ],
             'float' => [
                 Type::FLOAT,
                 'number',
@@ -188,16 +193,5 @@ final class TypeGuesserTest extends TestCase
                 Guess::LOW_CONFIDENCE,
             ],
         ];
-
-        // Remove the check and add the case to the "$noAssociationData" when dropping support of doctrine/mongodb-odm 1.x
-        if (\defined(sprintf('%s::DATE_IMMUTABLE', Type::class))) {
-            $noAssociationData['datetime_immutable'] = [
-                Type::DATE_IMMUTABLE,
-                'date',
-                Guess::HIGH_CONFIDENCE,
-            ];
-        }
-
-        return $noAssociationData;
     }
 }
