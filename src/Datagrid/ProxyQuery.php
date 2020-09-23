@@ -90,7 +90,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $queryBuilder->getQuery()->execute();
     }
 
-    public function setSortBy($parentAssociationMappings, $fieldMapping): void
+    public function setSortBy($parentAssociationMappings, $fieldMapping): self
     {
         $this->sortBy = $fieldMapping['fieldName'];
 
@@ -102,7 +102,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->sortBy;
     }
 
-    public function setSortOrder($sortOrder): void
+    public function setSortOrder($sortOrder): self
     {
         $this->sortOrder = $sortOrder;
 
@@ -126,7 +126,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->queryBuilder;
     }
 
-    public function setFirstResult($firstResult): void
+    public function setFirstResult($firstResult): self
     {
         $this->firstResult = $firstResult;
         $this->queryBuilder->skip($firstResult ?? 0);
@@ -139,7 +139,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->firstResult;
     }
 
-    public function setMaxResults($maxResults): void
+    public function setMaxResults($maxResults): self
     {
         $this->maxResults = $maxResults;
 
