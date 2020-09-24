@@ -132,7 +132,7 @@ final class ModelManagerTest extends TestCase
                 '_sort_order' => 'ASC',
             ]);
 
-        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getSortParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.');
+        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getSortParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
         $parameters = $manager->getSortParameters($field1, $datagrid1);
 
         $this->assertSame('DESC', $parameters['filter']['_sort_order']);
@@ -261,7 +261,7 @@ final class ModelManagerTest extends TestCase
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
-        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getModelCollectionInstance() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.');
+        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getModelCollectionInstance() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
         $collection = $model->getModelCollectionInstance('whyDoWeEvenHaveThisParameter');
         $this->assertInstanceOf(ArrayCollection::class, $collection);
 
@@ -311,7 +311,7 @@ final class ModelManagerTest extends TestCase
 
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
-        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getPaginationParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.');
+        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getPaginationParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
         $result = $model->getPaginationParameters($datagrid, $page = 5);
 
         $this->assertSame($page, $result['filter']['_page']);

@@ -54,7 +54,7 @@ class ModelManager implements ModelManagerInterface
         if (!$propertyAccessor instanceof PropertyAccessorInterface) {
             @trigger_error(sprintf(
                 'Not passing an object implementing "%s" as argument 2 for "%s()" is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw a %s error in 4.0.',
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.4 and will throw a %s error in 4.0.',
                 PropertyAccessorInterface::class,
                 __METHOD__,
                 \TypeError::class
@@ -214,12 +214,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0
      */
     public function getParentFieldDescription($parentAssociationMapping, $class)
     {
         @trigger_error(sprintf(
-            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4'
             .' and will be removed in 4.0',
             __METHOD__
         ), E_USER_DEPRECATED);
@@ -363,12 +363,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
      */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
     {
         @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
@@ -392,12 +392,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
      */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
         @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
@@ -448,12 +448,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
      */
     public function getModelCollectionInstance($class)
     {
         @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
@@ -463,12 +463,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
      */
     public function collectionClear(&$collection)
     {
         @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
@@ -478,12 +478,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
      */
     public function collectionHasElement(&$collection, &$element)
     {
         @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
@@ -493,12 +493,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
      */
     public function collectionAddElement(&$collection, &$element)
     {
         @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
@@ -508,12 +508,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
      */
     public function collectionRemoveElement(&$collection, &$element)
     {
         @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
@@ -523,7 +523,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
      *
      * @param string $property
      *
@@ -532,7 +532,7 @@ class ModelManager implements ModelManagerInterface
     protected function camelize($property)
     {
         @trigger_error(sprintf(
-            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 

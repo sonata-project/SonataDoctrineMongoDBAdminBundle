@@ -47,7 +47,7 @@ class TypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess('array', [], Guess::HIGH_CONFIDENCE);
             case 'array':
                 @trigger_error(
-                    'The array type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The array type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -57,21 +57,21 @@ class TypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess('boolean', [], Guess::HIGH_CONFIDENCE);
             case 'datetime':
                 @trigger_error(
-                    'The datetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The datetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
                 return new TypeGuess('datetime', [], Guess::HIGH_CONFIDENCE);
             case 'vardatetime':
                 @trigger_error(
-                    'The vardatetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The vardatetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
                 return new TypeGuess('datetime', [], Guess::HIGH_CONFIDENCE);
             case 'datetimetz':
                 @trigger_error(
-                    'The datetimetz type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The datetimetz type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -83,7 +83,7 @@ class TypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess('date', [], Guess::HIGH_CONFIDENCE);
             case 'decimal':
                 @trigger_error(
-                    'The decimal type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The decimal type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -95,14 +95,14 @@ class TypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess('integer', [], Guess::MEDIUM_CONFIDENCE);
             case 'bigint':
                 @trigger_error(
-                    'The bigint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The bigint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
                 return new TypeGuess('integer', [], Guess::MEDIUM_CONFIDENCE);
             case 'smallint':
                 @trigger_error(
-                    'The smallint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The smallint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -111,14 +111,14 @@ class TypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess('text', [], Guess::MEDIUM_CONFIDENCE);
             case 'text':
                 @trigger_error(
-                    'The text type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The text type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
                 return new TypeGuess('textarea', [], Guess::MEDIUM_CONFIDENCE);
             case 'time':
                 @trigger_error(
-                    'The time type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The time type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
