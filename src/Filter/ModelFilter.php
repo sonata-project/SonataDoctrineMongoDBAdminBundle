@@ -123,26 +123,17 @@ class ModelFilter extends Filter
     }
 
     /**
-     * Return \MongoId|ObjectId if $id is MongoId|ObjectId in string representation, otherwise custom string.
+     * Return ObjectId if $id is ObjectId in string representation, otherwise custom string.
      *
      * @param mixed $id
      *
-     * @return \MongoId|string|ObjectId
+     * @return string|ObjectId
      */
     protected static function fixIdentifier($id)
     {
-        // NEXT_MAJOR: Use only ObjectId when dropping support for doctrine/mongodb-odm 1.x
-        if (class_exists(ObjectId::class)) {
-            try {
-                return new ObjectId($id);
-            } catch (InvalidArgumentException $ex) {
-                return $id;
-            }
-        }
-
         try {
-            return new \MongoId($id);
-        } catch (\MongoException $ex) {
+            return new ObjectId($id);
+        } catch (InvalidArgumentException $ex) {
             return $id;
         }
     }
