@@ -37,7 +37,7 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
         if (null === $registry) {
             @trigger_error(sprintf(
                 'Not passing a "%s" instance as argument 1 for "%s()" is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw a %s error in 4.0.',
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.4 and will throw a %s error in 4.0.',
                 ManagerRegistry::class,
                 __METHOD__,
                 \TypeError::class

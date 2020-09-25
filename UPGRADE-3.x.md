@@ -4,6 +4,9 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+UPGRADE FROM 3.3 to 3.4
+=======================
+
 ### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
 
 - Deprecated `ModelManager::getModelCollectionInstance()`.

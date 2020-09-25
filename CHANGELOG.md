@@ -2,6 +2,56 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.4.0](https://github.com/SonataDoctrineMongoDBAdminBundle/compare/3.3.0...3.4.0) - 2020-09-24
+### Added
+- [[#353](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/353)] Allow `_sort_by` filter to not be initially defined ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#420](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/420)] Added returning the own instance in `ProxyQuery` based on PHPDoc of `ProxyQueryInterface` ([@franmomu](https://github.com/franmomu))
+- [[#408](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/408)] Added support for symfony/options-resolver:^5.1 ([@franmomu](https://github.com/franmomu))
+- [[#408](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/408)] Added support for twig 3 ([@franmomu](https://github.com/franmomu))
+- [[#409](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/409)] Added doctrine/persistence as a dependency ([@franmomu](https://github.com/franmomu))
+- [[#379](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/379)] Added `ModelManager::getDefaultPerPageOptions()` ([@franmomu](https://github.com/franmomu))
+- [[#379](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/379)] Added `FieldDescription::getTargetModel()` ([@franmomu](https://github.com/franmomu))
+- [[#378](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/378)] Added `doctrine/collections` dependency ([@franmomu](https://github.com/franmomu))
+- [[#375](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/375)] Added `sonata-project/form-extensions` dependency ([@franmomu](https://github.com/franmomu))
+- [[#346](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/346)] "sonata.admin.manager" tag to "sonata.admin.manager.doctrine_mongodb" service ([@phansys](https://github.com/phansys))
+
+### Changed
+- [[#380](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/380)] Changed `DatagridBuilder` constructor's first parameter typehint from `Symfony\Component\Form\FormFactory` to `Symfony\Component\Form\FormFactoryInterface` ([@franmomu](https://github.com/franmomu))
+- [[#373](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/373)] Use `deprecated` tag instead of `sonata_template_deprecate` to not throw unwanted deprecation notices ([@franmomu](https://github.com/franmomu))
+- [[#373](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/373)] Bump Twig to 2.6 ([@franmomu](https://github.com/franmomu))
+- [[#374](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/374)] Bump Symfony to 4.4 ([@franmomu](https://github.com/franmomu))
+
+### Deprecated
+- [[#414](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/414)] Deprecate creating `ObjectAclManipulator` without passing a `ManagerRegistry` object ([@franmomu](https://github.com/franmomu))
+- [[#415](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/415)] Deprecate `ModelManager::getModelCollectionInstance()` ([@franmomu](https://github.com/franmomu))
+- [[#415](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/415)] Deprecate `ModelManager::collectionClear()` ([@franmomu](https://github.com/franmomu))
+- [[#415](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/415)] Deprecate `ModelManager::collectionHasElement()` ([@franmomu](https://github.com/franmomu))
+- [[#415](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/415)] Deprecate `ModelManager::collectionAddElement()` ([@franmomu](https://github.com/franmomu))
+- [[#415](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/415)] Deprecate `ModelManager::collectionRemoveElement()` ([@franmomu](https://github.com/franmomu))
+- [[#415](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/415)] Deprecate `ModelManager::getPaginationParameters()` ([@franmomu](https://github.com/franmomu))
+- [[#415](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/415)] Deprecate `ModelManager::getSortParameters()` ([@franmomu](https://github.com/franmomu))
+- [[#384](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/384)] Deprecate `ModelManager::getParentFieldDescription()` ([@franmomu](https://github.com/franmomu))
+- [[#381](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/381)] Deprecated passing arguments to`ProxyQuery::execute()` ([@franmomu](https://github.com/franmomu))
+- [[#368](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/368)] Deprecated `AbstractDateFilter::typeRequiresValue` ([@franmomu](https://github.com/franmomu))
+- [[#368](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/368)] Deprecated `ModelManager::camelize` ([@franmomu](https://github.com/franmomu))
+- [[#368](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/368)] Deprecated constructing `ModelManager` without passing an instance of `PropertyAccessorInterface` as second argument ([@franmomu](https://github.com/franmomu))
+- [[#379](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/379)] Deprecated `FieldDescription::getTargetEntity()` in favor of `FieldDescription::getTargetModel()` ([@franmomu](https://github.com/franmomu))
+
+### Fixed
+- [[#385](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/385)] Fixed exception captured when creating `ObjectId` ([@franmomu](https://github.com/franmomu))
+- [[#377](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/377)] Replace deprecated operator constants ([@franmomu](https://github.com/franmomu))
+- [[#372](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/372)] Fixed passing `null` to `Doctrine\ODM\MongoDB\Query\Builder::skip` and `Doctrine\ODM\MongoDB\Query\Builder::limit` ([@franmomu](https://github.com/franmomu))
+- [[#359](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/359)] Fixed returning `void` from methods which are intended to return values and returning values from methods which are intended to return `void`; ([@phansys](https://github.com/phansys))
+- [[#359](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/359)] Fixed weak check at `ModelManager::getNormalizedIdentifier()` ([@phansys](https://github.com/phansys))
+
+### Removed
+- [[#358](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/358)] Drop support of php 7.1 ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#424](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/424)] Remove support for `doctrine/mongodb-odm` <2.0 ([@franmomu](https://github.com/franmomu))
+- [[#409](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/409)] Removed deprecations coming from doctrine/common namespace ([@franmomu](https://github.com/franmomu))
+- [[#378](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/378)] Removed `twig/extensions` dependency ([@franmomu](https://github.com/franmomu))
+- [[#378](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/378)] Removed `jmikola/geojson` dependency ([@franmomu](https://github.com/franmomu))
+- [[#375](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/375)] Removed SonataCoreBundle dependency ([@franmomu](https://github.com/franmomu))
+
 ## [3.3.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.2.2...3.3.0) - 2020-01-08
 ### Fixed
 - Fixed filtering by a field of an embedded object

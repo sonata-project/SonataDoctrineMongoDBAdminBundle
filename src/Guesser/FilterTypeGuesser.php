@@ -87,7 +87,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case 'datetime':
                 @trigger_error(
-                    'The datetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The datetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -106,7 +106,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case 'decimal':
                 @trigger_error(
-                    'The decimal type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The decimal type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -115,7 +115,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case 'bigint':
                 @trigger_error(
-                    'The bigint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The bigint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -124,7 +124,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case 'smallint':
                 @trigger_error(
-                    'The smallint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The smallint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 
@@ -139,7 +139,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
                 return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case 'text':
                 @trigger_error(
-                    'The text type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+                    'The text type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
                     E_USER_DEPRECATED
                 );
 

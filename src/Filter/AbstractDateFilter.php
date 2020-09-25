@@ -139,14 +139,14 @@ abstract class AbstractDateFilter extends Filter
      *
      * @param int $type
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.'.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
      *
      * @return bool
      */
     protected function typeRequiresValue($type)
     {
         @trigger_error(sprintf(
-            '"%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            '"%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
         ), E_USER_DEPRECATED);
 
