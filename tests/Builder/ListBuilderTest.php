@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
@@ -23,13 +22,14 @@ use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
 /**
  * @author Andrew Mor-Yaroslavtsev <andrejs@gmail.com>
  */
-class ListBuilderTest extends TestCase
+class ListBuilderTest extends AbstractBuilderTestCase
 {
     /**
      * @var TypeGuesserInterface|\Prophecy\Prophecy\ObjectProphecy
@@ -109,21 +109,21 @@ class ListBuilderTest extends TestCase
 
     public function testFixFieldDescriptionWithFieldMapping(): void
     {
-        $classMetadata = $this->prophesize(ClassMetadata::class);
-        $this->modelManager->hasMetadata(Argument::any())->willReturn(true);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
+
         $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('test');
+        $fieldDescription->setName('name');
         $fieldDescription->setOption('sortable', true);
         $fieldDescription->setType('string');
+        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
-        $classMetadata->fieldMappings = ['test' => ['type' => 'string']];
         $this->modelManager->getParentMetadataForProperty(Argument::cetera())
-            ->willReturn([$classMetadata, 'test', $parentAssociationMapping = []]);
+            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
 
         $this->listBuilder->fixFieldDescription($this->admin->reveal(), $fieldDescription);
 
         $this->assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
-        $this->assertSame(['type' => 'string'], $fieldDescription->getFieldMapping());
+        $this->assertSame($classMetadata->getFieldMapping('name'), $fieldDescription->getFieldMapping());
     }
 
     /**
@@ -131,32 +131,25 @@ class ListBuilderTest extends TestCase
      */
     public function testFixFieldDescriptionWithAssociationMapping(string $type, string $template): void
     {
-        $classMetadata = $this->prophesize(ClassMetadata::class);
-        $this->modelManager->hasMetadata(Argument::any())->willReturn(true);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
+
         $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('test');
+        $fieldDescription->setName('associatedDocument');
         $fieldDescription->setOption('sortable', true);
         $fieldDescription->setType($type);
         $fieldDescription->setMappingType($type);
+        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
+        $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
 
         $this->admin->attachAdminClass(Argument::any())->shouldBeCalledTimes(1);
 
-        $associationMapping = [
-            'fieldName' => 'associatedDocument',
-            'name' => 'associatedDocument',
-        ];
-
-        $classMetadata->associationMappings = [
-            'test' => $associationMapping,
-        ];
-
         $this->modelManager->getParentMetadataForProperty(Argument::cetera())
-            ->willReturn([$classMetadata, 'test', $parentAssociationMapping = []]);
+            ->willReturn([$classMetadata, 'associatedDocument', $parentAssociationMapping = []]);
 
         $this->listBuilder->fixFieldDescription($this->admin->reveal(), $fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($associationMapping, $fieldDescription->getAssociationMapping());
+        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getAssociationMapping());
     }
 
     public function fixFieldDescriptionData(): array

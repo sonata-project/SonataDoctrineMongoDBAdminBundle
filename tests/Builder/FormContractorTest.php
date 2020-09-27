@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\AdminType;
@@ -33,10 +31,10 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class FormContractorTest extends TestCase
+class FormContractorTest extends AbstractBuilderTestCase
 {
     /**
-     * @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var FormFactoryInterface&MockObject
      */
     private $formFactory;
 
@@ -187,16 +185,5 @@ class FormContractorTest extends TestCase
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
 
         $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getAssociationMapping());
-    }
-
-    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
-    {
-        $classMetadata = new ClassMetadata($class);
-        $reader = new AnnotationReader();
-
-        $annotationDriver = new AnnotationDriver($reader);
-        $annotationDriver->loadMetadataForClass($class, $classMetadata);
-
-        return $classMetadata;
     }
 }
