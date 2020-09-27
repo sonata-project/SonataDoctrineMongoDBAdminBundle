@@ -13,11 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Datagrid\Datagrid;
@@ -37,7 +34,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-final class DatagridBuilderTest extends TestCase
+final class DatagridBuilderTest extends AbstractBuilderTestCase
 {
     /**
      * @var DatagridBuilder
@@ -234,16 +231,5 @@ final class DatagridBuilderTest extends TestCase
         );
 
         $this->assertSame(ModelFilter::class, $fieldDescription->getType());
-    }
-
-    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
-    {
-        $classMetadata = new ClassMetadata($class);
-        $reader = new AnnotationReader();
-
-        $annotationDriver = new AnnotationDriver($reader);
-        $annotationDriver->loadMetadataForClass($class, $classMetadata);
-
-        return $classMetadata;
     }
 }

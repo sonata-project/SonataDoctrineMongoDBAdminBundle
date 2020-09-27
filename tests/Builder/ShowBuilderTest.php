@@ -16,7 +16,6 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
@@ -24,9 +23,10 @@ use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-final class ShowBuilderTest extends TestCase
+final class ShowBuilderTest extends AbstractBuilderTestCase
 {
     /**
      * @var Stub&TypeGuesserInterface
@@ -123,27 +123,23 @@ final class ShowBuilderTest extends TestCase
      */
     public function testFixFieldDescription(string $type, string $mappingType, string $template): void
     {
-        $classMetadata = $this->createStub(ClassMetadata::class);
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
         $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('FakeName');
+        $fieldDescription->setName('name');
         $fieldDescription->setType($type);
         $fieldDescription->setMappingType($mappingType);
+        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
         $this->admin->expects($this->once())->method('attachAdminClass');
 
-        $this->modelManager->method('hasMetadata')->willReturn(true);
-
         $this->modelManager->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'fakeName', $parentAssociationMapping = []]);
-
-        $classMetadata->fieldMappings = ['fakeName' => []];
-
-        $classMetadata->associationMappings = ['fakeName' => ['fieldName' => 'fakeField', 'type' => $type]];
+            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
 
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
+        $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getFieldMapping());
     }
 
     public function fixFieldDescriptionData(): iterable
