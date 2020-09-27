@@ -47,7 +47,7 @@ class ModelFilterTest extends TestCase
     }
 
     /**
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
+     * @return FieldDescriptionInterface
      */
     public function getFieldDescription(array $options)
     {
@@ -79,7 +79,14 @@ class ModelFilterTest extends TestCase
     public function testFilterArray(): void
     {
         $filter = new ModelFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
+        $filter->initialize('field_name', [
+            'field_options' => [
+                'class' => 'FooBar',
+            ],
+            'field_mapping' => [
+                'type' => 'collection',
+            ],
+        ]);
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -110,7 +117,14 @@ class ModelFilterTest extends TestCase
     public function testFilterScalar(): void
     {
         $filter = new ModelFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar'], 'field_mapping' => true]);
+        $filter->initialize('field_name', [
+            'field_options' => [
+                'class' => 'FooBar',
+            ],
+            'field_mapping' => [
+                'type' => 'string',
+            ],
+        ]);
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -136,27 +150,26 @@ class ModelFilterTest extends TestCase
 
     public function testAssociationWithInvalidMapping(): void
     {
-        $this->expectException(\RuntimeException::class);
-
         $filter = new ModelFilter();
-        $filter->initialize('field_name', ['mapping_type' => 'foo', 'field_mapping' => true]);
+        $filter->initialize('field_name', ['mapping_type' => 'foo', 'field_mapping' => []]);
 
         $builder = new ProxyQuery($this->queryBuilder);
+
+        $this->expectException(\RuntimeException::class);
 
         $filter->apply($builder, 'asd');
     }
 
     public function testAssociationWithValidMappingAndEmptyFieldName(): void
     {
-        $this->expectException(\RuntimeException::class);
-
         $filter = new ModelFilter();
-        $filter->initialize('field_name', ['mapping_type' => ClassMetadata::ONE, 'field_mapping' => true]);
+        $filter->initialize('field_name', ['mapping_type' => ClassMetadata::ONE, 'field_mapping' => []]);
 
         $builder = new ProxyQuery($this->queryBuilder);
 
+        $this->expectException(\RuntimeException::class);
+
         $filter->apply($builder, 'asd');
-        $this->assertTrue($filter->isActive());
     }
 
     public function testAssociationWithValidMapping(): void
