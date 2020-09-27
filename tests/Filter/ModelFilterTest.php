@@ -180,7 +180,10 @@ class ModelFilterTest extends TestCase
             'field_name' => 'field_name',
             'association_mapping' => [
                 'fieldName' => 'association_mapping',
-            ], 'field_mapping' => true,
+            ],
+            'field_mapping' => [
+                'fieldName' => 'association_mapping',
+            ],
         ]);
 
         $builder = new ProxyQuery($this->queryBuilder);
@@ -212,7 +215,10 @@ class ModelFilterTest extends TestCase
             ],
             'association_mapping' => [
                 'fieldName' => 'sub_sub_association_mapping',
-            ], 'field_mapping' => true,
+            ],
+            'field_mapping' => [
+                'fieldName' => 'sub_sub_association_mapping',
+            ],
         ]);
 
         $builder = new ProxyQuery($this->queryBuilder);
