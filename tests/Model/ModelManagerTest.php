@@ -28,6 +28,7 @@ use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AbstractDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AssociatedDocument;
@@ -408,6 +409,26 @@ final class ModelManagerTest extends TestCase
 
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
         $modelManager->createQuery(TestDocument::class);
+    }
+
+    /**
+     * @dataProvider supportsQueryDataProvider
+     */
+    public function testSupportsQuery(bool $expected, object $object): void
+    {
+        $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
+
+        $this->assertSame($expected, $modelManager->supportsQuery($object));
+    }
+
+    /**
+     * @phpstan-return iterable<array{bool, object}>
+     */
+    public function supportsQueryDataProvider(): iterable
+    {
+        yield [true, $this->createStub(ProxyQuery::class)];
+        yield [true, $this->createStub(Builder::class)];
+        yield [false, new \stdClass()];
     }
 
     private function createModelManagerForClass(string $class): ModelManager

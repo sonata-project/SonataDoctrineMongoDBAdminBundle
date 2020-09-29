@@ -246,11 +246,29 @@ class ModelManager implements ModelManagerInterface
         return new ProxyQuery($repository->createQueryBuilder());
     }
 
+    public function supportsQuery(object $query): bool
+    {
+        return $query instanceof ProxyQuery || $query instanceof Builder;
+    }
+
     public function executeQuery($query)
     {
         if ($query instanceof Builder) {
             return $query->getQuery()->execute();
         }
+
+        if ($query instanceof ProxyQuery) {
+            return $query->execute();
+        }
+
+        // NEXT_MAJOR: Throw an InvalidArgumentException instead.
+        @trigger_error(sprintf(
+            'Passing other type than "%s" or %s as argument 1 for "%s()" is deprecated since'
+            .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw an exception in 4.0.',
+            Builder::class,
+            ProxyQuery::class,
+            __METHOD__
+        ), E_USER_DEPRECATED);
 
         return $query->execute();
     }

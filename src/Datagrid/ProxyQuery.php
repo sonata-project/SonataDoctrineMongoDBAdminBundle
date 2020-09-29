@@ -154,11 +154,21 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->maxResults;
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getUniqueParameterId()
     {
         // TODO: Implement getUniqueParameterId() method.
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function entityJoin(array $associationMappings)
     {
         // TODO: Implement entityJoin() method.

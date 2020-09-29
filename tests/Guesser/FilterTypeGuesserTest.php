@@ -14,9 +14,12 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
 
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\Types\Type;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
@@ -28,6 +31,9 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Model\MissingPropertyMetadataException;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AssociatedDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ContainerDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
 use Sonata\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,63 +41,65 @@ use Symfony\Component\Form\Guess\Guess;
 
 class FilterTypeGuesserTest extends TestCase
 {
+    /**
+     * @var FilterTypeGuesser
+     */
     private $guesser;
+
+    /**
+     * @var Stub&ModelManager
+     */
     private $modelManager;
 
     protected function setUp(): void
     {
         $this->guesser = new FilterTypeGuesser();
-        $this->modelManager = $this->prophesize(ModelManager::class);
+        $this->modelManager = $this->createStub(ModelManager::class);
     }
 
     public function testThrowsOnMissingField(): void
     {
+        $className = TestDocument::class;
+        $property = 'nonExistingProperty';
+
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations($className);
+
+        $this->modelManager
+            ->method('getParentMetadataForProperty')
+            ->with($className, $property)
+            ->willReturn([$classMetadata, $property, []]);
+
         $this->expectException(MissingPropertyMetadataException::class);
-
-        $class = 'My\Model';
-        $property = 'whatever';
-
-        $metadata = $this->prophesize(ClassMetadata::class);
-        $metadata->hasAssociation($property)->willReturn(false);
-
-        $this->modelManager->getParentMetadataForProperty($class, $property)->willReturn([
-            $metadata->reveal(),
-            $property,
-            'parent mappings, no idea what it looks like',
-        ]);
-        $this->guesser->guessType($class, $property, $this->modelManager->reveal());
+        $this->guesser->guessType($className, $property, $this->modelManager);
     }
 
     public function testGuessTypeNoMetadata(): void
     {
-        $this->modelManager->getParentMetadataForProperty(
-            $class = 'FakeClass',
-            $property = 'fakeProperty'
-        )->willThrow(MappingException::class);
+        $this->modelManager
+            ->method('getParentMetadataForProperty')
+            ->with($class = 'FakeClass', $property = 'fakeProperty')
+            ->willThrowException(new MappingException());
 
-        $result = $this->guesser->guessType($class, $property, $this->modelManager->reveal());
+        $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
         $this->assertFalse($result);
     }
 
     public function testGuessTypeWithAssociation(): void
     {
-        $classMetadata = $this->prophesize(ClassMetadata::class);
+        $className = ContainerDocument::class;
+        $property = 'associatedDocument';
+        $parentAssociation = [];
+        $targetDocument = AssociatedDocument::class;
 
-        $classMetadata->hasAssociation($property = 'fakeProperty')->willReturn(true);
-        $classMetadataObject = $classMetadata->reveal();
-        $classMetadataObject->fieldMappings['fakeProperty'] = [
-            'type' => ClassMetadata::ONE,
-            'targetDocument' => $targetDocument = 'FakeEntity',
-            'fieldName' => $fieldName = 'fakeName',
-        ];
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations($className);
 
-        $this->modelManager->getParentMetadataForProperty(
-            $class = 'FakeClass',
-            $property
-        )->willReturn([$classMetadataObject, $property, $parentAssociation = 'parentAssociation']);
+        $this->modelManager
+            ->method('getParentMetadataForProperty')
+            ->with($className, $property)
+            ->willReturn([$classMetadata, $property, $parentAssociation]);
 
-        $result = $this->guesser->guessType($class, $property, $this->modelManager->reveal());
+        $result = $this->guesser->guessType($className, $property, $this->modelManager);
 
         $options = $result->getOptions();
 
@@ -101,7 +109,7 @@ class FilterTypeGuesserTest extends TestCase
         $this->assertSame(ClassMetadata::ONE, $options['mapping_type']);
         $this->assertSame(EqualOperatorType::class, $options['operator_type']);
         $this->assertSame([], $options['operator_options']);
-        $this->assertSame($fieldName, $options['field_name']);
+        $this->assertSame($property, $options['field_name']);
         $this->assertSame(DocumentType::class, $options['field_type']);
         $this->assertSame($targetDocument, $options['field_options']['class']);
     }
@@ -111,19 +119,28 @@ class FilterTypeGuesserTest extends TestCase
      */
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence, ?string $fieldType = null): void
     {
-        $classMetadata = $this->prophesize(ClassMetadata::class);
+        $class = 'FakeClass';
+        $property = 'fakeProperty';
 
-        $classMetadata->hasAssociation($property = 'fakeProperty')->willReturn(false);
+        $classMetadata = $this->createStub(ClassMetadata::class);
+
+        $classMetadata
+            ->method('hasAssociation')
+            ->with($property)
+            ->willReturn(false);
 
         $classMetadata->fieldMappings = [$property => ['fieldName' => $type]];
-        $classMetadata->getTypeOfField($property)->willReturn($type);
+        $classMetadata
+            ->method('getTypeOfField')
+            ->with($property)
+            ->willReturn($type);
 
-        $this->modelManager->getParentMetadataForProperty(
-            $class = 'FakeClass',
-            $property
-        )->willReturn([$classMetadata, $property, 'notUsed']);
+        $this->modelManager
+            ->method('getParentMetadataForProperty')
+            ->with($class, $property)
+            ->willReturn([$classMetadata, $property, []]);
 
-        $result = $this->guesser->guessType($class, $property, $this->modelManager->reveal());
+        $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
         $options = $result->getOptions();
 
@@ -198,5 +215,16 @@ class FilterTypeGuesserTest extends TestCase
                 Guess::LOW_CONFIDENCE,
             ],
         ];
+    }
+
+    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
+    {
+        $classMetadata = new ClassMetadata($class);
+        $reader = new AnnotationReader();
+
+        $annotationDriver = new AnnotationDriver($reader);
+        $annotationDriver->loadMetadataForClass($class, $classMetadata);
+
+        return $classMetadata;
     }
 }
