@@ -27,4 +27,3 @@ jobs:
           CHECK_PLATFORM_REQUIREMENTS: false
         with:
           args: analyse -c .phpstan/phpstan.neon.dist
-
