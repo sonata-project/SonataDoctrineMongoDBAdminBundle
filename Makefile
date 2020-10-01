@@ -67,5 +67,5 @@ docs:
 .PHONY: docs
 
 phpstan:
-    docker run --env REQUIRE_DEV=true --env CHECK_PLATFORM_REQUIREMENTS=false --rm -it -w=/app -v ${PWD}:/app oskarstark/phpstan-ga:latest -c .phpstan/phpstan.neon.dist
+	docker run --env REQUIRE_DEV=true --env CHECK_PLATFORM_REQUIREMENTS=false --rm -it -w=/app -v ${PWD}:/app oskarstark/phpstan-ga:latest -c .phpstan/phpstan.neon.dist
 .PHONY: phpstan
