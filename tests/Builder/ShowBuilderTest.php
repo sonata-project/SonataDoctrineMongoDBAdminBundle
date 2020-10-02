@@ -130,9 +130,6 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
 
         $this->admin->expects($this->once())->method('attachAdminClass');
 
-        $this->modelManager->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
-
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());

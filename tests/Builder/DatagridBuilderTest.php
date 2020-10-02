@@ -116,13 +116,6 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
         $fieldDescription = new FieldDescription('name');
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
-        $this->modelManager->method('hasMetadata')->willReturn(true);
-
-        $this->modelManager
-            ->expects($this->once())
-            ->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
-
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
@@ -141,13 +134,6 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
         $this->admin
             ->expects($this->once())
             ->method('attachAdminClass');
-
-        $this->modelManager->method('hasMetadata')->willReturn(true);
-
-        $this->modelManager
-            ->expects($this->once())
-            ->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'associatedDocument', $parentAssociationMapping = []]);
 
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
@@ -171,10 +157,6 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
         $fieldDescription = new FieldDescription('test');
 
         $this->typeGuesser->method('guessType')->willReturn($guessType);
-
-        $this->modelManager
-            ->expects($this->once())
-            ->method('hasMetadata')->willReturn(false);
 
         $this->admin->method('getCode')->willReturn('someFakeCode');
 

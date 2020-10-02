@@ -68,24 +68,20 @@ class DatagridBuilder implements DatagridBuilderInterface
         // set default values
         $fieldDescription->setAdmin($admin);
 
-        if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+        if ([] !== $fieldDescription->getFieldMapping()) {
+            $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $fieldDescription->getFieldMapping()));
 
-            // set the default field mapping
-            if (isset($metadata->fieldMappings[$lastPropertyName])) {
-                $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $metadata->fieldMappings[$lastPropertyName]));
-
-                if ('string' === $metadata->fieldMappings[$lastPropertyName]['type']) {
-                    $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
-                }
+            if ('string' === $fieldDescription->getFieldMapping()['type']) {
+                $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
             }
+        }
 
-            // set the default association mapping
-            if (isset($metadata->associationMappings[$lastPropertyName])) {
-                $fieldDescription->setOption('association_mapping', $fieldDescription->getOption('association_mapping', $metadata->associationMappings[$lastPropertyName]));
-            }
+        if ([] !== $fieldDescription->getAssociationMapping()) {
+            $fieldDescription->setOption('association_mapping', $fieldDescription->getOption('association_mapping', $fieldDescription->getAssociationMapping()));
+        }
 
-            $fieldDescription->setOption('parent_association_mappings', $fieldDescription->getOption('parent_association_mappings', $parentAssociationMappings));
+        if ([] !== $fieldDescription->getParentAssociationMappings()) {
+            $fieldDescription->setOption('parent_association_mappings', $fieldDescription->getOption('parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
         }
 
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));

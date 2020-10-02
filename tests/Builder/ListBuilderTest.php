@@ -122,10 +122,6 @@ class ListBuilderTest extends AbstractBuilderTestCase
         $fieldDescription->setType('string');
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
-
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
@@ -149,10 +145,6 @@ class ListBuilderTest extends AbstractBuilderTestCase
         $this->admin
             ->expects($this->once())
             ->method('attachAdminClass');
-
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'associatedDocument', $parentAssociationMapping = []]);
 
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
