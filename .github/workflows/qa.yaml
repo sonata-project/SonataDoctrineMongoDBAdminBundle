@@ -18,7 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
@@ -26,4 +27,4 @@ jobs:
           REQUIRE_DEV: true
           CHECK_PLATFORM_REQUIREMENTS: false
         with:
-          args: analyse -c .phpstan/phpstan.neon.dist
+          args: analyse
