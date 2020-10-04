@@ -109,12 +109,15 @@ class FormContractorTest extends TestCase
         // collection type
         $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::MANY);
         foreach ($collectionTypes as $index => $formType) {
-            $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription);
+            $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription, [
+                'by_reference' => false,
+            ]);
             $this->assertSame($fieldDescription, $options['sonata_field_description']);
             $this->assertSame(AdminType::class, $options['type']);
             $this->assertTrue($options['modifiable']);
             $this->assertSame($fieldDescription, $options['type_options']['sonata_field_description']);
             $this->assertSame($modelClass, $options['type_options']['data_class']);
+            $this->assertFalse($options['type_options']['by_reference']);
         }
     }
 
