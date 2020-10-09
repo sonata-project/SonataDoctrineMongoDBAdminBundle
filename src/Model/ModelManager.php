@@ -29,6 +29,9 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
+/**
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+ */
 class ModelManager implements ModelManagerInterface
 {
     public const ID_SEPARATOR = '-';

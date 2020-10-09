@@ -22,6 +22,8 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  * @author Michael Williams <michael.williams@funsational.com>
+ *
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
  */
 class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
 {
