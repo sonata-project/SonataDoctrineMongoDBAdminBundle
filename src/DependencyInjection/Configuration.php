@@ -24,7 +24,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *
  * @author Michael Williams <mtotheikle@gmail.com>
  *
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
 class Configuration implements ConfigurationInterface
 {
