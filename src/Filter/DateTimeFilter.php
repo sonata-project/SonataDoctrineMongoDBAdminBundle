@@ -16,6 +16,9 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
+/**
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+ */
 class DateTimeFilter extends AbstractDateFilter
 {
     /**

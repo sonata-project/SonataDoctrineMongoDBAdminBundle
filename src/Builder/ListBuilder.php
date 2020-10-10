@@ -20,6 +20,9 @@ use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 
+/**
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+ */
 class ListBuilder implements ListBuilderInterface
 {
     protected $guesser;
