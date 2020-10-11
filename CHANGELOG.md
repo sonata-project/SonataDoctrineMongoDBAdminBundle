@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.5.0](sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.4.0...3.5.0) - 2020-10-09
+### Added
+- [[#438](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/438)] `FormContractor::getDefaultOptions()` pass `by_reference` from `CollectionType` to `AdminType` ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#430](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/430)] Added `ModelManager::supportsQuery()` ([@franmomu](https://github.com/franmomu))
+
+### Changed
+- [[#437](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/437)] Mark some classes as final ([@franmomu](https://github.com/franmomu))
+
+### Deprecated
+- [[#430](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/430)] Deprecated `ProxyQuery::getUniqueParameterId()` and `ProxyQuery::entityJoin()` ([@franmomu](https://github.com/franmomu))
+- [[#430](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/430)] Deprecated calling `ModelManager::executeQuery()` with anything but an instance of `Doctrine\ODM\MongoDB\Query\Builder` or `Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery` ([@franmomu](https://github.com/franmomu))
+
 ## [3.4.0](https://github.com/SonataDoctrineMongoDBAdminBundle/compare/3.3.0...3.4.0) - 2020-09-24
 ### Added
 - [[#353](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/353)] Allow `_sort_by` filter to not be initially defined ([@VincentLanglet](https://github.com/VincentLanglet))

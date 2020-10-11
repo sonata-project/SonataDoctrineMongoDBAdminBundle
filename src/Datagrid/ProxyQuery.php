@@ -19,7 +19,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 /**
  * This class try to unify the query usage with Doctrine.
  *
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
 class ProxyQuery implements ProxyQueryInterface
 {
@@ -159,7 +159,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.5 and will be removed in version 4.0.
      */
     public function getUniqueParameterId()
     {
@@ -169,7 +169,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.5 and will be removed in version 4.0.
      */
     public function entityJoin(array $associationMappings)
     {

@@ -30,7 +30,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
 class ModelManager implements ModelManagerInterface
 {
@@ -267,7 +267,7 @@ class ModelManager implements ModelManagerInterface
         // NEXT_MAJOR: Throw an InvalidArgumentException instead.
         @trigger_error(sprintf(
             'Passing other type than "%s" or %s as argument 1 for "%s()" is deprecated since'
-            .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw an exception in 4.0.',
+            .' sonata-project/doctrine-mongodb-admin-bundle 3.5 and will throw an exception in 4.0.',
             Builder::class,
             ProxyQuery::class,
             __METHOD__

@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+ * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
 class SonataDoctrineMongoDBAdminBundle extends Bundle
 {
