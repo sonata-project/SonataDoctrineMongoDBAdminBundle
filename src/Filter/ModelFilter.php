@@ -30,24 +30,24 @@ class ModelFilter extends Filter
     /**
      * @param string $alias
      * @param string $field
-     * @param mixed  $data
+     * @param mixed  $value
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
+        if (!$value || !\is_array($value) || !\array_key_exists('value', $value)) {
             return;
         }
 
-        if ($data['value'] instanceof Collection) {
-            $data['value'] = $data['value']->toArray();
+        if ($value['value'] instanceof Collection) {
+            $value['value'] = $value['value']->toArray();
         }
 
         $field = $this->getIdentifierField($field);
 
-        if (\is_array($data['value'])) {
-            $this->handleMultiple($queryBuilder, $alias, $field, $data);
+        if (\is_array($value['value'])) {
+            $this->handleMultiple($queryBuilder, $alias, $field, $value);
         } else {
-            $this->handleScalar($queryBuilder, $alias, $field, $data);
+            $this->handleScalar($queryBuilder, $alias, $field, $value);
         }
     }
 

@@ -26,39 +26,39 @@ class ChoiceFilter extends Filter
     /**
      * @param string $alias
      * @param string $field
-     * @param mixed  $data
+     * @param mixed  $value
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
+        if (!$value || !\is_array($value) || !\array_key_exists('type', $value) || !\array_key_exists('value', $value)) {
             return;
         }
 
-        if (\is_array($data['value'])) {
-            if (0 === \count($data['value'])) {
+        if (\is_array($value['value'])) {
+            if (0 === \count($value['value'])) {
                 return;
             }
 
-            if (\in_array('all', $data['value'], true)) {
+            if (\in_array('all', $value['value'], true)) {
                 return;
             }
 
-            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
-                $queryBuilder->field($field)->notIn($data['value']);
+            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $value['type']) {
+                $queryBuilder->field($field)->notIn($value['value']);
             } else {
-                $queryBuilder->field($field)->in($data['value']);
+                $queryBuilder->field($field)->in($value['value']);
             }
 
             $this->active = true;
         } else {
-            if ('' === $data['value'] || null === $data['value'] || false === $data['value'] || 'all' === $data['value']) {
+            if ('' === $value['value'] || null === $value['value'] || false === $value['value'] || 'all' === $value['value']) {
                 return;
             }
 
-            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
-                $queryBuilder->field($field)->notEqual($data['value']);
+            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $value['type']) {
+                $queryBuilder->field($field)->notEqual($value['value']);
             } else {
-                $queryBuilder->field($field)->equals($data['value']);
+                $queryBuilder->field($field)->equals($value['value']);
             }
 
             $this->active = true;

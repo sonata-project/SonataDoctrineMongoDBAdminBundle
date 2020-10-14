@@ -340,9 +340,9 @@ class ModelManager implements ModelManagerInterface
         return $this->getNormalizedIdentifier($document);
     }
 
-    public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
+    public function addIdentifiersToQuery($class, ProxyQueryInterface $query, array $idx)
     {
-        $queryBuilder = $queryProxy->getQueryBuilder();
+        $queryBuilder = $query->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
     }
 

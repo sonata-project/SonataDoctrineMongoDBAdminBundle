@@ -36,40 +36,40 @@ abstract class AbstractDateFilter extends Filter
      */
     protected $time = false;
 
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
         //check data sanity
-        if (true !== \is_array($data)) {
+        if (true !== \is_array($value)) {
             return;
         }
 
         //default type for simple filter
-        $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateOperatorType::TYPE_EQUAL : $data['type'];
+        $value['type'] = !isset($value['type']) || !is_numeric($value['type']) ? DateOperatorType::TYPE_EQUAL : $value['type'];
 
         // Some types do not require a value to be set (NULL, NOT NULL).
-        if (!isset($data['value']) && $this->typeDoesRequireValue($data['type'])) {
+        if (!isset($value['value']) && $this->typeDoesRequireValue($value['type'])) {
             return;
         }
 
-        switch ($data['type']) {
+        switch ($value['type']) {
             case DateOperatorType::TYPE_EQUAL:
                 $this->active = true;
 
-                $this->applyTypeIsEqual($queryBuilder, $field, $data);
+                $this->applyTypeIsEqual($queryBuilder, $field, $value);
 
                 return;
 
             case DateOperatorType::TYPE_GREATER_THAN:
                 $this->active = true;
 
-                $this->applyTypeIsGreaterThan($queryBuilder, $field, $data);
+                $this->applyTypeIsGreaterThan($queryBuilder, $field, $value);
 
                 return;
 
             case DateOperatorType::TYPE_LESS_EQUAL:
                 $this->active = true;
 
-                $this->applyTypeIsLessEqual($queryBuilder, $field, $data);
+                $this->applyTypeIsLessEqual($queryBuilder, $field, $value);
 
                 return;
 
@@ -77,7 +77,7 @@ abstract class AbstractDateFilter extends Filter
             case DateOperatorType::TYPE_NOT_NULL:
                 $this->active = true;
 
-                $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, null);
+                $this->applyType($queryBuilder, $this->getOperator($value['type']), $field, null);
 
                 return;
 
@@ -85,7 +85,7 @@ abstract class AbstractDateFilter extends Filter
             case DateOperatorType::TYPE_LESS_THAN:
                 $this->active = true;
 
-                $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+                $this->applyType($queryBuilder, $this->getOperator($value['type']), $field, $value['value']);
 
                 return;
         }
