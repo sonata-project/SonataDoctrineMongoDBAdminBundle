@@ -19,13 +19,13 @@ abstract class Filter extends BaseFilter
 {
     protected $active = false;
 
-    public function apply($queryBuilder, $value)
+    public function apply($query, $value)
     {
         $this->value = $value;
 
         $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
 
-        $this->filter($queryBuilder, null, $field, $value);
+        $this->filter($query, null, $field, $value);
     }
 
     public function isActive()
