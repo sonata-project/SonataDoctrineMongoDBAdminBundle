@@ -67,5 +67,5 @@ docs:
 .PHONY: docs
 
 phpstan:
-	docker run --env REQUIRE_DEV=true --env CHECK_PLATFORM_REQUIREMENTS=false --rm -it -w=/app -v ${PWD}:/app oskarstark/phpstan-ga:latest analyse
+	vendor/bin/phpstan --memory-limit=1G analyse
 .PHONY: phpstan
