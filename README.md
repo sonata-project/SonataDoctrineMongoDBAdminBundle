@@ -10,6 +10,7 @@ Symfony Sonata / Integrate Doctrine MongoDB ODM into the SonataAdminBundle
 
 [![Latest Stable Version](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/v/stable)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/v/unstable)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
+[![Psalm Type Coverage][shepherd_stable_badge]][shepherd_stable_link]
 [![License](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/license)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
 
 [![Total Downloads](https://poser.pugx.org/sonata-project/doctrine-mongodb-admin-bundle/downloads)](https://packagist.org/packages/sonata-project/doctrine-mongodb-admin-bundle)
@@ -45,3 +46,5 @@ This package is available under the [MIT license](LICENSE).
 [coverage_stable_link]: https://codecov.io/gh/sonata-project/SonataDoctrineMongoDBAdminBundle/branch/3.x
 [coverage_unstable_badge]: https://codecov.io/gh/sonata-project/SonataDoctrineMongoDBAdminBundle/branch/master/graph/badge.svg
 [coverage_unstable_link]: https://codecov.io/gh/sonata-project/SonataDoctrineMongoDBAdminBundle/branch/master
+[shepherd_stable_badge]: https://shepherd.dev/github/sonata-project/SonataDoctrineMongoDBAdminBundle/coverage.svg
+[shepherd_stable_link]: https://shepherd.dev/github/sonata-project/SonataDoctrineMongoDBAdminBundle

@@ -49,7 +49,7 @@ jobs:
     psalm:
         name: Psalm
 
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-18.04
 
         steps:
             - name: Checkout code
@@ -60,8 +60,8 @@ jobs:
               with:
                   php-version: 7.4
                   coverage: none
+                  tools: composer:v2, pecl
                   extensions: mongodb
-                  tools: composer:v2
 
             - name: Set Composer cache directory
               id: composer-cache
