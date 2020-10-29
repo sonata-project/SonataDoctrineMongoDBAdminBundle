@@ -165,7 +165,13 @@ class ModelManager implements ModelManagerInterface
 
     public function find($class, $id)
     {
-        if (!isset($id)) {
+        if (null === $id) {
+            @trigger_error(sprintf(
+                'Passing null as argument 1 for %s() is deprecated since'
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+
             return null;
         }
 
@@ -293,7 +299,14 @@ class ModelManager implements ModelManagerInterface
 
     public function getNormalizedIdentifier($document)
     {
+        // NEXT_MAJOR: Remove the following 2 checks and declare "object" as type for argument 1.
         if (null === $document) {
+            @trigger_error(sprintf(
+                'Passing null as argument 1 for %s() is deprecated since'
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+
             return null;
         }
 
@@ -313,6 +326,17 @@ class ModelManager implements ModelManagerInterface
 
     public function getUrlSafeIdentifier($document)
     {
+        // NEXT_MAJOR: Remove the following check and declare "object" as type for argument 1.
+        if (!\is_object($document)) {
+            @trigger_error(sprintf(
+                'Passing other type than object for argument 1 for %s() is deprecated since'
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+
+            return null;
+        }
+
         return $this->getNormalizedIdentifier($document);
     }
 
