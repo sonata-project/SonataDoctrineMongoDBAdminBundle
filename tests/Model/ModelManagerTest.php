@@ -90,9 +90,18 @@ final class ModelManagerTest extends TestCase
         yield ['sonata-project'];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @group legacy
+     */
     public function testGetNormalizedIdentifierNull(): void
     {
         $manager = new ModelManager($this->registry, $this->propertyAccessor);
+
+        $this->expectDeprecation(
+            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.'
+        );
 
         $this->assertNull($manager->getNormalizedIdentifier(null));
     }
@@ -335,9 +344,18 @@ final class ModelManagerTest extends TestCase
         $this->assertInstanceOf(ProtectedDocument::class, $model->getModelInstance(ProtectedDocument::class));
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @group legacy
+     */
     public function testFindBadId(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
+
+        $this->expectDeprecation(
+            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::find() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.'
+        );
 
         $this->assertNull($model->find('notImportant', null));
     }
@@ -351,9 +369,18 @@ final class ModelManagerTest extends TestCase
         $model->getNormalizedIdentifier(new \stdClass());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @group legacy
+     */
     public function testGetUrlSafeIdentifierNull(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
+
+        $this->expectDeprecation(
+            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.'
+        );
 
         $this->assertNull($model->getNormalizedIdentifier(null));
     }
