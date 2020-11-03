@@ -25,33 +25,33 @@ class StringFilter extends Filter
 {
     /**
      * @param string $field
-     * @param array  $data
+     * @param array  $value
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $name, $field, $data): void
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
+        if (!$value || !\is_array($value) || !\array_key_exists('value', $value) || null === $value['value']) {
             return;
         }
 
-        $data['value'] = trim($data['value']);
+        $value['value'] = trim($value['value']);
 
-        if ('' === $data['value']) {
+        if ('' === $value['value']) {
             return;
         }
 
-        $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ContainsOperatorType::TYPE_CONTAINS;
+        $value['type'] = isset($value['type']) && !empty($value['type']) ? $value['type'] : ContainsOperatorType::TYPE_CONTAINS;
 
         $obj = $queryBuilder;
         if (self::CONDITION_OR === $this->condition) {
             $obj = $queryBuilder->expr();
         }
 
-        if (ContainsOperatorType::TYPE_EQUAL === $data['type']) {
-            $obj->field($field)->equals($data['value']);
-        } elseif (ContainsOperatorType::TYPE_CONTAINS === $data['type']) {
-            $obj->field($field)->equals(new Regex($data['value'], 'i'));
-        } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
-            $obj->field($field)->not(new Regex($data['value'], 'i'));
+        if (ContainsOperatorType::TYPE_EQUAL === $value['type']) {
+            $obj->field($field)->equals($value['value']);
+        } elseif (ContainsOperatorType::TYPE_CONTAINS === $value['type']) {
+            $obj->field($field)->equals(new Regex($value['value'], 'i'));
+        } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $value['type']) {
+            $obj->field($field)->not(new Regex($value['value'], 'i'));
         }
 
         if (self::CONDITION_OR === $this->condition) {

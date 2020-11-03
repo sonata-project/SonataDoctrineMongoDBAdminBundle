@@ -26,17 +26,17 @@ class BooleanFilter extends Filter
     /**
      * @param string $alias
      * @param string $field
-     * @param mixed  $data
+     * @param mixed  $value
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
+        if (!$value || !\is_array($value) || !\array_key_exists('type', $value) || !\array_key_exists('value', $value)) {
             return;
         }
 
-        if (\is_array($data['value'])) {
+        if (\is_array($value['value'])) {
             $values = [];
-            foreach ($data['value'] as $v) {
+            foreach ($value['value'] as $v) {
                 if (!\in_array($v, [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                     continue;
                 }
@@ -51,11 +51,11 @@ class BooleanFilter extends Filter
             $queryBuilder->field($field)->in($values);
             $this->active = true;
         } else {
-            if (!\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
+            if (!\in_array($value['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                 return;
             }
 
-            $value = BooleanType::TYPE_YES === $data['value'];
+            $value = BooleanType::TYPE_YES === $value['value'];
 
             $queryBuilder->field($field)->equals($value);
             $this->active = true;

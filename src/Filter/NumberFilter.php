@@ -30,17 +30,17 @@ class NumberFilter extends Filter
         NumberOperatorType::TYPE_LESS_THAN => 'lt',
     ];
 
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || !is_numeric($data['value'])) {
+        if (!$value || !\is_array($value) || !\array_key_exists('value', $value) || !is_numeric($value['value'])) {
             return;
         }
 
-        $type = $data['type'] ?? NumberOperatorType::TYPE_EQUAL;
+        $type = $value['type'] ?? NumberOperatorType::TYPE_EQUAL;
 
         $operator = $this->getOperator((int) $type);
 
-        $queryBuilder->field($field)->$operator((float) $data['value']);
+        $queryBuilder->field($field)->$operator((float) $value['value']);
         $this->active = true;
     }
 

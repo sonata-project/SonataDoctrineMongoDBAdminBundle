@@ -26,11 +26,11 @@ class CallbackFilter extends Filter
     /**
      * @param string $alias
      * @param string $field
-     * @param string $data
+     * @param string $value
      *
      * @throws \RuntimeException
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {
         if (!\is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf(
@@ -39,10 +39,10 @@ class CallbackFilter extends Filter
             ));
         }
 
-        \call_user_func($this->getOption('callback'), $queryBuilder, $alias, $field, $data);
+        \call_user_func($this->getOption('callback'), $queryBuilder, $alias, $field, $value);
 
         if (\is_callable($this->getOption('active_callback'))) {
-            $this->active = \call_user_func($this->getOption('active_callback'), $data);
+            $this->active = \call_user_func($this->getOption('active_callback'), $value);
 
             return;
         }

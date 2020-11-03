@@ -4,6 +4,12 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
+
+Deprecated passing `null` as argument 2 for `find()`.
+Deprecated passing `null` or an object which is in state new or removed as argument 1 for `getNormalizedIdentifier()`.
+Deprecated passing `null` as argument 1 for `getUrlSafeIdentifier()`.
+
 UPGRADE FROM 3.3 to 3.4
 =======================
 
