@@ -76,8 +76,7 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
     {
         $typeGuess = $this->createStub(TypeGuess::class);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('FakeName');
+        $fieldDescription = new FieldDescription('FakeName');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
 
         $this->admin->expects($this->once())->method('attachAdminClass');
@@ -101,8 +100,7 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
 
     public function testAddFieldWithType(): void
     {
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('FakeName');
+        $fieldDescription = new FieldDescription('FakeName');
 
         $this->admin->expects($this->once())->method('addShowFieldDescription');
 
@@ -125,8 +123,7 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('name');
+        $fieldDescription = new FieldDescription('name');
         $fieldDescription->setType($type);
         $fieldDescription->setMappingType($mappingType);
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
@@ -163,8 +160,7 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
      */
     public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
     {
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('FakeName');
+        $fieldDescription = new FieldDescription('FakeName');
         $fieldDescription->setType($type);
 
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
@@ -183,6 +179,6 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
     public function testFixFieldDescriptionException(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->showBuilder->fixFieldDescription($this->admin, new FieldDescription());
+        $this->showBuilder->fixFieldDescription($this->admin, new FieldDescription('name'));
     }
 }

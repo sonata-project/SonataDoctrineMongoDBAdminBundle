@@ -70,8 +70,7 @@ class ListBuilderTest extends AbstractBuilderTestCase
 
     public function testAddListActionField(): void
     {
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('foo');
+        $fieldDescription = new FieldDescription('foo');
 
         $list = $this->listBuilder->getBaseList();
 
@@ -97,8 +96,7 @@ class ListBuilderTest extends AbstractBuilderTestCase
                 new TypeGuess('actions', [], Guess::LOW_CONFIDENCE)
             );
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('_action');
+        $fieldDescription = new FieldDescription('_action');
 
         $list = $this->listBuilder->getBaseList();
 
@@ -119,8 +117,7 @@ class ListBuilderTest extends AbstractBuilderTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('name');
+        $fieldDescription = new FieldDescription('name');
         $fieldDescription->setOption('sortable', true);
         $fieldDescription->setType('string');
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
@@ -142,8 +139,7 @@ class ListBuilderTest extends AbstractBuilderTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('associatedDocument');
+        $fieldDescription = new FieldDescription('associatedDocument');
         $fieldDescription->setOption('sortable', true);
         $fieldDescription->setType($type);
         $fieldDescription->setMappingType($type);
@@ -184,8 +180,7 @@ class ListBuilderTest extends AbstractBuilderTestCase
     public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
     {
         $this->modelManager->method('hasMetadata')->willReturn(false);
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('test');
+        $fieldDescription = new FieldDescription('test');
         $fieldDescription->setType($type);
 
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
@@ -204,6 +199,6 @@ class ListBuilderTest extends AbstractBuilderTestCase
     public function testFixFieldDescriptionException(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->listBuilder->fixFieldDescription($this->admin, new FieldDescription());
+        $this->listBuilder->fixFieldDescription($this->admin, new FieldDescription('name'));
     }
 }

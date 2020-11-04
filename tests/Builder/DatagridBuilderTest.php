@@ -113,8 +113,7 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('name');
+        $fieldDescription = new FieldDescription('name');
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
         $this->modelManager->method('hasMetadata')->willReturn(true);
@@ -134,8 +133,7 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('associatedDocument');
+        $fieldDescription = new FieldDescription('associatedDocument');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
         $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
@@ -170,8 +168,7 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
             ],
         ], Guess::VERY_HIGH_CONFIDENCE);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('test');
+        $fieldDescription = new FieldDescription('test');
 
         $this->typeGuesser->method('guessType')->willReturn($guessType);
 
@@ -214,8 +211,7 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
 
         $datagrid = $this->createMock(DatagridInterface::class);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName('test');
+        $fieldDescription = new FieldDescription('test');
 
         $this->filterFactory->method('create')->willReturn(new ModelFilter());
 

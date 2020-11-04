@@ -161,9 +161,8 @@ class FormContractorTest extends AbstractBuilderTestCase
         $admin = $this->createMock(AdminInterface::class);
         $admin->method('getModelManager')->willReturn($modelManager);
 
-        $fieldDescription = new FieldDescription();
+        $fieldDescription = new FieldDescription('name');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
-        $fieldDescription->setName('name');
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
@@ -182,9 +181,8 @@ class FormContractorTest extends AbstractBuilderTestCase
         $admin = $this->createMock(AdminInterface::class);
         $admin->method('getModelManager')->willReturn($modelManager);
 
-        $fieldDescription = new FieldDescription();
+        $fieldDescription = new FieldDescription('associatedDocument');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
-        $fieldDescription->setName('associatedDocument');
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
         $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
 
