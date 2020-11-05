@@ -20,11 +20,6 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
  */
 class FieldDescription extends BaseFieldDescription
 {
-    public function __construct()
-    {
-        $this->parentAssociationMappings = [];
-    }
-
     public function setAssociationMapping($associationMapping)
     {
         if (!\is_array($associationMapping)) {

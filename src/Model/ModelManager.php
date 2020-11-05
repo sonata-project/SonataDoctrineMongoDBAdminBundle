@@ -125,9 +125,7 @@ class ModelManager implements ModelManagerInterface
 
         [$metadata, $propertyName, $parentAssociationMappings] = $this->getParentMetadataForProperty($class, $name);
 
-        $fieldDescription = new FieldDescription();
-        $fieldDescription->setName($name);
-        $fieldDescription->setOptions($options);
+        $fieldDescription = new FieldDescription($name, $options);
         $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
         /* @var ClassMetadata */
