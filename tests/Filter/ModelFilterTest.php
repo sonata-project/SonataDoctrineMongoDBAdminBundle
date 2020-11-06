@@ -58,10 +58,18 @@ class ModelFilterTest extends TestCase
         return $fieldDescription;
     }
 
-    public function testFilterEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testFilterEmpty($value): void
     {
         $filter = new ModelFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter->initialize('field_name', [
+            'field_name' => 'field',
+            'field_options' => ['class' => 'FooBar'],
+        ]);
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -70,16 +78,24 @@ class ModelFilterTest extends TestCase
             ->method('field')
         ;
 
-        $filter->filter($builder, 'alias', 'field', null);
-        $filter->filter($builder, 'alias', 'field', []);
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
+    }
+
+    public function getNotApplicableValues(): array
+    {
+        return [
+            [null],
+            [[]],
+        ];
     }
 
     public function testFilterArray(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
+            'field_name' => 'field',
             'field_options' => [
                 'class' => 'FooBar',
             ],
@@ -106,7 +122,7 @@ class ModelFilterTest extends TestCase
             ->with([new ObjectId($oneDocument->getId()), new ObjectId($otherDocument->getId())])
         ;
 
-        $filter->filter($builder, 'alias', 'field', [
+        $filter->apply($builder, [
             'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => [$oneDocument, $otherDocument],
         ]);
@@ -118,6 +134,7 @@ class ModelFilterTest extends TestCase
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
+            'field_name' => 'field',
             'field_options' => [
                 'class' => 'FooBar',
             ],
@@ -143,7 +160,7 @@ class ModelFilterTest extends TestCase
             ->with(new ObjectId($document1->getId()))
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $document1]);
+        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $document1]);
 
         $this->assertTrue($filter->isActive());
     }

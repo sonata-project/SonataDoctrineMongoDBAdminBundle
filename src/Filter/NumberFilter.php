@@ -30,6 +30,9 @@ class NumberFilter extends Filter
         NumberOperatorType::TYPE_LESS_THAN => 'lt',
     ];
 
+    /**
+     * NEXT_MAJOR: Remove $alias parameter.
+     */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
         if (!$value || !\is_array($value) || !\array_key_exists('value', $value) || !is_numeric($value['value'])) {

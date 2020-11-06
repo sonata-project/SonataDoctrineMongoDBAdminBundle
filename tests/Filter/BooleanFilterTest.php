@@ -19,10 +19,14 @@ use Sonata\Form\Type\BooleanType;
 
 class BooleanFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testFilterEmpty($value): void
     {
-        $filter = new BooleanFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -31,57 +35,54 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
             ->method('field')
         ;
 
-        $filter->filter($builder, 'alias', 'field', null);
-        $filter->filter($builder, 'alias', 'field', '');
-        $filter->filter($builder, 'alias', 'field', 'test');
-        $filter->filter($builder, 'alias', 'field', false);
-
-        $filter->filter($builder, 'alias', 'field', []);
-        $filter->filter($builder, 'alias', 'field', [null, 'test']);
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterNo(): void
+    public function getNotApplicableValues(): array
     {
-        $filter = new BooleanFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        return [
+            [null],
+            [''],
+            ['test'],
+            [false],
+            [[]],
+            [[null, 'test']],
+        ];
+    }
+
+    /**
+     * @dataProvider getScalarValues
+     */
+    public function testFilterScalar(bool $equalsReturnValue, int $value): void
+    {
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $builder->getQueryBuilder()
             ->expects($this->once())
             ->method('equals')
-            ->with(false)
+            ->with($equalsReturnValue)
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_NO]);
+        $filter->apply($builder, ['type' => null, 'value' => $value]);
 
         $this->assertTrue($filter->isActive());
     }
 
-    public function testFilterYes(): void
+    public function getScalarValues(): array
     {
-        $filter = new BooleanFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
-
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
-            ->expects($this->once())
-            ->method('equals')
-            ->with(true)
-        ;
-
-        $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => BooleanType::TYPE_YES]);
-
-        $this->assertTrue($filter->isActive());
+        return [
+            [false, BooleanType::TYPE_NO],
+            [true, BooleanType::TYPE_YES],
+        ];
     }
 
     public function testFilterArray(): void
     {
-        $filter = new BooleanFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -91,8 +92,19 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
             ->with([false])
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => null, 'value' => [BooleanType::TYPE_NO]]);
+        $filter->apply($builder, ['type' => null, 'value' => [BooleanType::TYPE_NO]]);
 
         $this->assertTrue($filter->isActive());
+    }
+
+    private function createFilter(): BooleanFilter
+    {
+        $filter = new BooleanFilter();
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'field_options' => ['class' => 'FooBar'],
+        ]);
+
+        return $filter;
     }
 }

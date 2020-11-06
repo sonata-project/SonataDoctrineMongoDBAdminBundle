@@ -19,6 +19,8 @@ use PHPUnit\Framework\TestCase;
 
 abstract class FilterWithQueryBuilderTest extends TestCase
 {
+    protected const DEFAULT_FIELD_NAME = 'field';
+
     private $queryBuilder;
     private $expr;
 
@@ -27,7 +29,7 @@ abstract class FilterWithQueryBuilderTest extends TestCase
         $this->queryBuilder = $this->createMock(Builder::class);
         $this->queryBuilder
             ->method('field')
-            ->with('field')
+            ->with(self::DEFAULT_FIELD_NAME)
             ->willReturnSelf()
         ;
         $this->expr = $this->createMock(Expr::class);

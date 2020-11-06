@@ -20,10 +20,14 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testEmpty($value): void
     {
-        $filter = new DateTimeFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -32,11 +36,18 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
             ->method('field')
         ;
 
-        $filter->filter($builder, 'alias', 'field', null);
-        $filter->filter($builder, 'alias', 'field', '');
-        $filter->filter($builder, 'alias', 'field', []);
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
+    }
+
+    public function getNotApplicableValues(): array
+    {
+        return [
+            [null],
+            [''],
+            [[]],
+        ];
     }
 
     public function testGetType(): void
@@ -49,8 +60,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
      */
     public function testFilter(array $data, string $method): void
     {
-        $filter = new DateTimeFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -60,7 +70,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
             ->with($data['value'] ?? null)
         ;
 
-        $filter->filter($builder, 'alias', 'field', $data);
+        $filter->apply($builder, $data);
 
         $this->assertTrue($filter->isActive());
     }
@@ -77,5 +87,16 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
             [['type' => DateOperatorType::TYPE_NOT_NULL], 'notEqual'],
             [['value' => new \DateTime('now')], 'range'],
         ];
+    }
+
+    private function createFilter(): DateTimeFilter
+    {
+        $filter = new DateTimeFilter();
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'field_options' => ['class' => 'FooBar'],
+        ]);
+
+        return $filter;
     }
 }

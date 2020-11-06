@@ -22,10 +22,18 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 
 class StringFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testEmpty($value): void
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'field_options' => ['class' => 'FooBar'],
+        ]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -34,34 +42,57 @@ class StringFilterTest extends FilterWithQueryBuilderTest
             ->method('field')
         ;
 
-        $filter->filter($builder, 'alias', 'field', null);
-        $filter->filter($builder, 'alias', 'field', '');
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
     }
 
-    public function testContains(): void
+    public function getNotApplicableValues(): array
+    {
+        return [
+            [null],
+            [''],
+        ];
+    }
+
+    /**
+     * @dataProvider getContainsTypes
+     */
+    public function testContains($containsType): void
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', ['format' => '%s']);
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'format' => '%s',
+        ]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $builder->getQueryBuilder()
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('equals')
             ->with(new Regex('asd', 'i'))
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
-        $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => null]);
+        $filter->apply($builder, ['value' => 'asd', 'type' => $containsType]);
         $this->assertTrue($filter->isActive());
+    }
+
+    public function getContainsTypes(): array
+    {
+        return [
+            [ContainsOperatorType::TYPE_CONTAINS],
+            [null],
+        ];
     }
 
     public function testNotContains(): void
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', ['format' => '%s']);
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'format' => '%s',
+        ]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -71,14 +102,17 @@ class StringFilterTest extends FilterWithQueryBuilderTest
             ->with(new Regex('asd', 'i'))
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_NOT_CONTAINS]);
+        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_NOT_CONTAINS]);
         $this->assertTrue($filter->isActive());
     }
 
     public function testEquals(): void
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', ['format' => '%s']);
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'format' => '%s',
+        ]);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -88,7 +122,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
             ->with('asd')
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_EQUAL]);
+        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_EQUAL]);
         $this->assertTrue($filter->isActive());
     }
 
@@ -134,19 +168,22 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     public function testOr(): void
     {
         $filter = new StringFilter();
-        $filter->initialize('field_name', ['format' => '%s']);
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'format' => '%s',
+        ]);
         $filter->setCondition(Filter::CONDITION_OR);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
         $builder->getQueryBuilder()->expects($this->once())->method('addOr');
-        $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
+        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
         $this->assertTrue($filter->isActive());
 
         $filter->setCondition(Filter::CONDITION_AND);
 
         $builder = new ProxyQuery($this->getQueryBuilder());
         $builder->getQueryBuilder()->expects($this->never())->method('addOr');
-        $filter->filter($builder, 'alias', 'field', ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
+        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
         $this->assertTrue($filter->isActive());
     }
 }
