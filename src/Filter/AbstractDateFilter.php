@@ -36,6 +36,9 @@ abstract class AbstractDateFilter extends Filter
      */
     protected $time = false;
 
+    /**
+     * NEXT_MAJOR: Remove $alias parameter.
+     */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
         //check data sanity

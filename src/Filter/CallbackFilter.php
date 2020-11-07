@@ -24,11 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class CallbackFilter extends Filter
 {
     /**
-     * @param string $alias
-     * @param string $field
-     * @param string $value
-     *
-     * @throws \RuntimeException
+     * NEXT_MAJOR: Remove $alias parameter.
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {
@@ -39,6 +35,7 @@ class CallbackFilter extends Filter
             ));
         }
 
+        // NEXT_MAJOR: Remove $alias parameter.
         \call_user_func($this->getOption('callback'), $queryBuilder, $alias, $field, $value);
 
         if (\is_callable($this->getOption('active_callback'))) {

@@ -18,20 +18,24 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
 class CallbackFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterClosureEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testFilterClosureEmpty($value): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
-            'callback' => static function ($builder, $alias, $field, $value) {
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'callback' => static function (): bool {
                 return true;
             },
         ]);
 
-        $filter->filter($builder, 'alias', 'field', false);
-        $filter->filter($builder, 'alias', 'field', 'scalarValue');
-        $filter->filter($builder, 'alias', 'field', ['value' => '']);
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
     }
@@ -42,30 +46,44 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
-            'callback' => static function ($builder, $alias, $field, $value) {
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'callback' => static function (): bool {
                 return true;
             },
         ]);
 
-        $filter->filter($builder, 'alias', 'field', ['value' => 'myValue']);
+        $filter->apply($builder, ['value' => 'myValue']);
 
         $this->assertTrue($filter->isActive());
     }
 
-    public function testFilterMethodEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testFilterMethodEmpty($value): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
             'callback' => [$this, 'customCallback'],
         ]);
 
-        $filter->filter($builder, 'alias', 'field', false);
-        $filter->filter($builder, 'alias', 'field', 'scalarValue');
-        $filter->filter($builder, 'alias', 'field', ['value' => '']);
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
+    }
+
+    public function getNotApplicableValues(): array
+    {
+        return [
+            [false],
+            ['scalarValue'],
+            [['value' => '']],
+        ];
     }
 
     public function testFilterMethodNotEmpty(): void
@@ -74,28 +92,29 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
             'callback' => [$this, 'customCallback'],
         ]);
 
-        $filter->filter($builder, 'alias', 'field', ['value' => 'myValue']);
+        $filter->apply($builder, ['value' => 'myValue']);
 
         $this->assertTrue($filter->isActive());
     }
 
-    public function customCallback($builder, $alias, $field, $value)
+    public function customCallback(): bool
     {
         return true;
     }
 
     public function testFilterException(): void
     {
-        $this->expectException(\RuntimeException::class);
-
         $builder = new ProxyQuery($this->getQueryBuilder());
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', []);
 
-        $filter->filter($builder, 'alias', 'field', 'myValue');
+        $this->expectException(\RuntimeException::class);
+
+        $filter->apply($builder, 'myValue');
     }
 }

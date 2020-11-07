@@ -24,8 +24,7 @@ use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 class StringFilter extends Filter
 {
     /**
-     * @param string $field
-     * @param array  $value
+     * NEXT_MAJOR: Remove $alias parameter.
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {

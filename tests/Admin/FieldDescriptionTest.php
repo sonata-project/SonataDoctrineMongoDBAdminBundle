@@ -24,7 +24,7 @@ class FieldDescriptionTest extends TestCase
 {
     public function testOptions(): void
     {
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setOptions([
             'template' => 'foo',
             'type' => 'bar',
@@ -87,7 +87,7 @@ class FieldDescriptionTest extends TestCase
 
     public function testAssociationMapping(): void
     {
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setAssociationMapping([
             'type' => 'integer',
             'fieldName' => 'position',
@@ -112,7 +112,7 @@ class FieldDescriptionTest extends TestCase
 
     public function testSetName(): void
     {
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setName('New field description name');
 
         $this->assertSame($field->getName(), 'New field description name');
@@ -120,15 +120,14 @@ class FieldDescriptionTest extends TestCase
 
     public function testSetNameSetFieldNameToo(): void
     {
-        $field = new FieldDescription();
-        $field->setName('New field description name');
+        $field = new FieldDescription('New field description name');
 
         $this->assertSame($field->getFieldName(), 'New field description name');
     }
 
     public function testSetNameDoesNotSetFieldNameWhenSetBefore(): void
     {
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setFieldName('field name');
         $field->setName('New field description name');
 
@@ -138,7 +137,7 @@ class FieldDescriptionTest extends TestCase
     public function testGetParent(): void
     {
         $adminMock = $this->createMock(AdminInterface::class);
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setParent($adminMock);
 
         $this->assertSame($adminMock, $field->getParent());
@@ -147,7 +146,7 @@ class FieldDescriptionTest extends TestCase
     public function testGetAdmin(): void
     {
         $adminMock = $this->createMock(AdminInterface::class);
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setAdmin($adminMock);
 
         $this->assertSame($adminMock, $field->getAdmin());
@@ -160,7 +159,7 @@ class FieldDescriptionTest extends TestCase
             ->method('setParentFieldDescription')
             ->with($this->isInstanceOf(FieldDescriptionInterface::class));
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setAssociationAdmin($adminMock);
 
         $this->assertSame($adminMock, $field->getAssociationAdmin());
@@ -173,7 +172,7 @@ class FieldDescriptionTest extends TestCase
             ->method('setParentFieldDescription')
             ->with($this->isInstanceOf(FieldDescriptionInterface::class));
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
 
         $this->assertFalse($field->hasAssociationAdmin());
 
@@ -191,7 +190,7 @@ class FieldDescriptionTest extends TestCase
             }
         };
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setOption('code', 'myMethod');
 
         $this->assertSame($field->getValue($object), 'myMethodValue');
@@ -206,7 +205,7 @@ class FieldDescriptionTest extends TestCase
             }
         };
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
 
         $this->expectException(NoValueException::class);
 
@@ -220,7 +219,7 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setAssociationMapping($assocationMapping);
 
         $this->assertSame($assocationMapping, $field->getAssociationMapping());
@@ -230,7 +229,7 @@ class FieldDescriptionTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setAssociationMapping('test');
     }
 
@@ -238,7 +237,7 @@ class FieldDescriptionTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setFieldMapping('test');
     }
 
@@ -249,7 +248,7 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setFieldMapping($fieldMapping);
 
         $this->assertSame('integer', $field->getType());
@@ -262,7 +261,7 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setFieldMapping($fieldMapping);
 
         $this->assertSame('integer', $field->getMappingType());
@@ -275,7 +274,7 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('position');
         $field->setFieldMapping($fieldMapping);
 
         $this->assertSame('position', $field->getFieldName());
@@ -294,7 +293,7 @@ class FieldDescriptionTest extends TestCase
             'targetDocument' => 'someValue',
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
 
         $this->assertNull($field->getTargetEntity());
 
@@ -311,7 +310,7 @@ class FieldDescriptionTest extends TestCase
             'targetDocument' => 'someValue',
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
 
         $this->assertNull($field->getTargetModel());
 
@@ -328,7 +327,7 @@ class FieldDescriptionTest extends TestCase
             'id' => true,
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setFieldMapping($fieldMapping);
 
         $this->assertTrue($field->isIdentifier());
@@ -342,7 +341,7 @@ class FieldDescriptionTest extends TestCase
             'id' => 'someId',
         ];
 
-        $field = new FieldDescription();
+        $field = new FieldDescription('name');
         $field->setFieldMapping($fieldMapping);
 
         $this->assertSame($fieldMapping, $field->getFieldMapping());

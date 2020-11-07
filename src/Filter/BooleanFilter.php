@@ -24,9 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 class BooleanFilter extends Filter
 {
     /**
-     * @param string $alias
-     * @param string $field
-     * @param mixed  $value
+     * NEXT_MAJOR: Remove $alias parameter.
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {

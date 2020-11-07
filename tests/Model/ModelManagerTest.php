@@ -118,14 +118,9 @@ final class ModelManagerTest extends TestCase
         $datagrid1 = $this->createStub(Datagrid::class);
         $datagrid2 = $this->createStub(Datagrid::class);
 
-        $field1 = new FieldDescription();
-        $field1->setName('field1');
-
-        $field2 = new FieldDescription();
-        $field2->setName('field2');
-
-        $field3 = new FieldDescription();
-        $field3->setName('field3');
+        $field1 = new FieldDescription('field1');
+        $field2 = new FieldDescription('field2');
+        $field3 = new FieldDescription('field3');
         $field3->setOption('sortable', 'field3sortBy');
 
         $datagrid1

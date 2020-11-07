@@ -28,9 +28,7 @@ use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 class ModelFilter extends Filter
 {
     /**
-     * @param string $alias
-     * @param string $field
-     * @param mixed  $value
+     * NEXT_MAJOR: Remove $alias parameter.
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {
@@ -45,8 +43,10 @@ class ModelFilter extends Filter
         $field = $this->getIdentifierField($field);
 
         if (\is_array($value['value'])) {
+            // NEXT_MAJOR: Remove $alias argument.
             $this->handleMultiple($queryBuilder, $alias, $field, $value);
         } else {
+            // NEXT_MAJOR: Remove $alias argument.
             $this->handleScalar($queryBuilder, $alias, $field, $value);
         }
     }
@@ -75,6 +75,8 @@ class ModelFilter extends Filter
     }
 
     /**
+     * NEXT_MAJOR: Remove $alias parameter.
+     *
      * @param string $alias
      * @param string $field
      * @param array  $data
@@ -102,6 +104,8 @@ class ModelFilter extends Filter
     }
 
     /**
+     * NEXT_MAJOR: Remove $alias parameter.
+     *
      * @param string $alias
      * @param string $field
      * @param array  $data

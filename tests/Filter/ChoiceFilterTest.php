@@ -19,10 +19,14 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
 
 class ChoiceFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testFilterEmpty($value): void
     {
-        $filter = new ChoiceFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -31,16 +35,22 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
             ->method('field')
         ;
 
-        $filter->filter($builder, 'alias', 'field', null);
-        $filter->filter($builder, 'alias', 'field', []);
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
     }
 
+    public function getNotApplicableValues(): array
+    {
+        return [
+            [null],
+            [[]],
+        ];
+    }
+
     public function testFilterArray(): void
     {
-        $filter = new ChoiceFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -50,15 +60,14 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
             ->with(['1', '2'])
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]);
+        $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]);
 
         $this->assertTrue($filter->isActive());
     }
 
     public function testFilterScalar(): void
     {
-        $filter = new ChoiceFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -68,15 +77,14 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
             ->with('1')
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']);
+        $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']);
 
         $this->assertTrue($filter->isActive());
     }
 
     public function testFilterZero(): void
     {
-        $filter = new ChoiceFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -86,8 +94,19 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
             ->with('0')
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]);
+        $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]);
 
         $this->assertTrue($filter->isActive());
+    }
+
+    private function createFilter(): ChoiceFilter
+    {
+        $filter = new ChoiceFilter();
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'field_options' => ['class' => 'FooBar'],
+        ]);
+
+        return $filter;
     }
 }

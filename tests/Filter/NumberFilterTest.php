@@ -19,10 +19,14 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 
 class NumberFilterTest extends FilterWithQueryBuilderTest
 {
-    public function testFilterEmpty(): void
+    /**
+     * @param mixed $value
+     *
+     * @dataProvider getNotApplicableValues
+     */
+    public function testFilterEmpty($value): void
     {
-        $filter = new NumberFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -31,16 +35,22 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
             ->method('field')
         ;
 
-        $filter->filter($builder, 'alias', 'field', null);
-        $filter->filter($builder, 'alias', 'field', 'asds');
+        $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
     }
 
+    public function getNotApplicableValues(): array
+    {
+        return [
+            [null],
+            ['scalar'],
+        ];
+    }
+
     public function testFilterInvalidOperator(): void
     {
-        $filter = new NumberFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -49,7 +59,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
             ->method('field')
         ;
 
-        $filter->filter($builder, 'alias', 'field', ['type' => 'foo']);
+        $filter->apply($builder, ['type' => 'foo']);
 
         $this->assertFalse($filter->isActive());
     }
@@ -59,8 +69,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
      */
     public function testFilter(array $data, string $method): void
     {
-        $filter = new NumberFilter();
-        $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
+        $filter = $this->createFilter();
 
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -70,7 +79,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
             ->with($data['value'])
         ;
 
-        $filter->filter($builder, 'alias', 'field', $data);
+        $filter->apply($builder, $data);
 
         $this->assertTrue($filter->isActive());
     }
@@ -85,5 +94,16 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
             [['type' => NumberOperatorType::TYPE_LESS_THAN, 'value' => 42], 'lt'],
             [['value' => 42], 'equals'],
         ];
+    }
+
+    private function createFilter(): NumberFilter
+    {
+        $filter = new NumberFilter();
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'field_options' => ['class' => 'FooBar'],
+        ]);
+
+        return $filter;
     }
 }
