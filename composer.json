@@ -47,13 +47,14 @@
     "require-dev": {
         "doctrine/annotations": "^1.10",
         "doctrine/data-fixtures": "^1.4",
+        "matthiasnoback/symfony-config-test": "^4.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpstan/phpstan": "^0.12.52",
         "symfony/browser-kit": "^4.4 || ^5.1",
         "symfony/css-selector": "^4.4 || ^5.1",
         "symfony/panther": "^0.7.1",
-        "symfony/phpunit-bridge": "^5.1.1",
-        "vimeo/psalm": "^3.17"
+        "symfony/phpunit-bridge": "^5.1.8",
+        "vimeo/psalm": "^4.1.1"
     },
     "suggest": {
         "alcaeus/mongo-php-adapter": "Allows usage of PHP 7"
