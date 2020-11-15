@@ -66,6 +66,8 @@ final class ModelManagerTest extends TestCase
     }
 
     /**
+     * NEXT_MAJOR: Remove this test.
+     *
      * @dataProvider getWrongDocuments
      *
      * @param mixed $document
@@ -79,6 +81,9 @@ final class ModelManagerTest extends TestCase
         $manager->getNormalizedIdentifier($document);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     */
     public function getWrongDocuments(): iterable
     {
         yield [0];

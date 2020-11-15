@@ -55,6 +55,7 @@ class ModelFilter extends Filter
     {
         return [
             'mapping_type' => false,
+            // NEXT_MAJOR: Remove this line.
             'field_name' => false,
             'field_type' => DocumentType::class,
             'field_options' => [],
