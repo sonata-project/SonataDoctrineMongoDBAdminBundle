@@ -82,7 +82,7 @@ class FilterTypeGuesserTest extends TestCase
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
-        $this->assertFalse($result);
+        $this->assertNull($result);
     }
 
     public function testGuessTypeWithAssociation(): void
