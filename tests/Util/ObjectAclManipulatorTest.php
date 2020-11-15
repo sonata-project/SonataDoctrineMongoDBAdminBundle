@@ -43,7 +43,7 @@ class ObjectAclManipulatorTest extends TestCase
         $admin = $this->createStub(AdminInterface::class);
         $admin
             ->method('getSecurityHandler')
-            ->willReturn($this->createStub(NoopSecurityHandler::class));
+            ->willReturn(new NoopSecurityHandler());
 
         $objectAclManipulator = new ObjectAclManipulator($this->createStub(ManagerRegistry::class));
 
