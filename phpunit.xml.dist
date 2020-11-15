@@ -21,11 +21,11 @@
         <extension class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
 
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory suffix=".php">./src/</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
 
     <php>
         <ini name="precision" value="8" />
