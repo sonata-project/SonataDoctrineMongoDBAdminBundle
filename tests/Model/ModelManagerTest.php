@@ -33,6 +33,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AbstractDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AssociatedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ContainerDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\EmbeddedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ProtectedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
@@ -63,6 +64,36 @@ final class ModelManagerTest extends TestCase
 
         $this->registry = $this->createStub(ManagerRegistry::class);
         $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
+    }
+
+    public function testGetIdentifierFieldNames(): void
+    {
+        $dm = $this->createStub(DocumentManager::class);
+
+        $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
+
+        $this->registry
+            ->method('getManagerForClass')
+            ->willReturn($dm);
+
+        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
+
+        $dm
+            ->method('getMetadataFactory')
+            ->willReturn($metadataFactory);
+
+        $documentWithReferencesClass = DocumentWithReferences::class;
+
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass);
+
+        $metadataFactory->method('getMetadataFor')
+            ->willReturnMap(
+                [
+                    [$documentWithReferencesClass, $classMetadata],
+                ]
+            );
+
+        $this->assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
     }
 
     /**
