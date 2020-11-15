@@ -41,7 +41,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
         if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager)) {
-            return false;
+            return null;
         }
 
         $options = [

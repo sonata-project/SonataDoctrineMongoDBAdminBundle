@@ -4,6 +4,11 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser
+
+`TypeGuesser::guessType()` returns `null` instead of `false` when there is no metadata found for the property
+respecting `TypeGuesserInterface::guessType()`.
+
 ### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
 
 Deprecated passing `null` as argument 2 for `find()`.
