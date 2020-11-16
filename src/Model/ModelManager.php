@@ -88,11 +88,13 @@ class ModelManager implements ModelManagerInterface
      * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
      *                                 property string)
      *
-     * @return array(
-     *                \Doctrine\ODM\MongoDB\Mapping\ClassMetadata $parentMetadata,
-     *                string $lastPropertyName,
-     *                array $parentAssociationMappings
-     *                )
+     * @return array
+     *
+     * @phpstan-return array{
+     *      \Doctrine\ODM\MongoDB\Mapping\ClassMetadata,
+     *      string,
+     *      array
+     * }
      */
     public function getParentMetadataForProperty($baseClass, $propertyFullName)
     {
