@@ -62,9 +62,6 @@ class StringFilter extends Filter
         $this->active = true;
     }
 
-    /**
-     * @return array
-     */
     public function getDefaultOptions()
     {
         return [];

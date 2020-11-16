@@ -62,9 +62,6 @@ class BooleanFilter extends Filter
         }
     }
 
-    /**
-     * @return array
-     */
     public function getDefaultOptions()
     {
         return [];

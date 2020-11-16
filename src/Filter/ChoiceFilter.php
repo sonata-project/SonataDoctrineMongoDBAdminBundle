@@ -65,9 +65,6 @@ class ChoiceFilter extends Filter
         }
     }
 
-    /**
-     * @return array
-     */
     public function getDefaultOptions()
     {
         return [];
