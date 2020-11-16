@@ -317,11 +317,22 @@ final class ModelManagerTest extends TestCase
         $this->assertTrue($collection->isEmpty());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testModelTransform(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $instance = new \stdClass();
+
+        $this->expectDeprecation(sprintf(
+            'Method %s::modelTransform() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            ModelManager::class
+        ));
+
         $result = $model->modelTransform('thisIsNotUsed', $instance);
 
         $this->assertSame($instance, $result);

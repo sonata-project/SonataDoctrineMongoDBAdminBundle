@@ -302,8 +302,18 @@ class ModelManager implements ModelManagerInterface
         return $query->execute();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getModelIdentifier($class)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $this->getMetadata($class)->identifier;
     }
 
@@ -482,8 +492,18 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getDefaultSortValues($class)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return [
             '_sort_order' => 'ASC',
             '_sort_by' => $this->getModelIdentifier($class),
@@ -492,13 +512,33 @@ class ModelManager implements ModelManagerInterface
         ];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getDefaultPerPageOptions(string $class): array
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return [10, 25, 50, 100, 250];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function modelTransform($class, $instance)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $instance;
     }
 
