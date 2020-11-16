@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.1.1@16bfbd9224698bd738c665f33039fade2a1a3977">
+    <!-- NEXT_MAJOR: Remove all issues from here -->
+    <file src="src/Filter/Filter.php">
+        <NullArgument occurrences="1">
+            <code>null</code>
+        </NullArgument>
+    </file>
+    <file src="src/Model/ModelManager.php">
+        <InvalidArgument occurrences="1">
+            <code>$parentAssociationMapping</code>
+        </InvalidArgument>
+        <InvalidArrayOffset occurrences="1">
+            <code>$metadata-&gt;associationMappings[$parentAssociationMapping]</code>
+        </InvalidArrayOffset>
+        <InvalidMethodCall occurrences="4">
+            <code>add</code>
+            <code>clear</code>
+            <code>contains</code>
+            <code>removeElement</code>
+        </InvalidMethodCall>
+        <InvalidReturnStatement occurrences="1">
+            <code>$instance</code>
+        </InvalidReturnStatement>
+        <InvalidReturnType occurrences="1">
+            <code>modelTransform</code>
+        </InvalidReturnType>
+    </file>
+    <!-- NEXT_MAJOR: Remove all issues until here -->
+</files>
