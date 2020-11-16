@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Form\Type\ModelTypeList;
+use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -54,8 +55,12 @@ class FormContractor implements FormContractorInterface
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
-        if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
+        $modelManager = $admin->getModelManager();
+
+        \assert($modelManager instanceof ModelManager);
+
+        if ($modelManager->hasMetadata($admin->getClass())) {
+            $metadata = $modelManager->getMetadata($admin->getClass());
 
             // set the default field mapping
             if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {

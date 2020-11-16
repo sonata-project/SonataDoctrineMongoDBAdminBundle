@@ -22,6 +22,7 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
+use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -71,8 +72,12 @@ class DatagridBuilder implements DatagridBuilderInterface
         // set default values
         $fieldDescription->setAdmin($admin);
 
-        if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+        $modelManager = $admin->getModelManager();
+
+        \assert($modelManager instanceof ModelManager);
+
+        if ($modelManager->hasMetadata($admin->getClass())) {
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $modelManager->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
 
             // set the default field mapping
             if (isset($metadata->fieldMappings[$lastPropertyName])) {

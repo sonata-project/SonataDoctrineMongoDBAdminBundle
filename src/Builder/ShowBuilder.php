@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
@@ -65,8 +66,12 @@ class ShowBuilder implements ShowBuilderInterface
     {
         $fieldDescription->setAdmin($admin);
 
-        if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            [$metadata, $lastPropertyName, $parentAssociationMappings] = $admin->getModelManager()->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+        $modelManager = $admin->getModelManager();
+
+        \assert($modelManager instanceof ModelManager);
+
+        if ($modelManager->hasMetadata($admin->getClass())) {
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $modelManager->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
             $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
             // set the default field mapping
