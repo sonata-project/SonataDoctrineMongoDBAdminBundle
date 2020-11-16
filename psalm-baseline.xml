@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.1.1@16bfbd9224698bd738c665f33039fade2a1a3977">
-    <!-- NEXT_MAJOR: Remove all issues from here -->
+    <!-- NEXT_MAJOR: Remove this error -->
+    <file src="src/Datagrid/ProxyQuery.php">
+        <ImplementedReturnTypeMismatch occurrences="2">
+            <code>void</code>
+            <code>void</code>
+        </ImplementedReturnTypeMismatch>
+    </file>
+    <!-- NEXT_MAJOR: Remove this error -->
     <file src="src/Filter/Filter.php">
         <NullArgument occurrences="1">
             <code>null</code>
         </NullArgument>
     </file>
+    <!-- NEXT_MAJOR: Remove this error -->
     <file src="src/Model/ModelManager.php">
         <InvalidArgument occurrences="1">
             <code>$parentAssociationMapping</code>
@@ -19,12 +27,23 @@
             <code>contains</code>
             <code>removeElement</code>
         </InvalidMethodCall>
+        <!-- These will be solved after a release of sonata-project/admin-bundle with https://github.com/sonata-project/SonataAdminBundle/pull/6600 -->
+        <InvalidNullableReturnType occurrences="3">
+            <code>getModelIdentifier</code>
+            <code>getNormalizedIdentifier</code>
+            <code>getUrlSafeIdentifier</code>
+        </InvalidNullableReturnType>
         <InvalidReturnStatement occurrences="1">
             <code>$instance</code>
         </InvalidReturnStatement>
         <InvalidReturnType occurrences="1">
             <code>modelTransform</code>
         </InvalidReturnType>
+        <NullableReturnStatement occurrences="4">
+            <code>$this-&gt;getMetadata($class)-&gt;identifier</code>
+            <code>null</code>
+            <code>null</code>
+            <code>null</code>
+        </NullableReturnStatement>
     </file>
-    <!-- NEXT_MAJOR: Remove all issues until here -->
 </files>
