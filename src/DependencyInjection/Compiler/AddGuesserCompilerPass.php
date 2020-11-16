@@ -24,6 +24,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddGuesserCompilerPass implements CompilerPassInterface
 {
+    /**
+     * @return void
+     */
     public function process(ContainerBuilder $container)
     {
         $this->addGuessersToBuilder(

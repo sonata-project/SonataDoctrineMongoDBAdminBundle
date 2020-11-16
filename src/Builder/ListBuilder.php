@@ -40,6 +40,9 @@ class ListBuilder implements ListBuilderInterface
         return new FieldDescriptionCollection();
     }
 
+    /**
+     * @return void
+     */
     public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if (null === $type) {
@@ -52,6 +55,9 @@ class ListBuilder implements ListBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
     }
 
+    /**
+     * @return void
+     */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         $this->buildField($type, $fieldDescription, $admin);
@@ -60,6 +66,9 @@ class ListBuilder implements ListBuilderInterface
         $list->add($fieldDescription);
     }
 
+    /**
+     * @return void
+     */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
         if ('_action' === $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {

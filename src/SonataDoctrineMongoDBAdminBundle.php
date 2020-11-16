@@ -23,6 +23,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SonataDoctrineMongoDBAdminBundle extends Bundle
 {
+    /**
+     * @return void
+     */
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new AddGuesserCompilerPass());

@@ -38,6 +38,8 @@ abstract class AbstractDateFilter extends Filter
 
     /**
      * NEXT_MAJOR: Remove $alias parameter.
+     *
+     * @return void
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
@@ -118,16 +120,27 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
+    /**
+     * @return void
+     */
     abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
+    /**
+     * @return void
+     */
     abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
+    /**
+     * @return void
+     */
     abstract protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
     /**
      * @param string    $operation
      * @param string    $field
      * @param \DateTime $datetime
+     *
+     * @return void
      */
     protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, ?\DateTime $datetime = null)
     {

@@ -43,6 +43,9 @@ class Pager extends BasePager
         return $this->getQuery()->execute();
     }
 
+    /**
+     * @return void
+     */
     public function init()
     {
         $this->resetIterator();
