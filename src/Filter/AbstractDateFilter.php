@@ -49,7 +49,7 @@ abstract class AbstractDateFilter extends Filter
         }
 
         //default type for simple filter
-        $value['type'] = !isset($value['type']) || !is_numeric($value['type']) ? DateOperatorType::TYPE_EQUAL : $value['type'];
+        $value['type'] = !isset($value['type']) || !is_numeric($value['type']) ? DateOperatorType::TYPE_EQUAL : (int) $value['type'];
 
         // Some types do not require a value to be set (NULL, NOT NULL).
         if (!isset($value['value']) && $this->typeDoesRequireValue($value['type'])) {
