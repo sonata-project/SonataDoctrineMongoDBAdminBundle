@@ -23,6 +23,8 @@ abstract class BasePantherTestCase extends PantherTestCase
     {
         return static::createPantherClient([
             'browser' => PantherTestCase::FIREFOX,
+            'connection_timeout_in_ms' => 5000,
+            'request_timeout_in_ms' => 60000,
         ]);
     }
 
