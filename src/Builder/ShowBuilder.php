@@ -40,6 +40,9 @@ class ShowBuilder implements ShowBuilderInterface
         return new FieldDescriptionCollection();
     }
 
+    /**
+     * @return void
+     */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if (null === $type) {
@@ -56,7 +59,7 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * The method defines the correct default settings for the provided FieldDescription.
+     * @return void
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {

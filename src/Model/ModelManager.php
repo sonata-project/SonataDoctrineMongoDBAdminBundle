@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
@@ -69,9 +70,18 @@ class ModelManager implements ModelManagerInterface
         $this->propertyAccessor = $propertyAccessor;
     }
 
+    /**
+     * @param string $class
+     *
+     * @return MongoDBClassMetadata
+     */
     public function getMetadata($class)
     {
-        return $this->getDocumentManager($class)->getMetadataFactory()->getMetadataFor($class);
+        $metadata = $this->getDocumentManager($class)->getMetadataFactory()->getMetadataFor($class);
+
+        \assert($metadata instanceof MongoDBClassMetadata);
+
+        return $metadata;
     }
 
     /**
@@ -104,6 +114,9 @@ class ModelManager implements ModelManagerInterface
         return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
     }
 
+    /**
+     * @return bool
+     */
     public function hasMetadata($class)
     {
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
@@ -140,6 +153,9 @@ class ModelManager implements ModelManagerInterface
         return $fieldDescription;
     }
 
+    /**
+     * @return void
+     */
     public function create($object)
     {
         $documentManager = $this->getDocumentManager($object);
@@ -147,6 +163,9 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
+    /**
+     * @return void
+     */
     public function update($object)
     {
         $documentManager = $this->getDocumentManager($object);
@@ -154,6 +173,9 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
+    /**
+     * @return void
+     */
     public function delete($object)
     {
         $documentManager = $this->getDocumentManager($object);
@@ -338,12 +360,18 @@ class ModelManager implements ModelManagerInterface
         return $this->getNormalizedIdentifier($document);
     }
 
+    /**
+     * @return void
+     */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $query, array $idx)
     {
         $queryBuilder = $query->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
     }
 
+    /**
+     * @return void
+     */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
         /** @var Query $queryBuilder */
@@ -582,7 +610,7 @@ class ModelManager implements ModelManagerInterface
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }
 
-    private function getFieldName(ClassMetadata $metadata, string $name): string
+    private function getFieldName(MongoDBClassMetadata $metadata, string $name): string
     {
         if (\array_key_exists($name, $metadata->fieldMappings)) {
             return $metadata->fieldMappings[$name]['fieldName'];

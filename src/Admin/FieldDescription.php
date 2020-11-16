@@ -20,6 +20,9 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
  */
 class FieldDescription extends BaseFieldDescription
 {
+    /**
+     * @return void
+     */
     public function setAssociationMapping($associationMapping)
     {
         if (!\is_array($associationMapping)) {
@@ -59,6 +62,9 @@ class FieldDescription extends BaseFieldDescription
         return null;
     }
 
+    /**
+     * @return void
+     */
     public function setFieldMapping($fieldMapping)
     {
         if (!\is_array($fieldMapping)) {
@@ -72,6 +78,9 @@ class FieldDescription extends BaseFieldDescription
         $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
+    /**
+     * @return void
+     */
     public function setParentAssociationMappings(array $parentAssociationMappings)
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {

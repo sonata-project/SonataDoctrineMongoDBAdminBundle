@@ -63,6 +63,9 @@ class DatagridBuilder implements DatagridBuilderInterface
         $this->csrfTokenEnabled = $csrfTokenEnabled;
     }
 
+    /**
+     * @return void
+     */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
         // set default values
@@ -96,6 +99,9 @@ class DatagridBuilder implements DatagridBuilderInterface
         }
     }
 
+    /**
+     * @return void
+     */
     public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if (null === $type) {

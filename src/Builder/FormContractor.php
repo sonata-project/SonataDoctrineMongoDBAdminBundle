@@ -49,6 +49,9 @@ class FormContractor implements FormContractorInterface
         $this->formFactory = $formFactory;
     }
 
+    /**
+     * @return void
+     */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
