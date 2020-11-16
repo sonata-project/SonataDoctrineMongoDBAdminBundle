@@ -77,11 +77,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getMetadata($class)
     {
-        $metadata = $this->getDocumentManager($class)->getMetadataFactory()->getMetadataFor($class);
-
-        \assert($metadata instanceof MongoDBClassMetadata);
-
-        return $metadata;
+        return $this->getDocumentManager($class)->getClassMetadata($class);
     }
 
     /**

@@ -20,7 +20,6 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
-use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
@@ -76,22 +75,12 @@ final class ModelManagerTest extends TestCase
             ->method('getManagerForClass')
             ->willReturn($dm);
 
-        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
-
-        $dm
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-
         $documentWithReferencesClass = DocumentWithReferences::class;
 
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass);
-
-        $metadataFactory->method('getMetadataFor')
-            ->willReturnMap(
-                [
-                    [$documentWithReferencesClass, $classMetadata],
-                ]
-            );
+        $dm
+            ->method('getClassMetadata')
+            ->with(DocumentWithReferences::class)
+            ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
 
         $this->assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
     }
@@ -204,17 +193,12 @@ final class ModelManagerTest extends TestCase
             ->method('getManagerForClass')
             ->willReturn($dm);
 
-        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
-
-        $dm
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-
         $containerDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($containerDocumentClass);
         $associatedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($associatedDocumentClass);
         $embeddedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($embeddedDocumentClass);
 
-        $metadataFactory->method('getMetadataFor')
+        $dm
+            ->method('getClassMetadata')
             ->willReturnMap(
                 [
                     [$containerDocumentClass, $containerDocumentMetadata],
@@ -430,21 +414,13 @@ final class ModelManagerTest extends TestCase
             ->method('getManagerForClass')
             ->willReturn($dm);
 
-        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
-
-        $dm
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-
         $containerDocumentClass = ContainerDocument::class;
         $containerDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($containerDocumentClass);
 
-        $metadataFactory->method('getMetadataFor')
-            ->willReturnMap(
-                [
-                    [$containerDocumentClass, $containerDocumentMetadata],
-                ]
-            );
+        $dm
+            ->method('getClassMetadata')
+            ->with($containerDocumentClass)
+            ->willReturn($containerDocumentMetadata);
 
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
@@ -497,17 +473,13 @@ final class ModelManagerTest extends TestCase
 
     private function createModelManagerForClass(string $class): ModelManager
     {
-        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
         $modelManager = $this->createMock(ObjectManager::class);
         $registry = $this->createMock(ManagerRegistry::class);
 
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($class);
 
         $modelManager->expects($this->once())
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-        $metadataFactory->expects($this->once())
-            ->method('getMetadataFor')
+            ->method('getClassMetadata')
             ->with($class)
             ->willReturn($classMetadata);
         $registry->expects($this->once())
