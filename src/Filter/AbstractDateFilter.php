@@ -139,8 +139,6 @@ abstract class AbstractDateFilter extends Filter
      * @param string    $operation
      * @param string    $field
      * @param \DateTime $datetime
-     *
-     * @return void
      */
     protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, ?\DateTime $datetime = null): void
     {

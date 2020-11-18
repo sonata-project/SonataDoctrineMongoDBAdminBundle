@@ -59,9 +59,6 @@ class ShowBuilder implements ShowBuilderInterface
         $list->add($fieldDescription);
     }
 
-    /**
-     * @return void
-     */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {
         $fieldDescription->setAdmin($admin);
