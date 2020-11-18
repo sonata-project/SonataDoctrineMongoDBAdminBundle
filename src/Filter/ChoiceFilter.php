@@ -25,6 +25,8 @@ class ChoiceFilter extends Filter
 {
     /**
      * NEXT_MAJOR: Remove $alias parameter.
+     *
+     * @return void
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {
@@ -59,9 +61,6 @@ class ChoiceFilter extends Filter
         }
     }
 
-    /**
-     * @return array
-     */
     public function getDefaultOptions()
     {
         return [];

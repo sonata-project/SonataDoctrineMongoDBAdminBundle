@@ -29,6 +29,8 @@ class ModelFilter extends Filter
 {
     /**
      * NEXT_MAJOR: Remove $alias parameter.
+     *
+     * @return void
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
     {

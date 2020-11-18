@@ -19,6 +19,9 @@ use Sonata\AdminBundle\Filter\Filter as BaseFilter;
 
 abstract class Filter extends BaseFilter
 {
+    /**
+     * @var bool
+     */
     protected $active = false;
 
     public function apply($query, $value): void

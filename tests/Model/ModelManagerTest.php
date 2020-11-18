@@ -20,7 +20,6 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
-use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
@@ -33,6 +32,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AbstractDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AssociatedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ContainerDocument;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\EmbeddedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ProtectedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
@@ -63,6 +63,26 @@ final class ModelManagerTest extends TestCase
 
         $this->registry = $this->createStub(ManagerRegistry::class);
         $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
+    }
+
+    public function testGetIdentifierFieldNames(): void
+    {
+        $dm = $this->createStub(DocumentManager::class);
+
+        $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
+
+        $this->registry
+            ->method('getManagerForClass')
+            ->willReturn($dm);
+
+        $documentWithReferencesClass = DocumentWithReferences::class;
+
+        $dm
+            ->method('getClassMetadata')
+            ->with(DocumentWithReferences::class)
+            ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
+
+        $this->assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
     }
 
     /**
@@ -173,17 +193,12 @@ final class ModelManagerTest extends TestCase
             ->method('getManagerForClass')
             ->willReturn($dm);
 
-        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
-
-        $dm
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-
         $containerDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($containerDocumentClass);
         $associatedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($associatedDocumentClass);
         $embeddedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($embeddedDocumentClass);
 
-        $metadataFactory->method('getMetadataFor')
+        $dm
+            ->method('getClassMetadata')
             ->willReturnMap(
                 [
                     [$containerDocumentClass, $containerDocumentMetadata],
@@ -286,11 +301,22 @@ final class ModelManagerTest extends TestCase
         $this->assertTrue($collection->isEmpty());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testModelTransform(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $instance = new \stdClass();
+
+        $this->expectDeprecation(sprintf(
+            'Method %s::modelTransform() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            ModelManager::class
+        ));
+
         $result = $model->modelTransform('thisIsNotUsed', $instance);
 
         $this->assertSame($instance, $result);
@@ -388,21 +414,13 @@ final class ModelManagerTest extends TestCase
             ->method('getManagerForClass')
             ->willReturn($dm);
 
-        $metadataFactory = $this->createStub(ClassMetadataFactory::class);
-
-        $dm
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-
         $containerDocumentClass = ContainerDocument::class;
         $containerDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($containerDocumentClass);
 
-        $metadataFactory->method('getMetadataFor')
-            ->willReturnMap(
-                [
-                    [$containerDocumentClass, $containerDocumentMetadata],
-                ]
-            );
+        $dm
+            ->method('getClassMetadata')
+            ->with($containerDocumentClass)
+            ->willReturn($containerDocumentMetadata);
 
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
@@ -455,17 +473,13 @@ final class ModelManagerTest extends TestCase
 
     private function createModelManagerForClass(string $class): ModelManager
     {
-        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
         $modelManager = $this->createMock(ObjectManager::class);
         $registry = $this->createMock(ManagerRegistry::class);
 
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($class);
 
         $modelManager->expects($this->once())
-            ->method('getMetadataFactory')
-            ->willReturn($metadataFactory);
-        $metadataFactory->expects($this->once())
-            ->method('getMetadataFor')
+            ->method('getClassMetadata')
             ->with($class)
             ->willReturn($classMetadata);
         $registry->expects($this->once())

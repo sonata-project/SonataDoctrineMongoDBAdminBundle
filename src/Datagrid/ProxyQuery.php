@@ -29,7 +29,7 @@ class ProxyQuery implements ProxyQueryInterface
     protected $queryBuilder;
 
     /**
-     * @var array
+     * @var string|null
      */
     protected $sortBy;
 
@@ -160,6 +160,8 @@ class ProxyQuery implements ProxyQueryInterface
      * NEXT_MAJOR: Remove this method.
      *
      * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.5 and will be removed in version 4.0.
+     *
+     * @return void
      */
     public function getUniqueParameterId()
     {
@@ -170,6 +172,8 @@ class ProxyQuery implements ProxyQueryInterface
      * NEXT_MAJOR: Remove this method.
      *
      * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.5 and will be removed in version 4.0.
+     *
+     * @return void
      */
     public function entityJoin(array $associationMappings)
     {

@@ -118,7 +118,7 @@ class FormContractorTest extends AbstractBuilderTestCase
             $this->assertTrue($options['modifiable']);
             $this->assertSame($fieldDescription, $options['type_options']['sonata_field_description']);
             $this->assertSame($modelClass, $options['type_options']['data_class']);
-            $this->assertFalse($options['type_options']['by_reference']);
+            $this->assertFalse($options['type_options']['collection_by_reference']);
         }
     }
 

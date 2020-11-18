@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
@@ -69,9 +70,14 @@ class ModelManager implements ModelManagerInterface
         $this->propertyAccessor = $propertyAccessor;
     }
 
+    /**
+     * @param string $class
+     *
+     * @return MongoDBClassMetadata
+     */
     public function getMetadata($class)
     {
-        return $this->getDocumentManager($class)->getMetadataFactory()->getMetadataFor($class);
+        return $this->getDocumentManager($class)->getClassMetadata($class);
     }
 
     /**
@@ -82,11 +88,13 @@ class ModelManager implements ModelManagerInterface
      * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
      *                                 property string)
      *
-     * @return array(
-     *                \Doctrine\ODM\MongoDB\Mapping\ClassMetadata $parentMetadata,
-     *                string $lastPropertyName,
-     *                array $parentAssociationMappings
-     *                )
+     * @return array
+     *
+     * @phpstan-return array{
+     *      \Doctrine\ODM\MongoDB\Mapping\ClassMetadata,
+     *      string,
+     *      array
+     * }
      */
     public function getParentMetadataForProperty($baseClass, $propertyFullName)
     {
@@ -104,6 +112,9 @@ class ModelManager implements ModelManagerInterface
         return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
     }
 
+    /**
+     * @return bool
+     */
     public function hasMetadata($class)
     {
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
@@ -280,8 +291,18 @@ class ModelManager implements ModelManagerInterface
         return $query->execute();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getModelIdentifier($class)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $this->getMetadata($class)->identifier;
     }
 
@@ -292,7 +313,7 @@ class ModelManager implements ModelManagerInterface
 
     public function getIdentifierFieldNames($class)
     {
-        return [$this->getMetadata($class)->getIdentifier()];
+        return $this->getMetadata($class)->getIdentifier();
     }
 
     public function getNormalizedIdentifier($document)
@@ -454,21 +475,51 @@ class ModelManager implements ModelManagerInterface
         return ['filter' => $values];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getDefaultSortValues($class)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return [
             '_page' => 1,
             '_per_page' => 25,
         ];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getDefaultPerPageOptions(string $class): array
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return [10, 25, 50, 100, 250];
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function modelTransform($class, $instance)
     {
+        @trigger_error(sprintf(
+            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
+
         return $instance;
     }
 
@@ -580,7 +631,7 @@ class ModelManager implements ModelManagerInterface
         return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }
 
-    private function getFieldName(ClassMetadata $metadata, string $name): string
+    private function getFieldName(MongoDBClassMetadata $metadata, string $name): string
     {
         if (\array_key_exists($name, $metadata->fieldMappings)) {
             return $metadata->fieldMappings[$name]['fieldName'];

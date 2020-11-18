@@ -38,6 +38,8 @@ abstract class AbstractDateFilter extends Filter
 
     /**
      * NEXT_MAJOR: Remove $alias parameter.
+     *
+     * @return void
      */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
     {
@@ -47,7 +49,7 @@ abstract class AbstractDateFilter extends Filter
         }
 
         //default type for simple filter
-        $value['type'] = !isset($value['type']) || !is_numeric($value['type']) ? DateOperatorType::TYPE_EQUAL : $value['type'];
+        $value['type'] = !isset($value['type']) || !is_numeric($value['type']) ? DateOperatorType::TYPE_EQUAL : (int) $value['type'];
 
         // Some types do not require a value to be set (NULL, NOT NULL).
         if (!isset($value['value']) && $this->typeDoesRequireValue($value['type'])) {
@@ -118,16 +120,27 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
+    /**
+     * @return void
+     */
     abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
+    /**
+     * @return void
+     */
     abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
+    /**
+     * @return void
+     */
     abstract protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
 
     /**
      * @param string    $operation
      * @param string    $field
      * @param \DateTime $datetime
+     *
+     * @return void
      */
     protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, ?\DateTime $datetime = null): void
     {
