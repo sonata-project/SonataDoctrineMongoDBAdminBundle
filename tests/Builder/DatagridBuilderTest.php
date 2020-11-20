@@ -92,7 +92,7 @@ final class DatagridBuilderTest extends AbstractBuilderTestCase
     public function testGetBaseDatagrid(): void
     {
         $proxyQuery = $this->createStub(ProxyQueryInterface::class);
-        $fieldDescription = $this->createStub(FieldDescriptionCollection::class);
+        $fieldDescription = new FieldDescriptionCollection();
         $formBuilder = $this->createStub(FormBuilderInterface::class);
 
         $this->admin->method('createQuery')->willReturn($proxyQuery);

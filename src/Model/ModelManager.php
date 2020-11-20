@@ -279,7 +279,7 @@ class ModelManager implements ModelManagerInterface
             return $query->execute();
         }
 
-        // NEXT_MAJOR: Throw an InvalidArgumentException instead.
+        // NEXT_MAJOR: Remove this trigger_error and uncomment the exception.
         @trigger_error(sprintf(
             'Passing other type than "%s" or %s as argument 1 for "%s()" is deprecated since'
             .' sonata-project/doctrine-mongodb-admin-bundle 3.5 and will throw an exception in 4.0.',
@@ -288,6 +288,13 @@ class ModelManager implements ModelManagerInterface
             __METHOD__
         ), E_USER_DEPRECATED);
 
+        //throw new \InvalidArgumentException(sprintf(
+        //    '$query must be be an instance of "%s" or "%s"',
+        //    Builder::class,
+        //    ProxyQuery::class
+        //));
+
+        // NEXT_MAJOR: Remove this line.
         return $query->execute();
     }
 

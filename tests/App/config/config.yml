@@ -15,10 +15,6 @@ twig:
     exception_controller: null
     strict_variables: false
 
-sonata_admin:
-    options:
-        legacy_twig_text_extension: false
-
 doctrine_mongodb:
     connections:
         default:

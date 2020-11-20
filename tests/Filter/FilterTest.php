@@ -80,6 +80,7 @@ class FilterTest extends TestCase
 
     public function testExceptionOnEmptyFieldName(): void
     {
+        // NEXT_MAJOR: Replace \RuntimeException with \LoginException.
         $this->expectException(\RuntimeException::class);
 
         $filter = new FilterTest_Filter();

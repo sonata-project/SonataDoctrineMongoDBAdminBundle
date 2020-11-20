@@ -24,7 +24,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentForAcl;
 use Sonata\DoctrineMongoDBAdminBundle\Util\ObjectAclManipulator;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Security\Acl\Model\AclInterface;
+use Symfony\Component\Security\Acl\Model\MutableAclInterface;
 
 class ObjectAclManipulatorTest extends TestCase
 {
@@ -43,7 +43,7 @@ class ObjectAclManipulatorTest extends TestCase
         $admin = $this->createStub(AdminInterface::class);
         $admin
             ->method('getSecurityHandler')
-            ->willReturn($this->createStub(NoopSecurityHandler::class));
+            ->willReturn(new NoopSecurityHandler());
 
         $objectAclManipulator = new ObjectAclManipulator($this->createStub(ManagerRegistry::class));
 
@@ -70,7 +70,7 @@ class ObjectAclManipulatorTest extends TestCase
 
         $aclSecurityHandler
             ->method('createAcl')
-            ->willReturn($this->createStub(AclInterface::class));
+            ->willReturn($this->createStub(MutableAclInterface::class));
 
         $admin = $this->createStub(AdminInterface::class);
         $admin
