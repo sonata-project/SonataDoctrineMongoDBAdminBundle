@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
@@ -26,6 +25,7 @@ use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
+use Sonata\Exporter\Source\SourceIteratorInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -120,12 +120,8 @@ class ModelManager implements ModelManagerInterface
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
     }
 
-    public function getNewFieldDescriptionInstance($class, $name, array $options = [])
+    public function getNewFieldDescriptionInstance(string $class, string $name, array $options = []): FieldDescriptionInterface
     {
-        if (!\is_string($name)) {
-            throw new \RuntimeException('The name argument must be a string');
-        }
-
         if (!isset($options['route']['name'])) {
             $options['route']['name'] = 'edit';
         }
@@ -172,7 +168,7 @@ class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
-    public function find($class, $id)
+    public function find(string $class, $id): ?object
     {
         if (null === $id) {
             @trigger_error(sprintf(
@@ -197,12 +193,12 @@ class ModelManager implements ModelManagerInterface
         return $documentManager->getRepository($class)->find($id);
     }
 
-    public function findBy($class, array $criteria = [])
+    public function findBy(string $class, array $criteria = []): array
     {
         return $this->getDocumentManager($class)->getRepository($class)->findBy($criteria);
     }
 
-    public function findOneBy($class, array $criteria = [])
+    public function findOneBy(string $class, array $criteria = []): ?object
     {
         return $this->getDocumentManager($class)->getRepository($class)->findOneBy($criteria);
     }
@@ -255,7 +251,7 @@ class ModelManager implements ModelManagerInterface
         return $fieldDescription;
     }
 
-    public function createQuery($class, $alias = 'o')
+    public function createQuery(string $class, string $alias = 'o'): ProxyQueryInterface
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);
 
@@ -313,33 +309,18 @@ class ModelManager implements ModelManagerInterface
         return $this->getMetadata($class)->identifier;
     }
 
-    public function getIdentifierValues($document)
+    public function getIdentifierValues(object $document): array
     {
         return [$this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document)];
     }
 
-    public function getIdentifierFieldNames($class)
+    public function getIdentifierFieldNames(string $class): array
     {
         return $this->getMetadata($class)->getIdentifier();
     }
 
-    public function getNormalizedIdentifier($document)
+    public function getNormalizedIdentifier(object $document): ?string
     {
-        // NEXT_MAJOR: Remove the following 2 checks and declare "object" as type for argument 1.
-        if (null === $document) {
-            @trigger_error(sprintf(
-                'Passing null as argument 1 for %s() is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.',
-                __METHOD__
-            ), E_USER_DEPRECATED);
-
-            return null;
-        }
-
-        if (!\is_object($document)) {
-            throw new \RuntimeException('Invalid argument, object or null required');
-        }
-
         // the document is not managed
         if (!$this->getDocumentManager($document)->contains($document)) {
             return null;
@@ -350,19 +331,8 @@ class ModelManager implements ModelManagerInterface
         return implode(self::ID_SEPARATOR, $values);
     }
 
-    public function getUrlSafeIdentifier($document)
+    public function getUrlSafeIdentifier(object $document): ?string
     {
-        // NEXT_MAJOR: Remove the following check and declare "object" as type for argument 1.
-        if (!\is_object($document)) {
-            @trigger_error(sprintf(
-                'Passing other type than object for argument 1 for %s() is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.',
-                __METHOD__
-            ), E_USER_DEPRECATED);
-
-            return null;
-        }
-
         return $this->getNormalizedIdentifier($document);
     }
 
@@ -393,7 +363,7 @@ class ModelManager implements ModelManagerInterface
         $documentManager->clear();
     }
 
-    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
+    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, ?int $firstResult = null, ?int $maxResult = null): SourceIteratorInterface
     {
         $datagrid->buildPager();
         $query = $datagrid->getQuery();
@@ -404,14 +374,14 @@ class ModelManager implements ModelManagerInterface
         return new DoctrineODMQuerySourceIterator($query instanceof ProxyQuery ? $query->getQuery() : $query, $fields);
     }
 
-    public function getExportFields($class)
+    public function getExportFields(string $class): array
     {
         $metadata = $this->getDocumentManager($class)->getClassMetadata($class);
 
         return $metadata->getFieldNames();
     }
 
-    public function getModelInstance($class)
+    public function getModelInstance(string $class): object
     {
         if (!class_exists($class)) {
             throw new \InvalidArgumentException(sprintf('Class "%s" not found', $class));
@@ -520,7 +490,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
      */
-    public function modelTransform($class, $instance)
+    public function modelTransform(string $class, object $instance): object
     {
         @trigger_error(sprintf(
             'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
@@ -530,7 +500,7 @@ class ModelManager implements ModelManagerInterface
         return $instance;
     }
 
-    public function modelReverseTransform($class, array $array = [])
+    public function modelReverseTransform(string $class, array $array = []): object
     {
         $instance = $this->getModelInstance($class);
         $metadata = $this->getMetadata($class);
@@ -542,100 +512,6 @@ class ModelManager implements ModelManagerInterface
         }
 
         return $instance;
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
-     */
-    public function getModelCollectionInstance($class)
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        return new ArrayCollection();
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
-     */
-    public function collectionClear(&$collection)
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        return $collection->clear();
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
-     */
-    public function collectionHasElement(&$collection, &$element)
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        return $collection->contains($element);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
-     */
-    public function collectionAddElement(&$collection, &$element)
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        return $collection->add($element);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
-     */
-    public function collectionRemoveElement(&$collection, &$element)
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        return $collection->removeElement($element);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    protected function camelize($property)
-    {
-        @trigger_error(sprintf(
-            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        return str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }
 
     private function getFieldName(MongoDBClassMetadata $metadata, string $name): string

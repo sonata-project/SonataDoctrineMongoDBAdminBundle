@@ -36,7 +36,7 @@ class ListBuilder implements ListBuilderInterface
         $this->templates = $templates;
     }
 
-    public function getBaseList(array $options = [])
+    public function getBaseList(array $options = []): FieldDescriptionCollection
     {
         return new FieldDescriptionCollection();
     }

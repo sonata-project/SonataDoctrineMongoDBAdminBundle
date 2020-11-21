@@ -38,9 +38,9 @@ class Pager extends BasePager
         return $countQuery->count()->getQuery()->execute();
     }
 
-    public function getResults()
+    public function getResults(): array
     {
-        return $this->getQuery()->execute();
+        return $this->getQuery()->execute()->toArray();
     }
 
     public function init(): void

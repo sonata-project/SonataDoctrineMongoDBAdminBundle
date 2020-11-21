@@ -137,10 +137,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $datagrid->addFilter($filter);
     }
 
-    /**
-     * @return \Sonata\AdminBundle\Datagrid\DatagridInterface
-     */
-    public function getBaseDatagrid(AdminInterface $admin, array $values = [])
+    public function getBaseDatagrid(AdminInterface $admin, array $values = []): DatagridInterface
     {
         $pager = new Pager();
         $pager->setCountColumn($admin->getModelManager()->getIdentifierFieldNames($admin->getClass()));
