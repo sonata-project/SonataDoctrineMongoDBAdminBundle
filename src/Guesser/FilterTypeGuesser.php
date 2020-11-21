@@ -38,7 +38,7 @@ use Symfony\Component\Form\Guess\TypeGuess;
  */
 class FilterTypeGuesser extends AbstractTypeGuesser
 {
-    public function guessType($class, $property, ModelManagerInterface $modelManager)
+    public function guessType(string $class, string $property, ModelManagerInterface $modelManager): ?TypeGuess
     {
         if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager)) {
             return null;

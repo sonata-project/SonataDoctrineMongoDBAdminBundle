@@ -27,10 +27,7 @@ use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
  */
 class ModelFilter extends Filter
 {
-    /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
+    public function filter(ProxyQueryInterface $queryBuilder, string $field, $value): void
     {
         if (!$value || !\is_array($value) || !\array_key_exists('value', $value)) {
             return;
@@ -43,20 +40,16 @@ class ModelFilter extends Filter
         $field = $this->getIdentifierField($field);
 
         if (\is_array($value['value'])) {
-            // NEXT_MAJOR: Remove $alias argument.
-            $this->handleMultiple($queryBuilder, $alias, $field, $value);
+            $this->handleMultiple($queryBuilder, $field, $value);
         } else {
-            // NEXT_MAJOR: Remove $alias argument.
-            $this->handleScalar($queryBuilder, $alias, $field, $value);
+            $this->handleScalar($queryBuilder, $field, $value);
         }
     }
 
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [
             'mapping_type' => false,
-            // NEXT_MAJOR: Remove this line.
-            'field_name' => false,
             'field_type' => DocumentType::class,
             'field_options' => [],
             'operator_type' => EqualOperatorType::class,
@@ -64,7 +57,7 @@ class ModelFilter extends Filter
         ];
     }
 
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return [DefaultType::class, [
             'field_type' => $this->getFieldType(),
@@ -76,15 +69,11 @@ class ModelFilter extends Filter
     }
 
     /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     *
-     * @param string $alias
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      *
      * @return void
      */
-    protected function handleMultiple(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    protected function handleMultiple(ProxyQueryInterface $queryBuilder, string $field, $data)
     {
         if (0 === \count($data['value'])) {
             return;
@@ -105,15 +94,11 @@ class ModelFilter extends Filter
     }
 
     /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     *
-     * @param string $alias
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      *
      * @return void
      */
-    protected function handleScalar(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    protected function handleScalar(ProxyQueryInterface $queryBuilder, string $field, $data)
     {
         if (empty($data['value'])) {
             return;

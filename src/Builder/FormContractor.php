@@ -22,10 +22,10 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\AdminBundle\Form\Type\ModelTypeList;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
@@ -94,22 +94,21 @@ class FormContractor implements FormContractorInterface
         return $this->formFactory;
     }
 
-    public function getFormBuilder($name, array $formOptions = [])
+    public function getFormBuilder(string $name, array $formOptions = []): FormBuilderInterface
     {
         return $this->getFormFactory()->createNamedBuilder($name, FormType::class, null, $formOptions);
     }
 
-    public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
-    {
-        // NEXT_MAJOR: Remove this line and update the function signature.
-        $formOptions = \func_get_args()[2] ?? [];
-
+    public function getDefaultOptions(
+        ?string $type,
+        FieldDescriptionInterface $fieldDescription,
+        array $formOptions = []
+    ): array {
         $options = [];
         $options['sonata_field_description'] = $fieldDescription;
 
         if ($this->checkFormClass($type, [
             ModelType::class,
-            ModelTypeList::class,
             ModelListType::class,
             ModelHiddenType::class,
             ModelAutocompleteType::class,

@@ -92,26 +92,26 @@ class ProxyQuery implements ProxyQueryInterface
         return $queryBuilder->getQuery()->execute();
     }
 
-    public function setSortBy($parentAssociationMappings, $fieldMapping): self
+    public function setSortBy($parentAssociationMappings, $fieldMapping): ProxyQueryInterface
     {
         $this->sortBy = $fieldMapping['fieldName'];
 
         return $this;
     }
 
-    public function getSortBy()
+    public function getSortBy(): ?string
     {
         return $this->sortBy;
     }
 
-    public function setSortOrder($sortOrder): self
+    public function setSortOrder(string $sortOrder): ProxyQueryInterface
     {
         $this->sortOrder = $sortOrder;
 
         return $this;
     }
 
-    public function getSortOrder()
+    public function getSortOrder(): ?string
     {
         return $this->sortOrder;
     }
@@ -128,7 +128,7 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->queryBuilder;
     }
 
-    public function setFirstResult($firstResult): self
+    public function setFirstResult(?int $firstResult): ProxyQueryInterface
     {
         $this->firstResult = $firstResult;
         $this->queryBuilder->skip($firstResult ?? 0);
@@ -136,12 +136,12 @@ class ProxyQuery implements ProxyQueryInterface
         return $this;
     }
 
-    public function getFirstResult()
+    public function getFirstResult(): ?int
     {
         return $this->firstResult;
     }
 
-    public function setMaxResults($maxResults): self
+    public function setMaxResults($maxResults): ProxyQueryInterface
     {
         $this->maxResults = $maxResults;
 
@@ -151,32 +151,8 @@ class ProxyQuery implements ProxyQueryInterface
         return $this;
     }
 
-    public function getMaxResults()
+    public function getMaxResults(): ?int
     {
         return $this->maxResults;
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.5 and will be removed in version 4.0.
-     *
-     * @return void
-     */
-    public function getUniqueParameterId()
-    {
-        // TODO: Implement getUniqueParameterId() method.
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.5 and will be removed in version 4.0.
-     *
-     * @return void
-     */
-    public function entityJoin(array $associationMappings)
-    {
-        // TODO: Implement entityJoin() method.
     }
 }
