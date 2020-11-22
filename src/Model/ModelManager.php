@@ -297,7 +297,7 @@ class ModelManager implements ModelManagerInterface
             __METHOD__
         ), E_USER_DEPRECATED);
 
-        //throw new \InvalidArgumentException(sprintf(
+        //throw new \TypeError(sprintf(
         //    '$query must be be an instance of "%s" or "%s"',
         //    Builder::class,
         //    ProxyQuery::class
