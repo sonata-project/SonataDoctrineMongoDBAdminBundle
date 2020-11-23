@@ -19,9 +19,14 @@ use Symfony\Component\Panther\PantherTestCase;
 
 abstract class BasePantherTestCase extends PantherTestCase
 {
-    protected static function createFirefoxClient(): Client
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    protected function setUp(): void
     {
-        return static::createPantherClient([
+        $this->client = static::createPantherClient([
             'browser' => PantherTestCase::FIREFOX,
             'connection_timeout_in_ms' => 5000,
             'request_timeout_in_ms' => 60000,

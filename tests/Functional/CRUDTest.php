@@ -20,17 +20,12 @@ final class CRUDTest extends BasePantherTestCase
 {
     public function testFilter(): void
     {
-        // Workaround to avoid timeout https://github.com/symfony/panther/issues/155
-        self::stopWebServer();
+        $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/list');
 
-        $client = static::createFirefoxClient();
+        $this->client->clickLink('Filters');
+        $this->client->clickLink('Name');
 
-        $client->request(Request::METHOD_GET, '/admin/tests/app/category/list');
-
-        $client->clickLink('Filters');
-        $client->clickLink('Name');
-
-        $client->submitForm('Filter', [
+        $this->client->submitForm('Filter', [
             'filter[name][value]' => 'Novel',
         ]);
 
@@ -39,41 +34,26 @@ final class CRUDTest extends BasePantherTestCase
 
     public function testList(): void
     {
-        // Workaround to avoid timeout https://github.com/symfony/panther/issues/155
-        self::stopWebServer();
-
-        $client = static::createFirefoxClient();
-
-        $client->request(Request::METHOD_GET, '/admin/tests/app/category/list');
+        $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/list');
 
         self::assertSelectorTextContains('.sonata-ba-list-field-text[objectid="category_novel"] .sonata-link-identifier', 'Novel');
     }
 
     public function testShow(): void
     {
-        // Workaround to avoid timeout https://github.com/symfony/panther/issues/155
-        self::stopWebServer();
-
-        $client = static::createFirefoxClient();
-
-        $client->request(Request::METHOD_GET, '/admin/tests/app/category/category_novel/show');
+        $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/category_novel/show');
 
         self::assertSelectorTextContains('.sonata-ba-view-container', 'category_novel');
     }
 
     public function testCreate(): void
     {
-        // Workaround to avoid timeout https://github.com/symfony/panther/issues/155
-        self::stopWebServer();
-
-        $client = static::createFirefoxClient();
-
-        $crawler = $client->request(Request::METHOD_GET, '/admin/tests/app/category/create');
+        $crawler = $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/create');
 
         $attributeId = $crawler->filter('.category_id')->attr('name');
         $attributeName = $crawler->filter('.category_name')->attr('name');
 
-        $client->submitForm('Create and return to list', [
+        $this->client->submitForm('Create and return to list', [
             $attributeId => 'new id',
             $attributeName => 'new name',
         ]);
@@ -83,16 +63,11 @@ final class CRUDTest extends BasePantherTestCase
 
     public function testEdit(): void
     {
-        // Workaround to avoid timeout https://github.com/symfony/panther/issues/155
-        self::stopWebServer();
-
-        $client = static::createFirefoxClient();
-
-        $crawler = $client->request(Request::METHOD_GET, '/admin/tests/app/category/category_novel/edit');
+        $crawler = $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/category_novel/edit');
 
         $attributeName = $crawler->filter('.category_name')->attr('name');
 
-        $client->submitForm('Update and close', [
+        $this->client->submitForm('Update and close', [
             $attributeName => 'edited name',
         ]);
 
@@ -101,21 +76,14 @@ final class CRUDTest extends BasePantherTestCase
 
     public function testDelete(): void
     {
-        // Workaround to avoid timeout https://github.com/symfony/panther/issues/155
-        self::stopWebServer();
+        $documentManager = static::bootKernel()->getContainer()->get('doctrine_mongodb')->getManager();
 
-        $client = static::createFirefoxClient();
-
-        $documentManager = static::$kernel->getContainer()->get('doctrine_mongodb')->getManager();
-
-        $categoryToRemove = new Category('category_to_remove', 'name');
-
-        $documentManager->persist($categoryToRemove);
+        $documentManager->persist(new Category('category_to_remove', 'name'));
         $documentManager->flush();
 
-        $client->request(Request::METHOD_GET, '/admin/tests/app/category/category_to_remove/delete');
+        $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/category_to_remove/delete');
 
-        $client->submitForm('Yes, delete');
+        $this->client->submitForm('Yes, delete');
 
         self::assertSelectorNotExists('.sonata-ba-list-field-text[objectid="category_to_remove"] .sonata-link-identifier');
     }

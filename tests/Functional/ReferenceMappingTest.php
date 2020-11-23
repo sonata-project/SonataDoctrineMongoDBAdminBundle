@@ -21,12 +21,7 @@ final class ReferenceMappingTest extends BasePantherTestCase
 {
     public function testCreateDocumentWithReferences(): void
     {
-        // Workaround to avoid timeout https://github.com/symfony/panther/issues/155
-        self::stopWebServer();
-
-        $client = static::createFirefoxClient();
-
-        $crawler = $client->request(Request::METHOD_GET, '/admin/tests/app/book/create');
+        $crawler = $this->client->request(Request::METHOD_GET, '/admin/tests/app/book/create');
 
         $attributeId = $crawler->filter('.book_id')->attr('name');
         $attributeName = $crawler->filter('.book_name')->attr('name');
@@ -36,17 +31,17 @@ final class ReferenceMappingTest extends BasePantherTestCase
         $form[$attributeName] = 'A wonderful book';
 
         $crawler->filter('.field-container .sonata-ba-action[title="Add new"]')->click();
-        $crawler = $client->waitFor('.author_id');
+        $crawler = $this->client->waitFor('.author_id');
 
         $authorForm = $this->createAuthorForm($crawler);
 
-        $crawler = $client->submit($authorForm);
+        $crawler = $this->client->submit($authorForm);
 
         $crawler->filter('.book_categories label')->each(static function (Crawler $label): void {
             $label->click();
         });
 
-        $client->submit($form);
+        $this->client->submit($form);
 
         self::assertSelectorTextContains('.alert-success', '"A wonderful book" has been successfully created.');
     }
