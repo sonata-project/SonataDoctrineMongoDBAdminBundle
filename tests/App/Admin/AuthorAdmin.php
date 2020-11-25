@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\Form\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class AuthorAdmin extends AbstractAdmin
 {
@@ -40,15 +41,17 @@ final class AuthorAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('id', null, [
+            ->add('id', TextType::class, [
                 'attr' => [
                     'class' => 'author_id',
                 ],
+                'empty_data' => '',
             ])
-            ->add('name', null, [
+            ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'author_name',
                 ],
+                'empty_data' => '',
             ])
             ->add('address', AdminType::class, [
                 'attr' => [
