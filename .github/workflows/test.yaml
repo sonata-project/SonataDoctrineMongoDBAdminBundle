@@ -49,7 +49,7 @@ jobs:
                     - php-version: '7.4'
                       dependencies: highest
                       allowed-to-fail: false
-                      variant: 'sonata-project/admin-bundle:"3.*"'
+                      variant: 'sonata-project/admin-bundle:"dev-master"'
 
         steps:
             - name: Checkout
