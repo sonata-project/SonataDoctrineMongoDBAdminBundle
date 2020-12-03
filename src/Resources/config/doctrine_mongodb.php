@@ -16,6 +16,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
+use Sonata\DoctrineMongoDBAdminBundle\Exporter\DataSource;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
@@ -90,5 +91,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 [
                     new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_datagrid'),
                 ],
-            ]);
+            ])
+
+        ->set('sonata.admin.data_source.doctrine_mongodb', DataSource::class)
+    ;
 };
