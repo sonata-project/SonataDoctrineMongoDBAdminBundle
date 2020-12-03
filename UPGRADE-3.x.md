@@ -18,6 +18,8 @@ Deprecated `getModelIdentifier()`.
 Deprecated `getDefaultSortValues()`.
 Deprecated `getDefaultPerPageOptions()`.
 Deprecated `modelTransform()`.
+Deprecated `getDataSourceIterator()`. You SHOULD use
+`Sonata\DoctrineMongoDBAdminBundle\Exporter\DataSource::createIterator` instead.
 
 UPGRADE FROM 3.3 to 3.4
 =======================

@@ -408,6 +408,11 @@ class ModelManager implements ModelManagerInterface
         $documentManager->clear();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
         $datagrid->buildPager();
