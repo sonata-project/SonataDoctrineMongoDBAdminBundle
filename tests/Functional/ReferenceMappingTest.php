@@ -31,7 +31,7 @@ final class ReferenceMappingTest extends BasePantherTestCase
         $form[$attributeName] = 'A wonderful book';
 
         $crawler->filter('.field-container .sonata-ba-action[title="Add new"]')->click();
-        $crawler = $this->client->waitFor('.author_id');
+        $crawler = $this->client->waitForVisibility('.author_id');
 
         $authorForm = $this->createAuthorForm($crawler);
 
