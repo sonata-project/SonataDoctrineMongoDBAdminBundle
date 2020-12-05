@@ -30,22 +30,22 @@ class DateFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, $field, $data)
     {
         $data['value']->add(new \DateInterval('P1D'));
 
-        $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
     }
 
     /**
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, $field, $data)
     {
         $data['value']->add(new \DateInterval('P1D'));
 
-        $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
     }
 
     /**
@@ -56,11 +56,11 @@ class DateFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, $field, $data)
+    protected function applyTypeIsEqual(ProxyQueryInterface $query, $field, $data)
     {
         $end = clone $data['value'];
         $end->add(new \DateInterval('P1D'));
 
-        $queryBuilder->field($field)->range($data['value'], $end);
+        $query->field($field)->range($data['value'], $end);
     }
 }

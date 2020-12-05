@@ -27,18 +27,18 @@ abstract class Filter extends BaseFilter
     /**
      * @return void
      */
-    public function apply($query, $value)
+    public function apply($query, $filterData)
     {
-        $this->value = $value;
+        $this->value = $filterData;
 
         $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
 
         // NEXT_MAJOR: Remove null argument.
-        $this->filter($query, null, $field, $value);
+        $this->filter($query, null, $field, $filterData);
     }
 
     // NEXT_MAJOR: Uncomment this code.
-    // abstract protected function filter(ProxyQueryInterface $queryBuilder, string $field, $value);
+    // abstract protected function filter(ProxyQueryInterface $query, string $field, $data);
 
     public function isActive()
     {

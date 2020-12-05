@@ -387,10 +387,10 @@ class ModelManager implements ModelManagerInterface
     /**
      * @return void
      */
-    public function batchDelete($class, ProxyQueryInterface $queryProxy)
+    public function batchDelete($class, ProxyQueryInterface $query)
     {
         /** @var Query $queryBuilder */
-        $queryBuilder = $queryProxy->getQuery();
+        $queryBuilder = $query->getQuery();
 
         $documentManager = $this->getDocumentManager($class);
 

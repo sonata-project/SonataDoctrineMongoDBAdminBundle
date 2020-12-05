@@ -28,7 +28,7 @@ class CallbackFilter extends Filter
      *
      * @return void
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
+    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
     {
         if (!\is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf(
@@ -38,10 +38,10 @@ class CallbackFilter extends Filter
         }
 
         // NEXT_MAJOR: Remove $alias parameter.
-        \call_user_func($this->getOption('callback'), $queryBuilder, $alias, $field, $value);
+        \call_user_func($this->getOption('callback'), $query, $alias, $field, $data);
 
         if (\is_callable($this->getOption('active_callback'))) {
-            $this->active = \call_user_func($this->getOption('active_callback'), $value);
+            $this->active = \call_user_func($this->getOption('active_callback'), $data);
 
             return;
         }
