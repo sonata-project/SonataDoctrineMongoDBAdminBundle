@@ -22,16 +22,15 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class FormContractorTest extends AbstractBuilderTestCase
+class FormContractorTest extends AbstractModelManagerTestCase
 {
     /**
      * @var FormFactoryInterface&MockObject
@@ -45,6 +44,8 @@ class FormContractorTest extends AbstractBuilderTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
 
         $this->formContractor = new FormContractor($this->formFactory);
@@ -64,10 +65,9 @@ class FormContractorTest extends AbstractBuilderTestCase
     public function testDefaultOptionsForSonataFormTypes(): void
     {
         $admin = $this->createMock(AdminInterface::class);
-        $modelManager = $this->createMock(ModelManagerInterface::class);
         $modelClass = 'FooEntity';
 
-        $admin->method('getModelManager')->willReturn($modelManager);
+        $admin->method('getModelManager')->willReturn($this->modelManager);
         $admin->method('getClass')->willReturn($modelClass);
 
         // NEXT_MAJOR: Mock `FieldDescriptionInterface` instead and replace `getTargetEntity()` with `getTargetModel().
@@ -94,7 +94,7 @@ class FormContractorTest extends AbstractBuilderTestCase
             $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription);
             $this->assertSame($fieldDescription, $options['sonata_field_description']);
             $this->assertSame($modelClass, $options['class']);
-            $this->assertSame($modelManager, $options['model_manager']);
+            $this->assertSame($this->modelManager, $options['model_manager']);
         }
 
         // admin type
@@ -125,11 +125,10 @@ class FormContractorTest extends AbstractBuilderTestCase
     public function testAdminClassAttachForNotMappedField(): void
     {
         // Given
-        $modelManager = $this->createMock(ModelManager::class);
-        $modelManager->method('hasMetadata')->willReturn(false);
+        $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
 
         $admin = $this->createMock(AdminInterface::class);
-        $admin->method('getModelManager')->willReturn($modelManager);
+        $admin->method('getModelManager')->willReturn($this->modelManager);
 
         $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::ONE);
@@ -154,12 +153,11 @@ class FormContractorTest extends AbstractBuilderTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $modelManager = $this->createMock(ModelManager::class);
-        $modelManager->method('hasMetadata')->willReturn(true);
-        $modelManager->method('getMetadata')->willReturn($classMetadata);
+        $this->metadataFactory->method('hasMetadataFor')->willReturn(true);
+        $this->documentManager->method('getClassMetadata')->willReturn($classMetadata);
 
         $admin = $this->createMock(AdminInterface::class);
-        $admin->method('getModelManager')->willReturn($modelManager);
+        $admin->method('getModelManager')->willReturn($this->modelManager);
 
         $fieldDescription = new FieldDescription('name');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
@@ -174,12 +172,11 @@ class FormContractorTest extends AbstractBuilderTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $modelManager = $this->createMock(ModelManager::class);
-        $modelManager->method('hasMetadata')->willReturn(true);
-        $modelManager->method('getMetadata')->willReturn($classMetadata);
+        $this->metadataFactory->method('hasMetadataFor')->willReturn(true);
+        $this->documentManager->method('getClassMetadata')->willReturn($classMetadata);
 
         $admin = $this->createMock(AdminInterface::class);
-        $admin->method('getModelManager')->willReturn($modelManager);
+        $admin->method('getModelManager')->willReturn($this->modelManager);
 
         $fieldDescription = new FieldDescription('associatedDocument');
         $fieldDescription->setMappingType(ClassMetadata::ONE);
