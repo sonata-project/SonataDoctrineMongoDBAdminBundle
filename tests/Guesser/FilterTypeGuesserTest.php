@@ -14,13 +14,9 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
 
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\Types\Type;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
@@ -30,7 +26,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Model\MissingPropertyMetadataException;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AssociatedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ContainerDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
@@ -39,22 +35,18 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 
-class FilterTypeGuesserTest extends TestCase
+class FilterTypeGuesserTest extends AbstractModelManagerTestCase
 {
     /**
      * @var FilterTypeGuesser
      */
     private $guesser;
 
-    /**
-     * @var Stub&ModelManager
-     */
-    private $modelManager;
-
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->guesser = new FilterTypeGuesser();
-        $this->modelManager = $this->createStub(ModelManager::class);
     }
 
     public function testThrowsOnMissingField(): void
@@ -64,10 +56,9 @@ class FilterTypeGuesserTest extends TestCase
 
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($className);
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->with($className, $property)
-            ->willReturn([$classMetadata, $property, []]);
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
 
         $this->expectException(MissingPropertyMetadataException::class);
         $this->guesser->guessType($className, $property, $this->modelManager);
@@ -75,9 +66,11 @@ class FilterTypeGuesserTest extends TestCase
 
     public function testGuessTypeNoMetadata(): void
     {
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->with($class = 'FakeClass', $property = 'fakeProperty')
+        $class = 'FakeClass';
+        $property = 'fakeProperty';
+
+        $this->documentManager
+            ->method('getClassMetadata')
             ->willThrowException(new MappingException());
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
@@ -94,10 +87,9 @@ class FilterTypeGuesserTest extends TestCase
 
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($className);
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->with($className, $property)
-            ->willReturn([$classMetadata, $property, $parentAssociation]);
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
 
         $result = $this->guesser->guessType($className, $property, $this->modelManager);
 
@@ -135,10 +127,9 @@ class FilterTypeGuesserTest extends TestCase
             ->with($property)
             ->willReturn($type);
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->with($class, $property)
-            ->willReturn([$classMetadata, $property, []]);
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
@@ -215,16 +206,5 @@ class FilterTypeGuesserTest extends TestCase
                 Guess::LOW_CONFIDENCE,
             ],
         ];
-    }
-
-    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
-    {
-        $classMetadata = new ClassMetadata($class);
-        $reader = new AnnotationReader();
-
-        $annotationDriver = new AnnotationDriver($reader);
-        $annotationDriver->loadMetadataForClass($class, $classMetadata);
-
-        return $classMetadata;
     }
 }

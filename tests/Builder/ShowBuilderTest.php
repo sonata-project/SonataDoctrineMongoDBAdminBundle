@@ -22,11 +22,11 @@ use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-final class ShowBuilderTest extends AbstractBuilderTestCase
+final class ShowBuilderTest extends AbstractModelManagerTestCase
 {
     /**
      * @var Stub&TypeGuesserInterface
@@ -43,13 +43,10 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
      */
     private $admin;
 
-    /**
-     * @var Stub&ModelManager
-     */
-    private $modelManager;
-
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->guesser = $this->createStub(TypeGuesserInterface::class);
 
         $this->showBuilder = new ShowBuilder(
@@ -61,9 +58,7 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
         );
 
         $this->admin = $this->createMock(AdminInterface::class);
-        $this->modelManager = $this->createStub(ModelManager::class);
 
-        $this->admin->method('getClass')->willReturn('FakeClass');
         $this->admin->method('getModelManager')->willReturn($this->modelManager);
     }
 
@@ -86,7 +81,7 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
 
         $this->guesser->method('guessType')->willReturn($typeGuess);
 
-        $this->modelManager->method('hasMetadata')->willReturn(false);
+        $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
 
         $this->showBuilder->addField(
             new FieldDescriptionCollection(),
@@ -104,7 +99,7 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
 
         $this->admin->expects($this->once())->method('addShowFieldDescription');
 
-        $this->modelManager->method('hasMetadata')->willReturn(false);
+        $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
 
         $this->showBuilder->addField(
             new FieldDescriptionCollection(),
@@ -121,7 +116,8 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
      */
     public function testFixFieldDescription(string $type, string $mappingType, string $template): void
     {
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
+        $documentClass = DocumentWithReferences::class;
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
         $fieldDescription = new FieldDescription('name');
         $fieldDescription->setType($type);
@@ -130,8 +126,18 @@ final class ShowBuilderTest extends AbstractBuilderTestCase
 
         $this->admin->expects($this->once())->method('attachAdminClass');
 
-        $this->modelManager->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
+        $this->metadataFactory
+            ->method('hasMetadataFor')
+            ->with($documentClass)
+            ->willReturn(true);
+
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
+
+        $this->admin
+            ->method('getClass')
+            ->willReturn($documentClass);
 
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
