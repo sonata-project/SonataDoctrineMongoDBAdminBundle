@@ -41,40 +41,40 @@ abstract class AbstractDateFilter extends Filter
      *
      * @return void
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value)
+    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
     {
         //check data sanity
-        if (true !== \is_array($value)) {
+        if (true !== \is_array($data)) {
             return;
         }
 
         //default type for simple filter
-        $value['type'] = !isset($value['type']) || !is_numeric($value['type']) ? DateOperatorType::TYPE_EQUAL : (int) $value['type'];
+        $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateOperatorType::TYPE_EQUAL : (int) $data['type'];
 
         // Some types do not require a value to be set (NULL, NOT NULL).
-        if (!isset($value['value']) && $this->typeDoesRequireValue($value['type'])) {
+        if (!isset($data['value']) && $this->typeDoesRequireValue($data['type'])) {
             return;
         }
 
-        switch ($value['type']) {
+        switch ($data['type']) {
             case DateOperatorType::TYPE_EQUAL:
                 $this->active = true;
 
-                $this->applyTypeIsEqual($queryBuilder, $field, $value);
+                $this->applyTypeIsEqual($query, $field, $data);
 
                 return;
 
             case DateOperatorType::TYPE_GREATER_THAN:
                 $this->active = true;
 
-                $this->applyTypeIsGreaterThan($queryBuilder, $field, $value);
+                $this->applyTypeIsGreaterThan($query, $field, $data);
 
                 return;
 
             case DateOperatorType::TYPE_LESS_EQUAL:
                 $this->active = true;
 
-                $this->applyTypeIsLessEqual($queryBuilder, $field, $value);
+                $this->applyTypeIsLessEqual($query, $field, $data);
 
                 return;
 
@@ -82,7 +82,7 @@ abstract class AbstractDateFilter extends Filter
             case DateOperatorType::TYPE_NOT_NULL:
                 $this->active = true;
 
-                $this->applyType($queryBuilder, $this->getOperator($value['type']), $field, null);
+                $this->applyType($query, $this->getOperator($data['type']), $field, null);
 
                 return;
 
@@ -90,7 +90,7 @@ abstract class AbstractDateFilter extends Filter
             case DateOperatorType::TYPE_LESS_THAN:
                 $this->active = true;
 
-                $this->applyType($queryBuilder, $this->getOperator($value['type']), $field, $value['value']);
+                $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
 
                 return;
         }
@@ -123,17 +123,17 @@ abstract class AbstractDateFilter extends Filter
     /**
      * @return void
      */
-    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
+    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @return void
      */
-    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, string $field, array $data);
+    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @return void
      */
-    abstract protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, string $field, array $data);
+    abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @param string    $operation
@@ -142,9 +142,9 @@ abstract class AbstractDateFilter extends Filter
      *
      * @return void
      */
-    protected function applyType(ProxyQueryInterface $queryBuilder, $operation, $field, ?\DateTime $datetime = null)
+    protected function applyType(ProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null)
     {
-        $queryBuilder->field($field)->$operation($datetime);
+        $query->field($field)->$operation($datetime);
         $this->active = true;
     }
 
