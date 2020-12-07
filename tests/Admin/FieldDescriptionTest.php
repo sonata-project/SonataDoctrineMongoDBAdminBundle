@@ -87,26 +87,29 @@ class FieldDescriptionTest extends TestCase
 
     public function testAssociationMapping(): void
     {
-        $field = new FieldDescription('name');
-        $field->setAssociationMapping([
-            'type' => 'integer',
-            'fieldName' => 'position',
-        ]);
+        $field = new FieldDescription(
+            'name',
+            [],
+            [],
+            [
+                'type' => 'integer',
+                'fieldName' => 'position',
+            ]
+        );
 
         $this->assertSame('integer', $field->getType());
         $this->assertSame('position', $field->getFieldName());
 
         // cannot overwrite defined definition
+        // NEXT_MAJOR: Remove this call.
         $field->setAssociationMapping([
             'type' => 'overwrite?',
             'fieldName' => 'overwritten',
         ]);
 
+        // NEXT_MAJOR: Remove following three lines.
         $this->assertSame('integer', $field->getType());
         $this->assertSame('overwritten', $field->getFieldName());
-
-        $field->setMappingType('string');
-        $this->assertSame('string', $field->getMappingType());
         $this->assertSame('integer', $field->getType());
     }
 
@@ -214,17 +217,19 @@ class FieldDescriptionTest extends TestCase
 
     public function testGetAssociationMapping(): void
     {
-        $assocationMapping = [
+        $associationMapping = [
             'type' => 'integer',
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription('name');
-        $field->setAssociationMapping($assocationMapping);
+        $field = new FieldDescription('name', [], [], $associationMapping);
 
-        $this->assertSame($assocationMapping, $field->getAssociationMapping());
+        $this->assertSame($associationMapping, $field->getAssociationMapping());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     */
     public function testSetAssociationMappingAllowOnlyForArray(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -233,6 +238,9 @@ class FieldDescriptionTest extends TestCase
         $field->setAssociationMapping('test');
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     */
     public function testSetFieldMappingAllowOnlyForArray(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -248,8 +256,7 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription('name');
-        $field->setFieldMapping($fieldMapping);
+        $field = new FieldDescription('name', [], $fieldMapping);
 
         $this->assertSame('integer', $field->getType());
     }
@@ -261,8 +268,7 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription('name');
-        $field->setFieldMapping($fieldMapping);
+        $field = new FieldDescription('name', [], $fieldMapping);
 
         $this->assertSame('integer', $field->getMappingType());
     }
@@ -274,8 +280,7 @@ class FieldDescriptionTest extends TestCase
             'fieldName' => 'position',
         ];
 
-        $field = new FieldDescription('position');
-        $field->setFieldMapping($fieldMapping);
+        $field = new FieldDescription('position', [], $fieldMapping);
 
         $this->assertSame('position', $field->getFieldName());
     }
@@ -304,7 +309,7 @@ class FieldDescriptionTest extends TestCase
 
     public function testGetTargetModel(): void
     {
-        $assocationMapping = [
+        $associationMapping = [
             'type' => 'integer',
             'fieldName' => 'position',
             'targetDocument' => 'someValue',
@@ -314,7 +319,7 @@ class FieldDescriptionTest extends TestCase
 
         $this->assertNull($field->getTargetModel());
 
-        $field->setAssociationMapping($assocationMapping);
+        $field = new FieldDescription('name', [], [], $associationMapping);
 
         $this->assertSame('someValue', $field->getTargetModel());
     }
@@ -327,8 +332,7 @@ class FieldDescriptionTest extends TestCase
             'id' => true,
         ];
 
-        $field = new FieldDescription('name');
-        $field->setFieldMapping($fieldMapping);
+        $field = new FieldDescription('name', [], $fieldMapping);
 
         $this->assertTrue($field->isIdentifier());
     }
@@ -341,8 +345,7 @@ class FieldDescriptionTest extends TestCase
             'id' => 'someId',
         ];
 
-        $field = new FieldDescription('name');
-        $field->setFieldMapping($fieldMapping);
+        $field = new FieldDescription('name', [], $fieldMapping);
 
         $this->assertSame($fieldMapping, $field->getFieldMapping());
     }

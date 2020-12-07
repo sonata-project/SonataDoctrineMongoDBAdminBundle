@@ -71,8 +71,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
     {
         $typeGuess = $this->createStub(TypeGuess::class);
 
-        $fieldDescription = new FieldDescription('FakeName');
-        $fieldDescription->setMappingType(ClassMetadata::ONE);
+        $fieldDescription = new FieldDescription('FakeName', [], ['type' => ClassMetadata::ONE]);
 
         $this->admin->expects($this->once())->method('attachAdminClass');
         $this->admin->expects($this->once())->method('addShowFieldDescription');
@@ -114,15 +113,12 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
     /**
      * @dataProvider fixFieldDescriptionData
      */
-    public function testFixFieldDescription(string $type, string $mappingType, string $template): void
+    public function testFixFieldDescription(string $type, string $property, string $template): void
     {
         $documentClass = DocumentWithReferences::class;
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
-        $fieldDescription = new FieldDescription('name');
-        $fieldDescription->setType($type);
-        $fieldDescription->setMappingType($mappingType);
-        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
+        $fieldDescription = new FieldDescription($property, [], $classMetadata->fieldMappings[$property]);
 
         $this->admin->expects($this->once())->method('attachAdminClass');
 
@@ -142,7 +138,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getFieldMapping());
+        $this->assertSame($classMetadata->fieldMappings[$property], $fieldDescription->getFieldMapping());
     }
 
     public function fixFieldDescriptionData(): iterable
@@ -150,12 +146,12 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
         return [
             'one' => [
                 TemplateRegistry::TYPE_MANY_TO_ONE,
-                ClassMetadata::ONE,
+                'associatedDocument',
                 '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
             ],
             'many' => [
                 TemplateRegistry::TYPE_MANY_TO_MANY,
-                ClassMetadata::MANY,
+                'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
             ],
         ];

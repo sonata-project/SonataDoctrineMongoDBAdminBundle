@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
@@ -131,10 +130,12 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $documentClass = DocumentWithReferences::class;
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
-        $fieldDescription = new FieldDescription('associatedDocument');
-        $fieldDescription->setMappingType(ClassMetadata::ONE);
-        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
-        $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
+        $fieldDescription = new FieldDescription(
+            'associatedDocument',
+            [],
+            $classMetadata->fieldMappings['associatedDocument'],
+            $classMetadata->associationMappings['associatedDocument']
+        );
 
         $this->admin
             ->expects($this->once())

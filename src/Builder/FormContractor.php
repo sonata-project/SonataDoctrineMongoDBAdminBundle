@@ -55,12 +55,13 @@ class FormContractor implements FormContractorInterface
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
+        // NEXT_MAJOR: Remove the following 2 lines.
         $modelManager = $admin->getModelManager();
-
         \assert($modelManager instanceof ModelManager);
 
-        if ($modelManager->hasMetadata($admin->getClass())) {
-            $metadata = $modelManager->getMetadata($admin->getClass());
+        // NEXT_MAJOR: Remove this block.
+        if ($modelManager->hasMetadata($admin->getClass(), 'sonata_deprecation_mute')) {
+            $metadata = $modelManager->getMetadata($admin->getClass(), 'sonata_deprecation_mute');
 
             // set the default field mapping
             if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {

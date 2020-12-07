@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -112,10 +111,12 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         $documentClass = DocumentWithReferences::class;
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
-        $fieldDescription = new FieldDescription('name');
-        $fieldDescription->setOption('sortable', true);
+        $fieldDescription = new FieldDescription(
+            'name',
+            ['sortable' => true],
+            $classMetadata->fieldMappings['name']
+        );
         $fieldDescription->setType('string');
-        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
         $this->metadataFactory
             ->method('hasMetadataFor')
@@ -139,17 +140,17 @@ class ListBuilderTest extends AbstractModelManagerTestCase
     /**
      * @dataProvider fixFieldDescriptionData
      */
-    public function testFixFieldDescriptionWithAssociationMapping(string $type, string $template): void
+    public function testFixFieldDescriptionWithAssociationMapping(string $property, string $template): void
     {
         $documentClass = DocumentWithReferences::class;
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
-        $fieldDescription = new FieldDescription('associatedDocument');
-        $fieldDescription->setOption('sortable', true);
-        $fieldDescription->setType($type);
-        $fieldDescription->setMappingType($type);
-        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
-        $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
+        $fieldDescription = new FieldDescription(
+            $property,
+            ['sortable' => true],
+            $classMetadata->fieldMappings[$property],
+            $classMetadata->associationMappings[$property]
+        );
 
         $this->admin
             ->expects($this->once())
@@ -171,18 +172,18 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getAssociationMapping());
+        $this->assertSame($classMetadata->associationMappings[$property], $fieldDescription->getAssociationMapping());
     }
 
     public function fixFieldDescriptionData(): array
     {
         return [
             'one-to-one' => [
-                ClassMetadata::ONE,
+                'associatedDocument',
                 '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig',
             ],
             'many-to-one' => [
-                ClassMetadata::MANY,
+                'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig',
             ],
         ];

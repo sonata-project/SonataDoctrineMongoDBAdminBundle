@@ -21,6 +21,8 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
 class FieldDescription extends BaseFieldDescription
 {
     /**
+     * NEXT_MAJOR: Change visibility to protected.
+     *
      * @return void
      */
     public function setAssociationMapping($associationMapping)
@@ -63,6 +65,8 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
+     * NEXT_MAJOR: Change visibility to protected.
+     *
      * @return void
      */
     public function setFieldMapping($fieldMapping)
@@ -79,6 +83,8 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
+     * NEXT_MAJOR: Change visibility to protected.
+     *
      * @return void
      */
     public function setParentAssociationMappings(array $parentAssociationMappings)
