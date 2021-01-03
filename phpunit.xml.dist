@@ -31,6 +31,7 @@
         <ini name="precision" value="8" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
         <env name="SYMFONY_PHPUNIT_VERSION" value="9.4" />
+        <server name="PANTHER_WEB_SERVER_DIR" value="./tests/App/public/" />
     </php>
 
 </phpunit>
