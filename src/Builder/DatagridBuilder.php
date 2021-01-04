@@ -167,7 +167,6 @@ class DatagridBuilder implements DatagridBuilderInterface
     public function getBaseDatagrid(AdminInterface $admin, array $values = [])
     {
         $pager = new Pager();
-        $pager->setCountColumn($admin->getModelManager()->getIdentifierFieldNames($admin->getClass()));
 
         $defaultOptions = [];
         if ($this->csrfTokenEnabled) {
