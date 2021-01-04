@@ -69,6 +69,11 @@ class FilterTest extends TestCase
         $this->assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testValues(): void
     {
         $filter = new FilterTest_Filter();
