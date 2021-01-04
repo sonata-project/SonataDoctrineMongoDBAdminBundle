@@ -13,11 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
-use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use PHPUnit\Framework\MockObject\Stub\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
@@ -26,6 +22,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class AbstractModelManagerTestCase extends TestCase
 {
+    use ClassMetadataAnnotationTrait;
+
     /**
      * @var ModelManager
      */
@@ -36,19 +34,9 @@ abstract class AbstractModelManagerTestCase extends TestCase
      */
     protected $documentManager;
 
-    /**
-     * @var ClassMetadataFactory&Stub
-     */
-    protected $metadataFactory;
-
     protected function setUp(): void
     {
-        $this->metadataFactory = $this->createStub(ClassMetadataFactory::class);
-
         $this->documentManager = $this->createStub(DocumentManager::class);
-        $this->documentManager
-            ->method('getMetadataFactory')
-            ->willReturn($this->metadataFactory);
 
         $managerRegistry = $this->createStub(ManagerRegistry::class);
         $managerRegistry
@@ -56,16 +44,5 @@ abstract class AbstractModelManagerTestCase extends TestCase
             ->willReturn($this->documentManager);
 
         $this->modelManager = new ModelManager($managerRegistry, PropertyAccess::createPropertyAccessor());
-    }
-
-    protected function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
-    {
-        $classMetadata = new ClassMetadata($class);
-        $reader = new AnnotationReader();
-
-        $annotationDriver = new AnnotationDriver($reader);
-        $annotationDriver->loadMetadataForClass($class, $classMetadata);
-
-        return $classMetadata;
     }
 }
