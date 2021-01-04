@@ -125,7 +125,7 @@ final class ModelManagerTest extends TestCase
         $manager = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->expectDeprecation(
-            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.'
+            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
         );
 
         $this->assertNull($manager->getNormalizedIdentifier(null));
@@ -318,7 +318,7 @@ final class ModelManagerTest extends TestCase
         $instance = new \stdClass();
 
         $this->expectDeprecation(sprintf(
-            'Method %s::modelTransform() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.',
+            'Method %s::modelTransform() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
             ModelManager::class
         ));
 
@@ -380,7 +380,7 @@ final class ModelManagerTest extends TestCase
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->expectDeprecation(
-            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::find() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.'
+            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::find() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
         );
 
         $this->assertNull($model->find('notImportant', null));
@@ -405,7 +405,7 @@ final class ModelManagerTest extends TestCase
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->expectDeprecation(
-            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be not allowed in version 4.0.'
+            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
         );
 
         $this->assertNull($model->getNormalizedIdentifier(null));

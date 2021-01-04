@@ -2,6 +2,30 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.6.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.5.0...3.6.0) - 2021-01-04
+### Added
+- [[#486](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/486)] Added `DataSource` to provide a `DataSourceInterface` implementation. ([@franmomu](https://github.com/franmomu))
+
+### Deprecated
+- [[#492](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/492)] Deprecated `ModelManager::getMetadata()` method. ([@franmomu](https://github.com/franmomu))
+- [[#492](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/492)] Deprecated `ModelManager::hasMetadata()` method. ([@franmomu](https://github.com/franmomu))
+- [[#486](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/486)] Deprecated `ModelManager::getDataSourceIterator()`. ([@franmomu](https://github.com/franmomu))
+- [[#473](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/473)] Deprecated `ModelManager::getModelIdentifier()`. ([@franmomu](https://github.com/franmomu))
+- [[#473](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/473)] Deprecated `ModelManager::getDefaultSortValues()`. ([@franmomu](https://github.com/franmomu))
+- [[#473](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/473)] Deprecated `ModelManager::getDefaultPerPageOptions()`. ([@franmomu](https://github.com/franmomu))
+- [[#473](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/473)] Deprecated `ModelManager::modelTransform()`. ([@franmomu](https://github.com/franmomu))
+- [[#451](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/451)] Deprecated passing `null` as argument 2 for `ModelManager::find()`; ([@franmomu](https://github.com/franmomu))
+- [[#451](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/451)] Deprecated passing `null` as argument 1 for `ModelManager::getNormalizedIdentifier()`; ([@franmomu](https://github.com/franmomu))
+- [[#451](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/451)] Deprecated passing other type than `object` as argument 1 for `ModelManager::getUrlSafeIdentifier()`; ([@franmomu](https://github.com/franmomu))
+
+### Fixed
+- [[#497](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/497)] Fixed calling to deprecated `Pager::setCountColumn()` method. ([@franmomu](https://github.com/franmomu))
+- [[#479](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/479)] Fixed calling to `AdminInterface::id` without an object. ([@franmomu](https://github.com/franmomu))
+- [[#463](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/463)] `FormContractor::getDefaultOptions()` passes `collection_by_reference` option instead of `by_reference` to `AdminType` in order to respect the new API ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#470](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/470)] Fixed returning an array of identifiers in `ModelManager::getIdentifierFieldNames`. ([@franmomu](https://github.com/franmomu))
+- [[#468](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/468)] Fixed the return type of `TypeGuesser::guessType`, it must return `null` or `TypeGuess`. ([@franmomu](https://github.com/franmomu))
+- [[#459](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/459)] Fixed deprecation constructing `FieldDescription` without arguments. ([@franmomu](https://github.com/franmomu))
+
 ## [3.5.0](sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.4.0...3.5.0) - 2020-10-09
 ### Added
 - [[#438](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/438)] `FormContractor::getDefaultOptions()` pass `by_reference` from `CollectionType` to `AdminType` ([@VincentLanglet](https://github.com/VincentLanglet))
