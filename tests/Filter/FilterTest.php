@@ -23,9 +23,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class FilterTest_Filter extends Filter
 {
-    public function filter(ProxyQueryInterface $queryBuilder, string $field, $value): void
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        $queryBuilder->field($field)->equals($value);
+        $query->field($field)->equals($data);
     }
 
     public function getDefaultOptions(): array

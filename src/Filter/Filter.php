@@ -37,5 +37,8 @@ abstract class Filter extends BaseFilter
         return $this->active;
     }
 
+    /**
+     * @param mixed $data
+     */
     abstract protected function filter(ProxyQueryInterface $query, string $field, $data): void;
 }

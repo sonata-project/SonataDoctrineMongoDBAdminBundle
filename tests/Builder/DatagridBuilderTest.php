@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Datagrid\Datagrid;
@@ -26,15 +27,17 @@ use Sonata\AdminBundle\Translator\FormLabelTranslatorStrategy;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-final class DatagridBuilderTest extends AbstractModelManagerTestCase
+final class DatagridBuilderTest extends TestCase
 {
+    use ClassMetadataAnnotationTrait;
+
     /**
      * @var DatagridBuilder
      */
@@ -75,9 +78,6 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         );
 
         $this->admin = $this->createMock(AdminInterface::class);
-        $this->admin
-            ->method('getModelManager')
-            ->willReturn($this->modelManager);
     }
 
     public function testGetBaseDatagrid(): void
@@ -106,15 +106,6 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $fieldDescription = new FieldDescription('name');
         $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
-        $this->metadataFactory
-            ->method('hasMetadataFor')
-            ->with($documentClass)
-            ->willReturn(true);
-
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
-
         $this->admin
             ->method('getClass')
             ->willReturn($documentClass);
@@ -141,19 +132,6 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
             ->expects($this->once())
             ->method('attachAdminClass');
 
-        $this->admin
-            ->method('getClass')
-            ->willReturn($documentClass);
-
-        $this->metadataFactory
-            ->method('hasMetadataFor')
-            ->with($documentClass)
-            ->willReturn(true);
-
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
-
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getOption('association_mapping'));
@@ -176,10 +154,6 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $fieldDescription = new FieldDescription('test');
 
         $this->typeGuesser->method('guessType')->willReturn($guessType);
-
-        $this->metadataFactory
-            ->expects($this->once())
-            ->method('hasMetadataFor')->willReturn(false);
 
         $this->admin->method('getCode')->willReturn('someFakeCode');
 

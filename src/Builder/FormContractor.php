@@ -22,7 +22,6 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -52,25 +51,6 @@ class FormContractor implements FormContractorInterface
 
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {
-        // NEXT_MAJOR: Remove the following 2 lines.
-        $modelManager = $admin->getModelManager();
-        \assert($modelManager instanceof ModelManager);
-
-        // NEXT_MAJOR: Remove this block.
-        if ($modelManager->hasMetadata($admin->getClass(), 'sonata_deprecation_mute')) {
-            $metadata = $modelManager->getMetadata($admin->getClass(), 'sonata_deprecation_mute');
-
-            // set the default field mapping
-            if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
-            }
-
-            // set the default association mapping
-            if (isset($metadata->associationMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setAssociationMapping($metadata->associationMappings[$fieldDescription->getName()]);
-            }
-        }
-
         if (!$fieldDescription->getType()) {
             throw new \RuntimeException(sprintf(
                 'Please define a type for field `%s` in `%s`',

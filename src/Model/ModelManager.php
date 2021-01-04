@@ -245,32 +245,6 @@ class ModelManager implements ModelManagerInterface
         return $dm;
     }
 
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0
-     */
-    public function getParentFieldDescription($parentAssociationMapping, $class)
-    {
-        @trigger_error(sprintf(
-            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4'
-            .' and will be removed in 4.0',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        $fieldName = $parentAssociationMapping['fieldName'];
-
-        $metadata = $this->getMetadata($class);
-
-        $associatingMapping = $metadata->associationMappings[$parentAssociationMapping];
-
-        $fieldDescription = $this->getNewFieldDescriptionInstance($class, $fieldName);
-        $fieldDescription->setName($parentAssociationMapping);
-        $fieldDescription->setAssociationMapping($associatingMapping);
-
-        return $fieldDescription;
-    }
-
     public function createQuery(string $class, string $alias = 'o'): ProxyQueryInterface
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);

@@ -19,7 +19,6 @@ use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
@@ -63,26 +62,6 @@ class ShowBuilder implements ShowBuilderInterface
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {
         $fieldDescription->setAdmin($admin);
-
-        // NEXT_MAJOR: Remove the following 2 lines.
-        $modelManager = $admin->getModelManager();
-        \assert($modelManager instanceof ModelManager);
-
-        // NEXT_MAJOR: Remove this block.
-        if ($modelManager->hasMetadata($admin->getClass(), 'sonata_deprecation_mute')) {
-            [$metadata, $lastPropertyName, $parentAssociationMappings] = $modelManager->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
-            $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
-
-            // set the default field mapping
-            if (isset($metadata->fieldMappings[$lastPropertyName])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$lastPropertyName]);
-            }
-
-            // set the default association mapping
-            if (isset($metadata->associationMappings[$lastPropertyName])) {
-                $fieldDescription->setAssociationMapping($metadata->associationMappings[$lastPropertyName]);
-            }
-        }
 
         if (!$fieldDescription->getType()) {
             throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($admin)));

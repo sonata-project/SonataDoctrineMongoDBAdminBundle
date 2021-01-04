@@ -125,10 +125,7 @@ class FormContractorTest extends AbstractModelManagerTestCase
     public function testAdminClassAttachForNotMappedField(): void
     {
         // Given
-        $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
-
         $admin = $this->createMock(AdminInterface::class);
-        $admin->method('getModelManager')->willReturn($this->modelManager);
 
         $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::ONE);
@@ -153,11 +150,7 @@ class FormContractorTest extends AbstractModelManagerTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $this->metadataFactory->method('hasMetadataFor')->willReturn(true);
-        $this->documentManager->method('getClassMetadata')->willReturn($classMetadata);
-
         $admin = $this->createMock(AdminInterface::class);
-        $admin->method('getModelManager')->willReturn($this->modelManager);
 
         $fieldDescription = new FieldDescription('name', [], $classMetadata->fieldMappings['name']);
 
@@ -170,11 +163,7 @@ class FormContractorTest extends AbstractModelManagerTestCase
     {
         $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
 
-        $this->metadataFactory->method('hasMetadataFor')->willReturn(true);
-        $this->documentManager->method('getClassMetadata')->willReturn($classMetadata);
-
         $admin = $this->createMock(AdminInterface::class);
-        $admin->method('getModelManager')->willReturn($this->modelManager);
 
         $fieldDescription = new FieldDescription(
             'associatedDocument',
