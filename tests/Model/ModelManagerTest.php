@@ -324,7 +324,7 @@ final class ModelManagerTest extends TestCase
      */
     public function supportsQueryDataProvider(): iterable
     {
-        yield [true, $this->createStub(ProxyQuery::class)];
+        yield [true, new ProxyQuery($this->createStub(Builder::class))];
         yield [true, $this->createStub(Builder::class)];
         yield [false, new \stdClass()];
     }

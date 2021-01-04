@@ -17,7 +17,6 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -71,12 +70,25 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
+     * NEXT_MAJOR: Change visibility to private.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be private in version 4.0
+     *
      * @param string $class
      *
      * @return MongoDBClassMetadata
      */
     public function getMetadata($class)
     {
+        // Remove this block.
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                .' will be removed in version 4.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+        }
+
         return $this->getDocumentManager($class)->getClassMetadata($class);
     }
 
@@ -104,19 +116,33 @@ class ModelManager implements ModelManagerInterface
         $parentAssociationMappings = [];
 
         foreach ($nameElements as $nameElement) {
-            $metadata = $this->getMetadata($class);
+            // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
+            $metadata = $this->getMetadata($class, 'sonata_deprecation_mute');
             $parentAssociationMappings[] = $metadata->associationMappings[$nameElement];
             $class = $metadata->getAssociationTargetClass($nameElement);
         }
 
-        return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
+        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
+        return [$this->getMetadata($class, 'sonata_deprecation_mute'), $lastPropertyName, $parentAssociationMappings];
     }
 
     /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0
+     *
      * @return bool
      */
     public function hasMetadata($class)
     {
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                 .' will be removed in version 4.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+        }
+
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
     }
 
@@ -132,19 +158,13 @@ class ModelManager implements ModelManagerInterface
 
         [$metadata, $propertyName, $parentAssociationMappings] = $this->getParentMetadataForProperty($class, $name);
 
-        $fieldDescription = new FieldDescription($name, $options);
-        $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
-
-        /* @var ClassMetadata */
-        if (isset($metadata->associationMappings[$propertyName])) {
-            $fieldDescription->setAssociationMapping($metadata->associationMappings[$propertyName]);
-        }
-
-        if (isset($metadata->fieldMappings[$propertyName])) {
-            $fieldDescription->setFieldMapping($metadata->fieldMappings[$propertyName]);
-        }
-
-        return $fieldDescription;
+        return new FieldDescription(
+            $name,
+            $options,
+            $metadata->fieldMappings[$propertyName] ?? [],
+            $metadata->associationMappings[$propertyName] ?? [],
+            $parentAssociationMappings
+        );
     }
 
     public function create($object): void
@@ -298,6 +318,8 @@ class ModelManager implements ModelManagerInterface
      * NEXT_MAJOR: Remove this method.
      *
      * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     *
+     * @psalm-suppress NullableReturnStatement
      */
     public function getModelIdentifier($class)
     {
@@ -306,7 +328,7 @@ class ModelManager implements ModelManagerInterface
             __METHOD__
         ), E_USER_DEPRECATED);
 
-        return $this->getMetadata($class)->identifier;
+        return $this->getMetadata($class, 'sonata_deprecation_mute')->identifier;
     }
 
     public function getIdentifierValues(object $document): array
@@ -316,7 +338,8 @@ class ModelManager implements ModelManagerInterface
 
     public function getIdentifierFieldNames(string $class): array
     {
-        return $this->getMetadata($class)->getIdentifier();
+        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
+        return $this->getMetadata($class, 'sonata_deprecation_mute')->getIdentifier();
     }
 
     public function getNormalizedIdentifier(object $document): ?string
@@ -342,10 +365,10 @@ class ModelManager implements ModelManagerInterface
         $queryBuilder->field('_id')->in($idx);
     }
 
-    public function batchDelete($class, ProxyQueryInterface $queryProxy): void
+    public function batchDelete($class, ProxyQueryInterface $query): void
     {
         /** @var Query $queryBuilder */
-        $queryBuilder = $queryProxy->getQuery();
+        $queryBuilder = $query->getQuery();
 
         $documentManager = $this->getDocumentManager($class);
 
@@ -363,6 +386,11 @@ class ModelManager implements ModelManagerInterface
         $documentManager->clear();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, ?int $firstResult = null, ?int $maxResult = null): SourceIteratorInterface
     {
         $datagrid->buildPager();
@@ -503,7 +531,8 @@ class ModelManager implements ModelManagerInterface
     public function modelReverseTransform(string $class, array $array = []): object
     {
         $instance = $this->getModelInstance($class);
-        $metadata = $this->getMetadata($class);
+        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
+        $metadata = $this->getMetadata($class, 'sonata_deprecation_mute');
 
         foreach ($array as $name => $value) {
             $property = $this->getFieldName($metadata, $name);

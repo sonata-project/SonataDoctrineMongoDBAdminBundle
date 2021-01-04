@@ -27,22 +27,22 @@ use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
  */
 class ModelFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $queryBuilder, string $field, $value): void
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        if (!$value || !\is_array($value) || !\array_key_exists('value', $value)) {
+        if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
             return;
         }
 
-        if ($value['value'] instanceof Collection) {
-            $value['value'] = $value['value']->toArray();
+        if ($data['value'] instanceof Collection) {
+            $data['value'] = $data['value']->toArray();
         }
 
         $field = $this->getIdentifierField($field);
 
-        if (\is_array($value['value'])) {
-            $this->handleMultiple($queryBuilder, $field, $value);
+        if (\is_array($data['value'])) {
+            $this->handleMultiple($query, $field, $data);
         } else {
-            $this->handleScalar($queryBuilder, $field, $value);
+            $this->handleScalar($query, $field, $data);
         }
     }
 
@@ -73,7 +73,7 @@ class ModelFilter extends Filter
      *
      * @return void
      */
-    protected function handleMultiple(ProxyQueryInterface $queryBuilder, string $field, $data)
+    protected function handleMultiple(ProxyQueryInterface $query, string $field, $data)
     {
         if (0 === \count($data['value'])) {
             return;
@@ -85,9 +85,9 @@ class ModelFilter extends Filter
         }
 
         if (isset($data['type']) && EqualOperatorType::TYPE_NOT_EQUAL === $data['type']) {
-            $queryBuilder->field($field)->notIn($ids);
+            $query->field($field)->notIn($ids);
         } else {
-            $queryBuilder->field($field)->in($ids);
+            $query->field($field)->in($ids);
         }
 
         $this->active = true;
@@ -98,7 +98,7 @@ class ModelFilter extends Filter
      *
      * @return void
      */
-    protected function handleScalar(ProxyQueryInterface $queryBuilder, string $field, $data)
+    protected function handleScalar(ProxyQueryInterface $query, string $field, $data)
     {
         if (empty($data['value'])) {
             return;
@@ -107,9 +107,9 @@ class ModelFilter extends Filter
         $id = self::fixIdentifier($data['value']->getId());
 
         if (isset($data['type']) && EqualOperatorType::TYPE_NOT_EQUAL === $data['type']) {
-            $queryBuilder->field($field)->notEqual($id);
+            $query->field($field)->notEqual($id);
         } else {
-            $queryBuilder->field($field)->equals($id);
+            $query->field($field)->equals($id);
         }
 
         $this->active = true;

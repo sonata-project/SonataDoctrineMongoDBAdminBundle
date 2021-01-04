@@ -16,22 +16,15 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\Types\Type;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Symfony\Component\Form\Guess\Guess;
 
 /**
  * @author Marko Kunic <kunicmarko20@gmail.com>
  */
-final class TypeGuesserTest extends TestCase
+final class TypeGuesserTest extends AbstractModelManagerTestCase
 {
-    /**
-     * @var Stub&ModelManager
-     */
-    private $modelManager;
-
     /**
      * @var TypeGuesser
      */
@@ -39,7 +32,8 @@ final class TypeGuesserTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->modelManager = $this->createStub(ModelManager::class);
+        parent::setUp();
+
         $this->guesser = new TypeGuesser();
     }
 
@@ -47,9 +41,9 @@ final class TypeGuesserTest extends TestCase
     {
         $class = 'FakeClass';
         $property = 'fakeProperty';
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->with($class, $property)
+
+        $this->documentManager
+            ->method('getClassMetaData')
             ->willThrowException(new MappingException());
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
@@ -75,14 +69,9 @@ final class TypeGuesserTest extends TestCase
 
         $classMetadata->fieldMappings = [$property => ['type' => $mappingType]];
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->with($class, $property)
-            ->willReturn([
-                $classMetadata,
-                $property,
-                'notUsed',
-            ]);
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
@@ -124,14 +113,9 @@ final class TypeGuesserTest extends TestCase
             ->with($property)
             ->willReturn($type);
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->with($class, $property)
-            ->willReturn([
-                $classMetadata,
-                $property,
-                'notUsed',
-            ]);
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 

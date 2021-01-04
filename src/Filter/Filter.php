@@ -23,13 +23,13 @@ abstract class Filter extends BaseFilter
      */
     protected $active = false;
 
-    public function apply($query, $value): void
+    public function apply($query, $filterData): void
     {
-        $this->value = $value;
+        $this->value = $filterData;
 
         $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
 
-        $this->filter($query, $field, $value);
+        $this->filter($query, $field, $filterData);
     }
 
     public function isActive(): bool
@@ -37,8 +37,5 @@ abstract class Filter extends BaseFilter
         return $this->active;
     }
 
-    /**
-     * @param mixed $value
-     */
-    abstract protected function filter(ProxyQueryInterface $queryBuilder, string $field, $value): void;
+    abstract protected function filter(ProxyQueryInterface $query, string $field, $data): void;
 }

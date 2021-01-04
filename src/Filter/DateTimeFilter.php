@@ -36,23 +36,23 @@ class DateTimeFilter extends AbstractDateFilter
     /**
      * @param array $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $queryBuilder, string $field, $data): void
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, $data): void
     {
         // Add a minute so less then equal selects all seconds.
         $data['value']->add(new \DateInterval('PT1M'));
 
-        $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
     }
 
     /**
      * @param array $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $queryBuilder, string $field, $data): void
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, $data): void
     {
         // Add 59 seconds so anything above the minute is selected
         $data['value']->add(new \DateInterval('PT59S'));
 
-        $this->applyType($queryBuilder, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
     }
 
     /**
@@ -60,12 +60,12 @@ class DateTimeFilter extends AbstractDateFilter
      *
      * @param array $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $queryBuilder, string $field, $data): void
+    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, $data): void
     {
         /** @var \DateTime $end */
         $end = clone $data['value'];
         $end->add(new \DateInterval('PT1M'));
 
-        $queryBuilder->field($field)->range($data['value'], $end);
+        $query->field($field)->range($data['value'], $end);
     }
 }

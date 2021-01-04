@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -22,7 +21,7 @@ use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
@@ -30,7 +29,7 @@ use Symfony\Component\Form\Guess\TypeGuess;
 /**
  * @author Andrew Mor-Yaroslavtsev <andrejs@gmail.com>
  */
-class ListBuilderTest extends AbstractBuilderTestCase
+class ListBuilderTest extends AbstractModelManagerTestCase
 {
     /**
      * @var TypeGuesserInterface&Stub
@@ -47,19 +46,13 @@ class ListBuilderTest extends AbstractBuilderTestCase
      */
     protected $admin;
 
-    /**
-     * @var ModelManager&Stub
-     */
-    protected $modelManager;
-
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);
 
-        $this->modelManager = $this->createStub(ModelManager::class);
-
         $this->admin = $this->createMock(AbstractAdmin::class);
-        $this->admin->method('getClass')->willReturn('Foo');
         $this->admin->method('getModelManager')->willReturn($this->modelManager);
 
         $this->listBuilder = new ListBuilder($this->typeGuesser, [
@@ -115,16 +108,28 @@ class ListBuilderTest extends AbstractBuilderTestCase
 
     public function testFixFieldDescriptionWithFieldMapping(): void
     {
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
+        $documentClass = DocumentWithReferences::class;
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
-        $fieldDescription = new FieldDescription('name');
-        $fieldDescription->setOption('sortable', true);
+        $fieldDescription = new FieldDescription(
+            'name',
+            ['sortable' => true],
+            $classMetadata->fieldMappings['name']
+        );
         $fieldDescription->setType('string');
-        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'name', $parentAssociationMapping = []]);
+        $this->metadataFactory
+            ->method('hasMetadataFor')
+            ->with($documentClass)
+            ->willReturn(true);
+
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
+
+        $this->admin
+            ->method('getClass')
+            ->willReturn($documentClass);
 
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
@@ -135,40 +140,50 @@ class ListBuilderTest extends AbstractBuilderTestCase
     /**
      * @dataProvider fixFieldDescriptionData
      */
-    public function testFixFieldDescriptionWithAssociationMapping(string $type, string $template): void
+    public function testFixFieldDescriptionWithAssociationMapping(string $property, string $template): void
     {
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations(DocumentWithReferences::class);
+        $documentClass = DocumentWithReferences::class;
+        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
-        $fieldDescription = new FieldDescription('associatedDocument');
-        $fieldDescription->setOption('sortable', true);
-        $fieldDescription->setType($type);
-        $fieldDescription->setMappingType($type);
-        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['associatedDocument']);
-        $fieldDescription->setAssociationMapping($classMetadata->associationMappings['associatedDocument']);
+        $fieldDescription = new FieldDescription(
+            $property,
+            ['sortable' => true],
+            $classMetadata->fieldMappings[$property],
+            $classMetadata->associationMappings[$property]
+        );
 
         $this->admin
             ->expects($this->once())
             ->method('attachAdminClass');
 
-        $this->modelManager
-            ->method('getParentMetadataForProperty')
-            ->willReturn([$classMetadata, 'associatedDocument', $parentAssociationMapping = []]);
+        $this->metadataFactory
+            ->method('hasMetadataFor')
+            ->with($documentClass)
+            ->willReturn(true);
+
+        $this->documentManager
+            ->method('getClassMetadata')
+            ->willReturn($classMetadata);
+
+        $this->admin
+            ->method('getClass')
+            ->willReturn($documentClass);
 
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getAssociationMapping());
+        $this->assertSame($classMetadata->associationMappings[$property], $fieldDescription->getAssociationMapping());
     }
 
     public function fixFieldDescriptionData(): array
     {
         return [
             'one-to-one' => [
-                ClassMetadata::ONE,
+                'associatedDocument',
                 '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig',
             ],
             'many-to-one' => [
-                ClassMetadata::MANY,
+                'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig',
             ],
         ];
@@ -179,7 +194,7 @@ class ListBuilderTest extends AbstractBuilderTestCase
      */
     public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
     {
-        $this->modelManager->method('hasMetadata')->willReturn(false);
+        $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
         $fieldDescription = new FieldDescription('test');
         $fieldDescription->setType($type);
 

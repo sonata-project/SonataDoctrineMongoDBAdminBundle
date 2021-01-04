@@ -23,33 +23,33 @@ use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
  */
 class ChoiceFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $queryBuilder, string $field, $value): void
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        if (!$value || !\is_array($value) || !\array_key_exists('type', $value) || !\array_key_exists('value', $value)) {
+        if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
             return;
         }
 
-        if (\is_array($value['value'])) {
-            if (0 === \count($value['value'])) {
+        if (\is_array($data['value'])) {
+            if (0 === \count($data['value'])) {
                 return;
             }
 
-            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $value['type']) {
-                $queryBuilder->field($field)->notIn($value['value']);
+            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
+                $query->field($field)->notIn($data['value']);
             } else {
-                $queryBuilder->field($field)->in($value['value']);
+                $query->field($field)->in($data['value']);
             }
 
             $this->active = true;
         } else {
-            if ('' === $value['value'] || null === $value['value'] || false === $value['value']) {
+            if ('' === $data['value'] || null === $data['value'] || false === $data['value']) {
                 return;
             }
 
-            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $value['type']) {
-                $queryBuilder->field($field)->notEqual($value['value']);
+            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
+                $query->field($field)->notEqual($data['value']);
             } else {
-                $queryBuilder->field($field)->equals($value['value']);
+                $query->field($field)->equals($data['value']);
             }
 
             $this->active = true;

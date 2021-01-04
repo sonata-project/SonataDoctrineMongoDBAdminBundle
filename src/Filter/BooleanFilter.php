@@ -23,15 +23,15 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
  */
 class BooleanFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $queryBuilder, string $field, $value): void
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        if (!$value || !\is_array($value) || !\array_key_exists('type', $value) || !\array_key_exists('value', $value)) {
+        if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
             return;
         }
 
-        if (\is_array($value['value'])) {
+        if (\is_array($data['value'])) {
             $values = [];
-            foreach ($value['value'] as $v) {
+            foreach ($data['value'] as $v) {
                 if (!\in_array($v, [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                     continue;
                 }
@@ -43,16 +43,16 @@ class BooleanFilter extends Filter
                 return;
             }
 
-            $queryBuilder->field($field)->in($values);
+            $query->field($field)->in($values);
             $this->active = true;
         } else {
-            if (!\in_array($value['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
+            if (!\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                 return;
             }
 
-            $value = BooleanType::TYPE_YES === $value['value'];
+            $data = BooleanType::TYPE_YES === $data['value'];
 
-            $queryBuilder->field($field)->equals($value);
+            $query->field($field)->equals($data);
             $this->active = true;
         }
     }

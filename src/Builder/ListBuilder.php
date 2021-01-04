@@ -69,11 +69,12 @@ class ListBuilder implements ListBuilderInterface
 
         $fieldDescription->setAdmin($admin);
 
+        // NEXT_MAJOR: Remove the following 2 lines.
         $modelManager = $admin->getModelManager();
-
         \assert($modelManager instanceof ModelManager);
 
-        if ($modelManager->hasMetadata($admin->getClass())) {
+        // NEXT_MAJOR: Remove this block.
+        if ($modelManager->hasMetadata($admin->getClass(), 'sonata_deprecation_mute')) {
             [$metadata, $lastPropertyName, $parentAssociationMappings] = $modelManager->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
             $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
@@ -94,6 +95,17 @@ class ListBuilder implements ListBuilderInterface
 
             $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
         }
+
+        // NEXT_MAJOR: Uncomment this code.
+        //if ([] !== $fieldDescription->getFieldMapping()) {
+        //    if (false !== $fieldDescription->getOption('sortable')) {
+        //        $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', true));
+        //        $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
+        //        $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
+        //    }
+        //
+        //    $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
+        //}
 
         if (!$fieldDescription->getType()) {
             throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($admin)));

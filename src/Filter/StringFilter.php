@@ -23,35 +23,35 @@ use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
  */
 class StringFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $queryBuilder, string $field, $value): void
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        if (!$value || !\is_array($value) || !\array_key_exists('value', $value) || null === $value['value']) {
+        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
             return;
         }
 
-        $value['value'] = trim($value['value']);
+        $data['value'] = trim($data['value']);
 
-        if ('' === $value['value']) {
+        if ('' === $data['value']) {
             return;
         }
 
-        $value['type'] = isset($value['type']) && !empty($value['type']) ? $value['type'] : ContainsOperatorType::TYPE_CONTAINS;
+        $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ContainsOperatorType::TYPE_CONTAINS;
 
-        $obj = $queryBuilder;
+        $obj = $query;
         if (self::CONDITION_OR === $this->condition) {
-            $obj = $queryBuilder->expr();
+            $obj = $query->expr();
         }
 
-        if (ContainsOperatorType::TYPE_EQUAL === $value['type']) {
-            $obj->field($field)->equals($value['value']);
-        } elseif (ContainsOperatorType::TYPE_CONTAINS === $value['type']) {
-            $obj->field($field)->equals(new Regex($value['value'], 'i'));
-        } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $value['type']) {
-            $obj->field($field)->not(new Regex($value['value'], 'i'));
+        if (ContainsOperatorType::TYPE_EQUAL === $data['type']) {
+            $obj->field($field)->equals($data['value']);
+        } elseif (ContainsOperatorType::TYPE_CONTAINS === $data['type']) {
+            $obj->field($field)->equals(new Regex($data['value'], 'i'));
+        } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
+            $obj->field($field)->not(new Regex($data['value'], 'i'));
         }
 
         if (self::CONDITION_OR === $this->condition) {
-            $queryBuilder->addOr($obj);
+            $query->addOr($obj);
         }
 
         $this->active = true;
