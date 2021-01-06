@@ -25,6 +25,7 @@ abstract class Filter extends BaseFilter
 
     public function apply($query, $filterData): void
     {
+        // NEXT_MAJOR: Remove next line.
         $this->value = $filterData;
 
         $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();

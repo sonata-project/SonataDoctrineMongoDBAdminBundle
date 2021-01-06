@@ -128,10 +128,13 @@ class FieldDescriptionTest extends TestCase
         $this->assertSame($field->getFieldName(), 'New field description name');
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     */
     public function testSetNameDoesNotSetFieldNameWhenSetBefore(): void
     {
         $field = new FieldDescription('name');
-        $field->setFieldName('field name');
+        $field->setFieldName('field name', 'sonata_deprecation_mute');
         $field->setName('New field description name');
 
         $this->assertSame($field->getFieldName(), 'field name');

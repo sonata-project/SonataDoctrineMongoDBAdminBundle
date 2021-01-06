@@ -1,7 +1,7 @@
 UPGRADE 3.x
 ===========
 
-UPGRADE FROM 3.x to 3.x
+UPGRADE FROM 3.5 to 3.6
 =======================
 
 ### Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser
