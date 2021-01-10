@@ -17,10 +17,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class NumberFilter extends Filter
+final class NumberFilter extends Filter
 {
     private const CHOICES = [
         NumberOperatorType::TYPE_EQUAL => 'equals',

@@ -17,7 +17,7 @@ use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Configuration;
 
-class ConfigurationTest extends TestCase
+final class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 

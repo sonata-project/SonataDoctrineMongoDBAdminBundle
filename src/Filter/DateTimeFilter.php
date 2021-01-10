@@ -16,10 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class DateTimeFilter extends AbstractDateFilter
+final class DateTimeFilter extends AbstractDateFilter
 {
     /**
      * Flag indicating that filter will filter by datetime instead by date.

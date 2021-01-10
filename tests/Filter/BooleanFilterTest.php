@@ -17,7 +17,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\Form\Type\BooleanType;
 
-class BooleanFilterTest extends FilterWithQueryBuilderTest
+final class BooleanFilterTest extends FilterWithQueryBuilderTest
 {
     /**
      * @param mixed $value

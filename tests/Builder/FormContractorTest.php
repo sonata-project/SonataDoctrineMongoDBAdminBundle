@@ -30,7 +30,7 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class FormContractorTest extends AbstractModelManagerTestCase
+final class FormContractorTest extends AbstractModelManagerTestCase
 {
     /**
      * @var FormFactoryInterface&MockObject
@@ -70,8 +70,7 @@ class FormContractorTest extends AbstractModelManagerTestCase
         $admin->method('getModelManager')->willReturn($this->modelManager);
         $admin->method('getClass')->willReturn($modelClass);
 
-        // NEXT_MAJOR: Mock `FieldDescriptionInterface` instead and replace `getTargetEntity()` with `getTargetModel().
-        $fieldDescription = $this->createMock(FieldDescription::class);
+        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $fieldDescription->method('getAdmin')->willReturn($admin);
         $fieldDescription->method('getTargetModel')->willReturn($modelClass);
         $fieldDescription->method('getAssociationAdmin')->willReturn($admin);

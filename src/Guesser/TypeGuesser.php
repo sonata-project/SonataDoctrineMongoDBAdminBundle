@@ -19,10 +19,7 @@ use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class TypeGuesser extends AbstractTypeGuesser
+final class TypeGuesser extends AbstractTypeGuesser
 {
     public function guessType(string $class, string $property, ModelManagerInterface $modelManager): ?TypeGuess
     {

@@ -20,10 +20,8 @@ use Sonata\AdminBundle\Datagrid\Pager as BasePager;
  *
  * @author Jonathan H. Wage <jonwage@gmail.com>
  * @author Kévin Dunglas <dunglas@gmail.com>
- *
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
-class Pager extends BasePager
+final class Pager extends BasePager
 {
     protected $queryBuilder = null;
 

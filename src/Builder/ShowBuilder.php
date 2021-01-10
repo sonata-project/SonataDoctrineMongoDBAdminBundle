@@ -20,14 +20,11 @@ use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class ShowBuilder implements ShowBuilderInterface
+final class ShowBuilder implements ShowBuilderInterface
 {
-    protected $guesser;
+    private $guesser;
 
-    protected $templates;
+    private $templates;
 
     public function __construct(TypeGuesserInterface $guesser, array $templates)
     {

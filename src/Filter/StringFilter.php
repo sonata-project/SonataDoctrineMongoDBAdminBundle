@@ -18,10 +18,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class StringFilter extends Filter
+final class StringFilter extends Filter
 {
     public function filter(ProxyQueryInterface $query, string $field, $data): void
     {

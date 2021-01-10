@@ -19,10 +19,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
-class AddGuesserCompilerPass implements CompilerPassInterface
+final class AddGuesserCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 
-class NumberFilterTest extends FilterWithQueryBuilderTest
+final class NumberFilterTest extends FilterWithQueryBuilderTest
 {
     /**
      * @param mixed $value
