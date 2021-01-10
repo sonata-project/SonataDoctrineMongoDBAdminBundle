@@ -11,13 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Doctrine\Bundle\MongoDBBundle\DependencyInjection\Compiler\FixturesCompilerPass;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\AddressAdmin;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\AuthorAdmin;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\BookAdmin;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\CategoryAdmin;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\PhoneNumberAdmin;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\App\DataFixtures\MongoDB\AppFixtures;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Address;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Author;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Book;
@@ -27,6 +25,10 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
+        ->defaults()
+        ->autowire()
+        ->autoconfigure()
+        ->load('Sonata\\DoctrineMongoDBAdminBundle\\Tests\\App\\DataFixtures\\', dirname(__DIR__).'/DataFixtures')
 
         ->set(CategoryAdmin::class)
             ->public()
@@ -87,8 +89,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 PhoneNumber::class,
                 null,
             ])
-
-        ->set(AppFixtures::class)
-            ->tag(FixturesCompilerPass::FIXTURE_TAG)
     ;
 };
