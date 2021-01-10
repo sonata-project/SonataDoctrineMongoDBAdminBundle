@@ -97,15 +97,19 @@ class Pager extends BasePager
      */
     public function init()
     {
-        $this->resetIterator();
+        // NEXT_MAJOR: Remove next line.
+        $this->resetIterator('sonata_deprecation_mute');
 
+        // NEXT_MAJOR: Remove next line and uncomment the next one.
         $this->setResultsCount($this->computeNbResult('sonata_deprecation_mute'));
+        // $this->setResultsCount($this->computeResultsCount());
 
         $this->getQuery()->setFirstResult(0);
         $this->getQuery()->setMaxResults(0);
 
-        if (\count($this->getParameters()) > 0) {
-            $this->getQuery()->setParameters($this->getParameters());
+        // NEXT_MAJOR: Remove this block.
+        if (\count($this->getParameters('sonata_deprecation_mute')) > 0) {
+            $this->getQuery()->setParameters($this->getParameters('sonata_deprecation_mute'));
         }
 
         if (0 === $this->getPage() || 0 === $this->getMaxPerPage() || 0 === $this->countResults()) {
@@ -144,8 +148,9 @@ class Pager extends BasePager
     {
         $countQuery = clone $this->getQuery();
 
-        if (\count($this->getParameters()) > 0) {
-            $countQuery->setParameters($this->getParameters());
+        // NEXT_MAJOR: Remove this block.
+        if (\count($this->getParameters('sonata_deprecation_mute')) > 0) {
+            $countQuery->setParameters($this->getParameters('sonata_deprecation_mute'));
         }
 
         return (int) $countQuery->count()->getQuery()->execute();
