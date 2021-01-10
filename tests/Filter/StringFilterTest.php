@@ -20,7 +20,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 
-class StringFilterTest extends FilterWithQueryBuilderTest
+final class StringFilterTest extends FilterWithQueryBuilderTest
 {
     /**
      * @param mixed $value

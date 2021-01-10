@@ -27,17 +27,14 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class FormContractor implements FormContractorInterface
+final class FormContractor implements FormContractorInterface
 {
     /**
      * @deprecated since version 3.1.0, to be removed in 4.0
      *
      * @var FormFactoryInterface
      */
-    protected $fieldFactory;
+    private $fieldFactory;
 
     /**
      * @var FormFactoryInterface

@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
 
-class ChoiceFilterTest extends FilterWithQueryBuilderTest
+final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 {
     /**
      * @param mixed $value

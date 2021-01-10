@@ -18,10 +18,7 @@ use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler\AddTemplatesC
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class SonataDoctrineMongoDBAdminBundle extends Bundle
+final class SonataDoctrineMongoDBAdminBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {

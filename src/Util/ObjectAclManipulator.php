@@ -24,10 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class ObjectAclManipulator extends BaseObjectAclManipulator
+final class ObjectAclManipulator extends BaseObjectAclManipulator
 {
     /**
      * @var ManagerRegistry|null

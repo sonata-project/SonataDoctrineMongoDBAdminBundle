@@ -18,10 +18,7 @@ use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class CallbackFilter extends Filter
+final class CallbackFilter extends Filter
 {
     public function filter(ProxyQueryInterface $query, string $field, $data): void
     {

@@ -30,7 +30,7 @@ use Symfony\Component\Form\Guess\TypeGuess;
 /**
  * @author Andrew Mor-Yaroslavtsev <andrejs@gmail.com>
  */
-class ListBuilderTest extends TestCase
+final class ListBuilderTest extends TestCase
 {
     use ClassMetadataAnnotationTrait;
 

@@ -16,7 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
-class CallbackFilterTest extends FilterWithQueryBuilderTest
+final class CallbackFilterTest extends FilterWithQueryBuilderTest
 {
     /**
      * @param mixed $value

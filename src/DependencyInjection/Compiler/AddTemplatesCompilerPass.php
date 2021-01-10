@@ -18,10 +18,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
-class AddTemplatesCompilerPass implements CompilerPassInterface
+final class AddTemplatesCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

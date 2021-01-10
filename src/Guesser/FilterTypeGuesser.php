@@ -33,10 +33,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class FilterTypeGuesser extends AbstractTypeGuesser
+final class FilterTypeGuesser extends AbstractTypeGuesser
 {
     public function guessType(string $class, string $property, ModelManagerInterface $modelManager): ?TypeGuess
     {

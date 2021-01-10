@@ -37,7 +37,7 @@ class DocumentStub
     }
 }
 
-class ModelFilterTest extends TestCase
+final class ModelFilterTest extends TestCase
 {
     private $queryBuilder;
 

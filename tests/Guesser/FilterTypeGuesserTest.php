@@ -35,7 +35,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 
-class FilterTypeGuesserTest extends AbstractModelManagerTestCase
+final class FilterTypeGuesserTest extends AbstractModelManagerTestCase
 {
     /**
      * @var FilterTypeGuesser

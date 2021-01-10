@@ -25,32 +25,29 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class DatagridBuilder implements DatagridBuilderInterface
+final class DatagridBuilder implements DatagridBuilderInterface
 {
     /**
      * @var FilterFactoryInterface
      */
-    protected $filterFactory;
+    private $filterFactory;
 
     /**
      * @var FormFactoryInterface
      */
-    protected $formFactory;
+    private $formFactory;
 
     /**
      * @var TypeGuesserInterface
      */
-    protected $guesser;
+    private $guesser;
 
     /**
      * Indicates that csrf protection enabled.
      *
      * @var bool
      */
-    protected $csrfTokenEnabled;
+    private $csrfTokenEnabled;
 
     /**
      * @param bool $csrfTokenEnabled

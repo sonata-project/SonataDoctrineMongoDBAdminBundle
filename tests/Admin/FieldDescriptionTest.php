@@ -20,7 +20,7 @@ use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 
-class FieldDescriptionTest extends TestCase
+final class FieldDescriptionTest extends TestCase
 {
     public function testOptions(): void
     {

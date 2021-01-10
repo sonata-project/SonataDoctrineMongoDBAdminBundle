@@ -26,7 +26,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Security\Acl\Model\MutableAclInterface;
 
-class ObjectAclManipulatorTest extends TestCase
+final class ObjectAclManipulatorTest extends TestCase
 {
     /**
      * @var DocumentManager

@@ -21,7 +21,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class FilterTest_Filter extends Filter
+final class FilterTest_Filter extends Filter
 {
     public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
@@ -42,7 +42,7 @@ class FilterTest_Filter extends Filter
     }
 }
 
-class FilterTest extends TestCase
+final class FilterTest extends TestCase
 {
     public function testFieldDescription(): void
     {

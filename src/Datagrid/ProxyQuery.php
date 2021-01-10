@@ -18,35 +18,33 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
  * This class try to unify the query usage with Doctrine.
- *
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
-class ProxyQuery implements ProxyQueryInterface
+final class ProxyQuery implements ProxyQueryInterface
 {
     /**
      * @var Builder
      */
-    protected $queryBuilder;
+    private $queryBuilder;
 
     /**
      * @var string|null
      */
-    protected $sortBy;
+    private $sortBy;
 
     /**
      * @var string
      */
-    protected $sortOrder;
+    private $sortOrder;
 
     /**
      * @var int|null
      */
-    protected $firstResult;
+    private $firstResult;
 
     /**
      * @var int|null
      */
-    protected $maxResults;
+    private $maxResults;
 
     public function __construct(Builder $queryBuilder)
     {
