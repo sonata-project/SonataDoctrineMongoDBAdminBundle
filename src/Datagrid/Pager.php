@@ -49,13 +49,6 @@ class Pager extends BasePager
         return $deprecatedCount;
     }
 
-    public function setResultsCount(int $count): void
-    {
-        $this->resultsCount = $count;
-        // NEXT_MAJOR: Remove this line.
-        $this->setNbResults($count, 'sonata_deprecation_mute');
-    }
-
     /**
      * NEXT_MAJOR: remove this method.
      *
@@ -156,5 +149,12 @@ class Pager extends BasePager
         }
 
         return (int) $countQuery->count()->getQuery()->execute();
+    }
+
+    private function setResultsCount(int $count): void
+    {
+        $this->resultsCount = $count;
+        // NEXT_MAJOR: Remove this line.
+        $this->setNbResults($count, 'sonata_deprecation_mute');
     }
 }
