@@ -134,7 +134,7 @@ class Pager extends BasePager
         }
 
         $this->nbResults = $nb;
-        $this->resultsCount = (int) $nb;
+        $this->resultsCount = $nb;
     }
 
     private function computeResultsCount(): int
