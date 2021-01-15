@@ -124,11 +124,11 @@ class Pager extends BasePager
     /**
      * NEXT_MAJOR: remove this method.
      *
+     * @param int $nb
      * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x
      *
-     * @param int $nb
      */
-    protected function setNbResults($nb)
+    protected function setNbResults(int $nb): void
     {
         if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
             @trigger_error(sprintf(
