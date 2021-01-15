@@ -53,8 +53,6 @@ class Pager extends BasePager
      * NEXT_MAJOR: remove this method.
      *
      * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x
-     *
-     * @return int
      */
     public function getNbResults(): int
     {
@@ -124,9 +122,7 @@ class Pager extends BasePager
     /**
      * NEXT_MAJOR: remove this method.
      *
-     * @param int $nb
      * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x
-     *
      */
     protected function setNbResults(int $nb): void
     {
