@@ -56,7 +56,7 @@ class Pager extends BasePager
      *
      * @return int
      */
-    public function getNbResults()
+    public function getNbResults(): int
     {
         if ('sonata_deprecation_mute' !== (\func_get_args()[0] ?? null)) {
             @trigger_error(sprintf(
