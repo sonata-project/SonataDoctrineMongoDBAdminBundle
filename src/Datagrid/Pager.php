@@ -38,6 +38,11 @@ class Pager extends BasePager
         return $countQuery->count()->getQuery()->execute();
     }
 
+    public function countResults(): int
+    {
+        return $this->computeNbResult();
+    }
+
     public function getResults(): array
     {
         return $this->getQuery()->execute()->toArray();
