@@ -19,7 +19,6 @@ use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
@@ -36,15 +35,12 @@ class ListBuilder implements ListBuilderInterface
         $this->templates = $templates;
     }
 
-    public function getBaseList(array $options = [])
+    public function getBaseList(array $options = []): FieldDescriptionCollection
     {
         return new FieldDescriptionCollection();
     }
 
-    /**
-     * @return void
-     */
-    public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
     {
         if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
@@ -56,10 +52,7 @@ class ListBuilder implements ListBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
     }
 
-    /**
-     * @return void
-     */
-    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
     {
         $this->buildField($type, $fieldDescription, $admin);
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
@@ -67,10 +60,7 @@ class ListBuilder implements ListBuilderInterface
         $list->add($fieldDescription);
     }
 
-    /**
-     * @return void
-     */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
+    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {
         if ('_action' === $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {
             $this->buildActionFieldDescription($fieldDescription);
@@ -78,43 +68,15 @@ class ListBuilder implements ListBuilderInterface
 
         $fieldDescription->setAdmin($admin);
 
-        // NEXT_MAJOR: Remove the following 2 lines.
-        $modelManager = $admin->getModelManager();
-        \assert($modelManager instanceof ModelManager);
-
-        // NEXT_MAJOR: Remove this block.
-        if ($modelManager->hasMetadata($admin->getClass(), 'sonata_deprecation_mute')) {
-            [$metadata, $lastPropertyName, $parentAssociationMappings] = $modelManager->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
-            $fieldDescription->setParentAssociationMappings($parentAssociationMappings);
-
-            // set the default field mapping
-            if (isset($metadata->fieldMappings[$lastPropertyName])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$lastPropertyName]);
-                if (false !== $fieldDescription->getOption('sortable')) {
-                    $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', true));
-                    $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
-                    $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
-                }
-            }
-
-            // set the default association mapping
-            if (isset($metadata->associationMappings[$lastPropertyName])) {
-                $fieldDescription->setAssociationMapping($metadata->associationMappings[$lastPropertyName]);
+        if ([] !== $fieldDescription->getFieldMapping()) {
+            if (false !== $fieldDescription->getOption('sortable')) {
+                $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', true));
+                $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
+                $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
             }
 
             $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
         }
-
-        // NEXT_MAJOR: Uncomment this code.
-        //if ([] !== $fieldDescription->getFieldMapping()) {
-        //    if (false !== $fieldDescription->getOption('sortable')) {
-        //        $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', true));
-        //        $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
-        //        $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
-        //    }
-        //
-        //    $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
-        //}
 
         if (!$fieldDescription->getType()) {
             throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($admin)));

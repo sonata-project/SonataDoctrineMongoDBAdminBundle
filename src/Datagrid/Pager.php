@@ -87,15 +87,12 @@ class Pager extends BasePager
         return $this->computeResultsCount();
     }
 
-    public function getResults()
+    public function getResults(): array
     {
-        return $this->getQuery()->execute();
+        return $this->getQuery()->execute()->toArray();
     }
 
-    /**
-     * @return void
-     */
-    public function init()
+    public function init(): void
     {
         // NEXT_MAJOR: Remove next line.
         $this->resetIterator('sonata_deprecation_mute');

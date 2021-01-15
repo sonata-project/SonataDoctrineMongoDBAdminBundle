@@ -27,10 +27,9 @@ class DateFilter extends AbstractDateFilter
     }
 
     /**
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, $data): void
     {
         $data['value']->add(new \DateInterval('P1D'));
 
@@ -38,10 +37,9 @@ class DateFilter extends AbstractDateFilter
     }
 
     /**
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, $data): void
     {
         $data['value']->add(new \DateInterval('P1D'));
 
@@ -53,10 +51,9 @@ class DateFilter extends AbstractDateFilter
      *
      * @author Wesley van Opdorp <wesley.van.opdorp@freshheads.com>
      *
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, $data): void
     {
         $end = clone $data['value'];
         $end->add(new \DateInterval('P1D'));

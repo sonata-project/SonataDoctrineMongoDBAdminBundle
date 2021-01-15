@@ -22,10 +22,9 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\AdminBundle\Form\Type\ModelTypeList;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
@@ -50,30 +49,8 @@ class FormContractor implements FormContractorInterface
         $this->formFactory = $formFactory;
     }
 
-    /**
-     * @return void
-     */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
+    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {
-        // NEXT_MAJOR: Remove the following 2 lines.
-        $modelManager = $admin->getModelManager();
-        \assert($modelManager instanceof ModelManager);
-
-        // NEXT_MAJOR: Remove this block.
-        if ($modelManager->hasMetadata($admin->getClass(), 'sonata_deprecation_mute')) {
-            $metadata = $modelManager->getMetadata($admin->getClass(), 'sonata_deprecation_mute');
-
-            // set the default field mapping
-            if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
-            }
-
-            // set the default association mapping
-            if (isset($metadata->associationMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setAssociationMapping($metadata->associationMappings[$fieldDescription->getName()]);
-            }
-        }
-
         if (!$fieldDescription->getType()) {
             throw new \RuntimeException(sprintf(
                 'Please define a type for field `%s` in `%s`',
@@ -98,22 +75,21 @@ class FormContractor implements FormContractorInterface
         return $this->formFactory;
     }
 
-    public function getFormBuilder($name, array $formOptions = [])
+    public function getFormBuilder(string $name, array $formOptions = []): FormBuilderInterface
     {
         return $this->getFormFactory()->createNamedBuilder($name, FormType::class, null, $formOptions);
     }
 
-    public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
-    {
-        // NEXT_MAJOR: Remove this line and update the function signature.
-        $formOptions = \func_get_args()[2] ?? [];
-
+    public function getDefaultOptions(
+        ?string $type,
+        FieldDescriptionInterface $fieldDescription,
+        array $formOptions = []
+    ): array {
         $options = [];
         $options['sonata_field_description'] = $fieldDescription;
 
         if ($this->checkFormClass($type, [
             ModelType::class,
-            ModelTypeList::class,
             ModelListType::class,
             ModelHiddenType::class,
             ModelAutocompleteType::class,
@@ -166,8 +142,6 @@ class FormContractor implements FormContractorInterface
             $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
         } elseif ($this->checkFormClass($type, [
             CollectionType::class,
-            // NEXT_MAJOR: Remove 'Sonata\CoreBundle\Form\Type\CollectionType'
-            'Sonata\CoreBundle\Form\Type\CollectionType',
         ])) {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw new \RuntimeException(sprintf(

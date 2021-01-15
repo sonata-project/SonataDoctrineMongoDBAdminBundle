@@ -23,10 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AddTemplatesCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {
             if (!isset($attributes[0]['manager_type']) || 'doctrine_mongodb' !== $attributes[0]['manager_type']) {

@@ -23,12 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
  */
 class BooleanFilter extends Filter
 {
-    /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     *
-     * @return void
-     */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
             return;
@@ -62,12 +57,12 @@ class BooleanFilter extends Filter
         }
     }
 
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [];
     }
 
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return [DefaultType::class, [
             'field_type' => $this->getFieldType(),

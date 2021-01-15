@@ -15,13 +15,14 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
@@ -29,8 +30,10 @@ use Symfony\Component\Form\Guess\TypeGuess;
 /**
  * @author Andrew Mor-Yaroslavtsev <andrejs@gmail.com>
  */
-class ListBuilderTest extends AbstractModelManagerTestCase
+class ListBuilderTest extends TestCase
 {
+    use ClassMetadataAnnotationTrait;
+
     /**
      * @var TypeGuesserInterface&Stub
      */
@@ -53,7 +56,6 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);
 
         $this->admin = $this->createMock(AbstractAdmin::class);
-        $this->admin->method('getModelManager')->willReturn($this->modelManager);
 
         $this->listBuilder = new ListBuilder($this->typeGuesser, [
             'fakeTemplate' => 'fake',
@@ -118,15 +120,6 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         );
         $fieldDescription->setType('string');
 
-        $this->metadataFactory
-            ->method('hasMetadataFor')
-            ->with($documentClass)
-            ->willReturn(true);
-
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
-
         $this->admin
             ->method('getClass')
             ->willReturn($documentClass);
@@ -155,15 +148,6 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         $this->admin
             ->expects($this->once())
             ->method('attachAdminClass');
-
-        $this->metadataFactory
-            ->method('hasMetadataFor')
-            ->with($documentClass)
-            ->willReturn(true);
-
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
 
         $this->admin
             ->method('getClass')
@@ -194,7 +178,6 @@ class ListBuilderTest extends AbstractModelManagerTestCase
      */
     public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
     {
-        $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
         $fieldDescription = new FieldDescription('test');
         $fieldDescription->setType($type);
 

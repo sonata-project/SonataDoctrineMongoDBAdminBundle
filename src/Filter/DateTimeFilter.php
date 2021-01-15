@@ -34,10 +34,9 @@ class DateTimeFilter extends AbstractDateFilter
     }
 
     /**
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, $data): void
     {
         // Add a minute so less then equal selects all seconds.
         $data['value']->add(new \DateInterval('PT1M'));
@@ -46,10 +45,9 @@ class DateTimeFilter extends AbstractDateFilter
     }
 
     /**
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, $data): void
     {
         // Add 59 seconds so anything above the minute is selected
         $data['value']->add(new \DateInterval('PT59S'));
@@ -60,10 +58,9 @@ class DateTimeFilter extends AbstractDateFilter
     /**
      * Because we lack a second variable we select a range covering the entire minute.
      *
-     * @param string $field
-     * @param array  $data
+     * @param array $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, $data): void
     {
         /** @var \DateTime $end */
         $end = clone $data['value'];

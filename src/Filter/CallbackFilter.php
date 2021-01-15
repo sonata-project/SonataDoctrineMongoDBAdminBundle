@@ -23,12 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class CallbackFilter extends Filter
 {
-    /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     *
-     * @return void
-     */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         if (!\is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf(
@@ -37,8 +32,7 @@ class CallbackFilter extends Filter
             ));
         }
 
-        // NEXT_MAJOR: Remove $alias parameter.
-        \call_user_func($this->getOption('callback'), $query, $alias, $field, $data);
+        \call_user_func($this->getOption('callback'), $query, $field, $data);
 
         if (\is_callable($this->getOption('active_callback'))) {
             $this->active = \call_user_func($this->getOption('active_callback'), $data);
@@ -49,7 +43,7 @@ class CallbackFilter extends Filter
         $this->active = true;
     }
 
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [
             'callback' => null,
@@ -62,7 +56,7 @@ class CallbackFilter extends Filter
         ];
     }
 
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return [DefaultType::class, [
                 'field_type' => $this->getFieldType(),

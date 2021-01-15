@@ -36,12 +36,7 @@ abstract class AbstractDateFilter extends Filter
      */
     protected $time = false;
 
-    /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     *
-     * @return void
-     */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         //check data sanity
         if (true !== \is_array($data)) {
@@ -96,12 +91,12 @@ abstract class AbstractDateFilter extends Filter
         }
     }
 
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return ['input_type' => 'datetime'];
     }
 
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         $name = DateType::class;
 
@@ -139,10 +134,8 @@ abstract class AbstractDateFilter extends Filter
      * @param string    $operation
      * @param string    $field
      * @param \DateTime $datetime
-     *
-     * @return void
      */
-    protected function applyType(ProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null)
+    protected function applyType(ProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null): void
     {
         $query->field($field)->$operation($datetime);
         $this->active = true;

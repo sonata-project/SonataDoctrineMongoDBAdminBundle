@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-// NEXT MAJOR: Uncomment next line.
-// use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Filter\Filter as BaseFilter;
 
 abstract class Filter extends BaseFilter
@@ -24,25 +23,23 @@ abstract class Filter extends BaseFilter
      */
     protected $active = false;
 
-    /**
-     * @return void
-     */
-    public function apply($query, $filterData)
+    public function apply($query, $filterData): void
     {
         // NEXT_MAJOR: Remove next line.
         $this->value = $filterData;
 
         $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
 
-        // NEXT_MAJOR: Remove null argument.
-        $this->filter($query, null, $field, $filterData);
+        $this->filter($query, $field, $filterData);
     }
 
-    // NEXT_MAJOR: Uncomment this code.
-    // abstract protected function filter(ProxyQueryInterface $query, string $field, $data);
-
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active;
     }
+
+    /**
+     * @param mixed $data
+     */
+    abstract protected function filter(ProxyQueryInterface $query, string $field, $data): void;
 }

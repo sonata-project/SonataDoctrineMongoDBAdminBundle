@@ -27,10 +27,7 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
  */
 class SonataDoctrineMongoDBAdminExtension extends AbstractSonataAdminExtension
 {
-    /**
-     * @return void
-     */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configs = $this->fixTemplatesConfiguration($configs, $container);
 

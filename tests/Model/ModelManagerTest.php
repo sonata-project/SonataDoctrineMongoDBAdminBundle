@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Model;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
@@ -24,9 +23,7 @@ use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AbstractDocument;
@@ -83,105 +80,6 @@ final class ModelManagerTest extends TestCase
             ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
 
         $this->assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @dataProvider getWrongDocuments
-     *
-     * @param mixed $document
-     */
-    public function testNormalizedIdentifierException($document): void
-    {
-        $manager = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->expectException(\RuntimeException::class);
-
-        $manager->getNormalizedIdentifier($document);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     */
-    public function getWrongDocuments(): iterable
-    {
-        yield [0];
-        yield [1];
-        yield [false];
-        yield [true];
-        yield [[]];
-        yield [''];
-        yield ['sonata-project'];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @group legacy
-     */
-    public function testGetNormalizedIdentifierNull(): void
-    {
-        $manager = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->expectDeprecation(
-            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
-        );
-
-        $this->assertNull($manager->getNormalizedIdentifier(null));
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @group legacy
-     */
-    public function testSortParameters(): void
-    {
-        $manager = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $datagrid1 = $this->createStub(Datagrid::class);
-        $datagrid2 = $this->createStub(Datagrid::class);
-
-        $field1 = new FieldDescription('field1');
-        $field2 = new FieldDescription('field2');
-        $field3 = new FieldDescription('field3');
-        $field3->setOption('sortable', 'field3sortBy');
-
-        $datagrid1
-            ->method('getValues')
-            ->willReturn([
-                '_sort_by' => $field1,
-                '_sort_order' => 'ASC',
-            ]);
-
-        $datagrid2
-            ->method('getValues')
-            ->willReturn([
-                '_sort_by' => $field3,
-                '_sort_order' => 'ASC',
-            ]);
-
-        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getSortParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
-        $parameters = $manager->getSortParameters($field1, $datagrid1);
-
-        $this->assertSame('DESC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field1', $parameters['filter']['_sort_by']);
-
-        $parameters = $manager->getSortParameters($field2, $datagrid1);
-
-        $this->assertSame('ASC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field2', $parameters['filter']['_sort_by']);
-
-        $parameters = $manager->getSortParameters($field3, $datagrid1);
-
-        $this->assertSame('ASC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field3sortBy', $parameters['filter']['_sort_by']);
-
-        $parameters = $manager->getSortParameters($field3, $datagrid2);
-
-        $this->assertSame('DESC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field3sortBy', $parameters['filter']['_sort_by']);
     }
 
     public function testGetParentMetadataForProperty(): void
@@ -282,35 +180,6 @@ final class ModelManagerTest extends TestCase
      *
      * @group legacy
      */
-    public function testCollections(): void
-    {
-        $model = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getModelCollectionInstance() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
-        $collection = $model->getModelCollectionInstance('whyDoWeEvenHaveThisParameter');
-        $this->assertInstanceOf(ArrayCollection::class, $collection);
-
-        $item1 = new \stdClass();
-        $item2 = new \stdClass();
-        $model->collectionAddElement($collection, $item1);
-        $model->collectionAddElement($collection, $item2);
-
-        $this->assertTrue($model->collectionHasElement($collection, $item1));
-
-        $model->collectionRemoveElement($collection, $item1);
-
-        $this->assertFalse($model->collectionHasElement($collection, $item1));
-
-        $model->collectionClear($collection);
-
-        $this->assertTrue($collection->isEmpty());
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
     public function testModelTransform(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
@@ -393,22 +262,6 @@ final class ModelManagerTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $model->getNormalizedIdentifier(new \stdClass());
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @group legacy
-     */
-    public function testGetUrlSafeIdentifierNull(): void
-    {
-        $model = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->expectDeprecation(
-            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
-        );
-
-        $this->assertNull($model->getNormalizedIdentifier(null));
     }
 
     public function testGetNewFieldDescriptionInstanceCreatesAFieldDescription(): void

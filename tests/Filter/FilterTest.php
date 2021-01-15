@@ -23,25 +23,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class FilterTest_Filter extends Filter
 {
-    /**
-     * Apply the filter to the QueryBuilder instance.
-     *
-     * @param $queryBuilder
-     * @param string $alias
-     * @param string $field
-     * @param string $value
-     */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        $queryBuilder->field($field)->equals($value);
+        $query->field($field)->equals($data);
     }
 
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return ['option1' => 2];
     }
 
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['sonata_type_filter_default', [
             'type' => $this->getFieldType(),
@@ -85,8 +77,7 @@ class FilterTest extends TestCase
 
     public function testExceptionOnEmptyFieldName(): void
     {
-        // NEXT_MAJOR: Replace \RuntimeException with \LogicException.
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\LogicException::class);
 
         $filter = new FilterTest_Filter();
         $filter->getFieldName();

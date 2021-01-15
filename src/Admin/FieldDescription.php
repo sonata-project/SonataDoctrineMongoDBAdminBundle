@@ -22,15 +22,9 @@ class FieldDescription extends BaseFieldDescription
 {
     /**
      * NEXT_MAJOR: Change visibility to protected.
-     *
-     * @return void
      */
-    public function setAssociationMapping($associationMapping)
+    public function setAssociationMapping(array $associationMapping): void
     {
-        if (!\is_array($associationMapping)) {
-            throw new \RuntimeException('The association mapping must be an array');
-        }
-
         $this->associationMapping = $associationMapping;
 
         $this->type = $this->type ?: $associationMapping['type'];
@@ -66,15 +60,9 @@ class FieldDescription extends BaseFieldDescription
 
     /**
      * NEXT_MAJOR: Change visibility to protected.
-     *
-     * @return void
      */
-    public function setFieldMapping($fieldMapping)
+    public function setFieldMapping(array $fieldMapping): void
     {
-        if (!\is_array($fieldMapping)) {
-            throw new \RuntimeException('The field mapping must be an array');
-        }
-
         $this->fieldMapping = $fieldMapping;
 
         $this->type = $this->type ?: $fieldMapping['type'];
@@ -84,10 +72,8 @@ class FieldDescription extends BaseFieldDescription
 
     /**
      * NEXT_MAJOR: Change visibility to protected.
-     *
-     * @return void
      */
-    public function setParentAssociationMappings(array $parentAssociationMappings)
+    public function setParentAssociationMappings(array $parentAssociationMappings): void
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {
             if (!\is_array($parentAssociationMapping)) {
@@ -98,7 +84,7 @@ class FieldDescription extends BaseFieldDescription
         $this->parentAssociationMappings = $parentAssociationMappings;
     }
 
-    public function isIdentifier()
+    public function isIdentifier(): bool
     {
         return $this->fieldMapping['id'] ?? false;
     }

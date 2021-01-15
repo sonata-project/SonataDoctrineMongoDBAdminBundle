@@ -30,12 +30,7 @@ class NumberFilter extends Filter
         NumberOperatorType::TYPE_LESS_THAN => 'lt',
     ];
 
-    /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     *
-     * @return void
-     */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || !is_numeric($data['value'])) {
             return;
@@ -49,12 +44,12 @@ class NumberFilter extends Filter
         $this->active = true;
     }
 
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [];
     }
 
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return [NumberType::class, [
             'field_type' => $this->getFieldType(),

@@ -44,7 +44,6 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
     {
         return [
             [null],
-            ['all'],
             [[]],
         ];
     }

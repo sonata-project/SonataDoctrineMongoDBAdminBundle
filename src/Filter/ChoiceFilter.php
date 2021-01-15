@@ -23,12 +23,7 @@ use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
  */
 class ChoiceFilter extends Filter
 {
-    /**
-     * NEXT_MAJOR: Remove $alias parameter.
-     *
-     * @return void
-     */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
             return;
@@ -36,10 +31,6 @@ class ChoiceFilter extends Filter
 
         if (\is_array($data['value'])) {
             if (0 === \count($data['value'])) {
-                return;
-            }
-
-            if (\in_array('all', $data['value'], true)) {
                 return;
             }
 
@@ -51,7 +42,7 @@ class ChoiceFilter extends Filter
 
             $this->active = true;
         } else {
-            if ('' === $data['value'] || null === $data['value'] || false === $data['value'] || 'all' === $data['value']) {
+            if ('' === $data['value'] || null === $data['value'] || false === $data['value']) {
                 return;
             }
 
@@ -65,12 +56,12 @@ class ChoiceFilter extends Filter
         }
     }
 
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [];
     }
 
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return [DefaultType::class, [
             'operator_type' => ChoiceType::class,
