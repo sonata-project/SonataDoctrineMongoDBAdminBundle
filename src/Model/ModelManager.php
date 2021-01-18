@@ -336,10 +336,12 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelIdentifier($class)
     {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+        }
 
         return $this->getMetadata($class, 'sonata_deprecation_mute')->identifier;
     }
@@ -532,14 +534,16 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDefaultSortValues($class)
     {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+        }
 
         return [
             '_sort_order' => 'ASC',
-            '_sort_by' => $this->getModelIdentifier($class),
+            '_sort_by' => $this->getModelIdentifier($class, 'sonata_deprecation_mute'),
             '_page' => 1,
             '_per_page' => 25,
         ];
