@@ -87,9 +87,25 @@ class Pager extends BasePager
         return $this->computeResultsCount();
     }
 
-    public function getResults()
+    public function getCurrentPageResults(): iterable
     {
         return $this->getQuery()->execute();
+    }
+
+    /**
+     * NEXT_MAJOR: remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x.
+     */
+    public function getResults()
+    {
+        @trigger_error(sprintf(
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will'
+        .' be removed in 4.0. Use "getCurrentPageResults()" instead.',
+            __METHOD__,
+        ), E_USER_DEPRECATED);
+
+        return $this->getCurrentPageResults();
     }
 
     /**
