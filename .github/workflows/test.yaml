@@ -77,17 +77,11 @@ jobs:
               if: matrix.variant != 'normal'
               run: composer require ${{ matrix.variant }} --no-update
 
-            - name: Install browser drivers
-              run: composer require dbrekelmans/bdi --no-update --dev
-
             - name: "Install Composer dependencies (${{ matrix.dependencies }})"
               uses: "ramsey/composer-install@v1"
               with:
                   dependency-versions: "${{ matrix.dependencies }}"
                   composer-options: "--prefer-dist --prefer-stable"
-
-            - name: Download WebDriver drivers
-              run: vendor/bin/bdi detect drivers
 
             - name: Run Tests
               run: make test
