@@ -61,7 +61,7 @@ class ModelManager implements ModelManagerInterface
                 PropertyAccessorInterface::class,
                 __METHOD__,
                 \TypeError::class
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
 
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
         }
@@ -86,7 +86,7 @@ class ModelManager implements ModelManagerInterface
                 'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and'
                 .' will be removed in version 4.0.',
                 __METHOD__
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
         }
 
         return $this->getDocumentManager($class)->getClassMetadata($class);
@@ -140,7 +140,7 @@ class ModelManager implements ModelManagerInterface
                 'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and'
                  .' will be removed in version 4.0.',
                 __METHOD__
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
         }
 
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
@@ -195,7 +195,7 @@ class ModelManager implements ModelManagerInterface
                 'Passing null as argument 1 for %s() is deprecated since'
                 .' sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.',
                 __METHOD__
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
 
             return null;
         }
@@ -276,7 +276,7 @@ class ModelManager implements ModelManagerInterface
             Builder::class,
             ProxyQuery::class,
             __METHOD__
-        ), E_USER_DEPRECATED);
+        ), \E_USER_DEPRECATED);
 
         //throw new \TypeError(sprintf(
         //    '$query must be be an instance of "%s" or "%s"',
@@ -297,10 +297,12 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelIdentifier($class)
     {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
+                __METHOD__
+            ), \E_USER_DEPRECATED);
+        }
 
         return $this->getMetadata($class, 'sonata_deprecation_mute')->identifier;
     }
@@ -413,7 +415,7 @@ class ModelManager implements ModelManagerInterface
         @trigger_error(sprintf(
             'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
-        ), E_USER_DEPRECATED);
+        ), \E_USER_DEPRECATED);
 
         $values = $datagrid->getValues();
 
@@ -442,7 +444,7 @@ class ModelManager implements ModelManagerInterface
         @trigger_error(sprintf(
             'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
-        ), E_USER_DEPRECATED);
+        ), \E_USER_DEPRECATED);
 
         $values = $datagrid->getValues();
 
@@ -461,10 +463,12 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDefaultSortValues($class)
     {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
+                __METHOD__
+            ), \E_USER_DEPRECATED);
+        }
 
         return [
             '_page' => 1,
@@ -482,7 +486,7 @@ class ModelManager implements ModelManagerInterface
         @trigger_error(sprintf(
             'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
             __METHOD__
-        ), E_USER_DEPRECATED);
+        ), \E_USER_DEPRECATED);
 
         return [10, 25, 50, 100, 250];
     }
@@ -497,7 +501,7 @@ class ModelManager implements ModelManagerInterface
         @trigger_error(sprintf(
             'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
             __METHOD__
-        ), E_USER_DEPRECATED);
+        ), \E_USER_DEPRECATED);
 
         return $instance;
     }

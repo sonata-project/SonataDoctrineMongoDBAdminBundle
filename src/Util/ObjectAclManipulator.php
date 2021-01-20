@@ -44,7 +44,7 @@ class ObjectAclManipulator extends BaseObjectAclManipulator
                 ManagerRegistry::class,
                 __METHOD__,
                 \TypeError::class
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
         }
 
         $this->registry = $registry;

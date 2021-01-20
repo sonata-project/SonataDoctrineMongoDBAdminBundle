@@ -91,7 +91,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             case 'datetime':
                 @trigger_error(
                     'The datetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    E_USER_DEPRECATED
+                    \E_USER_DEPRECATED
                 );
 
                 $options['field_type'] = DateTimeType::class;
@@ -110,7 +110,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             case 'decimal':
                 @trigger_error(
                     'The decimal type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    E_USER_DEPRECATED
+                    \E_USER_DEPRECATED
                 );
 
                 $options['field_type'] = NumberType::class;
@@ -119,7 +119,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             case 'bigint':
                 @trigger_error(
                     'The bigint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    E_USER_DEPRECATED
+                    \E_USER_DEPRECATED
                 );
 
                 $options['field_type'] = NumberType::class;
@@ -128,7 +128,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             case 'smallint':
                 @trigger_error(
                     'The smallint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    E_USER_DEPRECATED
+                    \E_USER_DEPRECATED
                 );
 
                 $options['field_type'] = NumberType::class;
@@ -143,7 +143,7 @@ class FilterTypeGuesser extends AbstractTypeGuesser
             case 'text':
                 @trigger_error(
                     'The text type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    E_USER_DEPRECATED
+                    \E_USER_DEPRECATED
                 );
 
                 $options['field_type'] = TextType::class;

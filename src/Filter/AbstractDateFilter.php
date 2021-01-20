@@ -157,7 +157,7 @@ abstract class AbstractDateFilter extends Filter
         @trigger_error(sprintf(
             '"%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
             __METHOD__
-        ), E_USER_DEPRECATED);
+        ), \E_USER_DEPRECATED);
 
         return \in_array($type, [
             DateOperatorType::TYPE_NULL,

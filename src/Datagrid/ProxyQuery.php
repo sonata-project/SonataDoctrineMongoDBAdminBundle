@@ -72,7 +72,7 @@ class ProxyQuery implements ProxyQueryInterface
                 .' deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will throw an exception'
                 .' in 4.0. The values provided in this array are not used.',
                 __METHOD__
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
 
             // throw new \InvalidArgumentException(sprintf(
             //    'No arguments must be passed to "%s()".'

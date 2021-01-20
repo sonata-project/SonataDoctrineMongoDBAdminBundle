@@ -9,6 +9,7 @@ UPGRADE FROM 3.x to 3.x
 Deprecated `computeNbResult()` method.
 Deprecated `getNbResults()` method, you SHOULD use `countResults()` instead.
 Deprecated `setNbResults()` method.
+Deprecated `getResults()` method.
 
 UPGRADE FROM 3.5 to 3.6
 =======================
