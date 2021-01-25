@@ -23,10 +23,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
-use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
-use Sonata\Exporter\Source\SourceIteratorInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 final class ModelManager implements ModelManagerInterface
@@ -43,50 +40,10 @@ final class ModelManager implements ModelManagerInterface
      */
     private $propertyAccessor;
 
-    /**
-     * NEXT_MAJOR: Make $propertyAccessor mandatory.
-     */
-    public function __construct(ManagerRegistry $registry, ?PropertyAccessorInterface $propertyAccessor = null)
+    public function __construct(ManagerRegistry $registry, PropertyAccessorInterface $propertyAccessor)
     {
         $this->registry = $registry;
-
-        // NEXT_MAJOR: Remove this block.
-        if (!$propertyAccessor instanceof PropertyAccessorInterface) {
-            @trigger_error(sprintf(
-                'Not passing an object implementing "%s" as argument 2 for "%s()" is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.4 and will throw a %s error in 4.0.',
-                PropertyAccessorInterface::class,
-                __METHOD__,
-                \TypeError::class
-            ), \E_USER_DEPRECATED);
-
-            $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        }
-
         $this->propertyAccessor = $propertyAccessor;
-    }
-
-    /**
-     * NEXT_MAJOR: Change visibility to private.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be private in version 4.0
-     *
-     * @param string $class
-     *
-     * @return MongoDBClassMetadata
-     */
-    public function getMetadata($class)
-    {
-        // Remove this block.
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
-            @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and'
-                .' will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
-        return $this->getDocumentManager($class)->getClassMetadata($class);
     }
 
     /**
@@ -113,34 +70,12 @@ final class ModelManager implements ModelManagerInterface
         $parentAssociationMappings = [];
 
         foreach ($nameElements as $nameElement) {
-            // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
-            $metadata = $this->getMetadata($class, 'sonata_deprecation_mute');
+            $metadata = $this->getMetadata($class);
             $parentAssociationMappings[] = $metadata->associationMappings[$nameElement];
             $class = $metadata->getAssociationTargetClass($nameElement);
         }
 
-        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
-        return [$this->getMetadata($class, 'sonata_deprecation_mute'), $lastPropertyName, $parentAssociationMappings];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0
-     *
-     * @return bool
-     */
-    public function hasMetadata($class)
-    {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
-            @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and'
-                 .' will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
-        return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
+        return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
     }
 
     public function getNewFieldDescriptionInstance(string $class, string $name, array $options = []): FieldDescriptionInterface
@@ -266,42 +201,11 @@ final class ModelManager implements ModelManagerInterface
             return $query->execute();
         }
 
-        // NEXT_MAJOR: Remove this trigger_error and uncomment the exception.
-        @trigger_error(sprintf(
-            'Passing other type than "%s" or %s as argument 1 for "%s()" is deprecated since'
-            .' sonata-project/doctrine-mongodb-admin-bundle 3.5 and will throw an exception in 4.0.',
+        throw new \TypeError(sprintf(
+            '$query must be be an instance of "%s" or "%s"',
             Builder::class,
-            ProxyQuery::class,
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
-        //throw new \TypeError(sprintf(
-        //    '$query must be be an instance of "%s" or "%s"',
-        //    Builder::class,
-        //    ProxyQuery::class
-        //));
-
-        // NEXT_MAJOR: Remove this line.
-        return $query->execute();
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.
-     *
-     * @psalm-suppress NullableReturnStatement
-     */
-    public function getModelIdentifier($class)
-    {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
-            @trigger_error(sprintf(
-                'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
-        return $this->getMetadata($class, 'sonata_deprecation_mute')->identifier;
+            ProxyQuery::class
+        ));
     }
 
     public function getIdentifierValues(object $document): array
@@ -311,8 +215,7 @@ final class ModelManager implements ModelManagerInterface
 
     public function getIdentifierFieldNames(string $class): array
     {
-        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
-        return $this->getMetadata($class, 'sonata_deprecation_mute')->getIdentifier();
+        return $this->getMetadata($class)->getIdentifier();
     }
 
     public function getNormalizedIdentifier(object $document): ?string
@@ -359,22 +262,6 @@ final class ModelManager implements ModelManagerInterface
         $documentManager->clear();
     }
 
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.
-     */
-    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, ?int $firstResult = null, ?int $maxResult = null): SourceIteratorInterface
-    {
-        $datagrid->buildPager();
-        $query = $datagrid->getQuery();
-
-        $query->setFirstResult($firstResult);
-        $query->setMaxResults($maxResult);
-
-        return new DoctrineODMQuerySourceIterator($query instanceof ProxyQuery ? $query->getQuery() : $query, $fields);
-    }
-
     public function getExportFields(string $class): array
     {
         $metadata = $this->getDocumentManager($class)->getClassMetadata($class);
@@ -402,112 +289,10 @@ final class ModelManager implements ModelManagerInterface
         return new $class();
     }
 
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
-     */
-    public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
-        $values = $datagrid->getValues();
-
-        if ($this->isFieldAlreadySorted($fieldDescription, $datagrid)) {
-            if ('ASC' === $values['_sort_order']) {
-                $values['_sort_order'] = 'DESC';
-            } else {
-                $values['_sort_order'] = 'ASC';
-            }
-        } else {
-            $values['_sort_order'] = 'ASC';
-        }
-
-        $values['_sort_by'] = \is_string($fieldDescription->getOption('sortable')) ? $fieldDescription->getOption('sortable') : $fieldDescription->getName();
-
-        return ['filter' => $values];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.
-     */
-    public function getPaginationParameters(DatagridInterface $datagrid, $page)
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
-        $values = $datagrid->getValues();
-
-        if (isset($values['_sort_by']) && $values['_sort_by'] instanceof FieldDescriptionInterface) {
-            $values['_sort_by'] = $values['_sort_by']->getName();
-        }
-        $values['_page'] = $page;
-
-        return ['filter' => $values];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.
-     */
-    public function getDefaultSortValues($class)
-    {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
-            @trigger_error(sprintf(
-                'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
-        return [
-            '_page' => 1,
-            '_per_page' => 25,
-        ];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.
-     */
-    public function getDefaultPerPageOptions(string $class): array
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
-        return [10, 25, 50, 100, 250];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.
-     */
-    public function modelTransform(string $class, object $instance): object
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
-        return $instance;
-    }
-
     public function modelReverseTransform(string $class, array $array = []): object
     {
         $instance = $this->getModelInstance($class);
-        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
-        $metadata = $this->getMetadata($class, 'sonata_deprecation_mute');
+        $metadata = $this->getMetadata($class);
 
         foreach ($array as $name => $value) {
             $property = $this->getFieldName($metadata, $name);
@@ -541,5 +326,10 @@ final class ModelManager implements ModelManagerInterface
 
         return $values['_sort_by']->getName() === $fieldDescription->getName()
             || $values['_sort_by']->getName() === $fieldDescription->getOption('sortable');
+    }
+
+    private function getMetadata(string $class): MongoDBClassMetadata
+    {
+        return $this->getDocumentManager($class)->getClassMetadata($class);
     }
 }

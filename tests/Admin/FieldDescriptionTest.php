@@ -99,18 +99,6 @@ final class FieldDescriptionTest extends TestCase
 
         $this->assertSame('integer', $field->getType());
         $this->assertSame('position', $field->getFieldName());
-
-        // cannot overwrite defined definition
-        // NEXT_MAJOR: Remove this call.
-        $field->setAssociationMapping([
-            'type' => 'overwrite?',
-            'fieldName' => 'overwritten',
-        ]);
-
-        // NEXT_MAJOR: Remove following three lines.
-        $this->assertSame('integer', $field->getType());
-        $this->assertSame('overwritten', $field->getFieldName());
-        $this->assertSame('integer', $field->getType());
     }
 
     public function testSetName(): void
@@ -126,18 +114,6 @@ final class FieldDescriptionTest extends TestCase
         $field = new FieldDescription('New field description name');
 
         $this->assertSame($field->getFieldName(), 'New field description name');
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     */
-    public function testSetNameDoesNotSetFieldNameWhenSetBefore(): void
-    {
-        $field = new FieldDescription('name');
-        $field->setFieldName('field name', 'sonata_deprecation_mute');
-        $field->setName('New field description name');
-
-        $this->assertSame($field->getFieldName(), 'field name');
     }
 
     public function testGetParent(): void
@@ -264,28 +240,6 @@ final class FieldDescriptionTest extends TestCase
         $field = new FieldDescription('position', [], $fieldMapping);
 
         $this->assertSame('position', $field->getFieldName());
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetTargetEntity(): void
-    {
-        $assocationMapping = [
-            'type' => 'integer',
-            'fieldName' => 'position',
-            'targetDocument' => 'someValue',
-        ];
-
-        $field = new FieldDescription('name');
-
-        $this->assertNull($field->getTargetEntity());
-
-        $field->setAssociationMapping($assocationMapping);
-
-        $this->assertSame('someValue', $field->getTargetEntity());
     }
 
     public function testGetTargetModel(): void
