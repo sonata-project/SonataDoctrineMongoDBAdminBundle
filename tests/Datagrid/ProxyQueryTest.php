@@ -94,10 +94,6 @@ final class ProxyQueryTest extends TestCase
     }
 
     /**
-     * NEXT_MAJOR: Remove the legacy group and the "doesNotPerformAssertions".
-     *
-     * @group legacy
-     * @doesNotPerformAssertions
      * @dataProvider getDeprecatedParameters
      */
     public function testExecuteWithParameters(array $parameters, ?int $hydrationMode): void
@@ -106,8 +102,7 @@ final class ProxyQueryTest extends TestCase
 
         $proxyQuery = new ProxyQuery($queryBuilder);
 
-        // NEXT_MAJOR: Uncomment this line
-        //$this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $proxyQuery->execute($parameters, $hydrationMode);
     }

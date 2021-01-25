@@ -142,30 +142,6 @@ abstract class AbstractDateFilter extends Filter
     }
 
     /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * Returns if the filter type requires a value to be set.
-     *
-     * @param int $type
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-     *
-     * @return bool
-     */
-    protected function typeRequiresValue($type)
-    {
-        @trigger_error(sprintf(
-            '"%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
-        return \in_array($type, [
-            DateOperatorType::TYPE_NULL,
-            DateOperatorType::TYPE_NOT_NULL,
-        ], true);
-    }
-
-    /**
      * Resolves DataType:: constants to MongoDb operators.
      *
      * @param int $type

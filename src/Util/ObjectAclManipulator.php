@@ -18,7 +18,6 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Security\Handler\AclSecurityHandlerInterface;
 use Sonata\AdminBundle\Util\ObjectAclManipulator as BaseObjectAclManipulator;
-use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
@@ -27,23 +26,12 @@ use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 final class ObjectAclManipulator extends BaseObjectAclManipulator
 {
     /**
-     * @var ManagerRegistry|null
+     * @var ManagerRegistry
      */
     private $registry;
 
-    // NEXT_MAJOR: Make "$registry" mandatory and remove the "if" block
-    public function __construct(?ManagerRegistry $registry = null)
+    public function __construct(ManagerRegistry $registry)
     {
-        if (null === $registry) {
-            @trigger_error(sprintf(
-                'Not passing a "%s" instance as argument 1 for "%s()" is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.4 and will throw a %s error in 4.0.',
-                ManagerRegistry::class,
-                __METHOD__,
-                \TypeError::class
-            ), \E_USER_DEPRECATED);
-        }
-
         $this->registry = $registry;
     }
 
@@ -59,15 +47,8 @@ final class ObjectAclManipulator extends BaseObjectAclManipulator
         $output->writeln(sprintf(' > generate ACLs for %s', $admin->getCode()));
         $objectOwnersMsg = null === $securityIdentity ? '' : ' and set the object owner';
 
-        // NEXT_MAJOR: Remove the completely the "else" part and the "if" check.
-        if (null !== $this->registry) {
-            $om = $this->registry->getManagerForClass($admin->getClass());
-            \assert($om instanceof DocumentManager);
-        } else {
-            $modelManager = $admin->getModelManager();
-            \assert($modelManager instanceof ModelManager);
-            $om = $modelManager->getDocumentManager($admin->getClass());
-        }
+        $om = $this->registry->getManagerForClass($admin->getClass());
+        \assert($om instanceof DocumentManager);
 
         $qb = $om->createQueryBuilder($admin->getClass());
 

@@ -64,18 +64,10 @@ final class ProxyQuery implements ProxyQueryInterface
     public function execute(array $params = [], $hydrationMode = null)
     {
         if ([] !== $params || null !== $hydrationMode) {
-            // NEXT_MAJOR : remove the `trigger_error()` call and uncomment the exception
-            @trigger_error(sprintf(
-                'Passing a value different than an empty array as argument 1 or "null" as argument 2 for "%s()" is'
-                .' deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will throw an exception'
-                .' in 4.0. The values provided in this array are not used.',
+            throw new \InvalidArgumentException(sprintf(
+                'No arguments must be passed to "%s()".',
                 __METHOD__
-            ), \E_USER_DEPRECATED);
-
-            // throw new \InvalidArgumentException(sprintf(
-            //    'No arguments must be passed to "%s()".'
-            //    __METHOD__
-            // ));
+            ));
         }
 
         // always clone the original queryBuilder.

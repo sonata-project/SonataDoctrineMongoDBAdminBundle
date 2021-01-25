@@ -22,8 +22,6 @@ use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AbstractDocument;
@@ -175,54 +173,6 @@ final class ModelManagerTest extends TestCase
         $manager->modelReverseTransform($class, ['plumbus' => 42]);
     }
 
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testModelTransform(): void
-    {
-        $model = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $instance = new \stdClass();
-
-        $this->expectDeprecation(sprintf(
-            'Method %s::modelTransform() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be removed in version 4.0.',
-            ModelManager::class
-        ));
-
-        $result = $model->modelTransform('thisIsNotUsed', $instance);
-
-        $this->assertSame($instance, $result);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetPaginationParameters(): void
-    {
-        $datagrid = $this->createMock(DatagridInterface::class);
-        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
-
-        $datagrid->expects($this->once())
-            ->method('getValues')
-            ->willReturn(['_sort_by' => $fieldDescription]);
-
-        $fieldDescription->expects($this->once())
-            ->method('getName')
-            ->willReturn($name = 'test');
-
-        $model = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getPaginationParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
-        $result = $model->getPaginationParameters($datagrid, $page = 5);
-
-        $this->assertSame($page, $result['filter']['_page']);
-        $this->assertSame($name, $result['filter']['_sort_by']);
-    }
-
     public function testGetModelInstanceException(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
@@ -237,22 +187,6 @@ final class ModelManagerTest extends TestCase
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
         $this->assertInstanceOf(ProtectedDocument::class, $model->getModelInstance(ProtectedDocument::class));
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @group legacy
-     */
-    public function testFindBadId(): void
-    {
-        $model = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->expectDeprecation(
-            'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::find() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
-        );
-
-        $this->assertNull($model->find('notImportant', null));
     }
 
     public function testGetUrlSafeIdentifierException(): void

@@ -103,8 +103,7 @@ final class DatagridBuilderTest extends TestCase
         $documentClass = DocumentWithReferences::class;
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
-        $fieldDescription = new FieldDescription('name');
-        $fieldDescription->setFieldMapping($classMetadata->fieldMappings['name']);
+        $fieldDescription = new FieldDescription('name', [], $classMetadata->fieldMappings['name']);
 
         $this->admin
             ->method('getClass')

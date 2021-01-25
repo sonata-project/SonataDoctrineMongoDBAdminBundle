@@ -61,20 +61,6 @@ final class FilterTest extends TestCase
         $this->assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
     }
 
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testValues(): void
-    {
-        $filter = new FilterTest_Filter();
-        $this->assertEmpty($filter->getValue());
-
-        $filter->setValue(42);
-        $this->assertSame(42, $filter->getValue());
-    }
-
     public function testExceptionOnEmptyFieldName(): void
     {
         $this->expectException(\LogicException::class);
