@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.7.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.6.0...3.7.0) - 2021-01-27
+### Added
+- [[#509](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/509)] Added implementation of `Pager::getCurrentPageResults()` method. ([@franmomu](https://github.com/franmomu))
+- [[#501](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/501)] Implemented `Sonata\AdminBundle\Datagrid\PagerInterface::countResults()` ([@dmaicher](https://github.com/dmaicher))
+
+### Deprecated
+- [[#509](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/509)] Deprecated `Pager::getResults()` method in favor of `Pager::getCurrentPageResults()`. ([@franmomu](https://github.com/franmomu))
+- [[#501](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/501)] `Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager::computeNbResult()` ([@dmaicher](https://github.com/dmaicher))
+- [[#501](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/501)] `Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager::getNbResults()` ([@dmaicher](https://github.com/dmaicher))
+- [[#501](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/501)] `Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager::setNbResults()` ([@dmaicher](https://github.com/dmaicher))
+
+### Fixed
+- [[#502](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/502)] Fixed triggering deprecations from `Pager`. ([@franmomu](https://github.com/franmomu))
+
 ## [3.6.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.5.0...3.6.0) - 2021-01-04
 ### Added
 - [[#486](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/486)] Added `DataSource` to provide a `DataSourceInterface` implementation. ([@franmomu](https://github.com/franmomu))
