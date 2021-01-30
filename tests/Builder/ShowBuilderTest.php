@@ -18,8 +18,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
@@ -53,7 +53,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
             $this->guesser,
             [
                 'fakeTemplate' => 'fake',
-                TemplateRegistry::TYPE_MANY_TO_ONE => '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
+                FieldDescriptionInterface::TYPE_MANY_TO_ONE => '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
             ]
         );
 
@@ -145,12 +145,12 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
     {
         return [
             'one' => [
-                TemplateRegistry::TYPE_MANY_TO_ONE,
+                FieldDescriptionInterface::TYPE_MANY_TO_ONE,
                 'associatedDocument',
                 '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
             ],
             'many' => [
-                TemplateRegistry::TYPE_MANY_TO_MANY,
+                FieldDescriptionInterface::TYPE_MANY_TO_MANY,
                 'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
             ],

@@ -17,8 +17,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
@@ -57,7 +57,7 @@ class ListBuilderTest extends AbstractModelManagerTestCase
 
         $this->listBuilder = new ListBuilder($this->typeGuesser, [
             'fakeTemplate' => 'fake',
-            TemplateRegistry::TYPE_STRING => '@SonataAdmin/CRUD/list_string.html.twig',
+            FieldDescriptionInterface::TYPE_STRING => '@SonataAdmin/CRUD/list_string.html.twig',
         ]);
     }
 
