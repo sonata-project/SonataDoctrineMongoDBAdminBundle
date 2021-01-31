@@ -15,13 +15,12 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\Guess;
@@ -30,7 +29,7 @@ use Symfony\Component\Form\Guess\TypeGuess;
 /**
  * @author Andrew Mor-Yaroslavtsev <andrejs@gmail.com>
  */
-final class ListBuilderTest extends TestCase
+final class ListBuilderTest extends AbstractModelManagerTestCase
 {
     use ClassMetadataAnnotationTrait;
 
@@ -55,7 +54,7 @@ final class ListBuilderTest extends TestCase
 
         $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);
 
-        $this->admin = $this->createMock(AbstractAdmin::class);
+        $this->admin = $this->createMock(AdminInterface::class);
 
         $this->listBuilder = new ListBuilder($this->typeGuesser, [
             'fakeTemplate' => 'fake',
@@ -98,6 +97,10 @@ final class ListBuilderTest extends TestCase
         $this->admin
             ->expects($this->once())
             ->method('addListFieldDescription');
+
+        $this->admin
+            ->method('getModelManager')
+            ->willReturn($this->modelManager);
 
         $this->listBuilder->addField($list, null, $fieldDescription, $this->admin);
 
