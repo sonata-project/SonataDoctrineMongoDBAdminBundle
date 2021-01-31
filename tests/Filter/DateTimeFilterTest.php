@@ -83,8 +83,6 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
             [['type' => DateOperatorType::TYPE_GREATER_THAN, 'value' => new \DateTime('now')], 'gt'],
             [['type' => DateOperatorType::TYPE_LESS_EQUAL, 'value' => new \DateTime('now')], 'lte'],
             [['type' => DateOperatorType::TYPE_LESS_THAN, 'value' => new \DateTime('now')], 'lt'],
-            [['type' => DateOperatorType::TYPE_NULL], 'equals'],
-            [['type' => DateOperatorType::TYPE_NOT_NULL], 'notEqual'],
             [['value' => new \DateTime('now')], 'range'],
         ];
     }

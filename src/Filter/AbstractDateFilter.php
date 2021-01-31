@@ -46,8 +46,7 @@ abstract class AbstractDateFilter extends Filter
         //default type for simple filter
         $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateOperatorType::TYPE_EQUAL : (int) $data['type'];
 
-        // Some types do not require a value to be set (NULL, NOT NULL).
-        if (!isset($data['value']) && $this->typeDoesRequireValue($data['type'])) {
+        if (!isset($data['value'])) {
             return;
         }
 
@@ -70,14 +69,6 @@ abstract class AbstractDateFilter extends Filter
                 $this->active = true;
 
                 $this->applyTypeIsLessEqual($query, $field, $data);
-
-                return;
-
-            case DateOperatorType::TYPE_NULL:
-            case DateOperatorType::TYPE_NOT_NULL:
-                $this->active = true;
-
-                $this->applyType($query, $this->getOperator($data['type']), $field, null);
 
                 return;
 
@@ -151,8 +142,6 @@ abstract class AbstractDateFilter extends Filter
     protected function getOperator($type)
     {
         $choices = [
-            DateOperatorType::TYPE_NULL => 'equals',
-            DateOperatorType::TYPE_NOT_NULL => 'notEqual',
             DateOperatorType::TYPE_EQUAL => 'equals',
             DateOperatorType::TYPE_GREATER_EQUAL => 'gte',
             DateOperatorType::TYPE_GREATER_THAN => 'gt',
@@ -161,13 +150,5 @@ abstract class AbstractDateFilter extends Filter
         ];
 
         return $choices[(int) $type];
-    }
-
-    private function typeDoesRequireValue(int $type): bool
-    {
-        return !\in_array($type, [
-            DateOperatorType::TYPE_NULL,
-            DateOperatorType::TYPE_NOT_NULL,
-        ], true);
     }
 }
