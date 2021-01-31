@@ -23,11 +23,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class FilterTest_Filter extends Filter
 {
-    public function filter(ProxyQueryInterface $query, string $field, $data): void
-    {
-        $query->field($field)->equals($data);
-    }
-
     public function getDefaultOptions(): array
     {
         return ['option1' => 2];
@@ -39,6 +34,11 @@ final class FilterTest_Filter extends Filter
             'type' => $this->getFieldType(),
             'options' => $this->getFieldOptions(),
         ]];
+    }
+
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
+    {
+        $query->field($field)->equals($data);
     }
 }
 

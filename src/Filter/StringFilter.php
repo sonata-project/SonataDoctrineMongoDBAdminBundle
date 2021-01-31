@@ -20,7 +20,21 @@ use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 
 final class StringFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $query, string $field, $data): void
+    public function getDefaultOptions(): array
+    {
+        return [];
+    }
+
+    public function getRenderSettings(): array
+    {
+        return [ChoiceType::class, [
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'label' => $this->getLabel(),
+        ]];
+    }
+
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
             return;
@@ -52,19 +66,5 @@ final class StringFilter extends Filter
         }
 
         $this->active = true;
-    }
-
-    public function getDefaultOptions(): array
-    {
-        return [];
-    }
-
-    public function getRenderSettings(): array
-    {
-        return [ChoiceType::class, [
-            'field_type' => $this->getFieldType(),
-            'field_options' => $this->getFieldOptions(),
-            'label' => $this->getLabel(),
-        ]];
     }
 }
