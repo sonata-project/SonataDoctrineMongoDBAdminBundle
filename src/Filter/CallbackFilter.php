@@ -20,26 +20,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class CallbackFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $query, string $field, $data): void
-    {
-        if (!\is_callable($this->getOption('callback'))) {
-            throw new \RuntimeException(sprintf(
-                'Please provide a valid callback option "filter" for field "%s"',
-                $this->getName()
-            ));
-        }
-
-        \call_user_func($this->getOption('callback'), $query, $field, $data);
-
-        if (\is_callable($this->getOption('active_callback'))) {
-            $this->active = \call_user_func($this->getOption('active_callback'), $data);
-
-            return;
-        }
-
-        $this->active = true;
-    }
-
     public function getDefaultOptions(): array
     {
         return [
@@ -62,5 +42,25 @@ final class CallbackFilter extends Filter
                 'operator_options' => $this->getOption('operator_options'),
                 'label' => $this->getLabel(),
         ]];
+    }
+
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
+    {
+        if (!\is_callable($this->getOption('callback'))) {
+            throw new \RuntimeException(sprintf(
+                'Please provide a valid callback option "filter" for field "%s"',
+                $this->getName()
+            ));
+        }
+
+        \call_user_func($this->getOption('callback'), $query, $field, $data);
+
+        if (\is_callable($this->getOption('active_callback'))) {
+            $this->active = \call_user_func($this->getOption('active_callback'), $data);
+
+            return;
+        }
+
+        $this->active = true;
     }
 }

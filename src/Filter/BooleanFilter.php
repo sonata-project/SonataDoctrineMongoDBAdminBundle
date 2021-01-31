@@ -20,7 +20,23 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 final class BooleanFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $query, string $field, $data): void
+    public function getDefaultOptions(): array
+    {
+        return [];
+    }
+
+    public function getRenderSettings(): array
+    {
+        return [DefaultType::class, [
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'operator_type' => HiddenType::class,
+            'operator_options' => [],
+            'label' => $this->getLabel(),
+        ]];
+    }
+
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
             return;
@@ -52,21 +68,5 @@ final class BooleanFilter extends Filter
             $query->field($field)->equals($data);
             $this->active = true;
         }
-    }
-
-    public function getDefaultOptions(): array
-    {
-        return [];
-    }
-
-    public function getRenderSettings(): array
-    {
-        return [DefaultType::class, [
-            'field_type' => $this->getFieldType(),
-            'field_options' => $this->getFieldOptions(),
-            'operator_type' => HiddenType::class,
-            'operator_options' => [],
-            'label' => $this->getLabel(),
-        ]];
     }
 }

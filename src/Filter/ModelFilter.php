@@ -24,25 +24,6 @@ use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 
 final class ModelFilter extends Filter
 {
-    public function filter(ProxyQueryInterface $query, string $field, $data): void
-    {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
-            return;
-        }
-
-        if ($data['value'] instanceof Collection) {
-            $data['value'] = $data['value']->toArray();
-        }
-
-        $field = $this->getIdentifierField($field);
-
-        if (\is_array($data['value'])) {
-            $this->handleMultiple($query, $field, $data);
-        } else {
-            $this->handleScalar($query, $field, $data);
-        }
-    }
-
     public function getDefaultOptions(): array
     {
         return [
@@ -63,6 +44,25 @@ final class ModelFilter extends Filter
             'operator_options' => $this->getOption('operator_options'),
             'label' => $this->getLabel(),
         ]];
+    }
+
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
+    {
+        if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
+            return;
+        }
+
+        if ($data['value'] instanceof Collection) {
+            $data['value'] = $data['value']->toArray();
+        }
+
+        $field = $this->getIdentifierField($field);
+
+        if (\is_array($data['value'])) {
+            $this->handleMultiple($query, $field, $data);
+        } else {
+            $this->handleScalar($query, $field, $data);
+        }
     }
 
     /**

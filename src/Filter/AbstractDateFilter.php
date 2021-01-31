@@ -36,7 +36,31 @@ abstract class AbstractDateFilter extends Filter
      */
     protected $time = false;
 
-    public function filter(ProxyQueryInterface $query, string $field, $data): void
+    public function getDefaultOptions(): array
+    {
+        return ['input_type' => 'datetime'];
+    }
+
+    public function getRenderSettings(): array
+    {
+        $name = DateType::class;
+
+        if ($this->time && $this->range) {
+            $name = DateTimeRangeType::class;
+        } elseif ($this->time) {
+            $name = DateTimeType::class;
+        } elseif ($this->range) {
+            $name = DateRangeType::class;
+        }
+
+        return [$name, [
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'label' => $this->getLabel(),
+        ]];
+    }
+
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
     {
         //check data sanity
         if (true !== \is_array($data)) {
@@ -80,30 +104,6 @@ abstract class AbstractDateFilter extends Filter
 
                 return;
         }
-    }
-
-    public function getDefaultOptions(): array
-    {
-        return ['input_type' => 'datetime'];
-    }
-
-    public function getRenderSettings(): array
-    {
-        $name = DateType::class;
-
-        if ($this->time && $this->range) {
-            $name = DateTimeRangeType::class;
-        } elseif ($this->time) {
-            $name = DateTimeType::class;
-        } elseif ($this->range) {
-            $name = DateRangeType::class;
-        }
-
-        return [$name, [
-            'field_type' => $this->getFieldType(),
-            'field_options' => $this->getFieldOptions(),
-            'label' => $this->getLabel(),
-        ]];
     }
 
     /**
