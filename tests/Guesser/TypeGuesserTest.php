@@ -16,6 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\Types\Type;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Symfony\Component\Form\Guess\Guess;
@@ -48,7 +49,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
-        $this->assertSame('text', $result->getType());
+        $this->assertSame(FieldDescriptionInterface::TYPE_STRING, $result->getType());
         $this->assertSame(Guess::LOW_CONFIDENCE, $result->getConfidence());
     }
 
@@ -128,52 +129,52 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         return [
             'collection' => [
                 Type::COLLECTION,
-                'array',
+                FieldDescriptionInterface::TYPE_ARRAY,
                 Guess::HIGH_CONFIDENCE,
             ],
             'hash' => [
                 Type::HASH,
-                'array',
+                FieldDescriptionInterface::TYPE_ARRAY,
                 Guess::HIGH_CONFIDENCE,
             ],
             'bool' => [
                 Type::BOOL,
-                'boolean',
+                FieldDescriptionInterface::TYPE_BOOLEAN,
                 Guess::HIGH_CONFIDENCE,
             ],
             'timestamp' => [
                 Type::TIMESTAMP,
-                'datetime',
+                FieldDescriptionInterface::TYPE_DATETIME,
                 Guess::HIGH_CONFIDENCE,
             ],
             'date' => [
                 Type::DATE,
-                'date',
+                FieldDescriptionInterface::TYPE_DATE,
                 Guess::HIGH_CONFIDENCE,
             ],
             'date_immutable' => [
                 Type::DATE_IMMUTABLE,
-                'date',
+                FieldDescriptionInterface::TYPE_DATE,
                 Guess::HIGH_CONFIDENCE,
             ],
             'float' => [
                 Type::FLOAT,
-                'number',
+                FieldDescriptionInterface::TYPE_FLOAT,
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'integer' => [
                 Type::INT,
-                'integer',
+                FieldDescriptionInterface::TYPE_INTEGER,
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'string' => [
                 Type::STRING,
-                'text',
+                FieldDescriptionInterface::TYPE_STRING,
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'somefake' => [
                 'somefake',
-                'text',
+                FieldDescriptionInterface::TYPE_STRING,
                 Guess::LOW_CONFIDENCE,
             ],
         ];

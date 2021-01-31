@@ -85,67 +85,21 @@ final class FilterTypeGuesser extends AbstractTypeGuesser
                 $options['field_options'] = [];
 
                 return new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE);
-            case 'datetime':
-                @trigger_error(
-                    'The datetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    \E_USER_DEPRECATED
-                );
-
-                $options['field_type'] = DateTimeType::class;
-
-                return new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case Type::TIMESTAMP:
                 $options['field_type'] = DateTimeType::class;
 
                 return new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case Type::DATE:
-
             case Type::DATE_IMMUTABLE:
                 $options['field_type'] = DateType::class;
 
                 return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);
-            case 'decimal':
-                @trigger_error(
-                    'The decimal type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    \E_USER_DEPRECATED
-                );
-
-                $options['field_type'] = NumberType::class;
-
-                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
-            case 'bigint':
-                @trigger_error(
-                    'The bigint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    \E_USER_DEPRECATED
-                );
-
-                $options['field_type'] = NumberType::class;
-
-                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
-            case 'smallint':
-                @trigger_error(
-                    'The smallint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    \E_USER_DEPRECATED
-                );
-
-                $options['field_type'] = NumberType::class;
-
-                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case Type::FLOAT:
             case Type::INT:
             case Type::INTEGER:
                 $options['field_type'] = NumberType::class;
 
                 return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
-            case 'text':
-                @trigger_error(
-                    'The text type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
-                    \E_USER_DEPRECATED
-                );
-
-                $options['field_type'] = TextType::class;
-
-                return new TypeGuess(StringFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case Type::ID:
             case Type::STRING:
                 $options['field_type'] = TextType::class;
