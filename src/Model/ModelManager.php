@@ -123,13 +123,10 @@ final class ModelManager implements ModelManagerInterface
     public function find(string $class, $id): ?object
     {
         if (null === $id) {
-            @trigger_error(sprintf(
-                'Passing null as argument 1 for %s() is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.',
+            throw new \TypeError(sprintf(
+                'Argument 2 passed to "%s()" cannot be null.',
                 __METHOD__
-            ), \E_USER_DEPRECATED);
-
-            return null;
+            ));
         }
 
         $documentManager = $this->getDocumentManager($class);

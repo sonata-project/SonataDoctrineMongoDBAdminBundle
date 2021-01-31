@@ -149,53 +149,36 @@ final class FilterTypeGuesserTest extends AbstractModelManagerTestCase
     public function noAssociationData(): array
     {
         return [
-            Type::BOOLEAN => [
-                'boolean',
+            'boolean' => [
+                Type::BOOL,
                 BooleanFilter::class,
                 Guess::HIGH_CONFIDENCE,
                 BooleanType::class,
             ],
-            'datetime' => [
-                'datetime',
+            'timestamp' => [
+                Type::TIMESTAMP,
                 DateTimeFilter::class,
                 Guess::HIGH_CONFIDENCE,
             ],
-            Type::TIMESTAMP => [
-                'datetime',
-                DateTimeFilter::class,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            Type::DATE => [
-                'date',
+            'date' => [
+                Type::DATE,
                 DateFilter::class,
                 Guess::HIGH_CONFIDENCE,
             ],
-            'decimal' => [
-                'decimal',
+            'float' => [
+                Type::FLOAT,
                 NumberFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 NumberType::class,
             ],
-            Type::FLOAT => [
-                'float',
+            'int' => [
+                Type::INT,
                 NumberFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 NumberType::class,
             ],
-            Type::INT => [
-                'int',
-                NumberFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-                NumberType::class,
-            ],
-            Type::STRING => [
-                'string',
-                StringFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-                TextType::class,
-            ],
-            'text' => [
-                'text',
+            'string' => [
+                Type::STRING,
                 StringFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 TextType::class,
