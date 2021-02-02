@@ -9,4 +9,12 @@
     <plugins>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
     </plugins>
+    <issueHandlers>
+        <!-- TODO: This will be fixed when regex would allow as an expression -->
+        <InvalidArgument>
+            <errorLevel type="suppress">
+                <file name="src/Filter/StringFilter.php"/>
+            </errorLevel>
+        </InvalidArgument>
+    </issueHandlers>
 </psalm>
