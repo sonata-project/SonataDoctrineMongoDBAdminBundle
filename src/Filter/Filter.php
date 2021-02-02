@@ -16,6 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 // NEXT MAJOR: Uncomment next line.
 // use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Filter\Filter as BaseFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 
 abstract class Filter extends BaseFilter
 {
@@ -29,6 +30,19 @@ abstract class Filter extends BaseFilter
      */
     public function apply($query, $filterData)
     {
+        if (!$query instanceof ProxyQueryInterface) {
+            /* NEXT_MAJOR: Remove this deprecation and uncomment the error */
+            @trigger_error(sprintf(
+                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                ProxyQueryInterface::class
+            ));
+
+            // throw new \TypeError(sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
+        }
+
         // NEXT_MAJOR: Remove next line.
         $this->value = $filterData;
 

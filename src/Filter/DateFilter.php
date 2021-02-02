@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 /**
@@ -30,7 +31,7 @@ class DateFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsLessEqual(BaseProxyQueryInterface $query, $field, $data)
     {
         $data['value']->add(new \DateInterval('P1D'));
 
@@ -41,7 +42,7 @@ class DateFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsGreaterThan(BaseProxyQueryInterface $query, $field, $data)
     {
         $data['value']->add(new \DateInterval('P1D'));
 
@@ -56,11 +57,22 @@ class DateFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsEqual(BaseProxyQueryInterface $query, $field, $data)
     {
+        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
+        if (!$query instanceof ProxyQueryInterface) {
+            @trigger_error(sprintf(
+                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                ProxyQueryInterface::class
+            ));
+        }
+
         $end = clone $data['value'];
         $end->add(new \DateInterval('P1D'));
 
-        $query->field($field)->range($data['value'], $end);
+        $query->getQueryBuilder()->field($field)->range($data['value'], $end);
     }
 }
