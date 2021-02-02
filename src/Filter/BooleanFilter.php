@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
@@ -28,8 +29,19 @@ class BooleanFilter extends Filter
      *
      * @return void
      */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(BaseProxyQueryInterface $query, $alias, $field, $data)
     {
+        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
+        if (!$query instanceof ProxyQueryInterface) {
+            @trigger_error(sprintf(
+                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                ProxyQueryInterface::class
+            ));
+        }
+
         if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
             return;
         }
@@ -48,7 +60,7 @@ class BooleanFilter extends Filter
                 return;
             }
 
-            $query->field($field)->in($values);
+            $query->getQueryBuilder()->field($field)->in($values);
             $this->active = true;
         } else {
             if (!\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
@@ -57,7 +69,7 @@ class BooleanFilter extends Filter
 
             $data = BooleanType::TYPE_YES === $data['value'];
 
-            $query->field($field)->equals($data);
+            $query->getQueryBuilder()->field($field)->equals($data);
             $this->active = true;
         }
     }

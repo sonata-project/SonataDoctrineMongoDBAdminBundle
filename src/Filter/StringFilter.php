@@ -14,9 +14,10 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use MongoDB\BSON\Regex;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
@@ -28,8 +29,19 @@ class StringFilter extends Filter
      *
      * @return void
      */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(BaseProxyQueryInterface $query, $alias, $field, $data)
     {
+        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
+        if (!$query instanceof ProxyQueryInterface) {
+            @trigger_error(sprintf(
+                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                ProxyQueryInterface::class
+            ));
+        }
+
         if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
             return;
         }
@@ -42,7 +54,7 @@ class StringFilter extends Filter
 
         $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ContainsOperatorType::TYPE_CONTAINS;
 
-        $obj = $query;
+        $obj = $query->getQueryBuilder();
         if (self::CONDITION_OR === $this->condition) {
             $obj = $query->expr();
         }

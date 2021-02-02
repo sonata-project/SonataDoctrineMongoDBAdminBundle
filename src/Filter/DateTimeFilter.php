@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
@@ -37,7 +38,7 @@ class DateTimeFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsLessEqual(BaseProxyQueryInterface $query, $field, $data)
     {
         // Add a minute so less then equal selects all seconds.
         $data['value']->add(new \DateInterval('PT1M'));
@@ -49,7 +50,7 @@ class DateTimeFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsGreaterThan(BaseProxyQueryInterface $query, $field, $data)
     {
         // Add 59 seconds so anything above the minute is selected
         $data['value']->add(new \DateInterval('PT59S'));
@@ -63,8 +64,19 @@ class DateTimeFilter extends AbstractDateFilter
      * @param string $field
      * @param array  $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $query, $field, $data)
+    protected function applyTypeIsEqual(BaseProxyQueryInterface $query, $field, $data)
     {
+        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
+        if (!$query instanceof ProxyQueryInterface) {
+            @trigger_error(sprintf(
+                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                ProxyQueryInterface::class
+            ));
+        }
+
         /** @var \DateTime $end */
         $end = clone $data['value'];
         $end->add(new \DateInterval('PT1M'));

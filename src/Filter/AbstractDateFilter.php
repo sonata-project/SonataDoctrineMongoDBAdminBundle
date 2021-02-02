@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\DateRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateType;
 use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 
 abstract class AbstractDateFilter extends Filter
 {
@@ -41,8 +42,19 @@ abstract class AbstractDateFilter extends Filter
      *
      * @return void
      */
-    public function filter(ProxyQueryInterface $query, $alias, $field, $data)
+    public function filter(BaseProxyQueryInterface $query, $alias, $field, $data)
     {
+        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
+        if (!$query instanceof ProxyQueryInterface) {
+            @trigger_error(sprintf(
+                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                ProxyQueryInterface::class
+            ));
+        }
+
         //check data sanity
         if (true !== \is_array($data)) {
             return;
@@ -123,17 +135,17 @@ abstract class AbstractDateFilter extends Filter
     /**
      * @return void
      */
-    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsLessEqual(BaseProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @return void
      */
-    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsGreaterThan(BaseProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @return void
      */
-    abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsEqual(BaseProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @param string    $operation
@@ -142,9 +154,20 @@ abstract class AbstractDateFilter extends Filter
      *
      * @return void
      */
-    protected function applyType(ProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null)
+    protected function applyType(BaseProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null)
     {
-        $query->field($field)->$operation($datetime);
+        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
+        if (!$query instanceof ProxyQueryInterface) {
+            @trigger_error(sprintf(
+                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                ProxyQueryInterface::class
+            ));
+        }
+
+        $query->getQueryBuilder()->field($field)->$operation($datetime);
         $this->active = true;
     }
 
