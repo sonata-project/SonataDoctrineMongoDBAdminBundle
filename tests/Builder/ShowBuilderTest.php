@@ -19,7 +19,7 @@ use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
@@ -78,7 +78,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
 
         $typeGuess->method('getType')->willReturn('fakeType');
 
-        $this->guesser->method('guessType')->willReturn($typeGuess);
+        $this->guesser->method('guess')->willReturn($typeGuess);
 
         $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
 

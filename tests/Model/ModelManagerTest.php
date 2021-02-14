@@ -184,6 +184,11 @@ final class ModelManagerTest extends TestCase
         $this->assertSame('field3sortBy', $parameters['filter']['_sort_by']);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetParentMetadataForProperty(): void
     {
         $containerDocumentClass = ContainerDocument::class;
@@ -411,6 +416,11 @@ final class ModelManagerTest extends TestCase
         $this->assertNull($model->getNormalizedIdentifier(null));
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetNewFieldDescriptionInstanceCreatesAFieldDescription(): void
     {
         $dm = $this->createStub(DocumentManager::class);

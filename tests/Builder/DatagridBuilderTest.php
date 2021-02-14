@@ -21,8 +21,8 @@ use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\Pager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Translator\FormLabelTranslatorStrategy;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
@@ -176,7 +176,7 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
 
         $fieldDescription = new FieldDescription('test');
 
-        $this->typeGuesser->method('guessType')->willReturn($guessType);
+        $this->typeGuesser->method('guess')->willReturn($guessType);
 
         $this->metadataFactory
             ->expects($this->once())

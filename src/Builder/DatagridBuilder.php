@@ -19,8 +19,9 @@ use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -42,7 +43,9 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $formFactory;
 
     /**
-     * @var TypeGuesserInterface
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type.
+     *
+     * @var DeprecatedTypeGuesserInterface|TypeGuesserInterface
      */
     protected $guesser;
 
@@ -54,9 +57,12 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $csrfTokenEnabled;
 
     /**
-     * @param bool $csrfTokenEnabled
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type and add TypeGuesserInterface to the constructor.
+     *
+     * @param DeprecatedTypeGuesserInterface|TypeGuesserInterface $guesser
+     * @param bool                                                $csrfTokenEnabled
      */
-    public function __construct(FormFactoryInterface $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
+    public function __construct(FormFactoryInterface $formFactory, FilterFactoryInterface $filterFactory, $guesser, $csrfTokenEnabled = true)
     {
         $this->formFactory = $formFactory;
         $this->filterFactory = $filterFactory;
@@ -69,7 +75,7 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
-        // set default values
+        // NEXT_MAJOR: Remove this call.
         $fieldDescription->setAdmin($admin);
 
         // NEXT_MAJOR: Remove the following 2 lines.
@@ -78,7 +84,7 @@ class DatagridBuilder implements DatagridBuilderInterface
 
         // NEXT_MAJOR: Remove this block.
         if ($modelManager->hasMetadata($admin->getClass(), 'sonata_deprecation_mute')) {
-            [$metadata, $lastPropertyName, $parentAssociationMappings] = $modelManager->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName());
+            [$metadata, $lastPropertyName, $parentAssociationMappings] = $modelManager->getParentMetadataForProperty($admin->getClass(), $fieldDescription->getName(), 'sonata_deprecation_mute');
 
             // set the default field mapping
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
@@ -127,7 +133,16 @@ class DatagridBuilder implements DatagridBuilderInterface
     public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if (null === $type) {
-            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
+            // NEXT_MAJOR: Remove the condition and keep the if part.
+            if ($this->guesser instanceof TypeGuesserInterface) {
+                $guessType = $this->guesser->guess($fieldDescription);
+            } else {
+                $guessType = $this->guesser->guessType(
+                    $admin->getClass(),
+                    $fieldDescription->getName(),
+                    $admin->getModelManager()
+                );
+            }
 
             $type = $guessType->getType();
 

@@ -18,7 +18,7 @@ use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
@@ -84,7 +84,7 @@ class ListBuilderTest extends AbstractModelManagerTestCase
     public function testCorrectFixedActionsFieldType(): void
     {
         $this->typeGuesser
-            ->method('guessType')
+            ->method('guess')
             ->willReturn(
                 new TypeGuess('actions', [], Guess::LOW_CONFIDENCE)
             );

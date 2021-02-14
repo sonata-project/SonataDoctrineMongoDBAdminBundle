@@ -16,6 +16,8 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Types\Type;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
@@ -34,13 +36,24 @@ use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
 /**
+ * NEXT_MAJOR: Remove extending from AbstractTypeGuesser.
+ *
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
-class FilterTypeGuesser extends AbstractTypeGuesser
+class FilterTypeGuesser extends AbstractTypeGuesser implements TypeGuesserInterface
 {
+    /**
+     * NEXT_MAJOR: Remove this method.
+     */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
-        if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager)) {
+        @trigger_error(sprintf(
+            'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+            .' will be removed in version 4.0.',
+            __METHOD__
+        ), \E_USER_DEPRECATED);
+
+        if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager, 'sonata_deprecation_mute')) {
             return null;
         }
 
@@ -82,6 +95,128 @@ class FilterTypeGuesser extends AbstractTypeGuesser
         $options['field_name'] = $metadata->fieldMappings[$propertyName]['fieldName'];
 
         switch ($metadata->getTypeOfField($propertyName)) {
+            case Type::BOOL:
+            case Type::BOOLEAN:
+                $options['field_type'] = BooleanType::class;
+                $options['field_options'] = [];
+
+                return new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            case 'datetime':
+                @trigger_error(
+                    'The datetime type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
+                    \E_USER_DEPRECATED
+                );
+
+                $options['field_type'] = DateTimeType::class;
+
+                return new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            case Type::TIMESTAMP:
+                $options['field_type'] = DateTimeType::class;
+
+                return new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            case Type::DATE:
+
+            case Type::DATE_IMMUTABLE:
+                $options['field_type'] = DateType::class;
+
+                return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            case 'decimal':
+                @trigger_error(
+                    'The decimal type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
+                    \E_USER_DEPRECATED
+                );
+
+                $options['field_type'] = NumberType::class;
+
+                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
+            case 'bigint':
+                @trigger_error(
+                    'The bigint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
+                    \E_USER_DEPRECATED
+                );
+
+                $options['field_type'] = NumberType::class;
+
+                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
+            case 'smallint':
+                @trigger_error(
+                    'The smallint type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
+                    \E_USER_DEPRECATED
+                );
+
+                $options['field_type'] = NumberType::class;
+
+                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
+            case Type::FLOAT:
+            case Type::INT:
+            case Type::INTEGER:
+                $options['field_type'] = NumberType::class;
+
+                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
+            case 'text':
+                @trigger_error(
+                    'The text type is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4, to be removed in 4.0.'.
+                    \E_USER_DEPRECATED
+                );
+
+                $options['field_type'] = TextType::class;
+
+                return new TypeGuess(StringFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
+            case Type::ID:
+            case Type::STRING:
+                $options['field_type'] = TextType::class;
+
+                return new TypeGuess(StringFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
+            default:
+                return new TypeGuess(StringFilter::class, $options, Guess::LOW_CONFIDENCE);
+        }
+    }
+
+    public function guess(FieldDescriptionInterface $fieldDescription): TypeGuess
+    {
+        $options = [
+            'parent_association_mappings' => $fieldDescription->getParentAssociationMappings(),
+            'field_name' => $fieldDescription->getFieldName(),
+            'field_type' => null,
+            'field_options' => [],
+            'options' => [],
+        ];
+
+        if ([] !== $fieldDescription->getAssociationMapping()) {
+            switch ($fieldDescription->getMappingType()) {
+                case ClassMetadata::ONE:
+                case ClassMetadata::MANY:
+                    $options['operator_type'] = EqualOperatorType::class;
+                    $options['operator_options'] = [];
+
+                    $options['field_type'] = DocumentType::class;
+
+                    // NEXT_MAJOR: Remove the if check and else part.
+                    if (method_exists($fieldDescription, 'getTargetModel')) {
+                        $options['field_options'] = [
+                            'class' => $fieldDescription->getTargetModel(),
+                        ];
+                    } else {
+                        $options['field_options'] = [
+                            'class' => $fieldDescription->getTargetEntity(),
+                        ];
+                    }
+
+                    $options['field_name'] = $fieldDescription->getFieldName();
+                    $options['mapping_type'] = $fieldDescription->getMappingType();
+
+                    return new TypeGuess(ModelFilter::class, $options, Guess::HIGH_CONFIDENCE);
+            }
+        }
+
+        if ([] === $fieldDescription->getFieldMapping()) {
+            throw new MissingPropertyMetadataException(
+                $fieldDescription->getAdmin()->getClass(),
+                $fieldDescription->getFieldName()
+            );
+        }
+
+        switch ($fieldDescription->getMappingType()) {
             case Type::BOOL:
             case Type::BOOLEAN:
                 $options['field_type'] = BooleanType::class;

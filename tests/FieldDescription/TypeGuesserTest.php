@@ -11,20 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
+namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\Types\Type;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Symfony\Component\Form\Guess\Guess;
 
 /**
- * NEXT_MAJOR: Remove this class.
- *
- * @group legacy
- *
  * @author Marko Kunic <kunicmarko20@gmail.com>
  */
 final class TypeGuesserTest extends AbstractModelManagerTestCase
@@ -41,43 +37,21 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         $this->guesser = new TypeGuesser();
     }
 
-    public function testGuessTypeNoMetadata(): void
-    {
-        $class = 'FakeClass';
-        $property = 'fakeProperty';
-
-        $this->documentManager
-            ->method('getClassMetaData')
-            ->willThrowException(new MappingException());
-
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
-
-        $this->assertSame('text', $result->getType());
-        $this->assertSame(Guess::LOW_CONFIDENCE, $result->getConfidence());
-    }
-
     /**
      * @dataProvider associationData
      */
     public function testGuessTypeWithAssociation(string $mappingType, string $type): void
     {
-        $classMetadata = $this->createMock(ClassMetadata::class);
+        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription
+            ->method('getMappingType')
+            ->willReturn($mappingType);
 
-        $class = 'FakeClass';
-        $property = 'fakeProperty';
+        $fieldDescription
+            ->method('getAssociationMapping')
+            ->willReturn(['something']);
 
-        $classMetadata
-            ->method('hasAssociation')
-            ->with($property)
-            ->willReturn(true);
-
-        $classMetadata->fieldMappings = [$property => ['type' => $mappingType]];
-
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
-
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
+        $result = $this->guesser->guess($fieldDescription);
 
         $this->assertSame($type, $result->getType());
         $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
@@ -102,26 +76,16 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
      */
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence): void
     {
-        $classMetadata = $this->createMock(ClassMetadata::class);
-
-        $class = 'FakeClass';
-        $property = 'fakeProperty';
-
-        $classMetadata
-            ->method('hasAssociation')
-            ->with($property)
-            ->willReturn(false);
-
-        $classMetadata
-            ->method('getTypeOfField')
-            ->with($property)
+        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription
+            ->method('getMappingType')
             ->willReturn($type);
 
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
+        $fieldDescription
+            ->method('getAssociationMapping')
+            ->willReturn([]);
 
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
+        $result = $this->guesser->guess($fieldDescription);
 
         $this->assertSame($resultType, $result->getType());
         $this->assertSame($confidence, $result->getConfidence());
