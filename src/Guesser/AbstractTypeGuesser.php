@@ -17,9 +17,16 @@ use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
+/**
+ * NEXT_MAJOR: Remove this class.
+ *
+ * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0
+ */
 abstract class AbstractTypeGuesser implements TypeGuesserInterface
 {
     /**
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     *
      * @param string $baseClass
      * @param string $propertyFullName
      *
@@ -27,8 +34,16 @@ abstract class AbstractTypeGuesser implements TypeGuesserInterface
      */
     protected function getParentMetadataForProperty($baseClass, $propertyFullName, ModelManager $modelManager)
     {
+        if ('sonata_deprecation_mute' !== (\func_get_args()[3] ?? null)) {
+            @trigger_error(sprintf(
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                .' will be removed in version 4.0.',
+                __METHOD__
+            ), \E_USER_DEPRECATED);
+        }
+
         try {
-            return $modelManager->getParentMetadataForProperty($baseClass, $propertyFullName);
+            return $modelManager->getParentMetadataForProperty($baseClass, $propertyFullName, 'sonata_deprecation_mute');
         } catch (MappingException $e) {
             // no metadata found.
             return null;

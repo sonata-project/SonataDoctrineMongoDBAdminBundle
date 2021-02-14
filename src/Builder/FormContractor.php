@@ -74,6 +74,7 @@ class FormContractor implements FormContractorInterface
             }
         }
 
+        // NEXT_MAJOR: Remove this block.
         if (!$fieldDescription->getType()) {
             throw new \RuntimeException(sprintf(
                 'Please define a type for field `%s` in `%s`',
@@ -82,6 +83,7 @@ class FormContractor implements FormContractorInterface
             ));
         }
 
+        // NEXT_MAJOR: Remove this call.
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
