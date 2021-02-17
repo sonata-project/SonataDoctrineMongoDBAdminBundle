@@ -22,6 +22,7 @@ class EmbeddedDocument
 {
     /**
      * @ODM\Field(type="bool")
+     *
      * @var bool
      */
     private $plainField;
