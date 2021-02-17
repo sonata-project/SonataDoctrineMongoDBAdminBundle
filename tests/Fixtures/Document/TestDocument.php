@@ -22,24 +22,28 @@ class TestDocument
 {
     /**
      * @ODM\Field(type="bool")
+     *
      * @var bool
      */
     public $schwifty;
 
     /**
      * @ODM\Field(type="int")
+     *
      * @var int
      */
     private $schmeckles;
 
     /**
      * @ODM\Field(type="string")
+     *
      * @var string
      */
     private $multiWordProperty;
 
     /**
      * @ODM\Field(type="int")
+     *
      * @var int
      */
     private $plumbus;
