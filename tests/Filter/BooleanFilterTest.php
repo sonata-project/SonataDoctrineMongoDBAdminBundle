@@ -20,11 +20,9 @@ use Sonata\Form\Type\BooleanType;
 final class BooleanFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @param mixed $value
-     *
      * @dataProvider getNotApplicableValues
      */
-    public function testFilterEmpty($value): void
+    public function testFilterEmpty(array $value): void
     {
         $filter = $this->createFilter();
 
@@ -44,10 +42,6 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
     public function getNotApplicableValues(): array
     {
         return [
-            [null],
-            [''],
-            ['test'],
-            [false],
             [[]],
             [[null, 'test']],
         ];

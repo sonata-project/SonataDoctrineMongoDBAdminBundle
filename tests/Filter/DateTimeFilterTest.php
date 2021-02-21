@@ -21,11 +21,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @param mixed $value
-     *
      * @dataProvider getNotApplicableValues
      */
-    public function testEmpty($value): void
+    public function testEmpty(array $value): void
     {
         $filter = $this->createFilter();
 
@@ -45,8 +43,6 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     public function getNotApplicableValues(): array
     {
         return [
-            [null],
-            [''],
             [[]],
         ];
     }

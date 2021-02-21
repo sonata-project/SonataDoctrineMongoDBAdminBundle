@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
@@ -31,10 +30,7 @@ final class DateTimeFilter extends AbstractDateFilter
         return $this->getOption('field_type', DateTimeType::class);
     }
 
-    /**
-     * @param array $data
-     */
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, $data): void
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data): void
     {
         // Add a minute so less then equal selects all seconds.
         $data['value']->add(new \DateInterval('PT1M'));
@@ -42,10 +38,7 @@ final class DateTimeFilter extends AbstractDateFilter
         $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
     }
 
-    /**
-     * @param array $data
-     */
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, $data): void
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data): void
     {
         // Add 59 seconds so anything above the minute is selected
         $data['value']->add(new \DateInterval('PT59S'));
@@ -55,10 +48,8 @@ final class DateTimeFilter extends AbstractDateFilter
 
     /**
      * Because we lack a second variable we select a range covering the entire minute.
-     *
-     * @param array $data
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, $data): void
+    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data): void
     {
         /** @var \DateTime $end */
         $end = clone $data['value'];

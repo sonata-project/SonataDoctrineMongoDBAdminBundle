@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\DateRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeType;
@@ -61,13 +60,8 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
     {
-        //check data sanity
-        if (true !== \is_array($data)) {
-            return;
-        }
-
         //default type for simple filter
         $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateOperatorType::TYPE_EQUAL : (int) $data['type'];
 
@@ -107,27 +101,13 @@ abstract class AbstractDateFilter extends Filter
         }
     }
 
-    /**
-     * @return void
-     */
-    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data): void;
 
-    /**
-     * @return void
-     */
-    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data): void;
 
-    /**
-     * @return void
-     */
-    abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data): void;
 
-    /**
-     * @param string    $operation
-     * @param string    $field
-     * @param \DateTime $datetime
-     */
-    protected function applyType(ProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null): void
+    protected function applyType(ProxyQueryInterface $query, string $operation, string $field, \DateTime $datetime): void
     {
         $query->getQueryBuilder()->field($field)->$operation($datetime);
         $this->active = true;
@@ -135,12 +115,8 @@ abstract class AbstractDateFilter extends Filter
 
     /**
      * Resolves DataType:: constants to MongoDb operators.
-     *
-     * @param int $type
-     *
-     * @return string
      */
-    protected function getOperator($type)
+    protected function getOperator(int $type): string
     {
         $choices = [
             DateOperatorType::TYPE_EQUAL => 'equals',
@@ -150,6 +126,6 @@ abstract class AbstractDateFilter extends Filter
             DateOperatorType::TYPE_LESS_THAN => 'lt',
         ];
 
-        return $choices[(int) $type];
+        return $choices[$type];
     }
 }

@@ -59,11 +59,9 @@ final class ModelFilterTest extends TestCase
     }
 
     /**
-     * @param mixed $value
-     *
      * @dataProvider getNotApplicableValues
      */
-    public function testFilterEmpty($value): void
+    public function testFilterEmpty(array $value): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
@@ -86,7 +84,6 @@ final class ModelFilterTest extends TestCase
     public function getNotApplicableValues(): array
     {
         return [
-            [null],
             [[]],
         ];
     }
@@ -174,7 +171,7 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, 'asd');
+        $filter->apply($builder, ['asd']);
     }
 
     public function testAssociationWithValidMappingAndEmptyFieldName(): void
@@ -186,7 +183,7 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, 'asd');
+        $filter->apply($builder, ['asd']);
     }
 
     public function testAssociationWithValidMapping(): void
