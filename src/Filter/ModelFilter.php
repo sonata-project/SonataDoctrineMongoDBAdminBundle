@@ -47,19 +47,8 @@ final class ModelFilter extends Filter
         ]];
     }
 
-    protected function filter(BaseProxyQueryInterface $query, string $field, $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
-        if (!$query instanceof ProxyQueryInterface) {
-            @trigger_error(sprintf(
-                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
-                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
-                \get_class($query),
-                __METHOD__,
-                ProxyQueryInterface::class
-            ), \E_USER_DEPRECATED);
-        }
-
         if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
             return;
         }
@@ -82,7 +71,7 @@ final class ModelFilter extends Filter
      *
      * @return void
      */
-    protected function handleMultiple(BaseProxyQueryInterface $query, string $field, $data)
+    protected function handleMultiple(ProxyQueryInterface $query, string $field, $data)
     {
         if (0 === \count($data['value'])) {
             return;
@@ -107,7 +96,7 @@ final class ModelFilter extends Filter
      *
      * @return void
      */
-    protected function handleScalar(BaseProxyQueryInterface $query, string $field, $data)
+    protected function handleScalar(ProxyQueryInterface $query, string $field, $data)
     {
         if (empty($data['value'])) {
             return;
