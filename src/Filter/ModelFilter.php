@@ -18,7 +18,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\InvalidArgumentException;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
@@ -47,9 +46,9 @@ final class ModelFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
+        if (!\array_key_exists('value', $data)) {
             return;
         }
 
@@ -66,12 +65,7 @@ final class ModelFilter extends Filter
         }
     }
 
-    /**
-     * @param array $data
-     *
-     * @return void
-     */
-    protected function handleMultiple(ProxyQueryInterface $query, string $field, $data)
+    protected function handleMultiple(ProxyQueryInterface $query, string $field, array $data): void
     {
         if (0 === \count($data['value'])) {
             return;
@@ -91,12 +85,7 @@ final class ModelFilter extends Filter
         $this->active = true;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return void
-     */
-    protected function handleScalar(ProxyQueryInterface $query, string $field, $data)
+    protected function handleScalar(ProxyQueryInterface $query, string $field, array $data): void
     {
         if (empty($data['value'])) {
             return;
@@ -131,12 +120,8 @@ final class ModelFilter extends Filter
 
     /**
      * Get identifier field name based on mapping type.
-     *
-     * @param string $field
-     *
-     * @return string
      */
-    protected function getIdentifierField($field)
+    private function getIdentifierField(string $field): string
     {
         $field_mapping = $this->getFieldMapping();
 

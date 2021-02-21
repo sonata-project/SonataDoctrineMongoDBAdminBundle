@@ -58,11 +58,9 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @param mixed $value
-     *
      * @dataProvider getNotApplicableValues
      */
-    public function testFilterMethodEmpty($value): void
+    public function testFilterMethodEmpty(array $value): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -80,8 +78,6 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
     public function getNotApplicableValues(): array
     {
         return [
-            [false],
-            ['scalarValue'],
             [['value' => '']],
         ];
     }
@@ -115,6 +111,6 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, 'myValue');
+        $filter->apply($builder, ['myValue']);
     }
 }

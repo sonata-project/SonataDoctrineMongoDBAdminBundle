@@ -24,7 +24,7 @@ abstract class Filter extends BaseFilter
      */
     protected $active = false;
 
-    public function apply($query, $filterData): void
+    public function apply(BaseProxyQueryInterface $query, array $filterData): void
     {
         if (!$query instanceof ProxyQueryInterface) {
             throw new \TypeError(sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
@@ -40,8 +40,5 @@ abstract class Filter extends BaseFilter
         return $this->active;
     }
 
-    /**
-     * @param mixed $data
-     */
-    abstract protected function filter(ProxyQueryInterface $query, string $field, $data): void;
+    abstract protected function filter(ProxyQueryInterface $query, string $field, array $data): void;
 }

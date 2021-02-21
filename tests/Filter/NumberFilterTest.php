@@ -20,11 +20,9 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 final class NumberFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @param mixed $value
-     *
      * @dataProvider getNotApplicableValues
      */
-    public function testFilterEmpty($value): void
+    public function testFilterEmpty(array $value): void
     {
         $filter = $this->createFilter();
 
@@ -43,8 +41,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     public function getNotApplicableValues(): array
     {
         return [
-            [null],
-            ['scalar'],
+            [[]],
         ];
     }
 
