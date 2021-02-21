@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
 /**
  * This class try to unify the query usage with Doctrine.
@@ -81,7 +82,7 @@ final class ProxyQuery implements ProxyQueryInterface
         return $queryBuilder->getQuery()->execute();
     }
 
-    public function setSortBy($parentAssociationMappings, $fieldMapping): ProxyQueryInterface
+    public function setSortBy($parentAssociationMappings, $fieldMapping): BaseProxyQueryInterface
     {
         $this->sortBy = $fieldMapping['fieldName'];
 
@@ -93,7 +94,7 @@ final class ProxyQuery implements ProxyQueryInterface
         return $this->sortBy;
     }
 
-    public function setSortOrder(string $sortOrder): ProxyQueryInterface
+    public function setSortOrder(string $sortOrder): BaseProxyQueryInterface
     {
         $this->sortOrder = $sortOrder;
 
@@ -117,7 +118,7 @@ final class ProxyQuery implements ProxyQueryInterface
         return $this->queryBuilder;
     }
 
-    public function setFirstResult(?int $firstResult): ProxyQueryInterface
+    public function setFirstResult(?int $firstResult): BaseProxyQueryInterface
     {
         $this->firstResult = $firstResult;
         $this->queryBuilder->skip($firstResult ?? 0);
@@ -130,7 +131,7 @@ final class ProxyQuery implements ProxyQueryInterface
         return $this->firstResult;
     }
 
-    public function setMaxResults($maxResults): ProxyQueryInterface
+    public function setMaxResults($maxResults): BaseProxyQueryInterface
     {
         $this->maxResults = $maxResults;
 
