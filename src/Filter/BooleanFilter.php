@@ -63,9 +63,9 @@ final class BooleanFilter extends Filter
                 return;
             }
 
-            $data = BooleanType::TYPE_YES === $data['value'];
+            $value = BooleanType::TYPE_YES === $data['value'];
 
-            $query->getQueryBuilder()->field($field)->equals($data);
+            $query->getQueryBuilder()->field($field)->equals($value);
             $this->active = true;
         }
     }

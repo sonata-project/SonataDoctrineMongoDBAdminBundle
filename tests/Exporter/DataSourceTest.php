@@ -63,7 +63,7 @@ final class DataSourceTest extends TestCase
     {
         $proxyQuery = $this->createStub(ProxyQueryInterface::class);
 
-        $this->expectException(\LogicException::class);
+        $this->expectException(\TypeError::class);
 
         $this->dataSource->createIterator($proxyQuery, []);
     }

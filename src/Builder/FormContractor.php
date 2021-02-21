@@ -16,17 +16,9 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Builder\AbstractFormContractor;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Symfony\Component\Form\FormFactoryInterface;
 
 final class FormContractor extends AbstractFormContractor
 {
-    /**
-     * @deprecated since version 3.1.0, to be removed in 4.0
-     *
-     * @var FormFactoryInterface
-     */
-    private $fieldFactory;
-
     // NEXT_MAJOR: Remove this method.
     protected function hasAssociation(FieldDescriptionInterface $fieldDescription): bool
     {

@@ -51,7 +51,7 @@ final class ProxyQuery implements ProxyQueryInterface
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function __call($name, $args)
+    public function __call(string $name, array $args)
     {
         return \call_user_func_array([$this->queryBuilder, $name], $args);
     }
@@ -61,15 +61,8 @@ final class ProxyQuery implements ProxyQueryInterface
         $this->queryBuilder = clone $this->queryBuilder;
     }
 
-    public function execute(array $params = [], $hydrationMode = null)
+    public function execute()
     {
-        if ([] !== $params || null !== $hydrationMode) {
-            throw new \InvalidArgumentException(sprintf(
-                'No arguments must be passed to "%s()".',
-                __METHOD__
-            ));
-        }
-
         // always clone the original queryBuilder.
         $queryBuilder = clone $this->queryBuilder;
 
@@ -82,7 +75,7 @@ final class ProxyQuery implements ProxyQueryInterface
         return $queryBuilder->getQuery()->execute();
     }
 
-    public function setSortBy($parentAssociationMappings, $fieldMapping): BaseProxyQueryInterface
+    public function setSortBy(array $parentAssociationMappings, array $fieldMapping): BaseProxyQueryInterface
     {
         $parents = '';
 
@@ -112,6 +105,9 @@ final class ProxyQuery implements ProxyQueryInterface
         return $this->sortOrder;
     }
 
+    /**
+     * @return array|object|null
+     */
     public function getSingleScalarResult()
     {
         $query = $this->queryBuilder->getQuery();
@@ -119,7 +115,7 @@ final class ProxyQuery implements ProxyQueryInterface
         return $query->getSingleResult();
     }
 
-    public function getQueryBuilder()
+    public function getQueryBuilder(): Builder
     {
         return $this->queryBuilder;
     }
@@ -137,7 +133,7 @@ final class ProxyQuery implements ProxyQueryInterface
         return $this->firstResult;
     }
 
-    public function setMaxResults($maxResults): BaseProxyQueryInterface
+    public function setMaxResults(?int $maxResults): BaseProxyQueryInterface
     {
         $this->maxResults = $maxResults;
 

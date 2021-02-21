@@ -29,7 +29,7 @@ final class ListBuilder implements ListBuilderInterface
     /**
      * @var string[]
      */
-    private $templates = [];
+    private $templates;
 
     /**
      * @param string[] $templates
@@ -45,7 +45,7 @@ final class ListBuilder implements ListBuilderInterface
         return new FieldDescriptionCollection();
     }
 
-    public function buildField($type, FieldDescriptionInterface $fieldDescription): void
+    public function buildField(?string $type, FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $type) {
             $guessType = $this->guesser->guess($fieldDescription);
@@ -57,7 +57,7 @@ final class ListBuilder implements ListBuilderInterface
         $this->fixFieldDescription($fieldDescription);
     }
 
-    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription): void
+    public function addField(FieldDescriptionCollection $list, ?string $type, FieldDescriptionInterface $fieldDescription): void
     {
         $this->buildField($type, $fieldDescription);
         $fieldDescription->getAdmin()->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
@@ -68,7 +68,7 @@ final class ListBuilder implements ListBuilderInterface
     public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
         if ('_action' === $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {
-            $this->buildActionFieldDescription($fieldDescription, 'sonata_deprecation_mute');
+            $this->buildActionFieldDescription($fieldDescription);
         }
 
         if ([] !== $fieldDescription->getFieldMapping()) {
@@ -114,19 +114,8 @@ final class ListBuilder implements ListBuilderInterface
         }
     }
 
-    /**
-     * @return \Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface
-     */
-    public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
+    private function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription): FieldDescriptionInterface
     {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
-            @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
-                .' will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
         if (null === $fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate('@SonataAdmin/CRUD/list__action.html.twig');
         }
@@ -158,10 +147,6 @@ final class ListBuilder implements ListBuilderInterface
      */
     private function getTemplate($type): ?string
     {
-        if (!isset($this->templates[$type])) {
-            return null;
-        }
-
-        return $this->templates[$type];
+        return $this->templates[$type] ?? null;
     }
 }

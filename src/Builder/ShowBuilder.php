@@ -103,10 +103,6 @@ final class ShowBuilder implements ShowBuilderInterface
      */
     private function getTemplate($type): ?string
     {
-        if (!isset($this->templates[$type])) {
-            return null;
-        }
-
-        return $this->templates[$type];
+        return $this->templates[$type] ?? null;
     }
 }

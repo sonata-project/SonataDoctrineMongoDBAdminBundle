@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
@@ -43,21 +44,21 @@ final class ModelManager implements ModelManagerInterface
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    public function create($object): void
+    public function create(object $object): void
     {
         $documentManager = $this->getDocumentManager($object);
         $documentManager->persist($object);
         $documentManager->flush();
     }
 
-    public function update($object): void
+    public function update(object $object): void
     {
         $documentManager = $this->getDocumentManager($object);
         $documentManager->persist($object);
         $documentManager->flush();
     }
 
-    public function delete($object): void
+    public function delete(object $object): void
     {
         $documentManager = $this->getDocumentManager($object);
         $documentManager->remove($object);
@@ -100,10 +101,8 @@ final class ModelManager implements ModelManagerInterface
      * @param object|string $class
      *
      * @throw \RuntimeException
-     *
-     * @return \Doctrine\ODM\MongoDB\DocumentManager
      */
-    public function getDocumentManager($class)
+    public function getDocumentManager($class): DocumentManager
     {
         if (\is_object($class)) {
             $class = \get_class($class);
@@ -111,7 +110,7 @@ final class ModelManager implements ModelManagerInterface
 
         $dm = $this->registry->getManagerForClass($class);
 
-        if (!$dm) {
+        if (!$dm instanceof DocumentManager) {
             throw new \RuntimeException(sprintf('No document manager defined for class %s', $class));
         }
 
@@ -132,7 +131,7 @@ final class ModelManager implements ModelManagerInterface
         return $query instanceof ProxyQuery || $query instanceof Builder;
     }
 
-    public function executeQuery($query)
+    public function executeQuery(object $query)
     {
         if ($query instanceof Builder) {
             return $query->getQuery()->execute();
@@ -149,9 +148,9 @@ final class ModelManager implements ModelManagerInterface
         ));
     }
 
-    public function getIdentifierValues(object $document): array
+    public function getIdentifierValues(object $model): array
     {
-        return [$this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document)];
+        return [$this->getDocumentManager($model)->getUnitOfWork()->getDocumentIdentifier($model)];
     }
 
     public function getIdentifierFieldNames(string $class): array
@@ -159,30 +158,30 @@ final class ModelManager implements ModelManagerInterface
         return $this->getMetadata($class)->getIdentifier();
     }
 
-    public function getNormalizedIdentifier(object $document): ?string
+    public function getNormalizedIdentifier(object $model): ?string
     {
         // the document is not managed
-        if (!$this->getDocumentManager($document)->contains($document)) {
+        if (!$this->getDocumentManager($model)->contains($model)) {
             return null;
         }
 
-        $values = $this->getIdentifierValues($document);
+        $values = $this->getIdentifierValues($model);
 
         return implode(self::ID_SEPARATOR, $values);
     }
 
-    public function getUrlSafeIdentifier(object $document): ?string
+    public function getUrlSafeIdentifier(object $model): ?string
     {
-        return $this->getNormalizedIdentifier($document);
+        return $this->getNormalizedIdentifier($model);
     }
 
-    public function addIdentifiersToQuery($class, ProxyQueryInterface $query, array $idx): void
+    public function addIdentifiersToQuery(string $class, ProxyQueryInterface $query, array $idx): void
     {
         $queryBuilder = $query->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
     }
 
-    public function batchDelete($class, ProxyQueryInterface $query): void
+    public function batchDelete(string $class, ProxyQueryInterface $query): void
     {
         /** @var Query $queryBuilder */
         $queryBuilder = $query->getQueryBuilder()->getQuery();

@@ -35,7 +35,7 @@ class SimpleDocumentWithPrivateSetter
         return $this->schmeckles;
     }
 
-    private function setSchmeckles($value): void
+    private function setSchmeckles(int $value): void
     {
         $this->schmeckles = $value;
     }

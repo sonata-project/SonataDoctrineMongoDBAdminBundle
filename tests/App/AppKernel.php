@@ -39,7 +39,7 @@ final class AppKernel extends Kernel
         parent::__construct('test', true);
     }
 
-    public function registerBundles()
+    public function registerBundles(): array
     {
         return [
             new DoctrineMongoDBBundle(),

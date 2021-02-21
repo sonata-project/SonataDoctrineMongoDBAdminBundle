@@ -18,8 +18,5 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
 interface ProxyQueryInterface extends BaseProxyQueryInterface
 {
-    /**
-     * @return Builder
-     */
-    public function getQueryBuilder();
+    public function getQueryBuilder(): Builder;
 }
