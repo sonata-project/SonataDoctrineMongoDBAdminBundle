@@ -11,24 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
+namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Query\Builder;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
-/**
- * @ODM\Document
- */
-class DocumentForAcl
+interface ProxyQueryInterface extends BaseProxyQueryInterface
 {
     /**
-     * @ODM\Id
-     *
-     * @var string
+     * @return Builder
      */
-    private $id;
-
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
+    public function getQueryBuilder();
 }

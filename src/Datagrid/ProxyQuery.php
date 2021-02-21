@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
  * This class try to unify the query usage with Doctrine.

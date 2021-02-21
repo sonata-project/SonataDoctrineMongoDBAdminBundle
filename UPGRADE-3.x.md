@@ -4,6 +4,15 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\Filter\Filter
+
+Deprecate passing an instance of `Sonata\AdminBundle\Datagrid\ProxyQueryInterface`
+which is not an instance of `Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface` as
+argument 1 to the `Sonata\DoctrineMongoDBAdminBundle\Filter\Filter::filter()` method.
+
+UPGRADE FROM 3.6 to 3.7
+=======================
+
 ### Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager
 
 Deprecated `computeNbResult()` method.

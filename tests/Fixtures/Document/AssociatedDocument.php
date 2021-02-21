@@ -22,12 +22,14 @@ class AssociatedDocument
 {
     /**
      * @ODM\Field(type="int")
+     *
      * @var int
      */
     private $plainField;
 
     /**
      * @ODM\EmbedOne(targetDocument=EmbeddedDocument::class)
+     *
      * @var EmbeddedDocument
      */
     private $embeddedDocument;

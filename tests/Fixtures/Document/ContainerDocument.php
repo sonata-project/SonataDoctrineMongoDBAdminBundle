@@ -22,18 +22,21 @@ class ContainerDocument
 {
     /**
      * @ODM\Field(type="int")
+     *
      * @var int
      */
     protected $plainField;
 
     /**
      * @ODM\ReferenceOne(targetDocument=AssociatedDocument::class)
+     *
      * @var AssociatedDocument
      */
     private $associatedDocument;
 
     /**
      * @ODM\EmbedOne(targetDocument=EmbeddedDocument::class)
+     *
      * @var EmbeddedDocument
      */
     private $embeddedDocument;
