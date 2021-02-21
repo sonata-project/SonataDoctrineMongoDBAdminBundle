@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Exporter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Exporter\DataSourceInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
 use Sonata\Exporter\Source\SourceIteratorInterface;
 
 final class DataSource implements DataSourceInterface
 {
-    public function createIterator(ProxyQueryInterface $query, array $fields): SourceIteratorInterface
+    public function createIterator(BaseProxyQueryInterface $query, array $fields): SourceIteratorInterface
     {
-        if (!$query instanceof ProxyQuery) {
-            throw new \LogicException(sprintf('Argument 1 MUST be an instance of "%s"', ProxyQuery::class));
+        if (!$query instanceof ProxyQueryInterface) {
+            throw new \TypeError(sprintf('Argument 1 MUST be an instance of "%s"', ProxyQueryInterface::class));
         }
 
         $query->setFirstResult(null);

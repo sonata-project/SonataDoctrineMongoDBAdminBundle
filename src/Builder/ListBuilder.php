@@ -22,9 +22,15 @@ use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 
 final class ListBuilder implements ListBuilderInterface
 {
+    /**
+     * @var TypeGuesserInterface
+     */
     private $guesser;
 
-    private $templates = [];
+    /**
+     * @var string[]
+     */
+    private $templates;
 
     public function __construct(TypeGuesserInterface $guesser, array $templates = [])
     {
@@ -37,7 +43,7 @@ final class ListBuilder implements ListBuilderInterface
         return new FieldDescriptionCollection();
     }
 
-    public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
+    public function buildField(?string $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
     {
         if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
@@ -49,7 +55,7 @@ final class ListBuilder implements ListBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
     }
 
-    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
+    public function addField(FieldDescriptionCollection $list, ?string $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
     {
         $this->buildField($type, $fieldDescription, $admin);
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
@@ -108,10 +114,7 @@ final class ListBuilder implements ListBuilderInterface
         }
     }
 
-    /**
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
-     */
-    public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
+    public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription): FieldDescriptionInterface
     {
         if (null === $fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate('@SonataAdmin/CRUD/list__action.html.twig');
@@ -144,10 +147,6 @@ final class ListBuilder implements ListBuilderInterface
      */
     private function getTemplate($type): ?string
     {
-        if (!isset($this->templates[$type])) {
-            return null;
-        }
-
-        return $this->templates[$type];
+        return $this->templates[$type] ?? null;
     }
 }

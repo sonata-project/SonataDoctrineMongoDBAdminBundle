@@ -93,28 +93,6 @@ final class ProxyQueryTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider getDeprecatedParameters
-     */
-    public function testExecuteWithParameters(array $parameters, ?int $hydrationMode): void
-    {
-        $queryBuilder = $this->dm->createQueryBuilder(DocumentWithReferences::class);
-
-        $proxyQuery = new ProxyQuery($queryBuilder);
-
-        $this->expectException(\InvalidArgumentException::class);
-
-        $proxyQuery->execute($parameters, $hydrationMode);
-    }
-
-    public function getDeprecatedParameters(): array
-    {
-        return [
-            [['some' => 'parameter'], null],
-            [[], 3],
-        ];
-    }
-
     public function testExecuteAllowsSorting(): void
     {
         $documentA = new DocumentWithReferences('A');

@@ -30,13 +30,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 final class FormContractor implements FormContractorInterface
 {
     /**
-     * @deprecated since version 3.1.0, to be removed in 4.0
-     *
-     * @var FormFactoryInterface
-     */
-    private $fieldFactory;
-
-    /**
      * @var FormFactoryInterface
      */
     private $formFactory;
@@ -64,10 +57,7 @@ final class FormContractor implements FormContractorInterface
         }
     }
 
-    /**
-     * @return FormFactoryInterface
-     */
-    public function getFormFactory()
+    public function getFormFactory(): FormFactoryInterface
     {
         return $this->formFactory;
     }
@@ -158,14 +148,15 @@ final class FormContractor implements FormContractorInterface
     }
 
     /**
-     * @param string $type
-     * @param array  $classes
-     *
-     * @return array
+     * @phpstan-param class-string[] $classes
      */
-    private function checkFormClass($type, $classes)
+    private function checkFormClass(?string $type, array $classes): array
     {
-        return array_filter($classes, static function ($subclass) use ($type) {
+        if (null === $type) {
+            return [];
+        }
+
+        return array_filter($classes, static function (string $subclass) use ($type): bool {
             return is_a($type, $subclass, true);
         });
     }
@@ -175,7 +166,7 @@ final class FormContractor implements FormContractorInterface
         $typeOptions = [
             'sonata_field_description' => $fieldDescription,
             'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
-            'empty_data' => static function () use ($fieldDescription) {
+            'empty_data' => static function () use ($fieldDescription): object {
                 return $fieldDescription->getAssociationAdmin()->getNewInstance();
             },
         ];

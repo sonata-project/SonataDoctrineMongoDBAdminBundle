@@ -31,7 +31,7 @@ class DocumentStub
         $this->id = new ObjectId();
     }
 
-    public function getId()
+    public function getId(): string
     {
         return (string) ($this->id);
     }
@@ -46,10 +46,7 @@ final class ModelFilterTest extends TestCase
         $this->queryBuilder = $this->createMock(Builder::class);
     }
 
-    /**
-     * @return FieldDescriptionInterface
-     */
-    public function getFieldDescription(array $options)
+    public function getFieldDescription(array $options): FieldDescriptionInterface
     {
         $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $fieldDescription->expects($this->once())->method('getOptions')->willReturn($options);

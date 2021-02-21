@@ -22,8 +22,14 @@ use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 
 final class ShowBuilder implements ShowBuilderInterface
 {
+    /**
+     * @var TypeGuesserInterface
+     */
     private $guesser;
 
+    /**
+     * @var string[]
+     */
     private $templates;
 
     public function __construct(TypeGuesserInterface $guesser, array $templates)
@@ -98,10 +104,6 @@ final class ShowBuilder implements ShowBuilderInterface
      */
     private function getTemplate($type): ?string
     {
-        if (!isset($this->templates[$type])) {
-            return null;
-        }
-
-        return $this->templates[$type];
+        return $this->templates[$type] ?? null;
     }
 }

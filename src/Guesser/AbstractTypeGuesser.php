@@ -19,13 +19,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 
 abstract class AbstractTypeGuesser implements TypeGuesserInterface
 {
-    /**
-     * @param string $baseClass
-     * @param string $propertyFullName
-     *
-     * @return array|null
-     */
-    protected function getParentMetadataForProperty($baseClass, $propertyFullName, ModelManager $modelManager)
+    protected function getParentMetadataForProperty(string $baseClass, string $propertyFullName, ModelManager $modelManager): ?array
     {
         try {
             return $modelManager->getParentMetadataForProperty($baseClass, $propertyFullName);
