@@ -27,16 +27,7 @@ abstract class Filter extends BaseFilter
     public function apply($query, $filterData): void
     {
         if (!$query instanceof ProxyQueryInterface) {
-            /* NEXT_MAJOR: Remove this deprecation and uncomment the error */
-            @trigger_error(sprintf(
-                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
-                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
-                \get_class($query),
-                __METHOD__,
-                ProxyQueryInterface::class
-            ));
-
-            // throw new \TypeError(sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
+             throw new \TypeError(sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
         }
 
         $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
@@ -52,5 +43,5 @@ abstract class Filter extends BaseFilter
     /**
      * @param mixed $data
      */
-    abstract protected function filter(BaseProxyQueryInterface $query, string $field, $data): void;
+    abstract protected function filter(ProxyQueryInterface $query, string $field, $data): void;
 }

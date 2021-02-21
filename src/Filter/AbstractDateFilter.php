@@ -61,19 +61,8 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
-    protected function filter(BaseProxyQueryInterface $query, string $field, $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
-        if (!$query instanceof ProxyQueryInterface) {
-            @trigger_error(sprintf(
-                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
-                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
-                \get_class($query),
-                __METHOD__,
-                ProxyQueryInterface::class
-            ));
-        }
-
         //check data sanity
         if (true !== \is_array($data)) {
             return;
@@ -121,36 +110,25 @@ abstract class AbstractDateFilter extends Filter
     /**
      * @return void
      */
-    abstract protected function applyTypeIsLessEqual(BaseProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @return void
      */
-    abstract protected function applyTypeIsGreaterThan(BaseProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @return void
      */
-    abstract protected function applyTypeIsEqual(BaseProxyQueryInterface $query, string $field, array $data);
+    abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data);
 
     /**
      * @param string    $operation
      * @param string    $field
      * @param \DateTime $datetime
      */
-    protected function applyType(BaseProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null): void
+    protected function applyType(ProxyQueryInterface $query, $operation, $field, ?\DateTime $datetime = null): void
     {
-        /* NEXT_MAJOR: Remove this deprecation and update the typehint */
-        if (!$query instanceof ProxyQueryInterface) {
-            @trigger_error(sprintf(
-                'Passing %s as argument 1 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
-                .' and will throw a \TypeError error in version 4.0. You MUST pass an instance of %s instead.',
-                \get_class($query),
-                __METHOD__,
-                ProxyQueryInterface::class
-            ));
-        }
-
         $query->getQueryBuilder()->field($field)->$operation($datetime);
         $this->active = true;
     }
