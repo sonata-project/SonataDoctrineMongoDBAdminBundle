@@ -56,7 +56,7 @@ class StringFilter extends Filter
 
         $obj = $query->getQueryBuilder();
         if (self::CONDITION_OR === $this->condition) {
-            $obj = $query->expr();
+            $obj = $query->getQueryBuilder()->expr();
         }
 
         if (ContainsOperatorType::TYPE_EQUAL === $data['type']) {
@@ -68,7 +68,7 @@ class StringFilter extends Filter
         }
 
         if (self::CONDITION_OR === $this->condition) {
-            $query->addOr($obj);
+            $query->getQueryBuilder()->addOr($obj);
         }
 
         $this->active = true;

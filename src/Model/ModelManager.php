@@ -415,7 +415,7 @@ class ModelManager implements ModelManagerInterface
     public function batchDelete($class, ProxyQueryInterface $query)
     {
         /** @var Query $queryBuilder */
-        $queryBuilder = $query->getQuery();
+        $queryBuilder = $query->getQueryBuilder()->getQuery();
 
         $documentManager = $this->getDocumentManager($class);
 
@@ -446,7 +446,7 @@ class ModelManager implements ModelManagerInterface
         $query->setFirstResult($firstResult);
         $query->setMaxResults($maxResult);
 
-        return new DoctrineODMQuerySourceIterator($query instanceof ProxyQuery ? $query->getQuery() : $query, $fields);
+        return new DoctrineODMQuerySourceIterator($query instanceof ProxyQuery ? $query->getQueryBuilder()->getQuery() : $query, $fields);
     }
 
     public function getExportFields($class)
