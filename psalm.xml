@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" errorLevel="4" resolveFromConfigFile="true" xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd" errorBaseline="psalm-baseline.xml">
+<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" errorLevel="4" resolveFromConfigFile="true" xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd" autoloader="vendor/bin/.phpunit/phpunit/vendor/autoload.php" errorBaseline="psalm-baseline.xml">
     <projectFiles>
         <directory name="src"/>
+        <directory name="tests"/>
         <ignoreFiles>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
     <plugins>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
     <issueHandlers>
-        <!-- TODO: This will be fixed when regex would allow as an expression -->
         <InvalidArgument>
             <errorLevel type="suppress">
+                <!-- TODO: This will be fixed when regex would allow as an expression -->
                 <file name="src/Filter/StringFilter.php"/>
+                <!-- TODO: Remove when PagerInterface uses a covariant template -->
+                <referencedFunction name="Sonata\AdminBundle\Datagrid\Datagrid::__construct"/>
             </errorLevel>
         </InvalidArgument>
     </issueHandlers>

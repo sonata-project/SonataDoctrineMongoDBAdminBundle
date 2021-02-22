@@ -28,12 +28,13 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->never())
             ->method('field')
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, $value);
 
@@ -52,13 +53,14 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->once())
             ->method('in')
             ->with(['1', '2'])
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]);
 
@@ -69,13 +71,14 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->once())
             ->method('equals')
             ->with('1')
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']);
 
@@ -86,13 +89,14 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->once())
             ->method('equals')
             ->with('0')
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]);
 

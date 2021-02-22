@@ -29,9 +29,6 @@ final class BookFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    /**
-     * @phpstan-return class-string[]
-     */
     public function getDependencies(): array
     {
         return [

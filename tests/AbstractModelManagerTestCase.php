@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
-use PHPUnit\Framework\MockObject\Stub\Stub;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Bridge\Doctrine\ManagerRegistry;

@@ -241,7 +241,7 @@ final class ModelManager implements ModelManagerInterface
     public function batchDelete($class, ProxyQueryInterface $query): void
     {
         /** @var Query $queryBuilder */
-        $queryBuilder = $query->getQuery();
+        $queryBuilder = $query->getQueryBuilder()->getQuery();
 
         $documentManager = $this->getDocumentManager($class);
 

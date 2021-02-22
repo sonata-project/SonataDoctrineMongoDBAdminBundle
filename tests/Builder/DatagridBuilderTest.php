@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
@@ -44,12 +45,12 @@ final class DatagridBuilderTest extends TestCase
     private $datagridBuilder;
 
     /**
-     * @var MockObject&TypeGuesserInterface
+     * @var Stub&TypeGuesserInterface
      */
     private $typeGuesser;
 
     /**
-     * @var MockObject&FormFactoryInterface
+     * @var Stub&FormFactoryInterface
      */
     private $formFactory;
 

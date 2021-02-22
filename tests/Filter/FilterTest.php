@@ -38,7 +38,7 @@ final class FilterTest_Filter extends Filter
 
     protected function filter(ProxyQueryInterface $query, string $field, $data): void
     {
-        $query->field($field)->equals($data);
+        $query->getQueryBuilder()->field($field)->equals($data);
     }
 }
 

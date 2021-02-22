@@ -28,13 +28,13 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->never())
             ->method('field')
         ;
 
+        $builder = new ProxyQuery($queryBuilder);
         $filter->apply($builder, $value);
 
         $this->assertFalse($filter->isActive());
@@ -52,12 +52,13 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->never())
             ->method('field')
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => 'foo']);
 
@@ -71,13 +72,13 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->once())
             ->method($method)
             ->with($data['value'])
         ;
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, $data);
 

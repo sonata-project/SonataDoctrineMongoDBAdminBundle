@@ -28,12 +28,13 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->never())
             ->method('field')
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, $value);
 
@@ -59,13 +60,14 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->once())
             ->method('equals')
             ->with($equalsReturnValue)
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => null, 'value' => $value]);
 
@@ -84,13 +86,14 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $builder = new ProxyQuery($this->getQueryBuilder());
-
-        $builder->getQueryBuilder()
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
             ->expects($this->once())
             ->method('in')
             ->with([false])
         ;
+
+        $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => null, 'value' => [BooleanType::TYPE_NO]]);
 

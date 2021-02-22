@@ -20,6 +20,8 @@ use Sonata\AdminBundle\Datagrid\Pager as BasePager;
  *
  * @author Jonathan H. Wage <jonwage@gmail.com>
  * @author Kévin Dunglas <dunglas@gmail.com>
+ *
+ * @phpstan-extends BasePager<ProxyQueryInterface>
  */
 final class Pager extends BasePager
 {

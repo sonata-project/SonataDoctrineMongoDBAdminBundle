@@ -71,12 +71,12 @@ final class ModelFilterTest extends TestCase
             'field_options' => ['class' => 'FooBar'],
         ]);
 
-        $builder = new ProxyQuery($this->queryBuilder);
-
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->expects($this->never())
             ->method('field')
         ;
+
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, $value);
 
@@ -104,9 +104,7 @@ final class ModelFilterTest extends TestCase
             ],
         ]);
 
-        $builder = new ProxyQuery($this->queryBuilder);
-
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->expects($this->once())
             ->method('field')
             ->with('field._id')
@@ -116,11 +114,13 @@ final class ModelFilterTest extends TestCase
         $oneDocument = new DocumentStub();
         $otherDocument = new DocumentStub();
 
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->expects($this->once())
             ->method('in')
             ->with([new ObjectId($oneDocument->getId()), new ObjectId($otherDocument->getId())])
         ;
+
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -143,9 +143,7 @@ final class ModelFilterTest extends TestCase
             ],
         ]);
 
-        $builder = new ProxyQuery($this->queryBuilder);
-
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->expects($this->once())
             ->method('field')
             ->with('field._id')
@@ -154,11 +152,13 @@ final class ModelFilterTest extends TestCase
 
         $document1 = new DocumentStub();
 
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->expects($this->once())
             ->method('equals')
             ->with(new ObjectId($document1->getId()))
         ;
+
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $document1]);
 
@@ -203,13 +203,13 @@ final class ModelFilterTest extends TestCase
             ],
         ]);
 
-        $builder = new ProxyQuery($this->queryBuilder);
-
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->method('field')
             ->with('field_name._id')
             ->willReturnSelf()
         ;
+
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
@@ -238,13 +238,13 @@ final class ModelFilterTest extends TestCase
             ],
         ]);
 
-        $builder = new ProxyQuery($this->queryBuilder);
-
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->method('field')
             ->with('field_name._id')
             ->willReturnSelf()
         ;
+
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
@@ -265,13 +265,13 @@ final class ModelFilterTest extends TestCase
             ],
         ]);
 
-        $builder = new ProxyQuery($this->queryBuilder);
-
-        $builder->getQueryBuilder()
+        $this->queryBuilder
             ->method('field')
             ->with('field_name'.$fieldIdentifier)
             ->willReturnSelf()
         ;
+
+        $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
