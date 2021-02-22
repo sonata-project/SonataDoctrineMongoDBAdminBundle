@@ -22,6 +22,8 @@ use Sonata\AdminBundle\Datagrid\Pager as BasePager;
  * @author Kévin Dunglas <dunglas@gmail.com>
  *
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
+ *
+ * @phpstan-extends BasePager<ProxyQueryInterface>
  */
 class Pager extends BasePager
 {
