@@ -23,17 +23,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class FilterTest_Filter extends Filter
 {
-    /**
-     * Apply the filter to the QueryBuilder instance.
-     *
-     * @param $queryBuilder
-     * @param string $alias
-     * @param string $field
-     * @param string $value
-     */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $value): void
+    public function filter(ProxyQueryInterface $query, $alias, $field, $data): void
     {
-        $queryBuilder->field($field)->equals($value);
+        $query->getQueryBuilder()->field($field)->equals($data);
     }
 
     public function getDefaultOptions()
