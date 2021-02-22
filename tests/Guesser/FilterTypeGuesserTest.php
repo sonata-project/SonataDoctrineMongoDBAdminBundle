@@ -114,7 +114,7 @@ class FilterTypeGuesserTest extends AbstractModelManagerTestCase
         $class = 'FakeClass';
         $property = 'fakeProperty';
 
-        $classMetadata = $this->createStub(ClassMetadata::class);
+        $classMetadata = $this->createMock(ClassMetadata::class);
 
         $classMetadata
             ->method('hasAssociation')

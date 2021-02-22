@@ -18,7 +18,8 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\Mapping\ClassMetadataFactory;
-use PHPUnit\Framework\MockObject\Stub\Stub;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -37,13 +38,13 @@ abstract class AbstractModelManagerTestCase extends TestCase
     protected $documentManager;
 
     /**
-     * @var ClassMetadataFactory&Stub
+     * @var ClassMetadataFactory&MockObject
      */
     protected $metadataFactory;
 
     protected function setUp(): void
     {
-        $this->metadataFactory = $this->createStub(ClassMetadataFactory::class);
+        $this->metadataFactory = $this->createMock(ClassMetadataFactory::class);
 
         $this->documentManager = $this->createStub(DocumentManager::class);
         $this->documentManager
