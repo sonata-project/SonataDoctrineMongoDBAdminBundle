@@ -81,6 +81,6 @@ class DateTimeFilter extends AbstractDateFilter
         $end = clone $data['value'];
         $end->add(new \DateInterval('PT1M'));
 
-        $query->field($field)->range($data['value'], $end);
+        $query->getQueryBuilder()->field($field)->range($data['value'], $end);
     }
 }

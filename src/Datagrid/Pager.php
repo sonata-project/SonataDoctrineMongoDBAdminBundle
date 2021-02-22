@@ -169,7 +169,7 @@ class Pager extends BasePager
             $countQuery->setParameters($this->getParameters('sonata_deprecation_mute'));
         }
 
-        return (int) $countQuery->count()->getQuery()->execute();
+        return (int) $countQuery->getQueryBuilder()->count()->getQuery()->execute();
     }
 
     private function setResultsCount(int $count): void
