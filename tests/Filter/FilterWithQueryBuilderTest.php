@@ -15,14 +15,17 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Expr;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class FilterWithQueryBuilderTest extends TestCase
 {
     protected const DEFAULT_FIELD_NAME = 'field';
 
+    /**
+     * @var Builder&MockObject
+     */
     private $queryBuilder;
-    private $expr;
 
     protected function setUp(): void
     {
@@ -32,17 +35,20 @@ abstract class FilterWithQueryBuilderTest extends TestCase
             ->with(self::DEFAULT_FIELD_NAME)
             ->willReturnSelf()
         ;
-        $this->expr = $this->createMock(Expr::class);
-        $this->expr
+        $expr = $this->createMock(Expr::class);
+        $expr
             ->method('field')
             ->willReturnSelf()
         ;
         $this->queryBuilder
             ->method('expr')
-            ->willReturn($this->expr)
+            ->willReturn($expr)
         ;
     }
 
+    /**
+     * @return Builder&MockObject
+     */
     protected function getQueryBuilder()
     {
         return $this->queryBuilder;
