@@ -44,7 +44,7 @@ class Author
     /**
      * @ODM\EmbedMany(targetDocument=PhoneNumber::class)
      *
-     * @var Collection<array-key, PhoneNumber)
+     * @var Collection<array-key, PhoneNumber>
      */
     private $phoneNumbers;
 

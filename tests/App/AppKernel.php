@@ -76,7 +76,7 @@ final class AppKernel extends Kernel
         $routes->import(sprintf('%s/config/routes.yaml', $this->getProjectDir()));
     }
 
-    protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/config/config.yml');
         $loader->load(__DIR__.'/config/security.yml');
