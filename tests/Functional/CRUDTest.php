@@ -50,8 +50,8 @@ final class CRUDTest extends BasePantherTestCase
     {
         $crawler = $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/create');
 
-        $attributeId = $crawler->filter('.category_id')->attr('name');
-        $attributeName = $crawler->filter('.category_name')->attr('name');
+        $attributeId = (string) $crawler->filter('.category_id')->attr('name');
+        $attributeName = (string) $crawler->filter('.category_name')->attr('name');
 
         $this->client->submitForm('Create and return to list', [
             $attributeId => 'new id',
@@ -65,7 +65,7 @@ final class CRUDTest extends BasePantherTestCase
     {
         $crawler = $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/category_novel/edit');
 
-        $attributeName = $crawler->filter('.category_name')->attr('name');
+        $attributeName = (string) $crawler->filter('.category_name')->attr('name');
 
         $this->client->submitForm('Update and close', [
             $attributeName => 'edited name',
