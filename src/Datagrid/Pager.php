@@ -63,6 +63,6 @@ final class Pager extends BasePager
     {
         $countQuery = clone $this->getQuery();
 
-        return (int) $countQuery->count()->getQuery()->execute();
+        return (int) $countQuery->getQueryBuilder()->count()->getQuery()->execute();
     }
 }
