@@ -1,16 +1,6 @@
 parameters:
     ignoreErrors:
-        # NEXT_MAJOR: Remove all these errors.
         -
             message: "#^Call to an undefined method Sonata\\\\AdminBundle\\\\Datagrid\\\\ProxyQueryInterface\\:\\:getQueryBuilder\\(\\)\\.$#"
             paths:
-                - src/Filter/AbstractDateFilter.php
-                - src/Filter/BooleanFilter.php
-                - src/Filter/ChoiceFilter.php
-                - src/Filter/DateFilter.php
-                - src/Filter/DateTimeFilter.php
-                - src/Filter/ModelFilter.php
-                - src/Filter/NumberFilter.php
-                - src/Filter/StringFilter.php
                 - src/Model/ModelManager.php
-                - tests/Filter/FilterTest.php
