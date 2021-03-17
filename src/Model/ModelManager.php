@@ -146,6 +146,9 @@ class ModelManager implements ModelManagerInterface
         return $this->getDocumentManager($class)->getMetadataFactory()->hasMetadataFor($class);
     }
 
+    /**
+     * @psalm-suppress InvalidArgument
+     */
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if (!\is_string($name)) {
