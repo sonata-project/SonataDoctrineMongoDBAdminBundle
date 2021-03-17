@@ -163,7 +163,11 @@ final class ModelManager implements ModelManagerInterface
         $dm = $this->registry->getManagerForClass($class);
 
         if (!$dm instanceof DocumentManager) {
-            throw new \RuntimeException(sprintf('No document manager defined for class %s', $class));
+            throw new \TypeError(sprintf(
+                'Document manager for class "%s" must be of type "%s".',
+                $class,
+                DocumentManager::class
+            ));
         }
 
         return $dm;
