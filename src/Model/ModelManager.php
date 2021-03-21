@@ -582,8 +582,31 @@ class ModelManager implements ModelManagerInterface
         return $instance;
     }
 
+    public function reverseTransform(object $object, array $array = []): void
+    {
+        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
+        $metadata = $this->getMetadata(\get_class($object), 'sonata_deprecation_mute');
+
+        foreach ($array as $name => $value) {
+            $property = $this->getFieldName($metadata, $name);
+
+            $this->propertyAccessor->setValue($instance, $property, $value);
+        }
+    }
+
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, use reverseTransform() instead.
+     */
     public function modelReverseTransform($class, array $array = [])
     {
+        @trigger_error(sprintf(
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.'
+            .' Use "reverseTransform()" instead.',
+            __METHOD__
+        ), \E_USER_DEPRECATED);
+
         $instance = $this->getModelInstance($class);
         // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
         $metadata = $this->getMetadata($class, 'sonata_deprecation_mute');
