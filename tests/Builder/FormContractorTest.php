@@ -177,14 +177,14 @@ class FormContractorTest extends AbstractModelManagerTestCase
         $admin->method('getModelManager')->willReturn($this->modelManager);
 
         $fieldDescription = new FieldDescription(
-            'associatedDocument',
+            'embeddedDocument',
             [],
-            $classMetadata->fieldMappings['associatedDocument'],
-            $classMetadata->associationMappings['associatedDocument']
+            $classMetadata->fieldMappings['embeddedDocument'],
+            $classMetadata->associationMappings['embeddedDocument']
         );
 
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
 
-        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getAssociationMapping());
+        $this->assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getAssociationMapping());
     }
 }

@@ -27,20 +27,21 @@ class DocumentWithReferences
     /**
      * @ODM\EmbedOne()
      */
-    private $associatedDocument;
+    private $embeddedDocument;
 
     /**
      * @ODM\EmbedMany()
      */
-    private $embeddedDocument;
+    private $embeddedDocuments;
 
     /**
      * @ODM\ReferenceOne(targetDocument=TestDocument::class)
      */
     private $referenceOne;
 
-    public function __construct(string $name)
+    public function __construct(string $name, ?EmbeddedDocument $embeddedDocument = null)
     {
         $this->name = $name;
+        $this->embeddedDocument = $embeddedDocument;
     }
 }
