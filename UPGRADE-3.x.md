@@ -4,6 +4,18 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
+
+Deprecated this class in favor of `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription`.
+
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser
+
+Deprecated this class in favor of `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser`.
+
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser
+
+Deprecated this class in favor of `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser`.
+
 ### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
 
 Deprecated `modelReverseTransform()` method, use `reverseTransform()` instead.

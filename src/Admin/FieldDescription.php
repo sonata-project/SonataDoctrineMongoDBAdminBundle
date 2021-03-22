@@ -13,104 +13,26 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Admin;
 
-use Sonata\AdminBundle\Admin\BaseFieldDescription;
+// NEXT_MAJOR: Remove this file.
+if (!class_exists(\Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription::class, false)) {
+    @trigger_error(sprintf(
+        'The %s\FieldDescription class is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in 4.0.'
+        .' Use \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription instead.',
+        __NAMESPACE__
+    ), \E_USER_DEPRECATED);
+}
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class FieldDescription extends BaseFieldDescription
-{
+class_alias(
+    \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription::class,
+    __NAMESPACE__.'\FieldDescription'
+);
+
+if (false) {
     /**
-     * NEXT_MAJOR: Change visibility to protected.
-     *
-     * @return void
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.
+     * Use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription instead.
      */
-    public function setAssociationMapping($associationMapping)
+    class FieldDescription extends \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription
     {
-        if (!\is_array($associationMapping)) {
-            throw new \RuntimeException('The association mapping must be an array');
-        }
-
-        $this->associationMapping = $associationMapping;
-
-        // NEXT_MAJOR: Remove next line.
-        $this->type = $this->type ?: $associationMapping['type'];
-        $this->mappingType = $this->mappingType ?: $associationMapping['type'];
-        $this->fieldName = $associationMapping['fieldName'];
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0. Use FieldDescription::getTargetModel() instead.
-     */
-    public function getTargetEntity()
-    {
-        @trigger_error(sprintf(
-            'Method %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.'
-            .' Use %s::getTargetModel() instead.',
-            __METHOD__,
-            __CLASS__
-        ), \E_USER_DEPRECATED);
-
-        return $this->getTargetModel();
-    }
-
-    public function getTargetModel(): ?string
-    {
-        if ($this->associationMapping) {
-            return $this->associationMapping['targetDocument'];
-        }
-
-        return null;
-    }
-
-    /**
-     * NEXT_MAJOR: Change visibility to protected.
-     *
-     * @return void
-     */
-    public function setFieldMapping($fieldMapping)
-    {
-        if (!\is_array($fieldMapping)) {
-            throw new \RuntimeException('The field mapping must be an array');
-        }
-
-        $this->fieldMapping = $fieldMapping;
-
-        // NEXT_MAJOR: Remove next line.
-        $this->type = $this->type ?: $fieldMapping['type'];
-        $this->mappingType = $this->mappingType ?: $fieldMapping['type'];
-        $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
-    }
-
-    /**
-     * NEXT_MAJOR: Change visibility to protected.
-     *
-     * @return void
-     */
-    public function setParentAssociationMappings(array $parentAssociationMappings)
-    {
-        foreach ($parentAssociationMappings as $parentAssociationMapping) {
-            if (!\is_array($parentAssociationMapping)) {
-                throw new \RuntimeException('An association mapping must be an array');
-            }
-        }
-
-        $this->parentAssociationMappings = $parentAssociationMappings;
-    }
-
-    public function isIdentifier()
-    {
-        return $this->fieldMapping['id'] ?? false;
-    }
-
-    public function getValue($object)
-    {
-        foreach ($this->parentAssociationMappings as $parentAssociationMapping) {
-            $object = $this->getFieldValue($object, $parentAssociationMapping['fieldName']);
-        }
-
-        return $this->getFieldValue($object, $this->fieldName);
     }
 }
