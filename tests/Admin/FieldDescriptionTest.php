@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Admin;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 
 class FieldDescriptionTest extends TestCase
 {

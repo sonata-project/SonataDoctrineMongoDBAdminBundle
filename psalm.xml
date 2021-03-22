@@ -20,5 +20,13 @@
                 <referencedFunction name="Sonata\AdminBundle\Datagrid\Datagrid::__construct"/>
             </errorLevel>
         </InvalidArgument>
+        <!-- NEXT_MAJOR: Remove this error -->
+        <TypeDoesNotContainType>
+            <errorLevel type="suppress">
+                <file name="src/Admin/FieldDescription.php"/>
+                <file name="src/Guesser/FilterTypeGuesser.php"/>
+                <file name="src/Guesser/TypeGuesser.php"/>
+            </errorLevel>
+        </TypeDoesNotContainType>
     </issueHandlers>
 </psalm>

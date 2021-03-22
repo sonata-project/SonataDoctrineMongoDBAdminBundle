@@ -16,7 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Types\Type;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Symfony\Component\Form\Guess\Guess;
 
