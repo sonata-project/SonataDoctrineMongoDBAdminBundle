@@ -45,7 +45,7 @@ class Pager extends BasePager
 
         @trigger_error(sprintf(
             'Relying on the protected property "%s::$nbResults" and its getter/setter is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.7 and will fail 4.0. Use "countResults()" and "setResultsCount()" instead.',
-            self::class,
+            self::class
         ), \E_USER_DEPRECATED);
 
         return $deprecatedCount;
@@ -63,7 +63,7 @@ class Pager extends BasePager
         if ('sonata_deprecation_mute' !== (\func_get_args()[0] ?? null)) {
             @trigger_error(sprintf(
                 'The %s() method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.7 and will be removed in 4.0. Use "countResults()" instead.',
-                __METHOD__,
+                __METHOD__
             ), \E_USER_DEPRECATED);
         }
 
@@ -82,7 +82,7 @@ class Pager extends BasePager
         if ('sonata_deprecation_mute' !== (\func_get_args()[0] ?? null)) {
             @trigger_error(sprintf(
                 'The %s() method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.7 and will be removed in 4.0.',
-                __METHOD__,
+                __METHOD__
             ), \E_USER_DEPRECATED);
         }
 
@@ -104,7 +104,7 @@ class Pager extends BasePager
         @trigger_error(sprintf(
             'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.7 and will'
         .' be removed in 4.0. Use "getCurrentPageResults()" instead.',
-            __METHOD__,
+            __METHOD__
         ), \E_USER_DEPRECATED);
 
         return $this->getCurrentPageResults();
@@ -154,7 +154,7 @@ class Pager extends BasePager
         if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
             @trigger_error(sprintf(
                 'The %s() method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.7 and will be removed in 4.0. Use "setResultsCount()" instead.',
-                __METHOD__,
+                __METHOD__
             ), \E_USER_DEPRECATED);
         }
 

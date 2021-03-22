@@ -39,7 +39,7 @@ class CallbackFilter extends Filter
                 \get_class($query),
                 __METHOD__,
                 ProxyQueryInterface::class
-            ));
+            ), \E_USER_DEPRECATED);
         }
 
         if (!\is_callable($this->getOption('callback'))) {

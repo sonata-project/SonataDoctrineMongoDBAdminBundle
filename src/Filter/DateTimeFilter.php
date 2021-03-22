@@ -74,7 +74,7 @@ class DateTimeFilter extends AbstractDateFilter
                 \get_class($query),
                 __METHOD__,
                 ProxyQueryInterface::class
-            ));
+            ), \E_USER_DEPRECATED);
         }
 
         /** @var \DateTime $end */
