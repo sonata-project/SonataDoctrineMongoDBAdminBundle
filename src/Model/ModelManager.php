@@ -611,7 +611,7 @@ class ModelManager implements ModelManagerInterface
         foreach ($array as $name => $value) {
             $property = $this->getFieldName($metadata, $name);
 
-            $this->propertyAccessor->setValue($instance, $property, $value);
+            $this->propertyAccessor->setValue($object, $property, $value);
         }
     }
 

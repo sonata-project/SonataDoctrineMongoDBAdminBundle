@@ -233,6 +233,11 @@ final class ModelManagerTest extends TestCase
         $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'bool');
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testModelReverseTransformWithSetter(): void
     {
         $class = TestDocument::class;
@@ -252,6 +257,11 @@ final class ModelManagerTest extends TestCase
         $this->assertTrue($object->schwifty);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testModelReverseTransformFailsWithPrivateSetter(): void
     {
         $class = SimpleDocumentWithPrivateSetter::class;
@@ -262,6 +272,11 @@ final class ModelManagerTest extends TestCase
         $manager->modelReverseTransform($class, ['schmeckles' => 42]);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testModelReverseTransformFailsWithPrivateProperties(): void
     {
         $class = TestDocument::class;
@@ -272,14 +287,45 @@ final class ModelManagerTest extends TestCase
         $manager->modelReverseTransform($class, ['plumbus' => 42]);
     }
 
-    public function testModelReverseTransformFailsWithPrivateProperties2(): void
+    public function testReverseTransformWithSetter(): void
+    {
+        $class = TestDocument::class;
+
+        $manager = $this->createModelManagerForClass($class);
+        $testDocument = new TestDocument();
+
+        $manager->reverseTransform(
+            $testDocument,
+            [
+                'schmeckles' => 42,
+                'multi_word_property' => 'hello',
+                'schwifty' => true,
+            ]
+        );
+
+        $this->assertSame(42, $testDocument->getSchmeckles());
+        $this->assertSame('hello', $testDocument->getMultiWordProperty());
+        $this->assertTrue($testDocument->schwifty);
+    }
+
+    public function testReverseTransformFailsWithPrivateSetter(): void
+    {
+        $class = SimpleDocumentWithPrivateSetter::class;
+        $manager = $this->createModelManagerForClass($class);
+
+        $this->expectException(NoSuchPropertyException::class);
+
+        $manager->reverseTransform(new SimpleDocumentWithPrivateSetter(1), ['schmeckles' => 42]);
+    }
+
+    public function testReverseTransformFailsWithPrivateProperties(): void
     {
         $class = TestDocument::class;
         $manager = $this->createModelManagerForClass($class);
 
         $this->expectException(NoSuchPropertyException::class);
 
-        $manager->modelReverseTransform($class, ['plumbus' => 42]);
+        $manager->reverseTransform(new TestDocument(), ['plumbus' => 42]);
     }
 
     /**
