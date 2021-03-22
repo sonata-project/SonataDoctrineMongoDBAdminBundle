@@ -146,12 +146,12 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
         return [
             'one' => [
                 FieldDescriptionInterface::TYPE_MANY_TO_ONE,
-                'associatedDocument',
+                'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
             ],
             'many' => [
                 FieldDescriptionInterface::TYPE_MANY_TO_MANY,
-                'embeddedDocument',
+                'embeddedDocuments',
                 '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
             ],
         ];

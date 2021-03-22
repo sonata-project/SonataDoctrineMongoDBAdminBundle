@@ -21,9 +21,20 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class EmbeddedDocument
 {
     /**
+     * @ODM\Field(type="int")
+     *
+     * @var int
+     */
+    public $position;
+    /**
      * @ODM\Field(type="bool")
      *
      * @var bool
      */
     private $plainField;
+
+    public function __construct(int $position = 0)
+    {
+        $this->position = $position;
+    }
 }

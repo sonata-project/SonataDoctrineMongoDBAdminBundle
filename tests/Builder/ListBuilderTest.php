@@ -179,11 +179,11 @@ class ListBuilderTest extends AbstractModelManagerTestCase
     {
         return [
             'one-to-one' => [
-                'associatedDocument',
+                'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig',
             ],
             'many-to-one' => [
-                'embeddedDocument',
+                'embeddedDocuments',
                 '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig',
             ],
         ];

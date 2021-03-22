@@ -132,10 +132,10 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
         $fieldDescription = new FieldDescription(
-            'associatedDocument',
+            'embeddedDocument',
             [],
-            $classMetadata->fieldMappings['associatedDocument'],
-            $classMetadata->associationMappings['associatedDocument']
+            $classMetadata->fieldMappings['embeddedDocument'],
+            $classMetadata->associationMappings['embeddedDocument']
         );
 
         $this->admin
@@ -157,7 +157,7 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
 
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getOption('association_mapping'));
+        $this->assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getOption('association_mapping'));
     }
 
     public function testAddFilterNoType(): void
