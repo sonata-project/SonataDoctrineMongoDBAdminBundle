@@ -13,21 +13,12 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Type\AdminType;
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Form\Type\ModelHiddenType;
-use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
-use Sonata\Form\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class FormContractorTest extends AbstractModelManagerTestCase
@@ -49,104 +40,6 @@ class FormContractorTest extends AbstractModelManagerTestCase
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
 
         $this->formContractor = new FormContractor($this->formFactory);
-    }
-
-    public function testGetFormBuilder(): void
-    {
-        $this->formFactory->expects($this->once())->method('createNamedBuilder')
-            ->willReturn($this->createMock(FormBuilderInterface::class));
-
-        $this->assertInstanceOf(
-            FormBuilderInterface::class,
-            $this->formContractor->getFormBuilder('test', ['foo' => 'bar'])
-        );
-    }
-
-    public function testDefaultOptionsForSonataFormTypes(): void
-    {
-        $admin = $this->createMock(AdminInterface::class);
-        $modelClass = 'FooEntity';
-
-        $admin->method('getModelManager')->willReturn($this->modelManager);
-        $admin->method('getClass')->willReturn($modelClass);
-
-        // NEXT_MAJOR: Mock `FieldDescriptionInterface` instead and replace `getTargetEntity()` with `getTargetModel().
-        $fieldDescription = $this->createMock(FieldDescription::class);
-        $fieldDescription->method('getAdmin')->willReturn($admin);
-        $fieldDescription->method('getTargetModel')->willReturn($modelClass);
-        $fieldDescription->method('getAssociationAdmin')->willReturn($admin);
-
-        $modelTypes = [
-            ModelType::class,
-            ModelListType::class,
-            ModelHiddenType::class,
-            ModelAutocompleteType::class,
-        ];
-        $adminTypes = [
-            AdminType::class,
-        ];
-        $collectionTypes = [
-            CollectionType::class,
-        ];
-
-        // model types
-        foreach ($modelTypes as $formType) {
-            $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription);
-            $this->assertSame($fieldDescription, $options['sonata_field_description']);
-            $this->assertSame($modelClass, $options['class']);
-            $this->assertSame($this->modelManager, $options['model_manager']);
-        }
-
-        // admin type
-        $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::ONE);
-        foreach ($adminTypes as $formType) {
-            $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription);
-            $this->assertSame($fieldDescription, $options['sonata_field_description']);
-            $this->assertSame($modelClass, $options['data_class']);
-            $this->assertFalse($options['btn_add']);
-            $this->assertFalse($options['delete']);
-        }
-
-        // collection type
-        $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::MANY);
-        foreach ($collectionTypes as $index => $formType) {
-            $options = $this->formContractor->getDefaultOptions($formType, $fieldDescription, [
-                'by_reference' => false,
-            ]);
-            $this->assertSame($fieldDescription, $options['sonata_field_description']);
-            $this->assertSame(AdminType::class, $options['type']);
-            $this->assertTrue($options['modifiable']);
-            $this->assertSame($fieldDescription, $options['type_options']['sonata_field_description']);
-            $this->assertSame($modelClass, $options['type_options']['data_class']);
-            $this->assertFalse($options['type_options']['collection_by_reference']);
-        }
-    }
-
-    public function testAdminClassAttachForNotMappedField(): void
-    {
-        // Given
-        $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
-
-        $admin = $this->createMock(AdminInterface::class);
-        $admin->method('getModelManager')->willReturn($this->modelManager);
-
-        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
-        $fieldDescription->method('getMappingType')->willReturn(ClassMetadata::ONE);
-        $fieldDescription->method('getType')->willReturn(ModelListType::class);
-        $fieldDescription->method('getOption')->with($this->logicalOr(
-            $this->equalTo('edit'),
-            $this->equalTo('admin_code')
-        ))->willReturn('sonata.admin.code');
-
-        // Then
-        $admin
-            ->expects($this->once())
-            ->method('attachAdminClass')
-            ->with($fieldDescription)
-        ;
-
-        // When
-        $this->formContractor->fixFieldDescription($admin, $fieldDescription);
     }
 
     public function testFixFieldDescriptionForFieldMapping(): void
