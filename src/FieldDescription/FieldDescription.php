@@ -115,6 +115,7 @@ class FieldDescription extends BaseFieldDescription
         return $this->getFieldValue($object, $this->fieldName);
     }
 
+    // NEXT_MAJOR: Remove this method.
     final public function describesAssociation(): bool
     {
         return $this->describesSingleValuedAssociation() || $this->describesCollectionValuedAssociation();
