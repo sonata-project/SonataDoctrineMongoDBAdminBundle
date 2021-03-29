@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\FieldDescription;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 /**
@@ -112,6 +113,29 @@ class FieldDescription extends BaseFieldDescription
         }
 
         return $this->getFieldValue($object, $this->fieldName);
+    }
+
+    final public function describesAssociation(): bool
+    {
+        return $this->describesSingleValuedAssociation() || $this->describesCollectionValuedAssociation();
+    }
+
+    public function describesSingleValuedAssociation(): bool
+    {
+        return \in_array($this->mappingType, [
+            ClassMetadata::ONE,
+            ClassMetadata::REFERENCE_ONE,
+            ClassMetadata::EMBED_ONE,
+        ], true);
+    }
+
+    public function describesCollectionValuedAssociation(): bool
+    {
+        return \in_array($this->mappingType, [
+            ClassMetadata::MANY,
+            ClassMetadata::REFERENCE_MANY,
+            ClassMetadata::EMBED_MANY,
+        ], true);
     }
 }
 

@@ -15,9 +15,9 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
@@ -175,7 +175,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
+     * @return \Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
     {
