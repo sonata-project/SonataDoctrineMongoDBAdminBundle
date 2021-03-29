@@ -16,8 +16,8 @@ namespace Sonata\DoctrineMongoDBAdminBundle\FieldDescription;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\Persistence\ManagerRegistry;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionFactoryInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 
 final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
 {
