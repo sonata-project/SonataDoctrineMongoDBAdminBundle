@@ -405,6 +405,11 @@ final class ModelManagerTest extends TestCase
         $this->assertSame($name, $result['filter']['_sort_by']);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetModelInstanceException(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
@@ -414,6 +419,11 @@ final class ModelManagerTest extends TestCase
         $model->getModelInstance(AbstractDocument::class);
     }
 
+    /**
+     * NEXT_MAJOR: Remove this test.
+     *
+     * @group legacy
+     */
     public function testGetModelInstanceForProtectedDocument(): void
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
