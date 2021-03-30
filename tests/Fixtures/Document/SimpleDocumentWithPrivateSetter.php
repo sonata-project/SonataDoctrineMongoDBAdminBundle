@@ -22,6 +22,8 @@ class SimpleDocumentWithPrivateSetter
 {
     /**
      * @ODM\Field(type="int")
+     *
+     * @var int
      */
     private $schmeckles;
 
@@ -35,7 +37,7 @@ class SimpleDocumentWithPrivateSetter
         return $this->schmeckles;
     }
 
-    private function setSchmeckles($value): void
+    private function setSchmeckles(int $value): void
     {
         $this->schmeckles = $value;
     }

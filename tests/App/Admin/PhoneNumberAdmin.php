@@ -18,6 +18,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * @phpstan-extends AbstractAdmin<\Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\PhoneNumber>
+ */
 final class PhoneNumberAdmin extends AbstractAdmin
 {
     protected function configureListFields(ListMapper $list): void
