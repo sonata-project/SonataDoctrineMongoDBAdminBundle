@@ -21,7 +21,6 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -39,9 +38,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
     private $formFactory;
 
     /**
-     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type.
-     *
-     * @var DeprecatedTypeGuesserInterface|TypeGuesserInterface
+     * @var TypeGuesserInterface
      */
     private $guesser;
 
@@ -52,14 +49,12 @@ final class DatagridBuilder implements DatagridBuilderInterface
      */
     private $csrfTokenEnabled;
 
-    /**
-     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type and add TypeGuesserInterface to the constructor.
-     *
-     * @param DeprecatedTypeGuesserInterface|TypeGuesserInterface $guesser
-     * @param bool                                                $csrfTokenEnabled
-     */
-    public function __construct(FormFactoryInterface $formFactory, FilterFactoryInterface $filterFactory, $guesser, $csrfTokenEnabled = true)
-    {
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        FilterFactoryInterface $filterFactory,
+        TypeGuesserInterface $guesser,
+        bool $csrfTokenEnabled = true
+    ) {
         $this->formFactory = $formFactory;
         $this->filterFactory = $filterFactory;
         $this->guesser = $guesser;
@@ -94,16 +89,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
     public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $type) {
-            // NEXT_MAJOR: Remove the condition and keep the if part.
-            if ($this->guesser instanceof TypeGuesserInterface) {
-                $guessType = $this->guesser->guess($fieldDescription);
-            } else {
-                $guessType = $this->guesser->guessType(
-                    $fieldDescription->getAdmin()->getClass(),
-                    $fieldDescription->getName(),
-                    $fieldDescription->getAdmin()->getModelManager()
-                );
-            }
+            $guessType = $this->guesser->guess($fieldDescription);
 
             $type = $guessType->getType();
 

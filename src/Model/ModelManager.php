@@ -17,12 +17,9 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
-use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -44,87 +41,6 @@ final class ModelManager implements ModelManagerInterface
     {
         $this->registry = $registry;
         $this->propertyAccessor = $propertyAccessor;
-    }
-
-    /**
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
-     *
-     * Returns the model's metadata holding the fully qualified property, and the last
-     * property name.
-     *
-     * @param string $baseClass        The base class of the model holding the fully qualified property
-     * @param string $propertyFullName The name of the fully qualified property (dot ('.') separated
-     *                                 property string)
-     *
-     * @return array
-     *
-     * @phpstan-return array{
-     *      \Doctrine\ODM\MongoDB\Mapping\ClassMetadata,
-     *      string,
-     *      array
-     * }
-     */
-    public function getParentMetadataForProperty($baseClass, $propertyFullName)
-    {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[2] ?? null)) {
-            @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
-                .' will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
-        $nameElements = explode('.', $propertyFullName);
-        $lastPropertyName = array_pop($nameElements);
-        $class = $baseClass;
-        $parentAssociationMappings = [];
-
-        foreach ($nameElements as $nameElement) {
-            $metadata = $this->getMetadata($class);
-            $parentAssociationMappings[] = $metadata->associationMappings[$nameElement];
-            $class = $metadata->getAssociationTargetClass($nameElement);
-        }
-
-        return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];
-    }
-
-    /**
-     * @psalm-suppress InvalidArgument
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
-     */
-    public function getNewFieldDescriptionInstance($class, $name, array $options = [])
-    {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[3] ?? null)) {
-            @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
-                .' will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
-        if (!\is_string($name)) {
-            throw new \RuntimeException('The name argument must be a string');
-        }
-
-        if (!isset($options['route']['name'])) {
-            $options['route']['name'] = 'edit';
-        }
-
-        if (!isset($options['route']['parameters'])) {
-            $options['route']['parameters'] = [];
-        }
-
-        [$metadata, $propertyName, $parentAssociationMappings] = $this->getParentMetadataForProperty($class, $name);
-
-        return new FieldDescription(
-            $name,
-            $options,
-            $metadata->fieldMappings[$propertyName] ?? [],
-            $metadata->associationMappings[$propertyName] ?? [],
-            $parentAssociationMappings,
-            $propertyName
-        );
     }
 
     public function create($object): void
@@ -316,39 +232,13 @@ final class ModelManager implements ModelManagerInterface
 
     public function reverseTransform(object $object, array $array = []): void
     {
-        // NEXT_MAJOR: Remove 'sonata_deprecation_mute' argument.
-        $metadata = $this->getMetadata(\get_class($object), 'sonata_deprecation_mute');
+        $metadata = $this->getMetadata(\get_class($object));
 
         foreach ($array as $name => $value) {
             $property = $this->getFieldName($metadata, $name);
 
             $this->propertyAccessor->setValue($object, $property, $value);
         }
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, use reverseTransform() instead.
-     */
-    public function modelReverseTransform(string $class, array $array = []): object
-    {
-        @trigger_error(sprintf(
-            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.'
-            .' Use "reverseTransform()" instead.',
-            __METHOD__
-        ), \E_USER_DEPRECATED);
-
-        $instance = $this->getModelInstance($class);
-        $metadata = $this->getMetadata($class);
-
-        foreach ($array as $name => $value) {
-            $property = $this->getFieldName($metadata, $name);
-
-            $this->propertyAccessor->setValue($instance, $property, $value);
-        }
-
-        return $instance;
     }
 
     private function getFieldName(MongoDBClassMetadata $metadata, string $name): string
@@ -362,18 +252,6 @@ final class ModelManager implements ModelManagerInterface
         }
 
         return $name;
-    }
-
-    private function isFieldAlreadySorted(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid): bool
-    {
-        $values = $datagrid->getValues();
-
-        if (!isset($values['_sort_by']) || !$values['_sort_by'] instanceof FieldDescriptionInterface) {
-            return false;
-        }
-
-        return $values['_sort_by']->getName() === $fieldDescription->getName()
-            || $values['_sort_by']->getName() === $fieldDescription->getOption('sortable');
     }
 
     private function getMetadata(string $class): MongoDBClassMetadata

@@ -18,14 +18,11 @@ use Sonata\AdminBundle\Builder\ListBuilderInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 
 final class ListBuilder implements ListBuilderInterface
 {
     /**
-     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type.
-     *
-     * @var DeprecatedTypeGuesserInterface|TypeGuesserInterface
+     * @var TypeGuesserInterface
      */
     private $guesser;
 
@@ -35,12 +32,9 @@ final class ListBuilder implements ListBuilderInterface
     private $templates = [];
 
     /**
-     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type and add TypeGuesserInterface to the constructor.
-     *
-     * @param DeprecatedTypeGuesserInterface|TypeGuesserInterface $guesser
-     * @param string[]                                            $templates
+     * @param string[] $templates
      */
-    public function __construct($guesser, array $templates = [])
+    public function __construct(TypeGuesserInterface $guesser, array $templates = [])
     {
         $this->guesser = $guesser;
         $this->templates = $templates;
@@ -54,16 +48,7 @@ final class ListBuilder implements ListBuilderInterface
     public function buildField($type, FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $type) {
-            // NEXT_MAJOR: Remove the condition and keep the if part.
-            if ($this->guesser instanceof TypeGuesserInterface) {
-                $guessType = $this->guesser->guess($fieldDescription);
-            } else {
-                $guessType = $this->guesser->guessType(
-                    $fieldDescription->getAdmin()->getClass(),
-                    $fieldDescription->getName(),
-                    $fieldDescription->getAdmin()->getModelManager()
-                );
-            }
+            $guessType = $this->guesser->guess($fieldDescription);
             $fieldDescription->setType($guessType->getType());
         } else {
             $fieldDescription->setType($type);

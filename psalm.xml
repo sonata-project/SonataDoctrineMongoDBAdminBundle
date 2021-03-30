@@ -28,13 +28,5 @@
                 <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Tests\Filter\FilterTest_Filter::apply"/>
             </errorLevel>
         </InvalidArgument>
-        <!-- NEXT_MAJOR: Remove this error -->
-        <TypeDoesNotContainType>
-            <errorLevel type="suppress">
-                <file name="src/Admin/FieldDescription.php"/>
-                <file name="src/Guesser/FilterTypeGuesser.php"/>
-                <file name="src/Guesser/TypeGuesser.php"/>
-            </errorLevel>
-        </TypeDoesNotContainType>
     </issueHandlers>
 </psalm>

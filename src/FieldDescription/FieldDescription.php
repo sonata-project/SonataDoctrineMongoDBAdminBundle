@@ -93,6 +93,3 @@ class FieldDescription extends BaseFieldDescription
         $this->parentAssociationMappings = $parentAssociationMappings;
     }
 }
-
-// NEXT_MAJOR: Remove next line.
-class_exists(\Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription::class);
