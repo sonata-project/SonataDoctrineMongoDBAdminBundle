@@ -16,11 +16,11 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
-use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -117,7 +117,7 @@ final class ModelManager implements ModelManagerInterface
         return $dm;
     }
 
-    public function createQuery(string $class, string $alias = 'o'): ProxyQueryInterface
+    public function createQuery(string $class, string $alias = 'o'): BaseProxyQueryInterface
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);
 
@@ -175,15 +175,22 @@ final class ModelManager implements ModelManagerInterface
         return $this->getNormalizedIdentifier($model);
     }
 
-    public function addIdentifiersToQuery(string $class, ProxyQueryInterface $query, array $idx): void
+    public function addIdentifiersToQuery(string $class, BaseProxyQueryInterface $query, array $idx): void
     {
+        if (!$query instanceof ProxyQueryInterface) {
+            throw new \TypeError(sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
+        }
+
         $queryBuilder = $query->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
     }
 
-    public function batchDelete(string $class, ProxyQueryInterface $query): void
+    public function batchDelete(string $class, BaseProxyQueryInterface $query): void
     {
-        /** @var Query $queryBuilder */
+        if (!$query instanceof ProxyQueryInterface) {
+            throw new \TypeError(sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
+        }
+
         $queryBuilder = $query->getQueryBuilder()->getQuery();
 
         $documentManager = $this->getDocumentManager($class);

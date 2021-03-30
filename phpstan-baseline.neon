@@ -1,6 +1,0 @@
-parameters:
-    ignoreErrors:
-        -
-            message: "#^Call to an undefined method Sonata\\\\AdminBundle\\\\Datagrid\\\\ProxyQueryInterface\\:\\:getQueryBuilder\\(\\)\\.$#"
-            paths:
-                - src/Model/ModelManager.php
