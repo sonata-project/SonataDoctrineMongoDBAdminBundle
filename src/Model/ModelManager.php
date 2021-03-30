@@ -19,10 +19,11 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Sonata\Exporter\Source\DoctrineODMQuerySourceIterator;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -427,8 +428,21 @@ class ModelManager implements ModelManagerInterface
     /**
      * @return void
      */
-    public function addIdentifiersToQuery($class, ProxyQueryInterface $query, array $idx)
+    public function addIdentifiersToQuery($class, BaseProxyQueryInterface $query, array $idx)
     {
+        if (!$query instanceof ProxyQueryInterface) {
+            // NEXT_MAJOR: Remove this deprecation and throw the exception
+            @trigger_error(sprintf(
+                'Passing %s as argument 2 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a %s error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                \TypeError::class,
+                BaseProxyQueryInterface::class
+            ), \E_USER_DEPRECATED);
+            // throw new \TypeError(sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
+        }
+
         $queryBuilder = $query->getQueryBuilder();
         $queryBuilder->field('_id')->in($idx);
     }
@@ -436,8 +450,21 @@ class ModelManager implements ModelManagerInterface
     /**
      * @return void
      */
-    public function batchDelete($class, ProxyQueryInterface $query)
+    public function batchDelete($class, BaseProxyQueryInterface $query)
     {
+        if (!$query instanceof ProxyQueryInterface) {
+            // NEXT_MAJOR: Remove this deprecation and throw the exception
+            @trigger_error(sprintf(
+                'Passing %s as argument 2 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                .' and will throw a %s error in version 4.0. You MUST pass an instance of %s instead.',
+                \get_class($query),
+                __METHOD__,
+                \TypeError::class,
+                BaseProxyQueryInterface::class
+            ), \E_USER_DEPRECATED);
+            // throw new \TypeError(sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
+        }
+
         /** @var Query $queryBuilder */
         $queryBuilder = $query->getQueryBuilder()->getQuery();
 
