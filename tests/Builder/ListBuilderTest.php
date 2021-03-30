@@ -16,10 +16,10 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
@@ -65,6 +65,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     public function testAddListActionField(): void
     {
         $fieldDescription = new FieldDescription('foo');
+        $fieldDescription->setAdmin($this->admin);
 
         $list = $this->listBuilder->getBaseList();
 
@@ -73,7 +74,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
             ->method('addListFieldDescription');
 
         $this->listBuilder
-            ->addField($list, 'actions', $fieldDescription, $this->admin);
+            ->addField($list, 'actions', $fieldDescription);
 
         $this->assertSame(
             '@SonataAdmin/CRUD/list__action.html.twig',
@@ -85,12 +86,13 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     public function testCorrectFixedActionsFieldType(): void
     {
         $this->typeGuesser
-            ->method('guessType')
+            ->method('guess')
             ->willReturn(
                 new TypeGuess('actions', [], Guess::LOW_CONFIDENCE)
             );
 
         $fieldDescription = new FieldDescription('_action');
+        $fieldDescription->setAdmin($this->admin);
 
         $list = $this->listBuilder->getBaseList();
 
@@ -102,7 +104,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
             ->method('getModelManager')
             ->willReturn($this->modelManager);
 
-        $this->listBuilder->addField($list, null, $fieldDescription, $this->admin);
+        $this->listBuilder->addField($list, null, $fieldDescription);
 
         $this->assertSame(
             'actions',
@@ -121,13 +123,14 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
             ['sortable' => true],
             $classMetadata->fieldMappings['name']
         );
+        $fieldDescription->setAdmin($this->admin);
         $fieldDescription->setType('string');
 
         $this->admin
             ->method('getClass')
             ->willReturn($documentClass);
 
-        $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
+        $this->listBuilder->fixFieldDescription($fieldDescription);
 
         $this->assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
         $this->assertSame($classMetadata->getFieldMapping('name'), $fieldDescription->getFieldMapping());
@@ -147,6 +150,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
             $classMetadata->fieldMappings[$property],
             $classMetadata->associationMappings[$property]
         );
+        $fieldDescription->setAdmin($this->admin);
 
         $this->admin
             ->expects($this->once())
@@ -156,7 +160,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
             ->method('getClass')
             ->willReturn($documentClass);
 
-        $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
+        $this->listBuilder->fixFieldDescription($fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
         $this->assertSame($classMetadata->associationMappings[$property], $fieldDescription->getAssociationMapping());
@@ -166,11 +170,11 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     {
         return [
             'one-to-one' => [
-                'associatedDocument',
+                'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig',
             ],
             'many-to-one' => [
-                'embeddedDocument',
+                'embeddedDocuments',
                 '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig',
             ],
         ];
@@ -183,8 +187,9 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     {
         $fieldDescription = new FieldDescription('test');
         $fieldDescription->setType($type);
+        $fieldDescription->setAdmin($this->admin);
 
-        $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
+        $this->listBuilder->fixFieldDescription($fieldDescription);
 
         $this->assertSame($expectedType, $fieldDescription->getType());
     }
@@ -199,7 +204,11 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
 
     public function testFixFieldDescriptionException(): void
     {
+        $fieldDescription = new FieldDescription('name');
+        $fieldDescription->setAdmin($this->admin);
+
         $this->expectException(\RuntimeException::class);
-        $this->listBuilder->fixFieldDescription($this->admin, new FieldDescription('name'));
+
+        $this->listBuilder->fixFieldDescription($fieldDescription);
     }
 }

@@ -71,7 +71,7 @@ abstract class AbstractDateFilter extends Filter
                 \get_class($query),
                 __METHOD__,
                 ProxyQueryInterface::class
-            ));
+            ), \E_USER_DEPRECATED);
         }
 
         //check data sanity
@@ -148,7 +148,7 @@ abstract class AbstractDateFilter extends Filter
                 \get_class($query),
                 __METHOD__,
                 ProxyQueryInterface::class
-            ));
+            ), \E_USER_DEPRECATED);
         }
 
         $query->getQueryBuilder()->field($field)->$operation($datetime);

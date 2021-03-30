@@ -11,13 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
+namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\Types\Type;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Symfony\Component\Form\Guess\Guess;
 
@@ -38,43 +37,25 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         $this->guesser = new TypeGuesser();
     }
 
-    public function testGuessTypeNoMetadata(): void
-    {
-        $class = 'FakeClass';
-        $property = 'fakeProperty';
-
-        $this->documentManager
-            ->method('getClassMetaData')
-            ->willThrowException(new MappingException());
-
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
-
-        $this->assertSame(FieldDescriptionInterface::TYPE_STRING, $result->getType());
-        $this->assertSame(Guess::LOW_CONFIDENCE, $result->getConfidence());
-    }
-
     /**
      * @dataProvider associationData
      */
     public function testGuessTypeWithAssociation(string $mappingType, string $type): void
     {
-        $classMetadata = $this->createMock(ClassMetadata::class);
+        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription
+            ->method('getMappingType')
+            ->willReturn($mappingType);
 
-        $class = 'FakeClass';
-        $property = 'fakeProperty';
+        $fieldDescription
+            ->method('getAssociationMapping')
+            ->willReturn(['something']);
 
-        $classMetadata
-            ->method('hasAssociation')
-            ->with($property)
-            ->willReturn(true);
+        $fieldDescription
+            ->method('getFieldMapping')
+            ->willReturn(['something']);
 
-        $classMetadata->fieldMappings = [$property => ['type' => $mappingType]];
-
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
-
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
+        $result = $this->guesser->guess($fieldDescription);
 
         $this->assertSame($type, $result->getType());
         $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
@@ -99,26 +80,20 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
      */
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence): void
     {
-        $classMetadata = $this->createMock(ClassMetadata::class);
-
-        $class = 'FakeClass';
-        $property = 'fakeProperty';
-
-        $classMetadata
-            ->method('hasAssociation')
-            ->with($property)
-            ->willReturn(false);
-
-        $classMetadata
-            ->method('getTypeOfField')
-            ->with($property)
+        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription
+            ->method('getMappingType')
             ->willReturn($type);
 
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
+        $fieldDescription
+            ->method('getAssociationMapping')
+            ->willReturn([]);
 
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
+        $fieldDescription
+            ->method('getFieldMapping')
+            ->willReturn(['something']);
+
+        $result = $this->guesser->guess($fieldDescription);
 
         $this->assertSame($resultType, $result->getType());
         $this->assertSame($confidence, $result->getConfidence());
@@ -129,52 +104,52 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         return [
             'collection' => [
                 Type::COLLECTION,
-                FieldDescriptionInterface::TYPE_ARRAY,
+                'array',
                 Guess::HIGH_CONFIDENCE,
             ],
             'hash' => [
                 Type::HASH,
-                FieldDescriptionInterface::TYPE_ARRAY,
+                'array',
                 Guess::HIGH_CONFIDENCE,
             ],
             'bool' => [
                 Type::BOOL,
-                FieldDescriptionInterface::TYPE_BOOLEAN,
+                'boolean',
                 Guess::HIGH_CONFIDENCE,
             ],
             'timestamp' => [
                 Type::TIMESTAMP,
-                FieldDescriptionInterface::TYPE_DATETIME,
+                'datetime',
                 Guess::HIGH_CONFIDENCE,
             ],
             'date' => [
                 Type::DATE,
-                FieldDescriptionInterface::TYPE_DATE,
+                'date',
                 Guess::HIGH_CONFIDENCE,
             ],
             'date_immutable' => [
                 Type::DATE_IMMUTABLE,
-                FieldDescriptionInterface::TYPE_DATE,
+                'date',
                 Guess::HIGH_CONFIDENCE,
             ],
             'float' => [
                 Type::FLOAT,
-                FieldDescriptionInterface::TYPE_FLOAT,
+                'number',
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'integer' => [
                 Type::INT,
-                FieldDescriptionInterface::TYPE_INTEGER,
+                'integer',
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'string' => [
                 Type::STRING,
-                FieldDescriptionInterface::TYPE_STRING,
+                'text',
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'somefake' => [
                 'somefake',
-                FieldDescriptionInterface::TYPE_STRING,
+                'text',
                 Guess::LOW_CONFIDENCE,
             ],
         ];

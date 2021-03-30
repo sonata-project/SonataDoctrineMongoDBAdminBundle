@@ -11,14 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Sonata\AdminBundle\Guesser\TypeGuesserChain;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserChain;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Exporter\DataSource;
-use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
-use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescriptionFactory;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
@@ -94,5 +95,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ])
 
         ->set('sonata.admin.data_source.doctrine_mongodb', DataSource::class)
+
+        ->set('sonata.admin.field_description_factory.doctrine_mongodb', FieldDescriptionFactory::class)
+            ->args([
+                new ReferenceConfigurator('doctrine_mongodb'),
+            ])
     ;
 };

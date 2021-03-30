@@ -13,56 +13,26 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Types\Type;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Symfony\Component\Form\Guess\Guess;
-use Symfony\Component\Form\Guess\TypeGuess;
+// NEXT_MAJOR: Remove this file.
+if (!class_exists(\Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser::class, false)) {
+    @trigger_error(sprintf(
+        'The %s\TypeGuesser class is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in 4.0.'
+        .' Use \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser instead.',
+        __NAMESPACE__
+    ), \E_USER_DEPRECATED);
+}
 
-final class TypeGuesser extends AbstractTypeGuesser
-{
-    public function guessType(string $class, string $property, ModelManagerInterface $modelManager): ?TypeGuess
+class_alias(
+    \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser::class,
+    __NAMESPACE__.'\TypeGuesser'
+);
+
+if (false) {
+    /**
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.
+     * Use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser instead.
+     */
+    class TypeGuesser extends \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser
     {
-        if (!$ret = $this->getParentMetadataForProperty($class, $property, $modelManager)) {
-            return new TypeGuess(FieldDescriptionInterface::TYPE_STRING, [], Guess::LOW_CONFIDENCE);
-        }
-
-        [$metadata, $propertyName, $parentAssociationMappings] = $ret;
-
-        if ($metadata->hasAssociation($propertyName)) {
-            $mapping = $metadata->fieldMappings[$propertyName];
-
-            switch ($mapping['type']) {
-                case ClassMetadata::ONE:
-                    return new TypeGuess('mongo_one', [], Guess::HIGH_CONFIDENCE);
-
-                case ClassMetadata::MANY:
-                    return new TypeGuess('mongo_many', [], Guess::HIGH_CONFIDENCE);
-            }
-        }
-
-        switch ($metadata->getTypeOfField($propertyName)) {
-            case Type::COLLECTION:
-            case Type::HASH:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_ARRAY, [], Guess::HIGH_CONFIDENCE);
-            case Type::BOOL:
-            case Type::BOOLEAN:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_BOOLEAN, [], Guess::HIGH_CONFIDENCE);
-            case Type::TIMESTAMP:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_DATETIME, [], Guess::HIGH_CONFIDENCE);
-            case Type::DATE:
-            case Type::DATE_IMMUTABLE:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_DATE, [], Guess::HIGH_CONFIDENCE);
-            case Type::FLOAT:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_FLOAT, [], Guess::MEDIUM_CONFIDENCE);
-            case Type::INTEGER:
-            case Type::INT:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_INTEGER, [], Guess::MEDIUM_CONFIDENCE);
-            case Type::STRING:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_STRING, [], Guess::MEDIUM_CONFIDENCE);
-            default:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_STRING, [], Guess::LOW_CONFIDENCE);
-        }
     }
 }

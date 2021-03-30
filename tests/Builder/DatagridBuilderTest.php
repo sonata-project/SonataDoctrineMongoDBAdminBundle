@@ -17,16 +17,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\Pager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Translator\FormLabelTranslatorStrategy;
-use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
@@ -105,12 +105,13 @@ final class DatagridBuilderTest extends TestCase
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
         $fieldDescription = new FieldDescription('name', [], $classMetadata->fieldMappings['name']);
+        $fieldDescription->setAdmin($this->admin);
 
         $this->admin
             ->method('getClass')
             ->willReturn($documentClass);
 
-        $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
+        $this->datagridBuilder->fixFieldDescription($fieldDescription);
 
         $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
         $this->assertTrue($fieldDescription->getOption('global_search'));
@@ -122,19 +123,20 @@ final class DatagridBuilderTest extends TestCase
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
         $fieldDescription = new FieldDescription(
-            'associatedDocument',
+            'embeddedDocument',
             [],
-            $classMetadata->fieldMappings['associatedDocument'],
-            $classMetadata->associationMappings['associatedDocument']
+            $classMetadata->fieldMappings['embeddedDocument'],
+            $classMetadata->associationMappings['embeddedDocument']
         );
+        $fieldDescription->setAdmin($this->admin);
 
         $this->admin
             ->expects($this->once())
             ->method('attachAdminClass');
 
-        $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
+        $this->datagridBuilder->fixFieldDescription($fieldDescription);
 
-        $this->assertSame($classMetadata->associationMappings['associatedDocument'], $fieldDescription->getOption('association_mapping'));
+        $this->assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getOption('association_mapping'));
     }
 
     public function testAddFilterNoType(): void
@@ -152,8 +154,9 @@ final class DatagridBuilderTest extends TestCase
         ], Guess::VERY_HIGH_CONFIDENCE);
 
         $fieldDescription = new FieldDescription('test');
+        $fieldDescription->setAdmin($this->admin);
 
-        $this->typeGuesser->method('guessType')->willReturn($guessType);
+        $this->typeGuesser->method('guess')->willReturn($guessType);
 
         $this->admin->method('getCode')->willReturn('someFakeCode');
 
@@ -174,8 +177,7 @@ final class DatagridBuilderTest extends TestCase
         $this->datagridBuilder->addFilter(
             $datagrid,
             null,
-            $fieldDescription,
-            $this->admin
+            $fieldDescription
         );
 
         $this->assertSame('guess_value', $fieldDescription->getOption('guess_option'));
@@ -191,6 +193,7 @@ final class DatagridBuilderTest extends TestCase
         $datagrid = $this->createMock(DatagridInterface::class);
 
         $fieldDescription = new FieldDescription('test');
+        $fieldDescription->setAdmin($this->admin);
 
         $this->filterFactory->method('create')->willReturn(new ModelFilter());
 
@@ -204,8 +207,7 @@ final class DatagridBuilderTest extends TestCase
         $this->datagridBuilder->addFilter(
             $datagrid,
             ModelFilter::class,
-            $fieldDescription,
-            $this->admin
+            $fieldDescription
         );
 
         $this->assertSame(ModelFilter::class, $fieldDescription->getType());

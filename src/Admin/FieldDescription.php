@@ -13,59 +13,26 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Admin;
 
-use Sonata\AdminBundle\Admin\BaseFieldDescription;
+// NEXT_MAJOR: Remove this file.
+if (!class_exists(\Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription::class, false)) {
+    @trigger_error(sprintf(
+        'The %s\FieldDescription class is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in 4.0.'
+        .' Use \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription instead.',
+        __NAMESPACE__
+    ), \E_USER_DEPRECATED);
+}
 
-final class FieldDescription extends BaseFieldDescription
-{
-    public function getTargetModel(): ?string
+class_alias(
+    \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription::class,
+    __NAMESPACE__.'\FieldDescription'
+);
+
+if (false) {
+    /**
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.
+     * Use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription instead.
+     */
+    class FieldDescription extends \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription
     {
-        if ($this->associationMapping) {
-            return $this->associationMapping['targetDocument'];
-        }
-
-        return null;
-    }
-
-    public function isIdentifier(): bool
-    {
-        return $this->fieldMapping['id'] ?? false;
-    }
-
-    public function getValue($object)
-    {
-        foreach ($this->parentAssociationMappings as $parentAssociationMapping) {
-            $object = $this->getFieldValue($object, $parentAssociationMapping['fieldName']);
-        }
-
-        return $this->getFieldValue($object, $this->fieldName);
-    }
-
-    protected function setAssociationMapping(array $associationMapping): void
-    {
-        $this->associationMapping = $associationMapping;
-
-        $this->type = $this->type ?: $associationMapping['type'];
-        $this->mappingType = $this->mappingType ?: $associationMapping['type'];
-        $this->fieldName = $associationMapping['fieldName'];
-    }
-
-    protected function setFieldMapping(array $fieldMapping): void
-    {
-        $this->fieldMapping = $fieldMapping;
-
-        $this->type = $this->type ?: $fieldMapping['type'];
-        $this->mappingType = $this->mappingType ?: $fieldMapping['type'];
-        $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
-    }
-
-    protected function setParentAssociationMappings(array $parentAssociationMappings): void
-    {
-        foreach ($parentAssociationMappings as $parentAssociationMapping) {
-            if (!\is_array($parentAssociationMapping)) {
-                throw new \RuntimeException('An association mapping must be an array');
-            }
-        }
-
-        $this->parentAssociationMappings = $parentAssociationMappings;
     }
 }

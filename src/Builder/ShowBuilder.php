@@ -14,19 +14,33 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 
 final class ShowBuilder implements ShowBuilderInterface
 {
+    /**
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type.
+     *
+     * @var DeprecatedTypeGuesserInterface|TypeGuesserInterface
+     */
     private $guesser;
 
+    /**
+     * @var string[]
+     */
     private $templates;
 
-    public function __construct(TypeGuesserInterface $guesser, array $templates)
+    /**
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type and add TypeGuesserInterface to the constructor.
+     *
+     * @param DeprecatedTypeGuesserInterface|TypeGuesserInterface $guesser
+     * @param string[]                                            $templates
+     */
+    public function __construct($guesser, array $templates)
     {
         $this->guesser = $guesser;
         $this->templates = $templates;
@@ -40,28 +54,34 @@ final class ShowBuilder implements ShowBuilderInterface
     public function addField(
         FieldDescriptionCollection $list,
         ?string $type,
-        FieldDescriptionInterface $fieldDescription,
-        AdminInterface $admin
+        FieldDescriptionInterface $fieldDescription
     ): void {
         if (null === $type) {
-            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
+            // NEXT_MAJOR: Remove the condition and keep the if part.
+            if ($this->guesser instanceof TypeGuesserInterface) {
+                $guessType = $this->guesser->guess($fieldDescription);
+            } else {
+                $guessType = $this->guesser->guessType(
+                    $fieldDescription->getAdmin()->getClass(),
+                    $fieldDescription->getName(),
+                    $fieldDescription->getAdmin()->getModelManager()
+                );
+            }
             $fieldDescription->setType($guessType->getType());
         } else {
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($admin, $fieldDescription);
-        $admin->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
+        $this->fixFieldDescription($fieldDescription);
+        $fieldDescription->getAdmin()->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $list->add($fieldDescription);
     }
 
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
+    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
-        $fieldDescription->setAdmin($admin);
-
         if (!$fieldDescription->getType()) {
-            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($admin)));
+            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($fieldDescription->getAdmin())));
         }
 
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
@@ -89,7 +109,7 @@ final class ShowBuilder implements ShowBuilderInterface
         }
 
         if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
-            $admin->attachAdminClass($fieldDescription);
+            $fieldDescription->getAdmin()->attachAdminClass($fieldDescription);
         }
     }
 

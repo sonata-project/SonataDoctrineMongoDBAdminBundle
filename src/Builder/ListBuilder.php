@@ -14,19 +14,33 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 
 final class ListBuilder implements ListBuilderInterface
 {
+    /**
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type.
+     *
+     * @var DeprecatedTypeGuesserInterface|TypeGuesserInterface
+     */
     private $guesser;
 
+    /**
+     * @var string[]
+     */
     private $templates = [];
 
-    public function __construct(TypeGuesserInterface $guesser, array $templates = [])
+    /**
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type and add TypeGuesserInterface to the constructor.
+     *
+     * @param DeprecatedTypeGuesserInterface|TypeGuesserInterface $guesser
+     * @param string[]                                            $templates
+     */
+    public function __construct($guesser, array $templates = [])
     {
         $this->guesser = $guesser;
         $this->templates = $templates;
@@ -37,33 +51,40 @@ final class ListBuilder implements ListBuilderInterface
         return new FieldDescriptionCollection();
     }
 
-    public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
+    public function buildField($type, FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $type) {
-            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
+            // NEXT_MAJOR: Remove the condition and keep the if part.
+            if ($this->guesser instanceof TypeGuesserInterface) {
+                $guessType = $this->guesser->guess($fieldDescription);
+            } else {
+                $guessType = $this->guesser->guessType(
+                    $fieldDescription->getAdmin()->getClass(),
+                    $fieldDescription->getName(),
+                    $fieldDescription->getAdmin()->getModelManager()
+                );
+            }
             $fieldDescription->setType($guessType->getType());
         } else {
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($admin, $fieldDescription);
+        $this->fixFieldDescription($fieldDescription);
     }
 
-    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription): void
     {
-        $this->buildField($type, $fieldDescription, $admin);
-        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
+        $this->buildField($type, $fieldDescription);
+        $fieldDescription->getAdmin()->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $list->add($fieldDescription);
     }
 
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
+    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
         if ('_action' === $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {
-            $this->buildActionFieldDescription($fieldDescription);
+            $this->buildActionFieldDescription($fieldDescription, 'sonata_deprecation_mute');
         }
-
-        $fieldDescription->setAdmin($admin);
 
         if ([] !== $fieldDescription->getFieldMapping()) {
             if (false !== $fieldDescription->getOption('sortable')) {
@@ -76,7 +97,7 @@ final class ListBuilder implements ListBuilderInterface
         }
 
         if (!$fieldDescription->getType()) {
-            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($admin)));
+            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($fieldDescription->getAdmin())));
         }
 
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
@@ -104,15 +125,23 @@ final class ListBuilder implements ListBuilderInterface
         }
 
         if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
-            $admin->attachAdminClass($fieldDescription);
+            $fieldDescription->getAdmin()->attachAdminClass($fieldDescription);
         }
     }
 
     /**
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
+     * @return \Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
     {
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                .' will be removed in version 4.0.',
+                __METHOD__
+            ), \E_USER_DEPRECATED);
+        }
+
         if (null === $fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate('@SonataAdmin/CRUD/list__action.html.twig');
         }

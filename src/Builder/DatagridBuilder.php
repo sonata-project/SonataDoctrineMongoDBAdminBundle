@@ -15,12 +15,13 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -38,7 +39,9 @@ final class DatagridBuilder implements DatagridBuilderInterface
     private $formFactory;
 
     /**
-     * @var TypeGuesserInterface
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type.
+     *
+     * @var DeprecatedTypeGuesserInterface|TypeGuesserInterface
      */
     private $guesser;
 
@@ -50,9 +53,12 @@ final class DatagridBuilder implements DatagridBuilderInterface
     private $csrfTokenEnabled;
 
     /**
-     * @param bool $csrfTokenEnabled
+     * NEXT_MAJOR: Remove DeprecatedTypeGuesserInterface type and add TypeGuesserInterface to the constructor.
+     *
+     * @param DeprecatedTypeGuesserInterface|TypeGuesserInterface $guesser
+     * @param bool                                                $csrfTokenEnabled
      */
-    public function __construct(FormFactoryInterface $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
+    public function __construct(FormFactoryInterface $formFactory, FilterFactoryInterface $filterFactory, $guesser, $csrfTokenEnabled = true)
     {
         $this->formFactory = $formFactory;
         $this->filterFactory = $filterFactory;
@@ -60,11 +66,8 @@ final class DatagridBuilder implements DatagridBuilderInterface
         $this->csrfTokenEnabled = $csrfTokenEnabled;
     }
 
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
+    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
-        // set default values
-        $fieldDescription->setAdmin($admin);
-
         if ([] !== $fieldDescription->getFieldMapping()) {
             $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $fieldDescription->getFieldMapping()));
 
@@ -84,14 +87,23 @@ final class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
 
         if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
-            $admin->attachAdminClass($fieldDescription);
+            $fieldDescription->getAdmin()->attachAdminClass($fieldDescription);
         }
     }
 
-    public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
+    public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $type) {
-            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
+            // NEXT_MAJOR: Remove the condition and keep the if part.
+            if ($this->guesser instanceof TypeGuesserInterface) {
+                $guessType = $this->guesser->guess($fieldDescription);
+            } else {
+                $guessType = $this->guesser->guessType(
+                    $fieldDescription->getAdmin()->getClass(),
+                    $fieldDescription->getName(),
+                    $fieldDescription->getAdmin()->getModelManager()
+                );
+            }
 
             $type = $guessType->getType();
 
@@ -110,8 +122,8 @@ final class DatagridBuilder implements DatagridBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($admin, $fieldDescription);
-        $admin->addFilterFieldDescription($fieldDescription->getName(), $fieldDescription);
+        $this->fixFieldDescription($fieldDescription);
+        $fieldDescription->getAdmin()->addFilterFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $fieldDescription->mergeOption('field_options', ['required' => false]);
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());

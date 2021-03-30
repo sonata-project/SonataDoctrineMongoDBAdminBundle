@@ -27,7 +27,8 @@ final class AuthorAdmin extends AbstractAdmin
     {
         $list
             ->add('id')
-            ->addIdentifier('name');
+            ->addIdentifier('name')
+            ->addIdentifier('address.street');
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void

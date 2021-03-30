@@ -11,31 +11,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Guesser;
+namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\Types\Type;
+use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescriptionFactory;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
-use Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Model\MissingPropertyMetadataException;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AssociatedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ContainerDocument;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
 use Sonata\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 
-final class FilterTypeGuesserTest extends AbstractModelManagerTestCase
+final class FilterTypeGuesserTest extends RegistryTestCase
 {
     /**
      * @var FilterTypeGuesser
@@ -51,31 +51,30 @@ final class FilterTypeGuesserTest extends AbstractModelManagerTestCase
 
     public function testThrowsOnMissingField(): void
     {
-        $className = TestDocument::class;
-        $property = 'nonExistingProperty';
+        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription
+            ->method('getAssociationMapping')
+            ->willReturn([]);
 
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($className);
+        $fieldDescription
+            ->method('getFieldMapping')
+            ->willReturn([]);
 
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
+        $fieldDescription
+            ->method('getFieldName')
+            ->willReturn('nonExisting');
+
+        $admin = $this->createStub(AdminInterface::class);
+        $admin
+            ->method('getClass')
+            ->willReturn(\stdClass::class);
+
+        $fieldDescription
+            ->method('getAdmin')
+            ->willReturn($admin);
 
         $this->expectException(MissingPropertyMetadataException::class);
-        $this->guesser->guessType($className, $property, $this->modelManager);
-    }
-
-    public function testGuessTypeNoMetadata(): void
-    {
-        $class = 'FakeClass';
-        $property = 'fakeProperty';
-
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willThrowException(new MappingException());
-
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
-
-        $this->assertNull($result);
+        $this->guesser->guess($fieldDescription);
     }
 
     public function testGuessTypeWithAssociation(): void
@@ -85,13 +84,11 @@ final class FilterTypeGuesserTest extends AbstractModelManagerTestCase
         $parentAssociation = [];
         $targetDocument = AssociatedDocument::class;
 
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($className);
+        $fieldDescriptionFactory = new FieldDescriptionFactory($this->registry);
 
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
+        $fieldDescription = $fieldDescriptionFactory->create($className, $property);
 
-        $result = $this->guesser->guessType($className, $property, $this->modelManager);
+        $result = $this->guesser->guess($fieldDescription);
 
         $options = $result->getOptions();
 
@@ -111,32 +108,30 @@ final class FilterTypeGuesserTest extends AbstractModelManagerTestCase
      */
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence, ?string $fieldType = null): void
     {
-        $class = 'FakeClass';
         $property = 'fakeProperty';
 
-        $classMetadata = $this->createMock(ClassMetadata::class);
+        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription
+           ->method('getMappingType')
+           ->willReturn($type);
 
-        $classMetadata
-            ->method('hasAssociation')
-            ->with($property)
-            ->willReturn(false);
+        $fieldDescription
+           ->method('getFieldName')
+           ->willReturn($property);
 
-        $classMetadata->fieldMappings = [$property => ['fieldName' => $type]];
-        $classMetadata
-            ->method('getTypeOfField')
-            ->with($property)
-            ->willReturn($type);
+        $fieldDescription
+           ->method('getFieldMapping')
+           ->willReturn([$property => ['fieldName' => $property]]);
 
-        $this->documentManager
-            ->method('getClassMetadata')
-            ->willReturn($classMetadata);
+        $fieldDescription
+           ->method('getAssociationMapping')
+           ->willReturn([]);
 
-        $result = $this->guesser->guessType($class, $property, $this->modelManager);
+        $result = $this->guesser->guess($fieldDescription);
 
         $options = $result->getOptions();
 
         $this->assertSame($resultType, $result->getType());
-        $this->assertSame($type, $options['field_name']);
         $this->assertSame($confidence, $result->getConfidence());
         $this->assertSame([], $options['options']);
         $this->assertSame([], $options['field_options']);
@@ -146,39 +141,56 @@ final class FilterTypeGuesserTest extends AbstractModelManagerTestCase
         }
     }
 
-    public function noAssociationData(): array
+    public function noAssociationData(): iterable
     {
         return [
-            'boolean' => [
-                Type::BOOL,
+            Type::BOOLEAN => [
+                'boolean',
                 BooleanFilter::class,
                 Guess::HIGH_CONFIDENCE,
                 BooleanType::class,
             ],
-            'timestamp' => [
-                Type::TIMESTAMP,
+            'datetime' => [
+                'datetime',
                 DateTimeFilter::class,
                 Guess::HIGH_CONFIDENCE,
             ],
-            'date' => [
-                Type::DATE,
+            Type::TIMESTAMP => [
+                'datetime',
+                DateTimeFilter::class,
+                Guess::HIGH_CONFIDENCE,
+            ],
+            Type::DATE => [
+                'date',
                 DateFilter::class,
                 Guess::HIGH_CONFIDENCE,
             ],
-            'float' => [
-                Type::FLOAT,
+            'decimal' => [
+                'decimal',
                 NumberFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 NumberType::class,
             ],
-            'int' => [
-                Type::INT,
+            Type::FLOAT => [
+                'float',
                 NumberFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 NumberType::class,
             ],
-            'string' => [
-                Type::STRING,
+            Type::INT => [
+                'int',
+                NumberFilter::class,
+                Guess::MEDIUM_CONFIDENCE,
+                NumberType::class,
+            ],
+            Type::STRING => [
+                'string',
+                StringFilter::class,
+                Guess::MEDIUM_CONFIDENCE,
+                TextType::class,
+            ],
+            'text' => [
+                'text',
                 StringFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 TextType::class,

@@ -47,7 +47,7 @@ final class BooleanFilter extends Filter
                 \get_class($query),
                 __METHOD__,
                 ProxyQueryInterface::class
-            ));
+            ), \E_USER_DEPRECATED);
         }
 
         if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {

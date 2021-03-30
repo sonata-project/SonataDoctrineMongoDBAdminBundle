@@ -20,6 +20,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\EmbeddedDocument;
 
 final class ProxyQueryTest extends TestCase
 {
@@ -93,6 +94,19 @@ final class ProxyQueryTest extends TestCase
         );
     }
 
+    public function testSortingWithWithEmbedded(): void
+    {
+        $queryBuilder = $this->dm->createQueryBuilder(DocumentWithReferences::class);
+
+        $proxyQuery = new ProxyQuery($queryBuilder);
+        $proxyQuery->setSortBy([['fieldName' => 'embeddedDocument']], ['fieldName' => 'position']);
+
+        $this->assertSame(
+            'embeddedDocument.position',
+            $proxyQuery->getSortBy()
+        );
+    }
+
     /**
      * @dataProvider getDeprecatedParameters
      */
@@ -130,13 +144,40 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery->setSortBy([], ['fieldName' => 'name']);
         $proxyQuery->setSortOrder('DESC');
 
-        $result = $proxyQuery->execute();
+        $this->assertSame(['B', 'A'], $this->getNames($proxyQuery->execute()->toArray()));
+    }
 
-        $names = array_map(static function (array $result) {
+    public function testExecuteAllowsSortingWithEmbedded(): void
+    {
+        $documentA = new DocumentWithReferences('A', new EmbeddedDocument(1));
+        $documentB = new DocumentWithReferences('B', new EmbeddedDocument(2));
+
+        $this->dm->persist($documentA);
+        $this->dm->persist($documentB);
+        $this->dm->flush();
+
+        $queryBuilder = $this->dm->createQueryBuilder(DocumentWithReferences::class);
+        $queryBuilder
+            ->select(['name'])
+            ->hydrate(false);
+
+        $proxyQuery = new ProxyQuery($queryBuilder);
+        $proxyQuery->setSortBy([['fieldName' => 'embeddedDocument']], ['fieldName' => 'position']);
+        $proxyQuery->setSortOrder('DESC');
+
+        $this->assertSame(['B', 'A'], $this->getNames($proxyQuery->execute()->toArray()));
+    }
+
+    /**
+     * @param array{array{name: string}} $results
+     *
+     * @return string[]
+     */
+    private function getNames(array $results): array
+    {
+        return array_values(array_map(static function (array $result) {
             return $result['name'];
-        }, $result->toArray());
-
-        $this->assertSame(['B', 'A'], array_values($names));
+        }, $results));
     }
 
     private function createConfiguration(): Configuration

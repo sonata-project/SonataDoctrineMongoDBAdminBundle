@@ -18,11 +18,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
+use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\TypeGuess;
@@ -73,19 +73,19 @@ final class ShowBuilderTest extends TestCase
         $typeGuess = $this->createStub(TypeGuess::class);
 
         $fieldDescription = new FieldDescription('FakeName', [], ['type' => ClassMetadata::ONE]);
+        $fieldDescription->setAdmin($this->admin);
 
         $this->admin->expects($this->once())->method('attachAdminClass');
         $this->admin->expects($this->once())->method('addShowFieldDescription');
 
         $typeGuess->method('getType')->willReturn('fakeType');
 
-        $this->guesser->method('guessType')->willReturn($typeGuess);
+        $this->guesser->method('guess')->willReturn($typeGuess);
 
         $this->showBuilder->addField(
             new FieldDescriptionCollection(),
             null,
-            $fieldDescription,
-            $this->admin
+            $fieldDescription
         );
 
         $this->assertSame('fakeType', $fieldDescription->getType());
@@ -94,14 +94,14 @@ final class ShowBuilderTest extends TestCase
     public function testAddFieldWithType(): void
     {
         $fieldDescription = new FieldDescription('FakeName');
+        $fieldDescription->setAdmin($this->admin);
 
         $this->admin->expects($this->once())->method('addShowFieldDescription');
 
         $this->showBuilder->addField(
             new FieldDescriptionCollection(),
             'someType',
-            $fieldDescription,
-            $this->admin
+            $fieldDescription
         );
 
         $this->assertSame('someType', $fieldDescription->getType());
@@ -116,6 +116,7 @@ final class ShowBuilderTest extends TestCase
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
 
         $fieldDescription = new FieldDescription($property, [], $classMetadata->fieldMappings[$property]);
+        $fieldDescription->setAdmin($this->admin);
 
         $this->admin->expects($this->once())->method('attachAdminClass');
 
@@ -123,7 +124,7 @@ final class ShowBuilderTest extends TestCase
             ->method('getClass')
             ->willReturn($documentClass);
 
-        $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
+        $this->showBuilder->fixFieldDescription($fieldDescription);
 
         $this->assertSame($template, $fieldDescription->getTemplate());
         $this->assertSame($classMetadata->fieldMappings[$property], $fieldDescription->getFieldMapping());
@@ -134,12 +135,12 @@ final class ShowBuilderTest extends TestCase
         return [
             'one' => [
                 FieldDescriptionInterface::TYPE_MANY_TO_ONE,
-                'associatedDocument',
+                'embeddedDocument',
                 '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
             ],
             'many' => [
                 FieldDescriptionInterface::TYPE_MANY_TO_MANY,
-                'embeddedDocument',
+                'embeddedDocuments',
                 '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
             ],
         ];
@@ -151,9 +152,10 @@ final class ShowBuilderTest extends TestCase
     public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
     {
         $fieldDescription = new FieldDescription('FakeName');
+        $fieldDescription->setAdmin($this->admin);
         $fieldDescription->setType($type);
 
-        $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
+        $this->showBuilder->fixFieldDescription($fieldDescription);
 
         $this->assertSame($expectedType, $fieldDescription->getType());
     }
@@ -168,7 +170,11 @@ final class ShowBuilderTest extends TestCase
 
     public function testFixFieldDescriptionException(): void
     {
+        $fieldDescription = new FieldDescription('name');
+        $fieldDescription->setAdmin($this->admin);
+
         $this->expectException(\RuntimeException::class);
-        $this->showBuilder->fixFieldDescription($this->admin, new FieldDescription('name'));
+
+        $this->showBuilder->fixFieldDescription($fieldDescription);
     }
 }

@@ -4,9 +4,46 @@ UPGRADE 3.x
 UPGRADE FROM 3.x to 3.x
 =======================
 
+### Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
+
+Deprecated this class in favor of `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription`.
+
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser
+
+Deprecated this class in favor of `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser`.
+
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser
+
+Deprecated this class in favor of `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser`.
+
+### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
+
+Deprecated `modelReverseTransform()` method, use `reverseTransform()` instead.
+
+### Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder
+
+Deprecated `buildActionFieldDescription()` method without replacement.
+
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser
+
+Deprecated `guessType()` method, you should use `guess()` method instead.
+
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser
+
+Deprecated `guessType()` method, you should use `guess()` method instead.
+
+### Sonata\DoctrineMongoDBAdminBundle\Guesser\AbstractTypeGuesser
+
+This class has been deprecated without replacement.
+
+### Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager
+
+Deprecated `getParentMetadataForProperty()` method.
+Deprecated `getNewFieldDescriptionInstance()` method, you SHOULD use `FieldDescriptionFactory::create()` instead.
+
 ### Sonata\DoctrineMongoDBAdminBundle\Filter\Filter
 
-Deprecate passing an instance of `Sonata\AdminBundle\Datagrid\ProxyQueryInterface`
+Deprecated passing an instance of `Sonata\AdminBundle\Datagrid\ProxyQueryInterface`
 which is not an instance of `Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface` as
 argument 1 to the `Sonata\DoctrineMongoDBAdminBundle\Filter\Filter::filter()` method.
 
