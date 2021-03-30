@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\FieldDescription;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Sonata\AdminBundle\Admin\BaseFieldDescription;
+use Sonata\AdminBundle\FieldDescription\BaseFieldDescription;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
