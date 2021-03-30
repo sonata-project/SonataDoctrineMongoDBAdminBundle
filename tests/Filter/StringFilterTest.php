@@ -59,10 +59,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         ];
     }
 
-    /**
-     * @dataProvider getContainsTypes
-     */
-    public function testContains(?int $containsType): void
+    public function testDefaultTypeIsContains(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', [
@@ -79,18 +76,45 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => 'asd', 'type' => $containsType]);
+        $filter->apply($builder, ['value' => 'asd', 'type' => null]);
         $this->assertTrue($filter->isActive());
     }
 
     /**
-     * @return array<array{int|null}>
+     * @dataProvider getContainsTypes
+     *
+     * @param mixed $value
+     */
+    public function testContains(string $method, int $type, $value): void
+    {
+        $filter = new StringFilter();
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'format' => '%s',
+        ]);
+
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
+            ->expects($this->once())
+            ->method($method)
+            ->with($value)
+        ;
+
+        $builder = new ProxyQuery($queryBuilder);
+
+        $filter->apply($builder, ['value' => 'asd', 'type' => $type]);
+        $this->assertTrue($filter->isActive());
+    }
+
+    /**
+     * @return array<array{string, int, mixed}>
      */
     public function getContainsTypes(): array
     {
         return [
-            [ContainsOperatorType::TYPE_CONTAINS],
-            [null],
+            ['equals', ContainsOperatorType::TYPE_CONTAINS, new Regex('asd', 'i')],
+            ['equals', ContainsOperatorType::TYPE_EQUAL, 'asd'],
+            ['not', ContainsOperatorType::TYPE_NOT_CONTAINS, new Regex('asd', 'i')],
         ];
     }
 
