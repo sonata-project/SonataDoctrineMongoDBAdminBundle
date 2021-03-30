@@ -507,8 +507,22 @@ class ModelManager implements ModelManagerInterface
         return $metadata->getFieldNames();
     }
 
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     */
     public function getModelInstance($class)
     {
+        // NEXT_MAJOR: Remove this block.
+        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+            @trigger_error(sprintf(
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                .' will be removed in version 4.0.',
+                __METHOD__
+            ), \E_USER_DEPRECATED);
+        }
+
         if (!class_exists($class)) {
             throw new \InvalidArgumentException(sprintf('Class "%s" not found', $class));
         }

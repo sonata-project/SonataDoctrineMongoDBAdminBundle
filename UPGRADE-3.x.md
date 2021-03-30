@@ -46,6 +46,7 @@ argument 2 to the `Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::addIden
 Deprecated passing an instance of `Sonata\AdminBundle\Datagrid\ProxyQueryInterface`
 which is not an instance of `Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface` as
 argument 2 to the `Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::batchDelete()` method.
+Deprecated `getModelInstance()` method.
 
 ### Sonata\DoctrineMongoDBAdminBundle\Filter\Filter
 
