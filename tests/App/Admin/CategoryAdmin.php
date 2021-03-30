@@ -20,6 +20,9 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * @phpstan-extends AbstractAdmin<\Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Category>
+ */
 final class CategoryAdmin extends AbstractAdmin
 {
     protected function configureListFields(ListMapper $list): void

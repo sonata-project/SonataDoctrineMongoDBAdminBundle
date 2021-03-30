@@ -21,6 +21,9 @@ use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * @phpstan-extends AbstractAdmin<\Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Author>
+ */
 final class AuthorAdmin extends AbstractAdmin
 {
     protected function configureListFields(ListMapper $list): void

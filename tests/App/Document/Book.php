@@ -104,6 +104,9 @@ class Book
         $this->categories->removeElement($category);
     }
 
+    /**
+     * @return Collection<array-key, Category>
+     */
     public function getCategories(): Collection
     {
         return $this->categories;

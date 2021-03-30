@@ -48,6 +48,9 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
+    /**
+     * @return array<array{mixed}>
+     */
     public function getNotApplicableValues(): array
     {
         return [
@@ -59,7 +62,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     /**
      * @dataProvider getContainsTypes
      */
-    public function testContains($containsType): void
+    public function testContains(?int $containsType): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', [
@@ -80,6 +83,9 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @return array<array{int|null}>
+     */
     public function getContainsTypes(): array
     {
         return [

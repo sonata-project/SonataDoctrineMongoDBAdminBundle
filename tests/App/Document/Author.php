@@ -100,6 +100,9 @@ class Author
         $this->phoneNumbers->removeElement($phonenumber);
     }
 
+    /**
+     * @return Collection<array-key, PhoneNumber>
+     */
     public function getPhoneNumbers(): Collection
     {
         return $this->phoneNumbers;
