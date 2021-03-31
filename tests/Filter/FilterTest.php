@@ -21,7 +21,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class FilterTest_Filter extends Filter
+class TestFilter extends Filter
 {
     public function filter(ProxyQueryInterface $query, $alias, $field, $data): void
     {
@@ -42,11 +42,11 @@ class FilterTest_Filter extends Filter
     }
 }
 
-class FilterTest extends TestCase
+final class FilterTest extends TestCase
 {
     public function testFieldDescription(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $this->assertSame(['option1' => 2], $filter->getDefaultOptions());
         $this->assertNull($filter->getOption('1'));
 
@@ -68,7 +68,7 @@ class FilterTest extends TestCase
      */
     public function testValues(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $this->assertEmpty($filter->getValue());
 
         $filter->setValue(42);
@@ -80,19 +80,19 @@ class FilterTest extends TestCase
         // NEXT_MAJOR: Replace \RuntimeException with \LogicException.
         $this->expectException(\RuntimeException::class);
 
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $filter->getFieldName();
     }
 
     public function testIsActive(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $this->assertFalse($filter->isActive());
     }
 
     public function testUseNameWithParentAssociationMappings(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $filter->initialize('field.name', [
             'mapping_type' => ClassMetadata::ONE,
             'field_name' => 'field_name',
@@ -123,7 +123,7 @@ class FilterTest extends TestCase
 
     public function testUseFieldNameWithoutParentAssociationMappings(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $filter->initialize('field_name', [
             'mapping_type' => ClassMetadata::ONE,
             'field_name' => 'field_name',

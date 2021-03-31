@@ -16,14 +16,17 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\ObjectId;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 
 class DocumentStub
 {
+    /**
+     * @var ObjectId
+     */
     private $id;
 
     public function __construct()
@@ -31,31 +34,22 @@ class DocumentStub
         $this->id = new ObjectId();
     }
 
-    public function getId()
+    public function getId(): string
     {
         return (string) ($this->id);
     }
 }
 
-class ModelFilterTest extends TestCase
+final class ModelFilterTest extends TestCase
 {
+    /**
+     * @var Builder&MockObject
+     */
     private $queryBuilder;
 
     protected function setUp(): void
     {
         $this->queryBuilder = $this->createMock(Builder::class);
-    }
-
-    /**
-     * @return FieldDescriptionInterface
-     */
-    public function getFieldDescription(array $options)
-    {
-        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
-        $fieldDescription->expects($this->once())->method('getOptions')->willReturn($options);
-        $fieldDescription->expects($this->once())->method('getName')->willReturn('field_name');
-
-        return $fieldDescription;
     }
 
     /**
@@ -273,6 +267,9 @@ class ModelFilterTest extends TestCase
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @return array<array{string, string}>
+     */
     public function getMappings(): array
     {
         return [

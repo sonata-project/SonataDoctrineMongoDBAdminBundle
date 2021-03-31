@@ -206,11 +206,14 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         $this->assertSame($expectedType, $fieldDescription->getType());
     }
 
+    /**
+     * @return array<array{string, string}>
+     */
     public function fixFieldDescriptionTypes(): array
     {
         return [
-            ['string', 'id'],
-            ['integer', 'int'],
+            [FieldDescriptionInterface::TYPE_STRING, 'id'],
+            [FieldDescriptionInterface::TYPE_INTEGER, 'int'],
         ];
     }
 
