@@ -69,11 +69,11 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         return [
             'many-to-one' => [
                 ClassMetadata::ONE,
-                'mongo_one',
+                FieldDescriptionInterface::TYPE_MANY_TO_ONE,
             ],
             'one-to-many' => [
                 ClassMetadata::MANY,
-                'mongo_many',
+                FieldDescriptionInterface::TYPE_MANY_TO_MANY,
             ],
         ];
     }

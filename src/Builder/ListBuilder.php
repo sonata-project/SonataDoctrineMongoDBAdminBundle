@@ -88,17 +88,7 @@ final class ListBuilder implements ListBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            $template = $this->getTemplate($fieldDescription->getType());
-
-            if (null === $template) {
-                if (ClassMetadata::ONE === $fieldDescription->getMappingType()) {
-                    $template = '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig';
-                } elseif (ClassMetadata::MANY === $fieldDescription->getMappingType()) {
-                    $template = '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig';
-                }
-            }
-
-            $fieldDescription->setTemplate($template);
+            $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
         }
 
         if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {

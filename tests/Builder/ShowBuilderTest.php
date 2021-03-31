@@ -24,7 +24,6 @@ use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ShowBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Symfony\Component\Form\Guess\TypeGuess;
 
 final class ShowBuilderTest extends TestCase
@@ -105,48 +104,6 @@ final class ShowBuilderTest extends TestCase
         );
 
         $this->assertSame('someType', $fieldDescription->getType());
-    }
-
-    /**
-     * @dataProvider fixFieldDescriptionData
-     */
-    public function testFixFieldDescription(string $type, string $property, string $template): void
-    {
-        $documentClass = DocumentWithReferences::class;
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
-
-        $fieldDescription = new FieldDescription($property, [], $classMetadata->fieldMappings[$property]);
-        $fieldDescription->setAdmin($this->admin);
-
-        $this->admin->expects($this->once())->method('attachAdminClass');
-
-        $this->admin
-            ->method('getClass')
-            ->willReturn($documentClass);
-
-        $this->showBuilder->fixFieldDescription($fieldDescription);
-
-        $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->fieldMappings[$property], $fieldDescription->getFieldMapping());
-    }
-
-    /**
-     * @phpstan-return iterable<array{string, string, string}>
-     */
-    public function fixFieldDescriptionData(): iterable
-    {
-        return [
-            'one' => [
-                FieldDescriptionInterface::TYPE_MANY_TO_ONE,
-                'embeddedDocument',
-                '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
-            ],
-            'many' => [
-                FieldDescriptionInterface::TYPE_MANY_TO_MANY,
-                'embeddedDocuments',
-                '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
-            ],
-        ];
     }
 
     public function testFixFieldDescriptionException(): void
