@@ -149,31 +149,6 @@ final class ShowBuilderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider fixFieldDescriptionTypes
-     */
-    public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
-    {
-        $fieldDescription = new FieldDescription('FakeName');
-        $fieldDescription->setAdmin($this->admin);
-        $fieldDescription->setType($type);
-
-        $this->showBuilder->fixFieldDescription($fieldDescription);
-
-        $this->assertSame($expectedType, $fieldDescription->getType());
-    }
-
-    /**
-     * @phpstan-return array<array{string, string}>
-     */
-    public function fixFieldDescriptionTypes(): iterable
-    {
-        return [
-            ['string', 'id'],
-            ['integer', 'int'],
-        ];
-    }
-
     public function testFixFieldDescriptionException(): void
     {
         $fieldDescription = new FieldDescription('name');

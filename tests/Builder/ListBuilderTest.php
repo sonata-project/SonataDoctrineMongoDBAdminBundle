@@ -183,31 +183,6 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
         ];
     }
 
-    /**
-     * @dataProvider fixFieldDescriptionTypes
-     */
-    public function testFixFieldDescriptionFixesType(string $expectedType, string $type): void
-    {
-        $fieldDescription = new FieldDescription('test');
-        $fieldDescription->setType($type);
-        $fieldDescription->setAdmin($this->admin);
-
-        $this->listBuilder->fixFieldDescription($fieldDescription);
-
-        $this->assertSame($expectedType, $fieldDescription->getType());
-    }
-
-    /**
-     * @phpstan-return array<array{string, string}>
-     */
-    public function fixFieldDescriptionTypes(): array
-    {
-        return [
-            [FieldDescriptionInterface::TYPE_STRING, 'id'],
-            [FieldDescriptionInterface::TYPE_INTEGER, 'int'],
-        ];
-    }
-
     public function testFixFieldDescriptionException(): void
     {
         $fieldDescription = new FieldDescription('name');

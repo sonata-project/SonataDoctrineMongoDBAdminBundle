@@ -110,6 +110,7 @@ final class TypeGuesser implements TypeGuesserInterface
                 );
 
                 return new TypeGuess(FieldDescriptionInterface::TYPE_INTEGER, [], Guess::MEDIUM_CONFIDENCE);
+            case Type::ID:
             case Type::STRING:
                 // NEXT_MAJOR: Remove next line and uncomment the following one.
                 return new TypeGuess('text', [], Guess::MEDIUM_CONFIDENCE);
