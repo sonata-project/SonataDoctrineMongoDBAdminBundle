@@ -22,6 +22,8 @@ class SimpleDocumentWithPrivateSetter
 {
     /**
      * @ODM\Field(type="int")
+     *
+     * @var int
      */
     private $schmeckles;
 

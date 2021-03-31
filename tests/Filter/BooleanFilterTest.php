@@ -39,6 +39,9 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
         $this->assertFalse($filter->isActive());
     }
 
+    /**
+     * @return array<array{mixed}>
+     */
     public function getNotApplicableValues(): array
     {
         return [

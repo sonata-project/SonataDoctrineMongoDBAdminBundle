@@ -166,6 +166,9 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
         $this->assertSame($classMetadata->associationMappings[$property], $fieldDescription->getAssociationMapping());
     }
 
+    /**
+     * @return array<array{string, string}>
+     */
     public function fixFieldDescriptionData(): array
     {
         return [

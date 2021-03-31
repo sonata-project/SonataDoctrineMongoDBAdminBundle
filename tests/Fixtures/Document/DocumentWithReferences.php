@@ -13,29 +13,44 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
 class DocumentWithReferences
 {
-    /** @ODM\Id */
+    /**
+     * @ODM\Id
+     *
+     * @var string
+     */
     private $id;
 
-    /** @ODM\Field(type="string") */
+    /**
+     * @ODM\Field(type="string")
+     *
+     * @var string
+     */
     private $name;
 
     /**
      * @ODM\EmbedOne()
+     *
+     * @var EmbeddedDocument|null
      */
     private $embeddedDocument;
 
     /**
      * @ODM\EmbedMany()
+     *
+     * @var Collection<array-key, EmbeddedDocument>
      */
     private $embeddedDocuments;
 
     /**
      * @ODM\ReferenceOne(targetDocument=TestDocument::class)
+     *
+     * @var TestDocument|null
      */
     private $referenceOne;
 

@@ -40,6 +40,13 @@ This class has been deprecated without replacement.
 
 Deprecated `getParentMetadataForProperty()` method.
 Deprecated `getNewFieldDescriptionInstance()` method, you SHOULD use `FieldDescriptionFactory::create()` instead.
+Deprecated passing an instance of `Sonata\AdminBundle\Datagrid\ProxyQueryInterface`
+which is not an instance of `Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface` as
+argument 2 to the `Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::addIdentifiersToQuery()` method.
+Deprecated passing an instance of `Sonata\AdminBundle\Datagrid\ProxyQueryInterface`
+which is not an instance of `Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface` as
+argument 2 to the `Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::batchDelete()` method.
+Deprecated `getModelInstance()` method.
 
 ### Sonata\DoctrineMongoDBAdminBundle\Filter\Filter
 

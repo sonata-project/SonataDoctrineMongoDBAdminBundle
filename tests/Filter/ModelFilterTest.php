@@ -78,6 +78,9 @@ final class ModelFilterTest extends TestCase
         $this->assertFalse($filter->isActive());
     }
 
+    /**
+     * @return array<array{mixed}>
+     */
     public function getNotApplicableValues(): array
     {
         return [
