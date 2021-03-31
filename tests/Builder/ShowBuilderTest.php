@@ -142,7 +142,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @return iterable<array{string, string, string}>
+     * @phpstan-return iterable<array{string, string, string}>
      */
     public function fixFieldDescriptionData(): iterable
     {
@@ -174,7 +174,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function fixFieldDescriptionTypes(): iterable
     {

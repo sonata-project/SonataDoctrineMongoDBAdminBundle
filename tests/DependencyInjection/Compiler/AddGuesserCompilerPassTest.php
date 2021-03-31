@@ -43,7 +43,7 @@ final class AddGuesserCompilerPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function getBuilders(): array
     {

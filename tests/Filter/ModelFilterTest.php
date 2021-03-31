@@ -78,7 +78,7 @@ final class ModelFilterTest extends TestCase
     }
 
     /**
-     * @return array<array{mixed}>
+     * @phpstan-return array<array{mixed}>
      */
     public function getNotApplicableValues(): array
     {
@@ -276,7 +276,7 @@ final class ModelFilterTest extends TestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function getMappings(): array
     {

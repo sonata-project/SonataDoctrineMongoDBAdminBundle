@@ -58,7 +58,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function associationData(): array
     {
@@ -95,7 +95,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @return array<array{string, string, int}>
+     * @phpstan-return array<array{string, string, int}>
      */
     public function noAssociationData(): array
     {

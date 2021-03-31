@@ -42,7 +42,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @return array<array{mixed}>
+     * @phpstan-return array<array{mixed}>
      */
     public function getNotApplicableValues(): array
     {
