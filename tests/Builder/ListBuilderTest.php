@@ -176,7 +176,7 @@ class ListBuilderTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function fixFieldDescriptionData(): array
     {
@@ -207,7 +207,7 @@ class ListBuilderTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function fixFieldDescriptionTypes(): array
     {

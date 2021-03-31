@@ -41,7 +41,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @return array<array{mixed}>
+     * @phpstan-return array<array{mixed}>
      */
     public function getNotApplicableValues(): array
     {
@@ -76,7 +76,7 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @return array<array{bool, int}>
+     * @phpstan-return array<array{bool, int}>
      */
     public function getScalarValues(): array
     {
