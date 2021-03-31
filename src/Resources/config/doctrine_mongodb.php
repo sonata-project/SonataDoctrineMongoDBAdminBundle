@@ -99,6 +99,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.field_description_factory.doctrine_mongodb', FieldDescriptionFactory::class)
             ->args([
                 new ReferenceConfigurator('doctrine_mongodb'),
-            ])
-    ;
+            ]);
 };
