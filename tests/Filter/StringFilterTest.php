@@ -38,8 +38,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
             ->expects($this->never())
-            ->method('field')
-        ;
+            ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -71,8 +70,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with(new Regex('asd', 'i'))
-        ;
+            ->with(new Regex('asd', 'i'));
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -97,8 +95,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method($method)
-            ->with($value)
-        ;
+            ->with($value);
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -130,8 +127,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('not')
-            ->with(new Regex('asd', 'i'))
-        ;
+            ->with(new Regex('asd', 'i'));
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -151,8 +147,7 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with('asd')
-        ;
+            ->with('asd');
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -183,14 +178,12 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->method('field')
             ->with('field_name')
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with('asd')
-        ;
+            ->with('asd');
 
         $builder = new ProxyQuery($queryBuilder);
 

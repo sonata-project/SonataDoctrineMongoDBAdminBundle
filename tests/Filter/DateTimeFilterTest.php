@@ -32,8 +32,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
             ->expects($this->never())
-            ->method('field')
-        ;
+            ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -70,8 +69,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method($method)
-            ->with($data['value'] ?? null)
-        ;
+            ->with($data['value'] ?? null);
 
         $builder = new ProxyQuery($queryBuilder);
 

@@ -31,8 +31,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
             ->expects($this->never())
-            ->method('field')
-        ;
+            ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -61,8 +60,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('in')
-            ->with(['1', '2'])
-        ;
+            ->with(['1', '2']);
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -79,8 +77,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with('1')
-        ;
+            ->with('1');
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -97,8 +94,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with('0')
-        ;
+            ->with('0');
 
         $builder = new ProxyQuery($queryBuilder);
 
