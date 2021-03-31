@@ -93,6 +93,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 ],
             ])
 
-        ->set('sonata.admin.data_source.doctrine_mongodb', DataSource::class)
-    ;
+        ->set('sonata.admin.data_source.doctrine_mongodb', DataSource::class);
 };
