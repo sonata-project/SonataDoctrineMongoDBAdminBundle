@@ -88,6 +88,9 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @return array<array{array{type?: int, value: int}, string}>
+     */
     public function getNumberExamples(): array
     {
         return [

@@ -80,6 +80,9 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @return array<array{array{type?: int, value?: \DateTime}, string}>
+     */
     public function getExamples(): array
     {
         return [

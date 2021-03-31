@@ -141,6 +141,9 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
         $this->assertSame($classMetadata->fieldMappings[$property], $fieldDescription->getFieldMapping());
     }
 
+    /**
+     * @return iterable<array{string, string, string}>
+     */
     public function fixFieldDescriptionData(): iterable
     {
         return [

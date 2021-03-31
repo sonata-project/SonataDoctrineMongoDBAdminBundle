@@ -77,6 +77,9 @@ class BooleanFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @return array<array{bool, int}>
+     */
     public function getScalarValues(): array
     {
         return [
