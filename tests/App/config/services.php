@@ -88,6 +88,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 '',
                 PhoneNumber::class,
                 null,
-            ])
-    ;
+            ]);
 };

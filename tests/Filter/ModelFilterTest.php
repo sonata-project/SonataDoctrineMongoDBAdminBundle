@@ -73,8 +73,7 @@ class ModelFilterTest extends TestCase
 
         $this->queryBuilder
             ->expects($this->never())
-            ->method('field')
-        ;
+            ->method('field');
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -111,8 +110,7 @@ class ModelFilterTest extends TestCase
             ->expects($this->once())
             ->method('field')
             ->with('field._id')
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $oneDocument = new DocumentStub();
         $otherDocument = new DocumentStub();
@@ -120,8 +118,7 @@ class ModelFilterTest extends TestCase
         $this->queryBuilder
             ->expects($this->once())
             ->method('in')
-            ->with([new ObjectId($oneDocument->getId()), new ObjectId($otherDocument->getId())])
-        ;
+            ->with([new ObjectId($oneDocument->getId()), new ObjectId($otherDocument->getId())]);
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -150,16 +147,14 @@ class ModelFilterTest extends TestCase
             ->expects($this->once())
             ->method('field')
             ->with('field._id')
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $document1 = new DocumentStub();
 
         $this->queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with(new ObjectId($document1->getId()))
-        ;
+            ->with(new ObjectId($document1->getId()));
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -209,8 +204,7 @@ class ModelFilterTest extends TestCase
         $this->queryBuilder
             ->method('field')
             ->with('field_name._id')
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -244,8 +238,7 @@ class ModelFilterTest extends TestCase
         $this->queryBuilder
             ->method('field')
             ->with('field_name._id')
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $builder = new ProxyQuery($this->queryBuilder);
 
@@ -271,8 +264,7 @@ class ModelFilterTest extends TestCase
         $this->queryBuilder
             ->method('field')
             ->with('field_name'.$fieldIdentifier)
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $builder = new ProxyQuery($this->queryBuilder);
 
