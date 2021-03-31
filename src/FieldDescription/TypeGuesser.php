@@ -35,10 +35,10 @@ final class TypeGuesser implements TypeGuesserInterface
         if ([] !== $fieldDescription->getAssociationMapping()) {
             switch ($fieldDescription->getMappingType()) {
                 case ClassMetadata::ONE:
-                    return new TypeGuess('mongo_one', [], Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess(FieldDescriptionInterface::TYPE_MANY_TO_ONE, [], Guess::HIGH_CONFIDENCE);
 
                 case ClassMetadata::MANY:
-                    return new TypeGuess('mongo_many', [], Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess(FieldDescriptionInterface::TYPE_MANY_TO_MANY, [], Guess::HIGH_CONFIDENCE);
             }
         }
 

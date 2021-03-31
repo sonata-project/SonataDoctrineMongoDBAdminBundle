@@ -136,53 +136,6 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
         $this->assertSame($classMetadata->getFieldMapping('name'), $fieldDescription->getFieldMapping());
     }
 
-    /**
-     * @dataProvider fixFieldDescriptionData
-     */
-    public function testFixFieldDescriptionWithAssociationMapping(string $property, string $template): void
-    {
-        $documentClass = DocumentWithReferences::class;
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
-
-        $fieldDescription = new FieldDescription(
-            $property,
-            ['sortable' => true],
-            $classMetadata->fieldMappings[$property],
-            $classMetadata->associationMappings[$property]
-        );
-        $fieldDescription->setAdmin($this->admin);
-
-        $this->admin
-            ->expects($this->once())
-            ->method('attachAdminClass');
-
-        $this->admin
-            ->method('getClass')
-            ->willReturn($documentClass);
-
-        $this->listBuilder->fixFieldDescription($fieldDescription);
-
-        $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->associationMappings[$property], $fieldDescription->getAssociationMapping());
-    }
-
-    /**
-     * @phpstan-return array<array{string, string}>
-     */
-    public function fixFieldDescriptionData(): array
-    {
-        return [
-            'one-to-one' => [
-                'embeddedDocument',
-                '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig',
-            ],
-            'many-to-one' => [
-                'embeddedDocuments',
-                '@SonataAdmin/CRUD/Association/list_many_to_many.html.twig',
-            ],
-        ];
-    }
-
     public function testFixFieldDescriptionException(): void
     {
         $fieldDescription = new FieldDescription('name');
