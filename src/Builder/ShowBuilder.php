@@ -72,16 +72,6 @@ final class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            if ('id' === $fieldDescription->getType()) {
-                $fieldDescription->setType('string');
-            }
-
-            if ('int' === $fieldDescription->getType()) {
-                $fieldDescription->setType('integer');
-            }
-
-            $template = $this->getTemplate($fieldDescription->getType());
-
             if (null === $template) {
                 if (ClassMetadata::ONE === $fieldDescription->getMappingType()) {
                     $template = '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig';

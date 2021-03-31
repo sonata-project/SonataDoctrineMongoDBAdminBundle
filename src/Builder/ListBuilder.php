@@ -88,14 +88,6 @@ final class ListBuilder implements ListBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            if ('id' === $fieldDescription->getType()) {
-                $fieldDescription->setType('string');
-            }
-
-            if ('int' === $fieldDescription->getType()) {
-                $fieldDescription->setType('integer');
-            }
-
             $template = $this->getTemplate($fieldDescription->getType());
 
             if (null === $template) {
