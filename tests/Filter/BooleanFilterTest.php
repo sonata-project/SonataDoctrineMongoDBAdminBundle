@@ -29,8 +29,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
             ->expects($this->never())
-            ->method('field')
-        ;
+            ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -61,8 +60,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with($equalsReturnValue)
-        ;
+            ->with($equalsReturnValue);
 
         $builder = new ProxyQuery($queryBuilder);
 
@@ -87,8 +85,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder
             ->expects($this->once())
             ->method('in')
-            ->with([false])
-        ;
+            ->with([false]);
 
         $builder = new ProxyQuery($queryBuilder);
 
