@@ -40,7 +40,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @return array<array{mixed}>
+     * @phpstan-return array<array{mixed}>
      */
     public function getNotApplicableValues(): array
     {
@@ -74,6 +74,9 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @phpstan-return array<array{array{type?: int, value?: \DateTime}, string}>
+     */
     public function getExamples(): array
     {
         return [

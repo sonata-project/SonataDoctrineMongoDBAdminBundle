@@ -130,6 +130,9 @@ final class ShowBuilderTest extends TestCase
         $this->assertSame($classMetadata->fieldMappings[$property], $fieldDescription->getFieldMapping());
     }
 
+    /**
+     * @phpstan-return iterable<array{string, string, string}>
+     */
     public function fixFieldDescriptionData(): iterable
     {
         return [
@@ -161,7 +164,7 @@ final class ShowBuilderTest extends TestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function fixFieldDescriptionTypes(): iterable
     {

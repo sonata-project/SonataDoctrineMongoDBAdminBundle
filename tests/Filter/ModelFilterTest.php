@@ -16,14 +16,17 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\ObjectId;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 
 class DocumentStub
 {
+    /**
+     * @var ObjectId
+     */
     private $id;
 
     public function __construct()
@@ -39,20 +42,14 @@ class DocumentStub
 
 final class ModelFilterTest extends TestCase
 {
+    /**
+     * @var Builder&MockObject
+     */
     private $queryBuilder;
 
     protected function setUp(): void
     {
         $this->queryBuilder = $this->createMock(Builder::class);
-    }
-
-    public function getFieldDescription(array $options): FieldDescriptionInterface
-    {
-        $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
-        $fieldDescription->expects($this->once())->method('getOptions')->willReturn($options);
-        $fieldDescription->expects($this->once())->method('getName')->willReturn('field_name');
-
-        return $fieldDescription;
     }
 
     /**
@@ -78,7 +75,7 @@ final class ModelFilterTest extends TestCase
     }
 
     /**
-     * @return array<array{mixed}>
+     * @phpstan-return array<array{mixed}>
      */
     public function getNotApplicableValues(): array
     {
@@ -267,6 +264,9 @@ final class ModelFilterTest extends TestCase
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @phpstan-return array<array{string, string}>
+     */
     public function getMappings(): array
     {
         return [

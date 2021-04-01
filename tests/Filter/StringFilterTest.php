@@ -46,7 +46,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @return array<array{mixed}>
+     * @phpstan-return array<array{mixed}>
      */
     public function getNotApplicableValues(): array
     {
@@ -101,7 +101,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @return array<array{string, int, mixed}>
+     * @phpstan-return array<array{string, int, mixed}>
      */
     public function getContainsTypes(): array
     {

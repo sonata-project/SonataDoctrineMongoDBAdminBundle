@@ -21,7 +21,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-final class FilterTest_Filter extends Filter
+final class TestFilter extends Filter
 {
     public function getDefaultOptions(): array
     {
@@ -46,7 +46,7 @@ final class FilterTest extends TestCase
 {
     public function testFieldDescription(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $this->assertSame(['option1' => 2], $filter->getDefaultOptions());
         $this->assertNull($filter->getOption('1'));
 
@@ -65,19 +65,19 @@ final class FilterTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $filter->getFieldName();
     }
 
     public function testIsActive(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $this->assertFalse($filter->isActive());
     }
 
     public function testUseNameWithParentAssociationMappings(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $filter->initialize('field.name', [
             'mapping_type' => ClassMetadata::ONE,
             'field_name' => 'field_name',
@@ -108,7 +108,7 @@ final class FilterTest extends TestCase
 
     public function testUseFieldNameWithoutParentAssociationMappings(): void
     {
-        $filter = new FilterTest_Filter();
+        $filter = new TestFilter();
         $filter->initialize('field_name', [
             'mapping_type' => ClassMetadata::ONE,
             'field_name' => 'field_name',

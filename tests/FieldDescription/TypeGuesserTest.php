@@ -61,6 +61,9 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
     }
 
+    /**
+     * @phpstan-return array<array{string, string}>
+     */
     public function associationData(): array
     {
         return [
@@ -99,6 +102,9 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         $this->assertSame($confidence, $result->getConfidence());
     }
 
+    /**
+     * @phpstan-return array<array{string, string, int}>
+     */
     public function noAssociationData(): array
     {
         return [

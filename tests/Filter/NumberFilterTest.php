@@ -38,7 +38,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @return array<array{mixed}>
+     * @phpstan-return array<array{mixed}>
      */
     public function getNotApplicableValues(): array
     {
@@ -82,6 +82,9 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
+    /**
+     * @phpstan-return array<array{array{type?: int, value: int}, string}>
+     */
     public function getNumberExamples(): array
     {
         return [

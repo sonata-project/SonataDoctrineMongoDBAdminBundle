@@ -42,20 +42,24 @@ final class AddGuesserCompilerPassTest extends AbstractCompilerPassTestCase
         );
     }
 
+    /**
+     * @phpstan-return array<array{string, string}>
+     */
     public function getBuilders(): array
     {
         return [
-          'list_builder' => [
-              'sonata.admin.guesser.doctrine_mongodb_list_chain',
-              'sonata.admin.guesser.doctrine_mongodb_list',
-          ],
+            'list_builder' => [
+                'sonata.admin.guesser.doctrine_mongodb_list_chain',
+                'sonata.admin.guesser.doctrine_mongodb_list',
+            ],
             'datagrid_builder' => [
-              'sonata.admin.guesser.doctrine_mongodb_datagrid_chain',
-              'sonata.admin.guesser.doctrine_mongodb_datagrid',
-          ], 'show_builder' => [
-              'sonata.admin.guesser.doctrine_mongodb_show_chain',
-              'sonata.admin.guesser.doctrine_mongodb_show',
-          ],
+                'sonata.admin.guesser.doctrine_mongodb_datagrid_chain',
+                'sonata.admin.guesser.doctrine_mongodb_datagrid',
+            ],
+            'show_builder' => [
+                'sonata.admin.guesser.doctrine_mongodb_show_chain',
+                'sonata.admin.guesser.doctrine_mongodb_show',
+            ],
         ];
     }
 

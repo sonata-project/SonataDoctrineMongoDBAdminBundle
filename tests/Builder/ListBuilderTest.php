@@ -167,7 +167,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @return array<array{string, string}>
+     * @phpstan-return array<array{string, string}>
      */
     public function fixFieldDescriptionData(): array
     {
@@ -197,11 +197,14 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
         $this->assertSame($expectedType, $fieldDescription->getType());
     }
 
+    /**
+     * @phpstan-return array<array{string, string}>
+     */
     public function fixFieldDescriptionTypes(): array
     {
         return [
-            ['string', 'id'],
-            ['integer', 'int'],
+            [FieldDescriptionInterface::TYPE_STRING, 'id'],
+            [FieldDescriptionInterface::TYPE_INTEGER, 'int'],
         ];
     }
 

@@ -141,6 +141,9 @@ final class FilterTypeGuesserTest extends RegistryTestCase
         }
     }
 
+    /**
+     * @phpstan-return iterable<array{0: string, 1: string, 2: int, 3?: string}>
+     */
     public function noAssociationData(): iterable
     {
         return [
