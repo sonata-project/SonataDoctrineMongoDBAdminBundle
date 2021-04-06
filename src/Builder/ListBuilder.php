@@ -181,7 +181,7 @@ class ListBuilder implements ListBuilderInterface
     {
         if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
             @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and'
                 .' will be removed in version 4.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);

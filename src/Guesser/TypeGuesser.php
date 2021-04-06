@@ -16,7 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Guesser;
 // NEXT_MAJOR: Remove this file.
 if (!class_exists(\Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser::class, false)) {
     @trigger_error(sprintf(
-        'The %s\TypeGuesser class is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in 4.0.'
+        'The %s\TypeGuesser class is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and will be removed in 4.0.'
         .' Use \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser instead.',
         __NAMESPACE__
     ), \E_USER_DEPRECATED);
@@ -29,7 +29,7 @@ class_alias(
 
 if (false) {
     /**
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8, to be removed in 4.0.
      * Use Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser instead.
      */
     class TypeGuesser extends \Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser

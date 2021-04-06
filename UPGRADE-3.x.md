@@ -1,7 +1,7 @@
 UPGRADE 3.x
 ===========
 
-UPGRADE FROM 3.x to 3.x
+UPGRADE FROM 3.7 to 3.8
 =======================
 
 ### Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription
