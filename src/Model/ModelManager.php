@@ -216,40 +216,6 @@ final class ModelManager implements ModelManagerInterface
         return $metadata->getFieldNames();
     }
 
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and will be removed in version 4.0.
-     */
-    public function getModelInstance(string $class): object
-    {
-        // NEXT_MAJOR: Remove this block.
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
-            @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and'
-                .' will be removed in version 4.0.',
-                __METHOD__
-            ), \E_USER_DEPRECATED);
-        }
-
-        if (!class_exists($class)) {
-            throw new \InvalidArgumentException(sprintf('Class "%s" not found', $class));
-        }
-
-        $r = new \ReflectionClass($class);
-        if ($r->isAbstract()) {
-            throw new \InvalidArgumentException(sprintf('Cannot initialize abstract class: %s', $class));
-        }
-
-        $constructor = $r->getConstructor();
-
-        if (null !== $constructor && (!$constructor->isPublic() || $constructor->getNumberOfRequiredParameters() > 0)) {
-            return $r->newInstanceWithoutConstructor();
-        }
-
-        return new $class();
-    }
-
     public function reverseTransform(object $object, array $array = []): void
     {
         $metadata = $this->getMetadata(\get_class($object));

@@ -23,9 +23,7 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\AbstractDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
-use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\ProtectedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -115,32 +113,6 @@ final class ModelManagerTest extends TestCase
         $this->expectException(NoSuchPropertyException::class);
 
         $manager->reverseTransform(new TestDocument(), ['plumbus' => 42]);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetModelInstanceException(): void
-    {
-        $model = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->expectException(\InvalidArgumentException::class);
-
-        $model->getModelInstance(AbstractDocument::class);
-    }
-
-    /**
-     * NEXT_MAJOR: Remove this test.
-     *
-     * @group legacy
-     */
-    public function testGetModelInstanceForProtectedDocument(): void
-    {
-        $model = new ModelManager($this->registry, $this->propertyAccessor);
-
-        $this->assertInstanceOf(ProtectedDocument::class, $model->getModelInstance(ProtectedDocument::class));
     }
 
     public function testGetUrlSafeIdentifierException(): void
