@@ -30,7 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#528](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/528)] Deprecated calling `Filter::apply()` with an instance not implementing `ProxyQueryInterface` ([@franmomu](https://github.com/franmomu))
 
 ### Fixed
-- [[#549](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/549)] Missing argument 2 in calls to `trigger_error()`. ([@franmomu](https://github.com/franmomu))
+- [[#549](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/549)] Missing argument 2 in calls to `trigger_error()` ([@franmomu](https://github.com/franmomu))
 
 ## [3.7.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.6.0...3.7.0) - 2021-01-27
 ### Added
