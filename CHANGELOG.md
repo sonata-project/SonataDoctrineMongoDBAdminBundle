@@ -16,7 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 - [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated `ModelManager::getModelInstance()` method ([@franmomu](https://github.com/franmomu))
 - [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated not passing an instance of `ProxyQueryInterface` to `ModelManager::addIdentifiersToQuery()` method ([@franmomu](https://github.com/franmomu))
-- [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated not passing an instance of `ProxyQueryInterface` to `ModelManager::batchDelete()` method. ([@franmomu](https://github.com/franmomu))
+- [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated not passing an instance of `ProxyQueryInterface` to `ModelManager::batchDelete()` method ([@franmomu](https://github.com/franmomu))
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription` class. ([@franmomu](https://github.com/franmomu))
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser` class. ([@franmomu](https://github.com/franmomu))
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser` class. ([@franmomu](https://github.com/franmomu))
