@@ -11,7 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Added `FieldDescriptionFactory` class to create FieldDescription instances ([@franmomu](https://github.com/franmomu))
 - [[#548](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/548)] Added `ModelManager::reverseTransform()` method ([@franmomu](https://github.com/franmomu))
 - [[#528](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/528)] Added some `ProxyQueryInterface` to use it as a type declaration ([@franmomu](https://github.com/franmomu))
-- [[#526](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/526)] Support for PHP 8. ([@franmomu](https://github.com/franmomu))
+- [[#526](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/526)] Support for PHP 8.x ([@franmomu](https://github.com/franmomu))
 
 ### Deprecated
 - [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated `ModelManager::getModelInstance()` method. ([@franmomu](https://github.com/franmomu))
