@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [3.8.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.7.0...3.8.0) - 2021-04-06
 ### Added
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription` class ([@franmomu](https://github.com/franmomu))
-- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser` class. ([@franmomu](https://github.com/franmomu))
+- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser` class ([@franmomu](https://github.com/franmomu))
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser` class. ([@franmomu](https://github.com/franmomu))
 - [[#554](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/554)] Added support for sorting embbeded fields in lists. ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Added `FieldDescriptionFactory` class to create FieldDescription instances. ([@franmomu](https://github.com/franmomu))
