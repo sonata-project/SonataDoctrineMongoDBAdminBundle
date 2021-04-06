@@ -14,7 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#526](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/526)] Support for PHP 8.x ([@franmomu](https://github.com/franmomu))
 
 ### Deprecated
-- [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated `ModelManager::getModelInstance()` method. ([@franmomu](https://github.com/franmomu))
+- [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated `ModelManager::getModelInstance()` method ([@franmomu](https://github.com/franmomu))
 - [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated not passing an instance of `ProxyQueryInterface` to `ModelManager::addIdentifiersToQuery()` method. ([@franmomu](https://github.com/franmomu))
 - [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated not passing an instance of `ProxyQueryInterface` to `ModelManager::batchDelete()` method. ([@franmomu](https://github.com/franmomu))
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription` class. ([@franmomu](https://github.com/franmomu))
