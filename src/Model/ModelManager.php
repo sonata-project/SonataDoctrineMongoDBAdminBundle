@@ -219,14 +219,14 @@ final class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and will be removed in version 4.0.
      */
     public function getModelInstance(string $class): object
     {
         // NEXT_MAJOR: Remove this block.
         if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
             @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and'
                 .' will be removed in version 4.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);
