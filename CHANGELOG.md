@@ -21,7 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser` class ([@franmomu](https://github.com/franmomu))
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser` class ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `ModelManager::getParentMetadataForProperty()` method ([@franmomu](https://github.com/franmomu))
-- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `ModelManager::getNewFieldDescriptionInstance()` method. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `ModelManager::getNewFieldDescriptionInstance()` method ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `AbstractTypeGuesser` class. ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `FilterTypeGuesser::guessType()` method. ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `TypeGuesser::guessType()` method ([@franmomu](https://github.com/franmomu))
