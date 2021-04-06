@@ -96,14 +96,12 @@ final class FilterTest extends TestCase
             ->expects($this->once())
             ->method('field')
             ->with('field.name')
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with('foo')
-        ;
+            ->with('foo');
 
         $filter->apply($builder, 'foo');
     }
@@ -125,14 +123,12 @@ final class FilterTest extends TestCase
             ->expects($this->once())
             ->method('field')
             ->with('field_name')
-            ->willReturnSelf()
-        ;
+            ->willReturnSelf();
 
         $queryBuilder
             ->expects($this->once())
             ->method('equals')
-            ->with('foo')
-        ;
+            ->with('foo');
 
         $filter->apply($builder, 'foo');
     }
