@@ -26,7 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `FilterTypeGuesser::guessType()` method. ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `TypeGuesser::guessType()` method ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `ListBuilder::buildActionFieldDescription()` method ([@franmomu](https://github.com/franmomu))
-- [[#548](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/548)] Deprecated `ModelManager::modelReverseTransform()` method. ([@franmomu](https://github.com/franmomu))
+- [[#548](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/548)] Deprecated `ModelManager::modelReverseTransform()` method ([@franmomu](https://github.com/franmomu))
 - [[#528](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/528)] Deprecated calling `Filter::apply` with an instance not implementing `ProxyQueryInterface`. ([@franmomu](https://github.com/franmomu))
 
 ### Fixed
