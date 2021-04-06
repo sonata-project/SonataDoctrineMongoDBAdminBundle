@@ -94,7 +94,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and will be removed in version 4.0.
      *
      * Returns the model's metadata holding the fully qualified property, and the last
      * property name.
@@ -115,7 +115,7 @@ class ModelManager implements ModelManagerInterface
     {
         if ('sonata_deprecation_mute' !== (\func_get_args()[2] ?? null)) {
             @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and'
                 .' will be removed in version 4.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);
@@ -160,13 +160,13 @@ class ModelManager implements ModelManagerInterface
     /**
      * @psalm-suppress InvalidArgument
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and will be removed in version 4.0.
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if ('sonata_deprecation_mute' !== (\func_get_args()[3] ?? null)) {
             @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and'
                 .' will be removed in version 4.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);
@@ -433,7 +433,7 @@ class ModelManager implements ModelManagerInterface
         if (!$query instanceof ProxyQueryInterface) {
             // NEXT_MAJOR: Remove this deprecation and throw the exception
             @trigger_error(sprintf(
-                'Passing %s as argument 2 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                'Passing %s as argument 2 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8'
                 .' and will throw a %s error in version 4.0. You MUST pass an instance of %s instead.',
                 \get_class($query),
                 __METHOD__,
@@ -455,7 +455,7 @@ class ModelManager implements ModelManagerInterface
         if (!$query instanceof ProxyQueryInterface) {
             // NEXT_MAJOR: Remove this deprecation and throw the exception
             @trigger_error(sprintf(
-                'Passing %s as argument 2 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+                'Passing %s as argument 2 to %s() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8'
                 .' and will throw a %s error in version 4.0. You MUST pass an instance of %s instead.',
                 \get_class($query),
                 __METHOD__,
@@ -510,14 +510,14 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and will be removed in version 4.0.
      */
     public function getModelInstance($class)
     {
         // NEXT_MAJOR: Remove this block.
         if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
             @trigger_error(sprintf(
-                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and'
+                'The "%s()" method is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and'
                 .' will be removed in version 4.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);
@@ -659,12 +659,12 @@ class ModelManager implements ModelManagerInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, use reverseTransform() instead.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8, use reverseTransform() instead.
      */
     public function modelReverseTransform($class, array $array = [])
     {
         @trigger_error(sprintf(
-            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed in version 4.0.'
+            'Method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.8 and will be removed in version 4.0.'
             .' Use "reverseTransform()" instead.',
             __METHOD__
         ), \E_USER_DEPRECATED);

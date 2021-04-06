@@ -2,6 +2,36 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.8.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.7.0...3.8.0) - 2021-04-06
+### Added
+- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription` class. ([@franmomu](https://github.com/franmomu))
+- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser` class. ([@franmomu](https://github.com/franmomu))
+- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser` class. ([@franmomu](https://github.com/franmomu))
+- [[#554](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/554)] Added support for sorting embbeded fields in lists. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Added `FieldDescriptionFactory` class to create FieldDescription instances. ([@franmomu](https://github.com/franmomu))
+- [[#548](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/548)] Added `ModelManager::reverseTransform()` method. ([@franmomu](https://github.com/franmomu))
+- [[#528](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/528)] Added some `ProxyQueryInterface` to use it as a type declaration. ([@franmomu](https://github.com/franmomu))
+- [[#526](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/526)] Support for PHP 8. ([@franmomu](https://github.com/franmomu))
+
+### Deprecated
+- [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated `ModelManager::getModelInstance()` method. ([@franmomu](https://github.com/franmomu))
+- [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated not passing an instance of `ProxyQueryInterface` to `ModelManager::addIdentifiersToQuery()` method. ([@franmomu](https://github.com/franmomu))
+- [[#558](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/558)] Deprecated not passing an instance of `ProxyQueryInterface` to `ModelManager::batchDelete()` method. ([@franmomu](https://github.com/franmomu))
+- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Admin\FieldDescription` class. ([@franmomu](https://github.com/franmomu))
+- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Guesser\TypeGuesser` class. ([@franmomu](https://github.com/franmomu))
+- [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Deprecated `Sonata\DoctrineMongoDBAdminBundle\Guesser\FilterTypeGuesser` class. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `ModelManager::getParentMetadataForProperty()` method. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `ModelManager::getNewFieldDescriptionInstance()` method. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `AbstractTypeGuesser` class. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `FilterTypeGuesser::guessType()` method. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `TypeGuesser::guessType()` method. ([@franmomu](https://github.com/franmomu))
+- [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Deprecated `ListBuilder::buildActionFieldDescription()` method. ([@franmomu](https://github.com/franmomu))
+- [[#548](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/548)] Deprecated `ModelManager::modelReverseTransform()` method. ([@franmomu](https://github.com/franmomu))
+- [[#528](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/528)] Deprecated calling `Filter::apply` with an instance not implementing `ProxyQueryInterface`. ([@franmomu](https://github.com/franmomu))
+
+### Fixed
+- [[#549](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/549)] Missing argument 2 in calls to `trigger_error()`. ([@franmomu](https://github.com/franmomu))
+
 ## [3.7.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.6.0...3.7.0) - 2021-01-27
 ### Added
 - [[#509](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/509)] Added implementation of `Pager::getCurrentPageResults()` method. ([@franmomu](https://github.com/franmomu))
