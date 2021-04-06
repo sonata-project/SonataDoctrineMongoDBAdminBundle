@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser` class ([@franmomu](https://github.com/franmomu))
 - [[#554](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/554)] Added support for sorting embbeded fields in lists ([@franmomu](https://github.com/franmomu))
 - [[#531](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/531)] Added `FieldDescriptionFactory` class to create FieldDescription instances ([@franmomu](https://github.com/franmomu))
-- [[#548](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/548)] Added `ModelManager::reverseTransform()` method. ([@franmomu](https://github.com/franmomu))
+- [[#548](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/548)] Added `ModelManager::reverseTransform()` method ([@franmomu](https://github.com/franmomu))
 - [[#528](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/528)] Added some `ProxyQueryInterface` to use it as a type declaration. ([@franmomu](https://github.com/franmomu))
 - [[#526](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/526)] Support for PHP 8. ([@franmomu](https://github.com/franmomu))
 
