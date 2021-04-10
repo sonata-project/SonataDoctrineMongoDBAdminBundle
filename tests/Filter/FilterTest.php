@@ -16,6 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
@@ -36,9 +37,9 @@ final class TestFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        $query->getQueryBuilder()->field($field)->equals($data['value']);
+        $query->getQueryBuilder()->field($field)->equals($data->getValue());
     }
 }
 
@@ -103,7 +104,7 @@ final class FilterTest extends TestCase
             ->method('equals')
             ->with('foo');
 
-        $filter->apply($builder, ['value' => 'foo']);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'foo']));
     }
 
     public function testUseFieldNameWithoutParentAssociationMappings(): void
@@ -130,6 +131,6 @@ final class FilterTest extends TestCase
             ->method('equals')
             ->with('foo');
 
-        $filter->apply($builder, ['value' => 'foo']);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'foo']));
     }
 }

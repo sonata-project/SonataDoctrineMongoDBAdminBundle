@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -24,8 +25,8 @@ final class CallbackFilter extends Filter
     {
         return [
             'callback' => null,
-            'active_callback' => static function ($data) {
-                return isset($data['value']) && $data['value'];
+            'active_callback' => static function (FilterData $data) {
+                return $data->hasValue() && $data->getValue();
             },
             'field_type' => TextType::class,
             'operator_type' => HiddenType::class,
@@ -44,7 +45,7 @@ final class CallbackFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         if (!\is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf(

@@ -18,6 +18,7 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\ObjectId;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
@@ -69,7 +70,7 @@ final class ModelFilterTest extends TestCase
 
         $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray($value));
 
         $this->assertFalse($filter->isActive());
     }
@@ -113,10 +114,10 @@ final class ModelFilterTest extends TestCase
 
         $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->apply($builder, [
+        $filter->apply($builder, FilterData::fromArray([
             'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => [$oneDocument, $otherDocument],
-        ]);
+        ]));
 
         $this->assertTrue($filter->isActive());
     }
@@ -149,7 +150,10 @@ final class ModelFilterTest extends TestCase
 
         $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $document1]);
+        $filter->apply($builder, FilterData::fromArray([
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => $document1,
+        ]));
 
         $this->assertTrue($filter->isActive());
     }
@@ -163,7 +167,7 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, ['asd']);
+        $filter->apply($builder, FilterData::fromArray(['asd']));
     }
 
     public function testAssociationWithValidMappingAndEmptyFieldName(): void
@@ -175,7 +179,7 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, ['asd']);
+        $filter->apply($builder, FilterData::fromArray(['asd']));
     }
 
     public function testAssociationWithValidMapping(): void
@@ -199,7 +203,10 @@ final class ModelFilterTest extends TestCase
 
         $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
+        $filter->apply($builder, FilterData::fromArray([
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => new DocumentStub(),
+        ]));
 
         $this->assertTrue($filter->isActive());
     }
@@ -233,7 +240,10 @@ final class ModelFilterTest extends TestCase
 
         $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
+        $filter->apply($builder, FilterData::fromArray([
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => new DocumentStub(),
+        ]));
 
         $this->assertTrue($filter->isActive());
     }
@@ -259,7 +269,10 @@ final class ModelFilterTest extends TestCase
 
         $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
+        $filter->apply($builder, FilterData::fromArray([
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => new DocumentStub(),
+        ]));
 
         $this->assertTrue($filter->isActive());
     }

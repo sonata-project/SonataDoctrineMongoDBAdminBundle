@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\DateRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeType;
@@ -60,16 +61,16 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        //default type for simple filter
-        $data['type'] = !isset($data['type']) || !is_numeric($data['type']) ? DateOperatorType::TYPE_EQUAL : (int) $data['type'];
-
-        if (!isset($data['value'])) {
+        if (!$data->hasValue() || null === $data->getValue()) {
             return;
         }
 
-        switch ($data['type']) {
+        //default type for simple filter
+        $type = $data->getType() ?? DateOperatorType::TYPE_EQUAL;
+
+        switch ($type) {
             case DateOperatorType::TYPE_EQUAL:
                 $this->active = true;
 
@@ -95,17 +96,17 @@ abstract class AbstractDateFilter extends Filter
             case DateOperatorType::TYPE_LESS_THAN:
                 $this->active = true;
 
-                $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
+                $this->applyType($query, $this->getOperator($type), $field, $data->getValue());
 
                 return;
         }
     }
 
-    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data): void;
+    abstract protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, FilterData $data): void;
 
-    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data): void;
+    abstract protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, FilterData $data): void;
 
-    abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data): void;
+    abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, FilterData $data): void;
 
     protected function applyType(ProxyQueryInterface $query, string $operation, string $field, \DateTime $datetime): void
     {

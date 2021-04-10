@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
@@ -35,7 +36,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
             },
         ]);
 
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray($value));
 
         $this->assertFalse($filter->isActive());
     }
@@ -52,7 +53,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
             },
         ]);
 
-        $filter->apply($builder, ['value' => 'myValue']);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'myValue']));
 
         $this->assertTrue($filter->isActive());
     }
@@ -70,7 +71,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
             'callback' => [$this, 'customCallback'],
         ]);
 
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray($value));
 
         $this->assertFalse($filter->isActive());
     }
@@ -95,7 +96,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
             'callback' => [$this, 'customCallback'],
         ]);
 
-        $filter->apply($builder, ['value' => 'myValue']);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'myValue']));
 
         $this->assertTrue($filter->isActive());
     }
@@ -114,6 +115,6 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, ['myValue']);
+        $filter->apply($builder, FilterData::fromArray(['myValue']));
     }
 }

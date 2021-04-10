@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
@@ -41,17 +42,17 @@ final class NumberFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (!\array_key_exists('value', $data) || !is_numeric($data['value'])) {
+        if (!$data->hasValue() || !is_numeric($data->getValue())) {
             return;
         }
 
-        $type = $data['type'] ?? NumberOperatorType::TYPE_EQUAL;
+        $type = $data->getType() ?? NumberOperatorType::TYPE_EQUAL;
 
-        $operator = $this->getOperator((int) $type);
+        $operator = $this->getOperator($type);
 
-        $query->getQueryBuilder()->field($field)->$operator((float) $data['value']);
+        $query->getQueryBuilder()->field($field)->$operator((float) $data->getValue());
         $this->active = true;
     }
 

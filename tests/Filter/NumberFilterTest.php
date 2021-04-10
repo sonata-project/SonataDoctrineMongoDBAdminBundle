@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
@@ -32,7 +33,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray($value));
 
         $this->assertFalse($filter->isActive());
     }
@@ -58,7 +59,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['type' => 9999999]);
+        $filter->apply($builder, FilterData::fromArray(['type' => 9999999]));
 
         $this->assertFalse($filter->isActive());
     }
@@ -77,7 +78,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
             ->with($data['value']);
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, $data);
+        $filter->apply($builder, FilterData::fromArray($data));
 
         $this->assertTrue($filter->isActive());
     }

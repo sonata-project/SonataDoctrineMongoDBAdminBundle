@@ -18,6 +18,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\InvalidArgumentException;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
@@ -46,37 +47,39 @@ final class ModelFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (!\array_key_exists('value', $data)) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        if ($data['value'] instanceof Collection) {
-            $data['value'] = $data['value']->toArray();
+        $value = $data->getValue();
+
+        if ($value instanceof Collection) {
+            $data = $data->changeValue($value->toArray());
         }
 
         $field = $this->getIdentifierField($field);
 
-        if (\is_array($data['value'])) {
+        if (\is_array($data->getValue())) {
             $this->handleMultiple($query, $field, $data);
         } else {
             $this->handleScalar($query, $field, $data);
         }
     }
 
-    protected function handleMultiple(ProxyQueryInterface $query, string $field, array $data): void
+    protected function handleMultiple(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (0 === \count($data['value'])) {
+        if (0 === \count($data->getValue())) {
             return;
         }
 
         $ids = [];
-        foreach ($data['value'] as $value) {
+        foreach ($data->getValue() as $value) {
             $ids[] = self::fixIdentifier($value->getId());
         }
 
-        if (isset($data['type']) && EqualOperatorType::TYPE_NOT_EQUAL === $data['type']) {
+        if ($data->isType(EqualOperatorType::TYPE_NOT_EQUAL)) {
             $query->getQueryBuilder()->field($field)->notIn($ids);
         } else {
             $query->getQueryBuilder()->field($field)->in($ids);
@@ -85,15 +88,15 @@ final class ModelFilter extends Filter
         $this->active = true;
     }
 
-    protected function handleScalar(ProxyQueryInterface $query, string $field, array $data): void
+    protected function handleScalar(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (empty($data['value'])) {
+        if (empty($data->getValue())) {
             return;
         }
 
-        $id = self::fixIdentifier($data['value']->getId());
+        $id = self::fixIdentifier($data->getValue()->getId());
 
-        if (isset($data['type']) && EqualOperatorType::TYPE_NOT_EQUAL === $data['type']) {
+        if ($data->isType(EqualOperatorType::TYPE_NOT_EQUAL)) {
             $query->getQueryBuilder()->field($field)->notEqual($id);
         } else {
             $query->getQueryBuilder()->field($field)->equals($id);
