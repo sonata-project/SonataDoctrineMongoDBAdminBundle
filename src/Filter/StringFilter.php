@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use MongoDB\BSON\Regex;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
@@ -34,31 +35,31 @@ final class StringFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (!isset($data['value'])) {
+        if (!$data->hasValue() || null === $data->getValue()) {
             return;
         }
 
-        $data['value'] = trim($data['value']);
+        $value = trim($data->getValue());
 
-        if ('' === $data['value']) {
+        if ('' === $value) {
             return;
         }
 
-        $data['type'] = isset($data['type']) && !empty($data['type']) ? $data['type'] : ContainsOperatorType::TYPE_CONTAINS;
+        $type = $data->getType() ?? ContainsOperatorType::TYPE_CONTAINS;
 
         $obj = $query->getQueryBuilder();
         if (self::CONDITION_OR === $this->condition) {
             $obj = $query->getQueryBuilder()->expr();
         }
 
-        if (ContainsOperatorType::TYPE_EQUAL === $data['type']) {
-            $obj->field($field)->equals($data['value']);
-        } elseif (ContainsOperatorType::TYPE_CONTAINS === $data['type']) {
-            $obj->field($field)->equals(new Regex($data['value'], 'i'));
-        } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
-            $obj->field($field)->not(new Regex($data['value'], 'i'));
+        if (ContainsOperatorType::TYPE_EQUAL === $type) {
+            $obj->field($field)->equals($value);
+        } elseif (ContainsOperatorType::TYPE_CONTAINS === $type) {
+            $obj->field($field)->equals(new Regex($value, 'i'));
+        } elseif (ContainsOperatorType::TYPE_NOT_CONTAINS === $type) {
+            $obj->field($field)->not(new Regex($value, 'i'));
         }
 
         if (self::CONDITION_OR === $this->condition) {

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\Form\Type\BooleanType;
@@ -33,7 +34,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray($value));
 
         $this->assertFalse($filter->isActive());
     }
@@ -64,7 +65,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['type' => null, 'value' => $value]);
+        $filter->apply($builder, FilterData::fromArray(['type' => null, 'value' => $value]));
 
         $this->assertTrue($filter->isActive());
     }
@@ -92,7 +93,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['type' => null, 'value' => [BooleanType::TYPE_NO]]);
+        $filter->apply($builder, FilterData::fromArray(['type' => null, 'value' => [BooleanType::TYPE_NO]]));
 
         $this->assertTrue($filter->isActive());
     }

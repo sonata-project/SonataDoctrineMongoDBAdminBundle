@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
@@ -35,35 +36,37 @@ final class ChoiceFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (!\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
+        if (!$data->hasValue()) {
             return;
         }
 
         $queryBuilder = $query->getQueryBuilder();
 
-        if (\is_array($data['value'])) {
-            if (0 === \count($data['value'])) {
+        $value = $data->getValue();
+
+        if (\is_array($value)) {
+            if (0 === \count($value)) {
                 return;
             }
 
-            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
-                $queryBuilder->field($field)->notIn($data['value']);
+            if ($data->isType(ContainsOperatorType::TYPE_NOT_CONTAINS)) {
+                $queryBuilder->field($field)->notIn($value);
             } else {
-                $queryBuilder->field($field)->in($data['value']);
+                $queryBuilder->field($field)->in($value);
             }
 
             $this->active = true;
         } else {
-            if ('' === $data['value'] || null === $data['value'] || false === $data['value']) {
+            if ('' === $value || null === $value || false === $value) {
                 return;
             }
 
-            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $data['type']) {
-                $queryBuilder->field($field)->notEqual($data['value']);
+            if ($data->isType(ContainsOperatorType::TYPE_NOT_CONTAINS)) {
+                $queryBuilder->field($field)->notEqual($value);
             } else {
-                $queryBuilder->field($field)->equals($data['value']);
+                $queryBuilder->field($field)->equals($value);
             }
 
             $this->active = true;

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
@@ -30,31 +31,31 @@ final class DateTimeFilter extends AbstractDateFilter
         return $this->getOption('field_type', DateTimeType::class);
     }
 
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data): void
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         // Add a minute so less then equal selects all seconds.
-        $data['value']->add(new \DateInterval('PT1M'));
+        $data->getValue()->add(new \DateInterval('PT1M'));
 
-        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data->getType()), $field, $data->getValue());
     }
 
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data): void
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         // Add 59 seconds so anything above the minute is selected
-        $data['value']->add(new \DateInterval('PT59S'));
+        $data->getValue()->add(new \DateInterval('PT59S'));
 
-        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data->getType()), $field, $data->getValue());
     }
 
     /**
      * Because we lack a second variable we select a range covering the entire minute.
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data): void
+    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         /** @var \DateTime $end */
-        $end = clone $data['value'];
+        $end = clone $data->getValue();
         $end->add(new \DateInterval('PT1M'));
 
-        $query->getQueryBuilder()->field($field)->range($data['value'], $end);
+        $query->getQueryBuilder()->field($field)->range($data->getValue(), $end);
     }
 }

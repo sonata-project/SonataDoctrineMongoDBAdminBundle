@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
@@ -23,18 +24,18 @@ final class DateFilter extends AbstractDateFilter
         return $this->getOption('field_type', DateType::class);
     }
 
-    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, array $data): void
+    protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        $data['value']->add(new \DateInterval('P1D'));
+        $data->getValue()->add(new \DateInterval('P1D'));
 
-        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data->getType()), $field, $data->getValue());
     }
 
-    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, array $data): void
+    protected function applyTypeIsGreaterThan(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        $data['value']->add(new \DateInterval('P1D'));
+        $data->getValue()->add(new \DateInterval('P1D'));
 
-        $this->applyType($query, $this->getOperator($data['type']), $field, $data['value']);
+        $this->applyType($query, $this->getOperator($data->getType()), $field, $data->getValue());
     }
 
     /**
@@ -42,11 +43,11 @@ final class DateFilter extends AbstractDateFilter
      *
      * @author Wesley van Opdorp <wesley.van.opdorp@freshheads.com>
      */
-    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, array $data): void
+    protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        $end = clone $data['value'];
+        $end = clone $data->getValue();
         $end->add(new \DateInterval('P1D'));
 
-        $query->getQueryBuilder()->field($field)->range($data['value'], $end);
+        $query->getQueryBuilder()->field($field)->range($data->getValue(), $end);
     }
 }

@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\Regex;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
@@ -40,7 +41,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray($value));
 
         $this->assertFalse($filter->isActive());
     }
@@ -71,7 +72,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => 'asd', 'type' => null]);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => null]));
         $this->assertTrue($filter->isActive());
     }
 
@@ -96,7 +97,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => 'asd', 'type' => $type]);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => $type]));
         $this->assertTrue($filter->isActive());
     }
 
@@ -128,7 +129,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_NOT_CONTAINS]);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => ContainsOperatorType::TYPE_NOT_CONTAINS]));
         $this->assertTrue($filter->isActive());
     }
 
@@ -148,7 +149,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_EQUAL]);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => ContainsOperatorType::TYPE_EQUAL]));
         $this->assertTrue($filter->isActive());
     }
 
@@ -184,7 +185,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_EQUAL, 'value' => 'asd']);
+        $filter->apply($builder, FilterData::fromArray(['type' => ContainsOperatorType::TYPE_EQUAL, 'value' => 'asd']));
         $this->assertTrue($filter->isActive());
     }
 
@@ -200,7 +201,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->expects($this->once())->method('addOr');
         $builder = new ProxyQuery($queryBuilder);
-        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]));
         $this->assertTrue($filter->isActive());
 
         $filter->setCondition(Filter::CONDITION_AND);
@@ -208,7 +209,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->expects($this->never())->method('addOr');
         $builder = new ProxyQuery($queryBuilder);
-        $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]));
         $this->assertTrue($filter->isActive());
     }
 }

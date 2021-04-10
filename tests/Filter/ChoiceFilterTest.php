@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
@@ -33,7 +34,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray($value));
 
         $this->assertFalse($filter->isActive());
     }
@@ -60,7 +61,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]);
+        $filter->apply($builder, FilterData::fromArray(['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]));
 
         $this->assertTrue($filter->isActive());
     }
@@ -77,7 +78,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']);
+        $filter->apply($builder, FilterData::fromArray(['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']));
 
         $this->assertTrue($filter->isActive());
     }
@@ -94,7 +95,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]);
+        $filter->apply($builder, FilterData::fromArray(['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]));
 
         $this->assertTrue($filter->isActive());
     }

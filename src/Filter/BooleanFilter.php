@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\Form\Type\BooleanType;
@@ -36,15 +37,17 @@ final class BooleanFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (!\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        if (\is_array($data['value'])) {
+        $value = $data->getValue();
+
+        if (\is_array($value)) {
             $values = [];
-            foreach ($data['value'] as $v) {
+            foreach ($value as $v) {
                 if (!\in_array($v, [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                     continue;
                 }
@@ -59,11 +62,11 @@ final class BooleanFilter extends Filter
             $query->getQueryBuilder()->field($field)->in($values);
             $this->active = true;
         } else {
-            if (!\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
+            if (!\in_array($value, [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                 return;
             }
 
-            $value = BooleanType::TYPE_YES === $data['value'];
+            $value = BooleanType::TYPE_YES === $value;
 
             $query->getQueryBuilder()->field($field)->equals($value);
             $this->active = true;

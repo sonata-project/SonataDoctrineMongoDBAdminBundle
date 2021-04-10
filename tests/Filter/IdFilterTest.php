@@ -14,18 +14,14 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use MongoDB\BSON\ObjectId;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\IdFilter;
 
 final class IdFilterTest extends FilterWithQueryBuilderTest
 {
-    /**
-     * @param mixed $value
-     *
-     * @dataProvider getNotApplicableValues
-     */
-    public function testEmpty($value): void
+    public function testEmpty(): void
     {
         $filter = new IdFilter();
         $filter->initialize('field_name', [
@@ -39,19 +35,9 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, $value);
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
-    }
-
-    /**
-     * @phpstan-return array<array{mixed}>
-     */
-    public function getNotApplicableValues(): array
-    {
-        return [
-            [[]],
-        ];
     }
 
     public function testItDoesNotApplyWithWrongObjectId(): void
@@ -65,7 +51,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => 'wrong_object_id', 'type' => null]);
+        $filter->apply($builder, FilterData::fromArray(['value' => 'wrong_object_id', 'type' => null]));
         $this->assertFalse($filter->isActive());
     }
 
@@ -87,7 +73,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => '507f1f77bcf86cd799439011', 'type' => $type]);
+        $filter->apply($builder, FilterData::fromArray(['value' => '507f1f77bcf86cd799439011', 'type' => $type]));
 
         $this->assertTrue($filter->isActive());
     }
@@ -116,7 +102,11 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, ['value' => '507f1f77bcf86cd799439011', 'type' => EqualOperatorType::TYPE_NOT_EQUAL]);
+        $filter->apply($builder, FilterData::fromArray(
+            [
+            'value' => '507f1f77bcf86cd799439011',
+            'type' => EqualOperatorType::TYPE_NOT_EQUAL, ]
+        ));
         $this->assertTrue($filter->isActive());
     }
 }

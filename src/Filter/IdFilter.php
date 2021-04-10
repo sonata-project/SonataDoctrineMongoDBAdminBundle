@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\InvalidArgumentException;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
@@ -40,13 +41,13 @@ final class IdFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, array $data): void
+    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (!\array_key_exists('value', $data) || null === $data['value']) {
+        if (!$data->hasValue() || null === $data->getValue()) {
             return;
         }
 
-        $value = trim($data['value']);
+        $value = trim((string) $data->getValue());
 
         if ('' === $value) {
             return;
@@ -58,7 +59,7 @@ final class IdFilter extends Filter
             return;
         }
 
-        $type = $data['type'] ?? EqualOperatorType::TYPE_EQUAL;
+        $type = $data->getType() ?? EqualOperatorType::TYPE_EQUAL;
 
         if (EqualOperatorType::TYPE_EQUAL === $type) {
             $query->getQueryBuilder()->field($field)->equals($objectId);
