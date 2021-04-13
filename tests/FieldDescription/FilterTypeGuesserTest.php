@@ -153,13 +153,8 @@ final class FilterTypeGuesserTest extends RegistryTestCase
                 Guess::HIGH_CONFIDENCE,
                 BooleanType::class,
             ],
-            'datetime' => [
-                'datetime',
-                DateTimeFilter::class,
-                Guess::HIGH_CONFIDENCE,
-            ],
             Type::TIMESTAMP => [
-                'datetime',
+                'timestamp',
                 DateTimeFilter::class,
                 Guess::HIGH_CONFIDENCE,
             ],
@@ -167,12 +162,6 @@ final class FilterTypeGuesserTest extends RegistryTestCase
                 'date',
                 DateFilter::class,
                 Guess::HIGH_CONFIDENCE,
-            ],
-            'decimal' => [
-                'decimal',
-                NumberFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-                NumberType::class,
             ],
             Type::FLOAT => [
                 'float',
@@ -188,12 +177,6 @@ final class FilterTypeGuesserTest extends RegistryTestCase
             ],
             Type::STRING => [
                 'string',
-                StringFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-                TextType::class,
-            ],
-            'text' => [
-                'text',
                 StringFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 TextType::class,
