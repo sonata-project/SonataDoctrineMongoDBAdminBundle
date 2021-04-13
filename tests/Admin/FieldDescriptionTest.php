@@ -30,7 +30,6 @@ final class FieldDescriptionTest extends TestCase
             ]
         );
 
-        $this->assertSame('integer', $field->getType());
         $this->assertSame('position', $field->getFieldName());
     }
 
@@ -44,18 +43,6 @@ final class FieldDescriptionTest extends TestCase
         $field = new FieldDescription('name', [], [], $associationMapping);
 
         $this->assertSame($associationMapping, $field->getAssociationMapping());
-    }
-
-    public function testSetFieldMappingSetType(): void
-    {
-        $fieldMapping = [
-            'type' => 'integer',
-            'fieldName' => 'position',
-        ];
-
-        $field = new FieldDescription('name', [], $fieldMapping);
-
-        $this->assertSame('integer', $field->getType());
     }
 
     public function testSetFieldMappingSetMappingType(): void

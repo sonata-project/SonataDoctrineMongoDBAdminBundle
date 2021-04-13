@@ -110,52 +110,52 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         return [
             'collection' => [
                 Type::COLLECTION,
-                'array',
+                FieldDescriptionInterface::TYPE_ARRAY,
                 Guess::HIGH_CONFIDENCE,
             ],
             'hash' => [
                 Type::HASH,
-                'array',
+                FieldDescriptionInterface::TYPE_ARRAY,
                 Guess::HIGH_CONFIDENCE,
             ],
             'bool' => [
                 Type::BOOL,
-                'boolean',
+                FieldDescriptionInterface::TYPE_BOOLEAN,
                 Guess::HIGH_CONFIDENCE,
             ],
             'timestamp' => [
                 Type::TIMESTAMP,
-                'datetime',
+                FieldDescriptionInterface::TYPE_DATETIME,
                 Guess::HIGH_CONFIDENCE,
             ],
             'date' => [
                 Type::DATE,
-                'date',
+                FieldDescriptionInterface::TYPE_DATE,
                 Guess::HIGH_CONFIDENCE,
             ],
             'date_immutable' => [
                 Type::DATE_IMMUTABLE,
-                'date',
+                FieldDescriptionInterface::TYPE_DATE,
                 Guess::HIGH_CONFIDENCE,
             ],
             'float' => [
                 Type::FLOAT,
-                'number',
+                FieldDescriptionInterface::TYPE_FLOAT,
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'integer' => [
                 Type::INT,
-                'integer',
+                FieldDescriptionInterface::TYPE_INTEGER,
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'string' => [
                 Type::STRING,
-                'text',
+                FieldDescriptionInterface::TYPE_STRING,
                 Guess::MEDIUM_CONFIDENCE,
             ],
             'somefake' => [
                 'somefake',
-                'text',
+                FieldDescriptionInterface::TYPE_STRING,
                 Guess::LOW_CONFIDENCE,
             ],
         ];

@@ -22,7 +22,7 @@ final class CRUDTest extends BaseFunctionalTestCase
     {
         $this->client->request(Request::METHOD_GET, '/admin/tests/app/category/list');
 
-        self::assertSelectorTextContains('.sonata-ba-list-field-text[objectid="category_novel"] .sonata-link-identifier', 'Novel');
+        self::assertSelectorTextContains('.sonata-ba-list-field-string[objectid="category_novel"] .sonata-link-identifier', 'Novel');
     }
 
     public function testShow(): void
@@ -71,6 +71,6 @@ final class CRUDTest extends BaseFunctionalTestCase
 
         $this->client->submitForm('Yes, delete');
 
-        self::assertSelectorNotExists('.sonata-ba-list-field-text[objectid="category_to_remove"] .sonata-link-identifier');
+        self::assertSelectorNotExists('.sonata-ba-list-field-string[objectid="category_to_remove"] .sonata-link-identifier');
     }
 }
