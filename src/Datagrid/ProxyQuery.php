@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\Query\Builder;
 
 /**
@@ -62,6 +63,9 @@ class ProxyQuery implements ProxyQueryInterface
         $this->queryBuilder = clone $this->queryBuilder;
     }
 
+    /**
+     * @return \Traversable<object>&Iterator
+     */
     public function execute(array $params = [], $hydrationMode = null)
     {
         if ([] !== $params || null !== $hydrationMode) {
@@ -88,7 +92,10 @@ class ProxyQuery implements ProxyQueryInterface
             $queryBuilder->sort($sortBy, $this->getSortOrder());
         }
 
-        return $queryBuilder->getQuery()->execute();
+        $result = $queryBuilder->getQuery()->execute();
+        \assert($result instanceof Iterator);
+
+        return $result;
     }
 
     public function setSortBy($parentAssociationMappings, $fieldMapping)

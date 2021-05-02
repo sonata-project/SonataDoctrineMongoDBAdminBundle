@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
@@ -326,7 +327,10 @@ class ModelManager implements ModelManagerInterface
     public function executeQuery($query)
     {
         if ($query instanceof Builder) {
-            return $query->getQuery()->execute();
+            $result = $query->getQuery()->execute();
+            \assert($result instanceof Iterator);
+
+            return $result;
         }
 
         if ($query instanceof ProxyQuery) {
