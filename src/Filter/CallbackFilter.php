@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -42,15 +43,36 @@ class CallbackFilter extends Filter
             ), \E_USER_DEPRECATED);
         }
 
-        if (!\is_callable($this->getOption('callback'))) {
+        $callable = $this->getOption('callback');
+
+        if (!\is_callable($callable)) {
             throw new \RuntimeException(sprintf(
                 'Please provide a valid callback option "filter" for field "%s"',
                 $this->getName()
             ));
         }
 
+        // NEXT_MAJOR: Remove next line
+        $callbackReflection = $this->reflectCallable($callable);
+
+        // NEXT_MAJOR: Remove the entire if block
+        if (null !== $callbackReflection && isset($callbackReflection->getParameters()[3])) {
+            if ($callbackReflection->getParameters()[3]->hasType()
+                && $callbackReflection->getParameters()[3]->getType() instanceof \ReflectionNamedType
+                && FilterData::class === $callbackReflection->getParameters()[3]->getType()->getName()
+            ) {
+                $data = FilterData::fromArray($data);
+            } else {
+                @trigger_error(sprintf(
+                    'Not adding "%1$s" as type declaration for argument 4 is deprecated since'
+                    .' sonata-project/doctrine-orm-admin-bundle 3.x and the argument will be a "%1$s" instance in version 4.0.',
+                    FilterData::class
+                ), \E_USER_DEPRECATED);
+            }
+        }
+
         // NEXT_MAJOR: Remove $alias parameter.
-        $isActive = \call_user_func($this->getOption('callback'), $query, $alias, $field, $data);
+        $isActive = \call_user_func($callable, $query, $alias, $field, $data);
 
         if (!\is_bool($isActive)) {
             @trigger_error(
@@ -91,8 +113,13 @@ class CallbackFilter extends Filter
             }
         }
 
+        // NEXT_MAJOR: Remove next line.
+        $hasValue = $data instanceof FilterData
+            ? $data->hasValue() && $data->getValue()
+            : isset($data['value']) && $data['value'];
+
         // NEXT_MAJOR: Remove next line and uncomment the following one.
-        $this->active = $isActive && isset($data['value']) && $data['value'];
+        $this->active = $isActive && $hasValue;
         // $this->active = $isActive;
     }
 
@@ -117,5 +144,23 @@ class CallbackFilter extends Filter
                 'operator_options' => $this->getOption('operator_options'),
                 'label' => $this->getLabel(),
         ]];
+    }
+
+    /**
+     * NEXT_MAJOR: Remove this method.
+     *
+     * extracted from https://github.com/getsentry/sentry-php/blob/4f6f8fa701e5db53c04f471b139e7d4f85831f17/src/Serializer/AbstractSerializer.php#L272-L283
+     */
+    private function reflectCallable(callable $callable): ?\ReflectionFunctionAbstract
+    {
+        if (\is_array($callable)) {
+            return new \ReflectionMethod($callable[0], $callable[1]);
+        } elseif ($callable instanceof \Closure || \is_string($callable)) {
+            return new \ReflectionFunction($callable);
+        } elseif (method_exists($callable, '__invoke')) {
+            return new \ReflectionMethod($callable, '__invoke');
+        }
+
+        return null;
     }
 }
