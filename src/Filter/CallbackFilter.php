@@ -50,24 +50,58 @@ class CallbackFilter extends Filter
         }
 
         // NEXT_MAJOR: Remove $alias parameter.
-        \call_user_func($this->getOption('callback'), $query, $alias, $field, $data);
+        $isActive = \call_user_func($this->getOption('callback'), $query, $alias, $field, $data);
 
-        if (\is_callable($this->getOption('active_callback'))) {
-            $this->active = \call_user_func($this->getOption('active_callback'), $data);
+        if (!\is_bool($isActive)) {
+            @trigger_error(
+                'Using another return type than boolean for the callback option is deprecated'
+                .' since sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw an exception in version 4.0.',
+                \E_USER_DEPRECATED
+            );
 
-            return;
+            // NEXT_MAJOR: Remove next line.
+            $isActive = (bool) $isActive;
+
+            // NEXT_MAJOR: Uncomment the following code instead of the deprecation.
+//            throw new \UnexpectedValueException(sprintf(
+//                'The callback should return a boolean, %s returned',
+//                \is_object($isActive) ? 'instance of "'.\get_class($isActive).'"' : '"'.\gettype($isActive).'"'
+//            ));
         }
 
-        $this->active = true;
+        // NEXT_MAJOR: Remove next line.
+        $activeCallback = $this->getOption('active_callback');
+
+        // NEXT_MAJOR: Remove the entire following if-else.
+        if (null !== $activeCallback) {
+            @trigger_error(
+                sprintf(
+                    'Using "active_callback" option in "%s" is deprecated since'
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed version 4.0.'
+                .' You MUST return a boolean value for the "callback" option instead.',
+                    self::class
+                ),
+                \E_USER_DEPRECATED
+            );
+
+            if (\is_callable($activeCallback)) {
+                $this->active = \call_user_func($activeCallback, $data);
+
+                return;
+            }
+        }
+
+        // NEXT_MAJOR: Remove next line and uncomment the following one.
+        $this->active = $isActive && isset($data['value']) && $data['value'];
+        // $this->active = $isActive;
     }
 
     public function getDefaultOptions()
     {
         return [
             'callback' => null,
-            'active_callback' => static function ($data) {
-                return isset($data['value']) && $data['value'];
-            },
+            // NEXT_MAJOR: Remove next line.
+            'active_callback' => null,
             'field_type' => TextType::class,
             'operator_type' => HiddenType::class,
             'operator_options' => [],
