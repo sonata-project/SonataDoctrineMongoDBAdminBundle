@@ -18,7 +18,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * NEXT_MAJOR: Remove the "since" part of the internal annotation.
+ *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @internal since sonata-project/doctrine-mongodb-admin-bundle version 4.0
  *
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
