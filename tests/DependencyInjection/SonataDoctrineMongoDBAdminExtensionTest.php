@@ -40,6 +40,7 @@ final class SonataDoctrineMongoDBAdminExtensionTest extends AbstractExtensionTes
         $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.boolean');
         $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.callback');
         $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.choice');
+        $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.id');
         $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.model');
         $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.string');
         $this->assertContainerBuilderHasService('sonata.admin.odm.filter.type.number');
