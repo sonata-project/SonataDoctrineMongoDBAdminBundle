@@ -24,6 +24,7 @@ use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\IdFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
@@ -191,6 +192,11 @@ final class FilterTypeGuesserTest extends RegistryTestCase
                 StringFilter::class,
                 Guess::MEDIUM_CONFIDENCE,
                 TextType::class,
+            ],
+            Type::ID => [
+                Type::ID,
+                IdFilter::class,
+                Guess::MEDIUM_CONFIDENCE,
             ],
             'text' => [
                 'text',

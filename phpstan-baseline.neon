@@ -14,6 +14,7 @@ parameters:
                 - src/Filter/ChoiceFilter.php
                 - src/Filter/DateFilter.php
                 - src/Filter/DateTimeFilter.php
+                - src/Filter/IdFilter.php
                 - src/Filter/ModelFilter.php
                 - src/Filter/NumberFilter.php
                 - src/Filter/StringFilter.php
