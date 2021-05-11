@@ -16,6 +16,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\IdFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
@@ -58,6 +59,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->tag('sonata.admin.filter.type', [
                 'alias' => 'doctrine_mongo_choice',
             ])
+
+        ->set('sonata.admin.odm.filter.type.id', IdFilter::class)
+            ->tag('sonata.admin.filter.type')
 
         ->set('sonata.admin.odm.filter.type.model', '%sonata.admin.odm.filter.type.model.class%')
             ->tag('sonata.admin.filter.type', [

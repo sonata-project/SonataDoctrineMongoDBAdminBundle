@@ -19,6 +19,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * @internal
  */
 final class AddGuesserCompilerPass implements CompilerPassInterface
 {

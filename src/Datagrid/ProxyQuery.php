@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
@@ -61,6 +62,9 @@ final class ProxyQuery implements ProxyQueryInterface
         $this->queryBuilder = clone $this->queryBuilder;
     }
 
+    /**
+     * @return \Traversable<object>&Iterator
+     */
     public function execute()
     {
         // always clone the original queryBuilder.
@@ -72,7 +76,10 @@ final class ProxyQuery implements ProxyQueryInterface
             $queryBuilder->sort($sortBy, $this->getSortOrder());
         }
 
-        return $queryBuilder->getQuery()->execute();
+        $result = $queryBuilder->getQuery()->execute();
+        \assert($result instanceof Iterator);
+
+        return $result;
     }
 
     public function setSortBy(array $parentAssociationMappings, array $fieldMapping): BaseProxyQueryInterface

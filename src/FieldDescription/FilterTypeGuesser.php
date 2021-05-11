@@ -22,6 +22,7 @@ use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\IdFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
@@ -94,6 +95,8 @@ final class FilterTypeGuesser implements TypeGuesserInterface
 
                 return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case Type::ID:
+
+                return new TypeGuess(IdFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case Type::STRING:
                 $options['field_type'] = TextType::class;
 
