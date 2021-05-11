@@ -41,14 +41,12 @@ final class ShowBuilderTest extends TestCase
     private $showBuilder;
 
     /**
-     * @var MockObject&AdminInterface
+     * @var MockObject&AdminInterface<object>
      */
     private $admin;
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->guesser = $this->createStub(TypeGuesserInterface::class);
 
         $this->showBuilder = new ShowBuilder(

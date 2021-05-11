@@ -20,12 +20,12 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\Pager;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Translator\FormLabelTranslatorStrategy;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
@@ -60,14 +60,12 @@ final class DatagridBuilderTest extends TestCase
     private $filterFactory;
 
     /**
-     * @var MockObject&AdminInterface
+     * @var MockObject&AdminInterface<object>
      */
     private $admin;
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->formFactory = $this->createStub(FormFactoryInterface::class);
         $this->filterFactory = $this->createMock(FilterFactoryInterface::class);
         $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);

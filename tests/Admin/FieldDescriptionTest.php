@@ -74,7 +74,7 @@ final class FieldDescriptionTest extends TestCase
         $associationMapping = [
             'type' => 'integer',
             'fieldName' => 'position',
-            'targetDocument' => 'someValue',
+            'targetDocument' => \stdClass::class,
         ];
 
         $field = new FieldDescription('name');
@@ -83,7 +83,7 @@ final class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], [], $associationMapping);
 
-        $this->assertSame('someValue', $field->getTargetModel());
+        $this->assertSame(\stdClass::class, $field->getTargetModel());
     }
 
     public function testIsIdentifierFromFieldMapping(): void
