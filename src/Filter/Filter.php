@@ -20,12 +20,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 
 abstract class Filter extends BaseFilter
 {
-    /**
-     * @var bool
-     */
-    protected $active = false;
-
-    public function apply(BaseProxyQueryInterface $query, FilterData $filterData): void
+    final public function apply(BaseProxyQueryInterface $query, FilterData $filterData): void
     {
         if (!$query instanceof ProxyQueryInterface) {
             throw new \TypeError(sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
@@ -34,11 +29,6 @@ abstract class Filter extends BaseFilter
         $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
 
         $this->filter($query, $field, $filterData);
-    }
-
-    public function isActive(): bool
-    {
-        return $this->active;
     }
 
     abstract protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void;

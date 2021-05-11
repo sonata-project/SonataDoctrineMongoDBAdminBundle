@@ -60,7 +60,7 @@ final class BooleanFilter extends Filter
             }
 
             $query->getQueryBuilder()->field($field)->in($values);
-            $this->active = true;
+            $this->setActive(true);
         } else {
             if (!\in_array($value, [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
                 return;
@@ -69,7 +69,7 @@ final class BooleanFilter extends Filter
             $value = BooleanType::TYPE_YES === $value;
 
             $query->getQueryBuilder()->field($field)->equals($value);
-            $this->active = true;
+            $this->setActive(true);
         }
     }
 }

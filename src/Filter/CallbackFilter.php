@@ -57,11 +57,11 @@ final class CallbackFilter extends Filter
         \call_user_func($this->getOption('callback'), $query, $field, $data);
 
         if (\is_callable($this->getOption('active_callback'))) {
-            $this->active = \call_user_func($this->getOption('active_callback'), $data);
+            $this->setActive(\call_user_func($this->getOption('active_callback'), $data));
 
             return;
         }
 
-        $this->active = true;
+        $this->setActive(true);
     }
 }

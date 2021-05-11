@@ -19,9 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 final class DateFilter extends AbstractDateFilter
 {
-    public function getFieldType(): string
+    public function getDefaultOptions(): array
     {
-        return $this->getOption('field_type', DateType::class);
+        return array_merge(parent::getDefaultOptions(), ['field_type' => DateType::class]);
     }
 
     protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, FilterData $data): void

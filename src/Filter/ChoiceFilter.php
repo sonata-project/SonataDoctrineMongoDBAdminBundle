@@ -57,7 +57,7 @@ final class ChoiceFilter extends Filter
                 $queryBuilder->field($field)->in($value);
             }
 
-            $this->active = true;
+            $this->setActive(true);
         } else {
             if ('' === $value || null === $value || false === $value) {
                 return;
@@ -69,7 +69,7 @@ final class ChoiceFilter extends Filter
                 $queryBuilder->field($field)->equals($value);
             }
 
-            $this->active = true;
+            $this->setActive(true);
         }
     }
 }

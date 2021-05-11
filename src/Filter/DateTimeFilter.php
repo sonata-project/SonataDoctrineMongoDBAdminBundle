@@ -26,9 +26,9 @@ final class DateTimeFilter extends AbstractDateFilter
      */
     protected $time = true;
 
-    public function getFieldType(): string
+    public function getDefaultOptions(): array
     {
-        return $this->getOption('field_type', DateTimeType::class);
+        return array_merge(parent::getDefaultOptions(), ['field_type' => DateTimeType::class]);
     }
 
     protected function applyTypeIsLessEqual(ProxyQueryInterface $query, string $field, FilterData $data): void

@@ -53,7 +53,7 @@ final class NumberFilter extends Filter
         $operator = $this->getOperator($type);
 
         $query->getQueryBuilder()->field($field)->$operator((float) $data->getValue());
-        $this->active = true;
+        $this->setActive(true);
     }
 
     private function getOperator(int $type): string

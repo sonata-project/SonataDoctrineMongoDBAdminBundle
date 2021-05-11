@@ -66,6 +66,6 @@ final class StringFilter extends Filter
             $query->getQueryBuilder()->addOr($obj);
         }
 
-        $this->active = true;
+        $this->setActive(true);
     }
 }

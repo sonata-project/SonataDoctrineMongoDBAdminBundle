@@ -67,6 +67,6 @@ final class IdFilter extends Filter
             $query->getQueryBuilder()->field($field)->notEqual($objectId);
         }
 
-        $this->active = true;
+        $this->setActive(true);
     }
 }

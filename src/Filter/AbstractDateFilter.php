@@ -61,7 +61,7 @@ abstract class AbstractDateFilter extends Filter
         ]];
     }
 
-    protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
+    final protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         if (!$data->hasValue() || null === $data->getValue()) {
             return;
@@ -72,21 +72,21 @@ abstract class AbstractDateFilter extends Filter
 
         switch ($type) {
             case DateOperatorType::TYPE_EQUAL:
-                $this->active = true;
+                $this->setActive(true);
 
                 $this->applyTypeIsEqual($query, $field, $data);
 
                 return;
 
             case DateOperatorType::TYPE_GREATER_THAN:
-                $this->active = true;
+                $this->setActive(true);
 
                 $this->applyTypeIsGreaterThan($query, $field, $data);
 
                 return;
 
             case DateOperatorType::TYPE_LESS_EQUAL:
-                $this->active = true;
+                $this->setActive(true);
 
                 $this->applyTypeIsLessEqual($query, $field, $data);
 
@@ -94,7 +94,7 @@ abstract class AbstractDateFilter extends Filter
 
             case DateOperatorType::TYPE_GREATER_EQUAL:
             case DateOperatorType::TYPE_LESS_THAN:
-                $this->active = true;
+                $this->setActive(true);
 
                 $this->applyType($query, $this->getOperator($type), $field, $data->getValue());
 
@@ -108,16 +108,16 @@ abstract class AbstractDateFilter extends Filter
 
     abstract protected function applyTypeIsEqual(ProxyQueryInterface $query, string $field, FilterData $data): void;
 
-    protected function applyType(ProxyQueryInterface $query, string $operation, string $field, \DateTime $datetime): void
+    final protected function applyType(ProxyQueryInterface $query, string $operation, string $field, \DateTime $datetime): void
     {
         $query->getQueryBuilder()->field($field)->$operation($datetime);
-        $this->active = true;
+        $this->setActive(true);
     }
 
     /**
      * Resolves DataType:: constants to MongoDb operators.
      */
-    protected function getOperator(int $type): string
+    final protected function getOperator(int $type): string
     {
         $choices = [
             DateOperatorType::TYPE_EQUAL => 'equals',

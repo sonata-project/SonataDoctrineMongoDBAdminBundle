@@ -85,7 +85,7 @@ final class ModelFilter extends Filter
             $query->getQueryBuilder()->field($field)->in($ids);
         }
 
-        $this->active = true;
+        $this->setActive(true);
     }
 
     protected function handleScalar(ProxyQueryInterface $query, string $field, FilterData $data): void
@@ -102,7 +102,7 @@ final class ModelFilter extends Filter
             $query->getQueryBuilder()->field($field)->equals($id);
         }
 
-        $this->active = true;
+        $this->setActive(true);
     }
 
     /**
