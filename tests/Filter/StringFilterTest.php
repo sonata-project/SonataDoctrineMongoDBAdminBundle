@@ -23,10 +23,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 
 final class StringFilterTest extends FilterWithQueryBuilderTest
 {
-    /**
-     * @dataProvider getNotApplicableValues
-     */
-    public function testEmpty(array $value): void
+    public function testEmpty(): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', [
@@ -41,19 +38,9 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
-    }
-
-    /**
-     * @phpstan-return array<array{mixed}>
-     */
-    public function getNotApplicableValues(): array
-    {
-        return [
-            [[]],
-        ];
     }
 
     public function testDefaultTypeIsContains(): void

@@ -20,10 +20,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 
 final class NumberFilterTest extends FilterWithQueryBuilderTest
 {
-    /**
-     * @dataProvider getNotApplicableValues
-     */
-    public function testFilterEmpty(array $value): void
+    public function testFilterEmpty(): void
     {
         $filter = $this->createFilter();
 
@@ -33,19 +30,9 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
-    }
-
-    /**
-     * @phpstan-return array<array{mixed}>
-     */
-    public function getNotApplicableValues(): array
-    {
-        return [
-            [[]],
-        ];
     }
 
     public function testFilterInvalidOperator(): void
@@ -66,6 +53,8 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
 
     /**
      * @dataProvider getNumberExamples
+     *
+     * @phpstan-param array{type?: int, value: int} $data
      */
     public function testFilter(array $data, string $method): void
     {

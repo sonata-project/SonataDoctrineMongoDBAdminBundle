@@ -21,10 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 {
-    /**
-     * @dataProvider getNotApplicableValues
-     */
-    public function testEmpty(array $value): void
+    public function testEmpty(): void
     {
         $filter = $this->createFilter();
 
@@ -35,19 +32,9 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
-    }
-
-    /**
-     * @phpstan-return array<array{mixed}>
-     */
-    public function getNotApplicableValues(): array
-    {
-        return [
-            [[]],
-        ];
     }
 
     public function testGetType(): void
@@ -59,6 +46,8 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 
     /**
      * @dataProvider getExamples
+     *
+     * @phpstan-param array{type?: int, value?: \DateTime} $data
      */
     public function testFilter(array $data, string $method): void
     {
