@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Functional;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Category;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -62,7 +63,9 @@ final class CRUDTest extends BaseFunctionalTestCase
 
     public function testDelete(): void
     {
-        $documentManager = static::bootKernel()->getContainer()->get('doctrine_mongodb')->getManager();
+        $managerRegistry = static::bootKernel()->getContainer()->get('doctrine_mongodb');
+        \assert($managerRegistry instanceof ManagerRegistry);
+        $documentManager = $managerRegistry->getManager();
 
         $documentManager->persist(new Category('category_to_remove', 'name'));
         $documentManager->flush();

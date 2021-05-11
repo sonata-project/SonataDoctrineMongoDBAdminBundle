@@ -16,6 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\ListBuilder;
@@ -44,14 +45,12 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     protected $listBuilder;
 
     /**
-     * @var AdminInterface&MockObject
+     * @var MockObject&AdminInterface<object>
      */
     protected $admin;
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);
 
         $this->admin = $this->createMock(AdminInterface::class);
@@ -91,7 +90,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
                 new TypeGuess('actions', [], Guess::LOW_CONFIDENCE)
             );
 
-        $fieldDescription = new FieldDescription('_action');
+        $fieldDescription = new FieldDescription(ListMapper::NAME_ACTIONS);
         $fieldDescription->setAdmin($this->admin);
 
         $list = $this->listBuilder->getBaseList();
@@ -103,8 +102,8 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
         $this->listBuilder->addField($list, null, $fieldDescription);
 
         $this->assertSame(
-            'actions',
-            $list->get('_action')->getType(),
+            ListMapper::TYPE_ACTIONS,
+            $list->get(ListMapper::NAME_ACTIONS)->getType(),
             'Standard list _action field has "actions" type'
         );
     }

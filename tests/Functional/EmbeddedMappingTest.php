@@ -38,8 +38,11 @@ final class EmbeddedMappingTest extends BasePantherTestCase
         $crawler = $this->client->request(Request::METHOD_GET, '/admin/tests/app/author/create');
 
         $attributeId = $crawler->filter('.author_id')->attr('name');
+        $this->assertIsString($attributeId);
         $attributeName = $crawler->filter('.author_name')->attr('name');
+        $this->assertIsString($attributeName);
         $attributeAddressStreet = $crawler->filter('.address_street')->attr('name');
+        $this->assertIsString($attributeAddressStreet);
 
         $form = $crawler->selectButton('Create and return to list')->form();
         $form[$attributeId] = 'author_new_id';
@@ -50,6 +53,7 @@ final class EmbeddedMappingTest extends BasePantherTestCase
         $crawler = $this->client->waitFor('.phone_number_number');
 
         $attributePhoneNumber = $crawler->filter('.phone_number_number')->attr('name');
+        $this->assertIsString($attributePhoneNumber);
 
         $form[$attributePhoneNumber] = '333-333-333';
 

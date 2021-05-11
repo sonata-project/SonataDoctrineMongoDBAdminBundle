@@ -122,7 +122,10 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery->setSortBy([], ['fieldName' => 'name']);
         $proxyQuery->setSortOrder('DESC');
 
-        $this->assertSame(['B', 'A'], $this->getNames($proxyQuery->execute()->toArray()));
+        /** @var array{array{name: string}} $result */
+        $result = $proxyQuery->execute()->toArray();
+
+        $this->assertSame(['B', 'A'], $this->getNames($result));
     }
 
     public function testExecuteAllowsSortingWithEmbedded(): void
@@ -143,7 +146,10 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery->setSortBy([['fieldName' => 'embeddedDocument']], ['fieldName' => 'position']);
         $proxyQuery->setSortOrder('DESC');
 
-        $this->assertSame(['B', 'A'], $this->getNames($proxyQuery->execute()->toArray()));
+        /** @var array{array{name: string}} $result */
+        $result = $proxyQuery->execute()->toArray();
+
+        $this->assertSame(['B', 'A'], $this->getNames($result));
     }
 
     /**
