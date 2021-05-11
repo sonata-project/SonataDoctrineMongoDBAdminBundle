@@ -20,10 +20,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
 
 final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 {
-    /**
-     * @dataProvider getNotApplicableValues
-     */
-    public function testFilterEmpty(array $value): void
+    public function testFilterEmpty(): void
     {
         $filter = $this->createFilter();
 
@@ -34,19 +31,9 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
-    }
-
-    /**
-     * @phpstan-return array<array{mixed}>
-     */
-    public function getNotApplicableValues(): array
-    {
-        return [
-            [[]],
-        ];
     }
 
     public function testFilterArray(): void

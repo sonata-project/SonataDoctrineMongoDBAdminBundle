@@ -19,12 +19,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
 final class CallbackFilterTest extends FilterWithQueryBuilderTest
 {
-    /**
-     * @param mixed $value
-     *
-     * @dataProvider getNotApplicableValues
-     */
-    public function testFilterClosureEmpty($value): void
+    public function testFilterClosureEmpty(): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -36,7 +31,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
             },
         ]);
 
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
     }
@@ -58,10 +53,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    /**
-     * @dataProvider getNotApplicableValues
-     */
-    public function testFilterMethodEmpty(array $value): void
+    public function testFilterMethodEmpty(): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());
 
@@ -71,19 +63,9 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
             'callback' => [$this, 'customCallback'],
         ]);
 
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
-    }
-
-    /**
-     * @phpstan-return array<array{mixed}>
-     */
-    public function getNotApplicableValues(): array
-    {
-        return [
-            [['value' => '']],
-        ];
     }
 
     public function testFilterMethodNotEmpty(): void

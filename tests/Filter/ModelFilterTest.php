@@ -53,10 +53,7 @@ final class ModelFilterTest extends TestCase
         $this->queryBuilder = $this->createMock(Builder::class);
     }
 
-    /**
-     * @dataProvider getNotApplicableValues
-     */
-    public function testFilterEmpty(array $value): void
+    public function testFilterEmpty(): void
     {
         $filter = new ModelFilter();
         $filter->initialize('field_name', [
@@ -70,19 +67,9 @@ final class ModelFilterTest extends TestCase
 
         $builder = new ProxyQuery($this->queryBuilder);
 
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray([]));
 
         $this->assertFalse($filter->isActive());
-    }
-
-    /**
-     * @phpstan-return array<array{mixed}>
-     */
-    public function getNotApplicableValues(): array
-    {
-        return [
-            [[]],
-        ];
     }
 
     public function testFilterArray(): void
