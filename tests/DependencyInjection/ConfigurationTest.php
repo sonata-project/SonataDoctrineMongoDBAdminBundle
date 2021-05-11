@@ -24,14 +24,7 @@ final class ConfigurationTest extends TestCase
     public function testDefaultOptions(): void
     {
         $this->assertProcessedConfigurationEquals([], [
-            'templates' => [
-                'form' => [
-                    '@SonataDoctrineMongoDBAdmin/Form/form_admin_fields.html.twig',
-                ],
-                'filter' => [
-                    '@SonataDoctrineMongoDBAdmin/Form/filter_admin_fields.html.twig',
-                ],
-            ],
+            'templates' => [],
         ]);
     }
 
@@ -39,8 +32,6 @@ final class ConfigurationTest extends TestCase
     {
         $this->assertProcessedConfigurationEquals([[
             'templates' => [
-                'form' => ['form.twig.html', 'form_extra.twig.html'],
-                'filter' => ['filter.twig.html'],
                 'types' => [
                     'list' => [
                         'array' => 'list_array.twig.html',
@@ -52,8 +43,6 @@ final class ConfigurationTest extends TestCase
             ],
         ]], [
             'templates' => [
-                'form' => ['form.twig.html', 'form_extra.twig.html'],
-                'filter' => ['filter.twig.html'],
                 'types' => [
                     'list' => [
                         'array' => 'list_array.twig.html',

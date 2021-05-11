@@ -32,16 +32,9 @@ final class AddTemplatesCompilerPass implements CompilerPassInterface
             }
 
             $definition = $container->getDefinition($id);
-            // NEXT_MAJOR: Remove this line.
-            $templates = $container->getParameter('sonata_doctrine_mongodb_admin.templates');
 
-            // NEXT_MAJOR: Remove this line and uncomment the following
-            $this->mergeMethodCall($definition, 'setFormTheme', $templates['form']);
-//          $this->mergeMethodCall($definition, 'setFormTheme', ['@SonataDoctrineMongoDBAdmin/Form/form_admin_fields.html.twig']);
-
-            // NEXT_MAJOR: Remove this line and uncomment the following
-            $this->mergeMethodCall($definition, 'setFilterTheme', $templates['filter']);
-//          $this->mergeMethodCall($definition, 'setFilterTheme', ['@SonataDoctrineMongoDBAdmin/Form/filter_admin_fields.html.twig']);
+            $this->mergeMethodCall($definition, 'setFormTheme', ['@SonataDoctrineMongoDBAdmin/Form/form_admin_fields.html.twig']);
+            $this->mergeMethodCall($definition, 'setFilterTheme', ['@SonataDoctrineMongoDBAdmin/Form/filter_admin_fields.html.twig']);
         }
     }
 

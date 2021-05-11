@@ -34,33 +34,13 @@ final class AddTemplatesCompilerPassTest extends AbstractCompilerPassTestCase
         $adminServiceNotManaged->addTag('sonata.admin', ['manager_type' => 'type']);
         $this->setDefinition($adminServiceNotManagedId, $adminServiceNotManaged);
 
-        // NEXT_MAJOR: remove those 2 variables
-        $formTemplates = [
-            'form.html.twig',
-        ];
-        $filterTemplates = [
-            'filter.html.twig',
-        ];
-
-        // NEXT_MAJOR: remove this variable
-        $templates = [
-            'form' => $formTemplates,
-            'filter' => $filterTemplates,
-        ];
-
-        // NEXT_MAJOR: remove this line
-        $this->setParameter('sonata_doctrine_mongodb_admin.templates', $templates);
-
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             $adminServiceId,
             'setFormTheme',
             [
-                // NEXT_MAJOR: remove this line
-                array_merge(['foo.html.twig'], $formTemplates),
-                // NEXT_MAJOR: uncomment this line
-                //['foo.html.twig', '@SonataDoctrineMongoDBAdmin/Form/form_admin_fields.html.twig'],
+                ['foo.html.twig', '@SonataDoctrineMongoDBAdmin/Form/form_admin_fields.html.twig'],
             ]
         );
 
@@ -68,10 +48,7 @@ final class AddTemplatesCompilerPassTest extends AbstractCompilerPassTestCase
             $adminServiceId,
             'setFilterTheme',
             [
-                // NEXT_MAJOR: remove this line
-                array_merge(['bar.html.twig'], $filterTemplates),
-                // NEXT_MAJOR: uncomment this line
-                //['bar.html.twig', '@SonataDoctrineMongoDBAdmin/Form/filter_admin_fields.html.twig'],
+                ['bar.html.twig', '@SonataDoctrineMongoDBAdmin/Form/filter_admin_fields.html.twig'],
             ]
         );
     }
