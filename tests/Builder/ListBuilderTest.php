@@ -100,10 +100,6 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
             ->expects($this->once())
             ->method('addListFieldDescription');
 
-        $this->admin
-            ->method('getModelManager')
-            ->willReturn($this->modelManager);
-
         $this->listBuilder->addField($list, null, $fieldDescription);
 
         $this->assertSame(

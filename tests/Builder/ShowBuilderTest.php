@@ -62,11 +62,6 @@ final class ShowBuilderTest extends TestCase
         $this->admin = $this->createMock(AdminInterface::class);
     }
 
-    public function testGetBaseList(): void
-    {
-        $this->assertInstanceOf(FieldDescriptionCollection::class, $this->showBuilder->getBaseList());
-    }
-
     public function testAddFieldNoType(): void
     {
         $typeGuess = $this->createStub(TypeGuess::class);
