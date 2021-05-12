@@ -52,9 +52,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 
     public function testGetType(): void
     {
-        $filter = new DateTimeFilter();
-        $filter->initialize('name');
-        $this->assertSame(DateTimeType::class, $filter->getFieldType());
+        $this->assertSame(DateTimeType::class, $this->createFilter()->getFieldType());
     }
 
     /**
@@ -83,12 +81,12 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     public function getExamples(): array
     {
         return [
-            [['type' => DateOperatorType::TYPE_EQUAL, 'value' => new \DateTime('now')], 'range'],
+            [['type' => DateOperatorType::TYPE_EQUAL, 'value' => new \DateTime('now')], 'equals'],
             [['type' => DateOperatorType::TYPE_GREATER_EQUAL, 'value' => new \DateTime('now')], 'gte'],
             [['type' => DateOperatorType::TYPE_GREATER_THAN, 'value' => new \DateTime('now')], 'gt'],
             [['type' => DateOperatorType::TYPE_LESS_EQUAL, 'value' => new \DateTime('now')], 'lte'],
             [['type' => DateOperatorType::TYPE_LESS_THAN, 'value' => new \DateTime('now')], 'lt'],
-            [['value' => new \DateTime('now')], 'range'],
+            [['value' => new \DateTime('now')], 'equals'],
         ];
     }
 
@@ -97,7 +95,6 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
         $filter = new DateTimeFilter();
         $filter->initialize('field_name', [
             'field_name' => self::DEFAULT_FIELD_NAME,
-            'field_options' => ['class' => 'FooBar'],
         ]);
 
         return $filter;
