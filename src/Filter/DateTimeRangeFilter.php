@@ -13,26 +13,26 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Sonata\Form\Type\DateTimeRangeType;
 
-final class DateFilter extends AbstractDateFilter
+final class DateTimeRangeFilter extends AbstractDateFilter
 {
     /**
-     * This filter has no range.
+     * This Filter allows filtering by time.
      *
      * @var bool
      */
-    protected $range = false;
+    protected $time = true;
 
     /**
-     * This filter does not allow filtering by time.
+     * This is a range filter.
      *
      * @var bool
      */
-    protected $time = false;
+    protected $range = true;
 
     public function getDateFieldType(): string
     {
-        return DateType::class;
+        return DateTimeRangeType::class;
     }
 }
