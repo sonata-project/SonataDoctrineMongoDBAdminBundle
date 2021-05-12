@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Form\Extension\Core\Type\NumberType as SymfonyNumberType;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
@@ -63,7 +64,7 @@ class NumberFilter extends Filter
 
     public function getDefaultOptions()
     {
-        return [];
+        return ['field_type' => SymfonyNumberType::class];
     }
 
     public function getRenderSettings()
