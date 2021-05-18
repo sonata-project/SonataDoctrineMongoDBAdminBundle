@@ -84,6 +84,13 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
+    public function testDefaultValues(): void
+    {
+        $filter = $this->createFilter();
+
+        $this->assertSame(BooleanType::class, $filter->getFieldType());
+    }
+
     private function createFilter(): BooleanFilter
     {
         $filter = new BooleanFilter();

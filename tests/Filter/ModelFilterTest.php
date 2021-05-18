@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\ObjectId;
@@ -275,5 +276,16 @@ final class ModelFilterTest extends TestCase
             [ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB, '.$id'],
             [ClassMetadata::REFERENCE_STORE_AS_DB_REF, '.$id'],
         ];
+    }
+
+    public function testDefaultValues(): void
+    {
+        $filter = new ModelFilter();
+        $filter->initialize('field_name', [
+            'field_name' => 'field_name',
+        ]);
+
+        $this->assertSame(DocumentType::class, $filter->getFieldType());
+        $this->assertSame(EqualOperatorType::class, $filter->getOption('operator_type'));
     }
 }

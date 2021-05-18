@@ -18,12 +18,13 @@ use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class StringFilter extends Filter
 {
     public function getDefaultOptions(): array
     {
-        return [];
+        return ['field_type' => TextType::class];
     }
 
     public function getRenderSettings(): array

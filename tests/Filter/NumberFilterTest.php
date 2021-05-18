@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 final class NumberFilterTest extends FilterWithQueryBuilderTest
 {
@@ -85,6 +86,13 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
             [['type' => NumberOperatorType::TYPE_LESS_THAN, 'value' => 42], 'lt'],
             [['value' => 42], 'equals'],
         ];
+    }
+
+    public function testDefaultValues(): void
+    {
+        $filter = $this->createFilter();
+
+        $this->assertSame(NumberType::class, $filter->getFieldType());
     }
 
     private function createFilter(): NumberFilter

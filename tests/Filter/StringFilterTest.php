@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class StringFilterTest extends FilterWithQueryBuilderTest
 {
@@ -198,5 +199,16 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($queryBuilder);
         $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]));
         $this->assertTrue($filter->isActive());
+    }
+
+    public function testDefaultValues(): void
+    {
+        $filter = new StringFilter();
+        $filter->initialize('field_name', [
+            'field_name' => self::DEFAULT_FIELD_NAME,
+            'format' => '%s',
+        ]);
+
+        $this->assertSame(TextType::class, $filter->getFieldType());
     }
 }

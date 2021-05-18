@@ -13,12 +13,10 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 
-use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Types\Type;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescriptionFactory;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
@@ -97,10 +95,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
         $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
         $this->assertSame($parentAssociation, $options['parent_association_mappings']);
         $this->assertSame(ClassMetadata::ONE, $options['mapping_type']);
-        $this->assertSame(EqualOperatorType::class, $options['operator_type']);
-        $this->assertSame([], $options['operator_options']);
         $this->assertSame($property, $options['field_name']);
-        $this->assertSame(DocumentType::class, $options['field_type']);
         $this->assertSame($targetDocument, $options['field_options']['class']);
     }
 
@@ -130,16 +125,8 @@ final class FilterTypeGuesserTest extends RegistryTestCase
 
         $result = $this->guesser->guess($fieldDescription);
 
-        $options = $result->getOptions();
-
         $this->assertSame($resultType, $result->getType());
         $this->assertSame($confidence, $result->getConfidence());
-        $this->assertSame([], $options['options']);
-        $this->assertSame([], $options['field_options']);
-
-        if ($fieldType) {
-            $this->assertSame($fieldType, $options['field_type']);
-        }
     }
 
     /**
