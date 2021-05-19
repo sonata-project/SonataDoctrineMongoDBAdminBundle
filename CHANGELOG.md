@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.9.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.8.0...3.9.0) - 2021-05-19
+### Added
+- [[#589](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/589)] Added `IdFilter` to be able to filter by id in lists ([@franmomu](https://github.com/franmomu))
+
+### Deprecated
+- [[#586](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/586)] Deprecated `active_callback` option in `CallbackFilter` ([@franmomu](https://github.com/franmomu))
+- [[#586](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/586)] Deprecated not adding `FilterData` as type declaration of argument 4 in the callable passed to `CallbackFilter` ([@franmomu](https://github.com/franmomu))
+- [[#584](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/584)] `templates.form` and `templates.filter` config ([@dmaicher](https://github.com/dmaicher))
+
+### Fixed
+- [[#584](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/584)] Always merge form and filter templates with existing method calls ([@dmaicher](https://github.com/dmaicher))
+
 ## [3.8.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.7.0...3.8.0) - 2021-04-06
 ### Added
 - [[#553](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/553)] Added `Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription` class ([@franmomu](https://github.com/franmomu))
