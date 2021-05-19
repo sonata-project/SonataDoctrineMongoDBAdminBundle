@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
 final class CallbackFilterTest extends FilterWithQueryBuilderTest
@@ -26,8 +27,8 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
             'field_name' => self::DEFAULT_FIELD_NAME,
-            'callback' => static function (): bool {
-                return true;
+            'callback' => static function (ProxyQueryInterface $proxyQuery, string $field, FilterData $data): bool {
+                return $data->hasValue();
             },
         ]);
 
@@ -83,9 +84,9 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         $this->assertTrue($filter->isActive());
     }
 
-    public function customCallback(): bool
+    public function customCallback(ProxyQueryInterface $proxyQuery, string $field, FilterData $data): bool
     {
-        return true;
+        return $data->hasValue();
     }
 
     public function testFilterException(): void

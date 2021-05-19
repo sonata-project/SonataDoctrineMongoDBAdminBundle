@@ -25,9 +25,6 @@ final class CallbackFilter extends Filter
     {
         return [
             'callback' => null,
-            'active_callback' => static function (FilterData $data) {
-                return $data->hasValue() && $data->getValue();
-            },
             'field_type' => TextType::class,
             'operator_type' => HiddenType::class,
             'operator_options' => [],
@@ -54,14 +51,15 @@ final class CallbackFilter extends Filter
             ));
         }
 
-        \call_user_func($this->getOption('callback'), $query, $field, $data);
+        $isActive = \call_user_func($this->getOption('callback'), $query, $field, $data);
 
-        if (\is_callable($this->getOption('active_callback'))) {
-            $this->setActive(\call_user_func($this->getOption('active_callback'), $data));
-
-            return;
+        if (!\is_bool($isActive)) {
+            throw new \UnexpectedValueException(sprintf(
+                'The callback should return a boolean, %s returned',
+                \is_object($isActive) ? 'instance of "'.\get_class($isActive).'"' : '"'.\gettype($isActive).'"'
+            ));
         }
 
-        $this->setActive(true);
+        $this->setActive($isActive);
     }
 }

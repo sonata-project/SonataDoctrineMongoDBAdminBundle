@@ -1,6 +1,19 @@
 UPGRADE 3.x
 ===========
 
+UPGRADE FROM 3.8 to 3.9
+=======================
+
+### Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter
+
+Deprecated not returning a boolean from the `callback` option.
+Deprecated `active_callback` option, you MUST return a boolean in the `callback` option to specify if the filter should
+be active or not.
+
+Not adding `Sonata\AdminBundle\Filter\Model\FilterData` as type declaration of argument 4 of the callable passed to
+`Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter` is deprecated. In version 4.0 this argument will be an
+instance of `Sonata\AdminBundle\Filter\Model\FilterData`.
+
 UPGRADE FROM 3.7 to 3.8
 =======================
 
