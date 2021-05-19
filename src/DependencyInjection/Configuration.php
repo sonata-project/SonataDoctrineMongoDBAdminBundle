@@ -48,7 +48,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('form')
                             ->setDeprecated(
                                 'The "%node%" option is deprecated since sonata-project/doctrine-mongodb-admin-bundle'
-                                .' 3.x. Use "sonata_admin.templates.form_theme" instead.'
+                                .' 3.9. Use "sonata_admin.templates.form_theme" instead.'
                             )
                             ->prototype('scalar')->end()
                             ->defaultValue(['@SonataDoctrineMongoDBAdmin/Form/form_admin_fields.html.twig'])
@@ -57,7 +57,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('filter')
                             ->setDeprecated(
                                 'The "%node%" option is deprecated since sonata-project/doctrine-mongodb-admin-bundle'
-                                .'3.x. Use "sonata_admin.templates.filter_theme" instead.'
+                                .'3.9. Use "sonata_admin.templates.filter_theme" instead.'
                             )
                             ->prototype('scalar')->end()
                             ->defaultValue(['@SonataDoctrineMongoDBAdmin/Form/filter_admin_fields.html.twig'])

@@ -65,7 +65,7 @@ class CallbackFilter extends Filter
             } else {
                 @trigger_error(sprintf(
                     'Not adding "%1$s" as type declaration for argument 4 is deprecated since'
-                    .' sonata-project/doctrine-orm-admin-bundle 3.x and the argument will be a "%1$s" instance in version 4.0.',
+                    .' sonata-project/doctrine-mongodb-admin-bundle 3.9 and the argument will be a "%1$s" instance in version 4.0.',
                     FilterData::class
                 ), \E_USER_DEPRECATED);
             }
@@ -77,7 +77,7 @@ class CallbackFilter extends Filter
         if (!\is_bool($isActive)) {
             @trigger_error(
                 'Using another return type than boolean for the callback option is deprecated'
-                .' since sonata-project/doctrine-mongodb-admin-bundle 3.x and will throw an exception in version 4.0.',
+                .' since sonata-project/doctrine-mongodb-admin-bundle 3.9 and will throw an exception in version 4.0.',
                 \E_USER_DEPRECATED
             );
 
@@ -99,7 +99,7 @@ class CallbackFilter extends Filter
             @trigger_error(
                 sprintf(
                     'Using "active_callback" option in "%s" is deprecated since'
-                .' sonata-project/doctrine-mongodb-admin-bundle 3.x and will be removed version 4.0.'
+                .' sonata-project/doctrine-mongodb-admin-bundle 3.9 and will be removed version 4.0.'
                 .' You MUST return a boolean value for the "callback" option instead.',
                     self::class
                 ),
