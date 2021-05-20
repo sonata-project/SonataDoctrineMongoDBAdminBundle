@@ -1,6 +1,13 @@
 UPGRADE 3.x
 ===========
 
+UPGRADE FROM 3.x to 3.x
+=======================
+
+### Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery
+
+Deprecated `getSingleScalarResult()` method.
+
 UPGRADE FROM 3.8 to 3.9
 =======================
 
