@@ -25,7 +25,7 @@ abstract class AbstractModelManagerTestCase extends TestCase
     use ClassMetadataAnnotationTrait;
 
     /**
-     * @var ModelManager
+     * @var ModelManager<object>
      */
     protected $modelManager;
 
