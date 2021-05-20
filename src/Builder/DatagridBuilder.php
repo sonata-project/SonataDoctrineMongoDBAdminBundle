@@ -22,6 +22,7 @@ use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -130,6 +131,11 @@ final class DatagridBuilder implements DatagridBuilderInterface
 
         $formBuilder = $this->formFactory->createNamedBuilder('filter', FormType::class, [], $defaultOptions);
 
-        return new Datagrid($admin->createQuery(), $admin->getList(), $pager, $formBuilder, $values);
+        $query = $admin->createQuery();
+        if (!$query instanceof ProxyQueryInterface) {
+            throw new \TypeError(sprintf('The admin query MUST implement %s.', ProxyQueryInterface::class));
+        }
+
+        return new Datagrid($query, $admin->getList(), $pager, $formBuilder, $values);
     }
 }

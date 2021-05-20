@@ -13,10 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Model;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use PHPUnit\Framework\MockObject\Stub;
@@ -68,7 +65,6 @@ final class ModelManagerTest extends TestCase
 
         $dm
             ->method('getClassMetadata')
-            ->with(DocumentWithReferences::class)
             ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
 
         $this->assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
