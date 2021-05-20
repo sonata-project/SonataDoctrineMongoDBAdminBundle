@@ -23,18 +23,18 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 final class ModelManagerTest extends TestCase
 {
-    use ExpectDeprecationTrait;
+    use ClassMetadataAnnotationTrait;
 
     /**
      * @var PropertyAccessor
@@ -165,6 +165,11 @@ final class ModelManagerTest extends TestCase
         yield [false, new \stdClass()];
     }
 
+    /**
+     * @phpstan-template T of object
+     * @phpstan-param class-string<T> $class
+     * @phpstan-return ModelManager<T>
+     */
     private function createModelManagerForClass(string $class): ModelManager
     {
         $modelManager = $this->createMock(DocumentManager::class);
@@ -181,17 +186,9 @@ final class ModelManagerTest extends TestCase
             ->with($class)
             ->willReturn($modelManager);
 
-        return new ModelManager($registry, $this->propertyAccessor);
-    }
+        /** @phpstan-var ModelManager<T> $modelManager */
+        $modelManager = new ModelManager($registry, $this->propertyAccessor);
 
-    private function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
-    {
-        $classMetadata = new ClassMetadata($class);
-        $reader = new AnnotationReader();
-
-        $annotationDriver = new AnnotationDriver($reader);
-        $annotationDriver->loadMetadataForClass($class, $classMetadata);
-
-        return $classMetadata;
+        return $modelManager;
     }
 }
