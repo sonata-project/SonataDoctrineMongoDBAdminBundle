@@ -54,6 +54,8 @@ final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
     }
 
     /**
+     * @phpstan-param class-string $baseClass
+     *
      * @phpstan-return array{
      *      ClassMetadata,
      *      string,
@@ -71,6 +73,7 @@ final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
             $metadata = $this->getMetadata($class);
             $parentAssociationMappings[] = $metadata->associationMappings[$nameElement];
             $class = $metadata->getAssociationTargetClass($nameElement);
+            \assert($class !== null);
         }
 
         return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];

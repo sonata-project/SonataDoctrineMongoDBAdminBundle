@@ -52,6 +52,11 @@ final class ProxyQuery implements ProxyQueryInterface
         $this->queryBuilder = $queryBuilder;
     }
 
+    /**
+     * @param mixed[] $args
+     *
+     * @return false|mixed
+     */
     public function __call(string $name, array $args)
     {
         return \call_user_func_array([$this->queryBuilder, $name], $args);

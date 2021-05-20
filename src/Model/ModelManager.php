@@ -25,6 +25,11 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
+/**
+ * @phpstan-template T of object
+ *
+ * @template-implements ModelManagerInterface<T>
+ */
 final class ModelManager implements ModelManagerInterface
 {
     public const ID_SEPARATOR = '-';
