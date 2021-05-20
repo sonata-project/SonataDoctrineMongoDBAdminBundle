@@ -147,7 +147,10 @@ final class ModelManager implements ModelManagerInterface
         }
 
         if ($query instanceof ProxyQuery) {
-            return $query->execute();
+            /** @phpstan-var Iterator $results */
+            $results = $query->execute();
+
+            return $results;
         }
 
         throw new \TypeError(sprintf(
