@@ -55,11 +55,11 @@ final class ProxyQuery implements ProxyQueryInterface
     /**
      * @param mixed[] $args
      *
-     * @return false|mixed
+     * @return mixed
      */
     public function __call(string $name, array $args)
     {
-        return \call_user_func_array([$this->queryBuilder, $name], $args);
+        return $this->queryBuilder->$name(...$args);
     }
 
     public function __clone()
