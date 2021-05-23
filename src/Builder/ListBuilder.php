@@ -49,6 +49,13 @@ final class ListBuilder implements ListBuilderInterface
     {
         if (null === $type) {
             $guessType = $this->guesser->guess($fieldDescription);
+            if (null === $guessType) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Cannot guess a type for the field description "%s", You MUST provide a type.',
+                    $fieldDescription->getName()
+                ));
+            }
+
             $fieldDescription->setType($guessType->getType());
         } else {
             $fieldDescription->setType($type);
@@ -81,14 +88,15 @@ final class ListBuilder implements ListBuilderInterface
             $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
         }
 
-        if (!$fieldDescription->getType()) {
+        $type = $fieldDescription->getType();
+        if (null === $type) {
             throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($fieldDescription->getAdmin())));
         }
 
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
+            $fieldDescription->setTemplate($this->getTemplate($type));
         }
 
         if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
