@@ -33,7 +33,7 @@ final class ProxyQuery implements ProxyQueryInterface
     private $sortBy;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $sortOrder;
 
@@ -78,7 +78,7 @@ final class ProxyQuery implements ProxyQueryInterface
         // todo : check how doctrine behave, potential SQL injection here ...
         $sortBy = $this->getSortBy();
         if ($sortBy) {
-            $queryBuilder->sort($sortBy, $this->getSortOrder());
+            $queryBuilder->sort($sortBy, $this->getSortOrder() ?? 'asc');
         }
 
         $result = $queryBuilder->getQuery()->execute();
