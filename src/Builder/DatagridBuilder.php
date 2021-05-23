@@ -94,7 +94,14 @@ final class DatagridBuilder implements DatagridBuilderInterface
     {
         if (null === $type) {
             $guessType = $this->guesser->guess($fieldDescription);
+            if (null === $guessType) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Cannot guess a type for the field description "%s", You MUST provide a type.',
+                    $fieldDescription->getName()
+                ));
+            }
 
+            /** @phpstan-var class-string $type */
             $type = $guessType->getType();
 
             $fieldDescription->setType($type);
