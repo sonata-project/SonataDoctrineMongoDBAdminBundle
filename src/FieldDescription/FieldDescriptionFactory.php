@@ -73,7 +73,6 @@ final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
             $metadata = $this->getMetadata($class);
             $parentAssociationMappings[] = $metadata->associationMappings[$nameElement];
             $class = $metadata->getAssociationTargetClass($nameElement);
-            \assert(null !== $class);
         }
 
         return [$this->getMetadata($class), $lastPropertyName, $parentAssociationMappings];

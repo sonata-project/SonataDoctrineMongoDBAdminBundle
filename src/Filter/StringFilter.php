@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
+use Doctrine\ODM\MongoDB\Query\Expr;
 use MongoDB\BSON\Regex;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
@@ -64,6 +65,7 @@ final class StringFilter extends Filter
         }
 
         if (self::CONDITION_OR === $this->condition) {
+            \assert($obj instanceof Expr);
             $query->getQueryBuilder()->addOr($obj);
         }
 
