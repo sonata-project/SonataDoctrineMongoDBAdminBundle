@@ -37,15 +37,27 @@ final class Pager extends BasePager
 
     public function getCurrentPageResults(): iterable
     {
-        return $this->getQuery()->execute();
+        $query = $this->getQuery();
+
+        if (null === $query) {
+            throw new \RuntimeException('Uninitialized query');
+        }
+
+        return $query->execute();
     }
 
     public function init(): void
     {
-        $this->resultsCount = $this->computeResultsCount();
+        $query = $this->getQuery();
 
-        $this->getQuery()->setFirstResult(0);
-        $this->getQuery()->setMaxResults(0);
+        if (null === $query) {
+            throw new \RuntimeException('Uninitialized query');
+        }
+
+        $this->resultsCount = $this->computeResultsCount($query);
+
+        $query->setFirstResult(0);
+        $query->setMaxResults(0);
 
         if (0 === $this->getPage() || 0 === $this->getMaxPerPage() || 0 === $this->countResults()) {
             $this->setLastPage(0);
@@ -54,15 +66,19 @@ final class Pager extends BasePager
 
             $this->setLastPage((int) ceil($this->countResults() / $this->getMaxPerPage()));
 
-            $this->getQuery()->setFirstResult($offset);
-            $this->getQuery()->setMaxResults($this->getMaxPerPage());
+            $query->setFirstResult($offset);
+            $query->setMaxResults($this->getMaxPerPage());
         }
     }
 
-    private function computeResultsCount(): int
+    private function computeResultsCount(ProxyQueryInterface $query): int
     {
-        $countQuery = clone $this->getQuery();
+        $countQuery = clone $query;
 
-        return (int) $countQuery->getQueryBuilder()->count()->getQuery()->execute();
+        $result = $countQuery->getQueryBuilder()->count()->getQuery()->execute();
+
+        \assert(\is_int($result));
+
+        return $result;
     }
 }
