@@ -40,7 +40,7 @@ final class Pager extends BasePager
         $query = $this->getQuery();
 
         if (null === $query) {
-            throw new \RuntimeException('Uninitialized query');
+            throw new \RuntimeException('Uninitialized query.');
         }
 
         return $query->execute();
@@ -51,7 +51,7 @@ final class Pager extends BasePager
         $query = $this->getQuery();
 
         if (null === $query) {
-            throw new \RuntimeException('Uninitialized query');
+            throw new \RuntimeException('Uninitialized query.');
         }
 
         $this->resultsCount = $this->computeResultsCount($query);

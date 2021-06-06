@@ -54,7 +54,7 @@ final class ShowBuilder implements ShowBuilderInterface
             $guessType = $this->guesser->guess($fieldDescription);
             if (null === $guessType) {
                 throw new \InvalidArgumentException(sprintf(
-                    'Cannot guess a type for the field description "%s", You MUST provide a type.',
+                    'Cannot guess a type for the field description "%s", you MUST provide a type.',
                     $fieldDescription->getName()
                 ));
             }
