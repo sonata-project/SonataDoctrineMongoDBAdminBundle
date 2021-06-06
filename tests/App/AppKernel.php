@@ -71,6 +71,11 @@ final class AppKernel extends Kernel
         return __DIR__;
     }
 
+    /**
+     * TODO: Use RoutingConfigurator when dropping support of symfony < 5.1
+     *
+     * @psalm-suppress DeprecatedClass
+     */
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $routes->import(sprintf('%s/config/routes.yaml', $this->getProjectDir()));
