@@ -207,8 +207,12 @@ final class ModelManager implements ModelManagerInterface
 
         $documentManager = $this->getDocumentManager($class);
 
+        $iterator = $queryBuilder->execute();
+
+        assert($iterator instanceof Iterator);
+
         $i = 0;
-        foreach ($queryBuilder->execute() as $object) {
+        foreach ($iterator as $object) {
             $documentManager->remove($object);
 
             if (0 === (++$i % 20)) {

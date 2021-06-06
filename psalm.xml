@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" errorLevel="4" resolveFromConfigFile="true" xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd" autoloader="vendor/bin/.phpunit/phpunit/vendor/autoload.php">
+<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" errorLevel="3" resolveFromConfigFile="true" xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd" autoloader="vendor/bin/.phpunit/phpunit/vendor/autoload.php">
     <projectFiles>
         <directory name="src"/>
         <directory name="tests"/>
@@ -16,16 +16,6 @@
             <errorLevel type="suppress">
                 <!-- TODO: This will be fixed when regex would allow as an expression -->
                 <file name="src/Filter/StringFilter.php"/>
-                <!-- TODO: Remove when PagerInterface uses a covariant template -->
-                <referencedFunction name="Sonata\AdminBundle\Datagrid\Datagrid::__construct"/>
-                <!-- NEXT_MAJOR: Remove next lines when https://github.com/sonata-project/SonataAdminBundle/pull/6887 is merged -->
-                <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter::apply"/>
-                <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter::apply"/>
-                <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter::apply"/>
-                <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Filter\FilterTest_Filter::apply"/>
-                <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter::apply"/>
-                <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter::apply"/>
-                <referencedFunction name="Sonata\DoctrineMongoDBAdminBundle\Tests\Filter\FilterTest_Filter::apply"/>
             </errorLevel>
         </InvalidArgument>
     </issueHandlers>
