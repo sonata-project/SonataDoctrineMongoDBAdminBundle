@@ -78,6 +78,9 @@ class FieldDescription extends BaseFieldDescription
         $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
+    /**
+     * @psalm-suppress DocblockTypeContradiction
+     */
     protected function setParentAssociationMappings(array $parentAssociationMappings): void
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {
