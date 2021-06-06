@@ -43,9 +43,9 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return array<array{mixed}>
+     * @phpstan-return iterable<array{start?: mixed, end?: mixed}>
      */
-    public function getNotApplicableValues(): array
+    public function getNotApplicableValues(): iterable
     {
         return [
             [[]],
