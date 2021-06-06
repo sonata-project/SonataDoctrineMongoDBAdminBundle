@@ -25,7 +25,7 @@ class ContainerDocument
      *
      * @var int
      */
-    protected $plainField;
+    protected $plainField = 0;
 
     /**
      * @ODM\ReferenceOne(targetDocument=AssociatedDocument::class)

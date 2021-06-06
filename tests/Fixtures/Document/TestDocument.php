@@ -25,28 +25,28 @@ class TestDocument
      *
      * @var bool
      */
-    public $schwifty;
+    public $schwifty = false;
 
     /**
      * @ODM\Field(type="int")
      *
      * @var int
      */
-    private $schmeckles;
+    private $schmeckles = 0;
 
     /**
      * @ODM\Field(type="string")
      *
      * @var string
      */
-    private $multiWordProperty;
+    private $multiWordProperty = '';
 
     /**
      * @ODM\Field(type="int")
      *
      * @var int
      */
-    private $plumbus;
+    private $plumbus = 0;
 
     public function getSchmeckles(): int
     {

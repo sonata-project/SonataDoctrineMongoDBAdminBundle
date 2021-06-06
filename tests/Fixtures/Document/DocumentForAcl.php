@@ -23,7 +23,7 @@ class DocumentForAcl
     /**
      * @ODM\Id
      *
-     * @var string
+     * @var string|null
      */
     private $id;
 
