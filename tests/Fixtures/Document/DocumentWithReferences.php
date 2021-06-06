@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
@@ -22,7 +23,7 @@ class DocumentWithReferences
     /**
      * @ODM\Id
      *
-     * @var string
+     * @var string|null
      */
     private $id;
 
@@ -58,5 +59,6 @@ class DocumentWithReferences
     {
         $this->name = $name;
         $this->embeddedDocument = $embeddedDocument;
+        $this->embeddedDocuments = new ArrayCollection();
     }
 }
