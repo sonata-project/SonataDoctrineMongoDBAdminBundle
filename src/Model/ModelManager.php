@@ -73,22 +73,7 @@ final class ModelManager implements ModelManagerInterface
 
     public function find(string $class, $id): ?object
     {
-        if (null === $id) {
-            throw new \TypeError(sprintf(
-                'Argument 2 passed to "%s()" cannot be null.',
-                __METHOD__
-            ));
-        }
-
         $documentManager = $this->getDocumentManager($class);
-
-        if (is_numeric($id)) {
-            $value = $documentManager->getRepository($class)->find((int) $id);
-
-            if (!empty($value)) {
-                return $value;
-            }
-        }
 
         return $documentManager->getRepository($class)->find($id);
     }
