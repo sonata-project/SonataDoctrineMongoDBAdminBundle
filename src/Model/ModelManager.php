@@ -122,6 +122,9 @@ final class ModelManager implements ModelManagerInterface
         return $query instanceof ProxyQuery || $query instanceof Builder;
     }
 
+    /**
+     * @psalm-suppress TooManyTemplateParams until release of doctrine/mongodb-odm 2.3
+     */
     public function executeQuery(object $query)
     {
         if ($query instanceof Builder) {
@@ -132,7 +135,7 @@ final class ModelManager implements ModelManagerInterface
         }
 
         if ($query instanceof ProxyQuery) {
-            /** @phpstan-var Iterator $results */
+            /** @phpstan-var Iterator<T> $results */
             $results = $query->execute();
 
             return $results;
@@ -194,7 +197,7 @@ final class ModelManager implements ModelManagerInterface
 
         $iterator = $queryBuilder->execute();
 
-        assert($iterator instanceof Iterator);
+        \assert($iterator instanceof Iterator);
 
         $i = 0;
         foreach ($iterator as $object) {

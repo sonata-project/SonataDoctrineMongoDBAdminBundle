@@ -72,7 +72,7 @@ final class AppKernel extends Kernel
     }
 
     /**
-     * TODO: Use RoutingConfigurator when dropping support of symfony < 5.1
+     * TODO: Use RoutingConfigurator when dropping support of symfony < 5.1.
      *
      * @psalm-suppress DeprecatedClass
      */
