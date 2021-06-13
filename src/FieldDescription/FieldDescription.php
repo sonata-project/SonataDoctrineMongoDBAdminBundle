@@ -62,17 +62,13 @@ final class FieldDescription extends BaseFieldDescription
     protected function setAssociationMapping(array $associationMapping): void
     {
         $this->associationMapping = $associationMapping;
-
         $this->mappingType = $this->mappingType ?? $associationMapping['type'];
-        $this->fieldName = $associationMapping['fieldName'];
     }
 
     protected function setFieldMapping(array $fieldMapping): void
     {
         $this->fieldMapping = $fieldMapping;
-
         $this->mappingType = $this->mappingType ?? $fieldMapping['type'];
-        $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
     /**
