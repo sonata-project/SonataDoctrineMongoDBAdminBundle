@@ -72,7 +72,7 @@ final class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * @psalm-suppress DocblockTypeContradiction
+     * @psalm-suppress DocblockTypeContradiction see https://github.com/vimeo/psalm/issues/5643
      */
     protected function setParentAssociationMappings(array $parentAssociationMappings): void
     {

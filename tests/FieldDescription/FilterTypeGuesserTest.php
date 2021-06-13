@@ -137,6 +137,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
     public function noAssociationData(): iterable
     {
         return [
+            // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
             Type::BOOLEAN => [
                 'boolean',
                 BooleanFilter::class,
