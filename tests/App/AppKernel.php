@@ -28,6 +28,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
 final class AppKernel extends Kernel
@@ -74,9 +75,11 @@ final class AppKernel extends Kernel
     /**
      * TODO: Use RoutingConfigurator when dropping support of symfony < 5.1.
      *
+     * @param RoutingConfigurator|RouteCollectionBuilder $routes
+     *
      * @psalm-suppress DeprecatedClass
      */
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    protected function configureRoutes($routes): void
     {
         $routes->import(sprintf('%s/config/routes.yaml', $this->getProjectDir()));
     }
