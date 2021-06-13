@@ -16,10 +16,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\FieldDescription;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\FieldDescription\BaseFieldDescription;
 
-/**
- * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
- */
-class FieldDescription extends BaseFieldDescription
+final class FieldDescription extends BaseFieldDescription
 {
     public function getTargetModel(): ?string
     {
