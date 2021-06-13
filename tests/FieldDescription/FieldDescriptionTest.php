@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Admin;
+namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescription;
@@ -30,7 +30,7 @@ final class FieldDescriptionTest extends TestCase
             ]
         );
 
-        $this->assertSame('position', $field->getFieldName());
+        $this->assertSame('integer', $field->getMappingType());
     }
 
     public function testGetAssociationMapping(): void
@@ -55,18 +55,6 @@ final class FieldDescriptionTest extends TestCase
         $field = new FieldDescription('name', [], $fieldMapping);
 
         $this->assertSame('integer', $field->getMappingType());
-    }
-
-    public function testSetFieldMappingSetFieldName(): void
-    {
-        $fieldMapping = [
-            'type' => 'integer',
-            'fieldName' => 'position',
-        ];
-
-        $field = new FieldDescription('position', [], $fieldMapping);
-
-        $this->assertSame('position', $field->getFieldName());
     }
 
     public function testGetTargetModel(): void
