@@ -63,7 +63,7 @@ final class FieldDescription extends BaseFieldDescription
     {
         $this->associationMapping = $associationMapping;
 
-        $this->mappingType = $this->mappingType ?: $associationMapping['type'];
+        $this->mappingType = $this->mappingType ?? $associationMapping['type'];
         $this->fieldName = $associationMapping['fieldName'];
     }
 
@@ -71,7 +71,7 @@ final class FieldDescription extends BaseFieldDescription
     {
         $this->fieldMapping = $fieldMapping;
 
-        $this->mappingType = $this->mappingType ?: $fieldMapping['type'];
+        $this->mappingType = $this->mappingType ?? $fieldMapping['type'];
         $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
