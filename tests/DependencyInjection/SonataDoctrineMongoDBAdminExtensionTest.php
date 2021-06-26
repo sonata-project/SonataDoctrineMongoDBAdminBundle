@@ -27,7 +27,6 @@ final class SonataDoctrineMongoDBAdminExtensionTest extends AbstractExtensionTes
         $this->assertContainerBuilderHasService('sonata.admin.builder.doctrine_mongodb_form');
         $this->assertContainerBuilderHasService('sonata.admin.builder.doctrine_mongodb_list');
         $this->assertContainerBuilderHasService('sonata.admin.guesser.doctrine_mongodb_list');
-        $this->assertContainerBuilderHasService('sonata.admin.guesser.doctrine_mongodb_list_filter');
         $this->assertContainerBuilderHasService('sonata.admin.guesser.doctrine_mongodb_list_chain');
         $this->assertContainerBuilderHasService('sonata.admin.builder.doctrine_mongodb_show');
         $this->assertContainerBuilderHasService('sonata.admin.guesser.doctrine_mongodb_show');
