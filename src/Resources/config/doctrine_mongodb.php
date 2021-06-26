@@ -50,9 +50,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.guesser.doctrine_mongodb_list', TypeGuesser::class)
             ->tag('sonata.admin.guesser.doctrine_mongodb_list')
 
-        ->set('sonata.admin.guesser.doctrine_mongodb_list_filter', FilterTypeGuesser::class)
-            ->deprecate('The "%service_id%" service is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in 4.0. Use "sonata.admin.guesser.doctrine_mongodb_datagrid" service instead.')
-
         ->set('sonata.admin.guesser.doctrine_mongodb_list_chain', TypeGuesserChain::class)
             ->args([
                 [
