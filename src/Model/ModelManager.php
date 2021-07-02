@@ -375,9 +375,9 @@ class ModelManager implements ModelManagerInterface
         return $this->getMetadata($class, 'sonata_deprecation_mute')->identifier;
     }
 
-    public function getIdentifierValues($document)
+    public function getIdentifierValues($model)
     {
-        return [$this->getDocumentManager($document)->getUnitOfWork()->getDocumentIdentifier($document)];
+        return [$this->getDocumentManager($model)->getUnitOfWork()->getDocumentIdentifier($model)];
     }
 
     public function getIdentifierFieldNames($class)
@@ -386,10 +386,10 @@ class ModelManager implements ModelManagerInterface
         return $this->getMetadata($class, 'sonata_deprecation_mute')->getIdentifier();
     }
 
-    public function getNormalizedIdentifier($document)
+    public function getNormalizedIdentifier($model)
     {
         // NEXT_MAJOR: Remove the following 2 checks and declare "object" as type for argument 1.
-        if (null === $document) {
+        if (null === $model) {
             @trigger_error(sprintf(
                 'Passing null as argument 1 for %s() is deprecated since'
                 .' sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.',
@@ -399,24 +399,24 @@ class ModelManager implements ModelManagerInterface
             return null;
         }
 
-        if (!\is_object($document)) {
+        if (!\is_object($model)) {
             throw new \RuntimeException('Invalid argument, object or null required');
         }
 
         // the document is not managed
-        if (!$this->getDocumentManager($document)->contains($document)) {
+        if (!$this->getDocumentManager($model)->contains($model)) {
             return null;
         }
 
-        $values = $this->getIdentifierValues($document);
+        $values = $this->getIdentifierValues($model);
 
         return implode(self::ID_SEPARATOR, $values);
     }
 
-    public function getUrlSafeIdentifier($document)
+    public function getUrlSafeIdentifier($model)
     {
         // NEXT_MAJOR: Remove the following check and declare "object" as type for argument 1.
-        if (!\is_object($document)) {
+        if (!\is_object($model)) {
             @trigger_error(sprintf(
                 'Passing other type than object for argument 1 for %s() is deprecated since'
                 .' sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.',
@@ -426,7 +426,7 @@ class ModelManager implements ModelManagerInterface
             return null;
         }
 
-        return $this->getNormalizedIdentifier($document);
+        return $this->getNormalizedIdentifier($model);
     }
 
     /**
