@@ -89,10 +89,6 @@ class DatagridBuilder implements DatagridBuilderInterface
             // set the default field mapping
             if (isset($metadata->fieldMappings[$lastPropertyName])) {
                 $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $metadata->fieldMappings[$lastPropertyName]));
-
-                if ('string' === $metadata->fieldMappings[$lastPropertyName]['type']) {
-                    $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
-                }
             }
 
             // set the default association mapping
@@ -106,10 +102,6 @@ class DatagridBuilder implements DatagridBuilderInterface
         // NEXT_MAJOR: Uncomment this code.
         //if ([] !== $fieldDescription->getFieldMapping()) {
         //    $fieldDescription->setOption('field_mapping', $fieldDescription->getOption('field_mapping', $fieldDescription->getFieldMapping()));
-        //
-        //    if ('string' === $fieldDescription->getFieldMapping()['type']) {
-        //        $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
-        //    }
         //}
         //
         //if ([] !== $fieldDescription->getAssociationMapping()) {

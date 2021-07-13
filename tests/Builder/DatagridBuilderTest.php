@@ -123,7 +123,6 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
         $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
-        $this->assertTrue($fieldDescription->getOption('global_search'));
     }
 
     public function testFixFieldDescriptionWithAssociationMapping(): void

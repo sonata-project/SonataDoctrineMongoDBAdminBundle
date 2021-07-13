@@ -17,13 +17,14 @@ use MongoDB\BSON\Regex;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
+use Sonata\AdminBundle\Search\SearchableFilterInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
  */
-class StringFilter extends Filter
+class StringFilter extends Filter implements SearchableFilterInterface
 {
     /**
      * NEXT_MAJOR: Remove $alias parameter.
@@ -77,7 +78,15 @@ class StringFilter extends Filter
 
     public function getDefaultOptions()
     {
-        return ['field_type' => TextType::class];
+        return [
+            'field_type' => TextType::class,
+            'global_search' => true,
+        ];
+    }
+
+    public function isSearchEnabled(): bool
+    {
+        return $this->getOption('global_search');
     }
 
     public function getRenderSettings()
