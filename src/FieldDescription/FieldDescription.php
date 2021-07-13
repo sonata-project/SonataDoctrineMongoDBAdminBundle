@@ -43,20 +43,12 @@ final class FieldDescription extends BaseFieldDescription
 
     public function describesSingleValuedAssociation(): bool
     {
-        return \in_array($this->mappingType, [
-            ClassMetadata::ONE,
-            ClassMetadata::REFERENCE_ONE,
-            ClassMetadata::EMBED_ONE,
-        ], true);
+        return ClassMetadata::ONE === $this->mappingType;
     }
 
     public function describesCollectionValuedAssociation(): bool
     {
-        return \in_array($this->mappingType, [
-            ClassMetadata::MANY,
-            ClassMetadata::REFERENCE_MANY,
-            ClassMetadata::EMBED_MANY,
-        ], true);
+        return ClassMetadata::MANY === $this->mappingType;
     }
 
     protected function setAssociationMapping(array $associationMapping): void
