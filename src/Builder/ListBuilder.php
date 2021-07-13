@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
@@ -99,7 +98,7 @@ final class ListBuilder implements ListBuilderInterface
             $fieldDescription->setTemplate($this->getTemplate($type));
         }
 
-        if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::ONE, ClassMetadata::MANY], true)) {
+        if ($fieldDescription->describesAssociation()) {
             $fieldDescription->getAdmin()->attachAdminClass($fieldDescription);
         }
     }
