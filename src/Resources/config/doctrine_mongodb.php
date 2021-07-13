@@ -32,19 +32,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.manager.doctrine_mongodb', ModelManager::class)
             ->tag('sonata.admin.manager')
             ->args([
-                (new ReferenceConfigurator('doctrine_mongodb'))->ignoreOnInvalid(),
+                new ReferenceConfigurator('doctrine_mongodb'),
                 new ReferenceConfigurator('property_accessor'),
             ])
 
         ->set('sonata.admin.builder.doctrine_mongodb_form', FormContractor::class)
             ->args([
-                (new ReferenceConfigurator('form.factory'))->ignoreOnInvalid(),
-                (new ReferenceConfigurator('form.registry'))->ignoreOnInvalid(),
+                new ReferenceConfigurator('form.factory'),
+                new ReferenceConfigurator('form.registry'),
             ])
 
         ->set('sonata.admin.builder.doctrine_mongodb_list', ListBuilder::class)
             ->args([
-                (new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_list_chain'))->ignoreOnInvalid(),
+                new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_list_chain'),
                 [],
             ])
 
@@ -63,7 +63,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         ->set('sonata.admin.builder.doctrine_mongodb_show', ShowBuilder::class)
             ->args([
-                (new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_show_chain'))->ignoreOnInvalid(),
+                new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_show_chain'),
                 [],
             ])
 
@@ -79,9 +79,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         ->set('sonata.admin.builder.doctrine_mongodb_datagrid', DatagridBuilder::class)
             ->args([
-                (new ReferenceConfigurator('form.factory'))->ignoreOnInvalid(),
-                (new ReferenceConfigurator('sonata.admin.builder.filter.factory'))->ignoreOnInvalid(),
-                (new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_datagrid_chain'))->ignoreOnInvalid(),
+                new ReferenceConfigurator('form.factory'),
+                new ReferenceConfigurator('sonata.admin.builder.filter.factory'),
+                new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_datagrid_chain'),
                 '%form.type_extension.csrf.enabled%',
             ])
 
