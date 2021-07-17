@@ -112,7 +112,6 @@ final class DatagridBuilderTest extends TestCase
         $this->datagridBuilder->fixFieldDescription($fieldDescription);
 
         $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
-        $this->assertTrue($fieldDescription->getOption('global_search'));
     }
 
     public function testFixFieldDescriptionWithAssociationMapping(): void

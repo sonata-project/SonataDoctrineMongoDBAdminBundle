@@ -24,6 +24,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class StringFilterTest extends FilterWithQueryBuilderTest
 {
+    public function testSearchEnabled(): void
+    {
+        $filter = new StringFilter();
+        $filter->initialize('field_name', []);
+        $this->assertTrue($filter->isSearchEnabled());
+
+        $filter = new StringFilter();
+        $filter->initialize('field_name', ['global_search' => false]);
+        $this->assertFalse($filter->isSearchEnabled());
+    }
+
     public function testEmpty(): void
     {
         $filter = new StringFilter();
