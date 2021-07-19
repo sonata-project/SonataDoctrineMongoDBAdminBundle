@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.10.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.9.0...3.10.0) - 2021-07-20
+### Added
+- [[#610](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/610)] `global_search` option to the `StringFilter` ([@VincentLanglet](https://github.com/VincentLanglet))
+
+### Deprecated
+- [[#599](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/599)] Deprecated `ProxyQuery::getSingleScalarResult()` method. ([@franmomu](https://github.com/franmomu))
+
+### Fixed
+- [[#607](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/607)] Compatibility with SonataAdminBundle 3.x ([@dmaicher](https://github.com/dmaicher))
+- [[#610](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/610)] Stop using `ChoiceTypeFilter` for global search ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [3.9.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.8.0...3.9.0) - 2021-05-19
 ### Added
 - [[#589](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/589)] Added `IdFilter` to be able to filter by id in lists ([@franmomu](https://github.com/franmomu))
