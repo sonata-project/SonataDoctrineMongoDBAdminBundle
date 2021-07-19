@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [[#610](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/610)] `global_search` option to the `StringFilter` ([@VincentLanglet](https://github.com/VincentLanglet))
 
 ### Deprecated
-- [[#599](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/599)] Deprecated `ProxyQuery::getSingleScalarResult()` method. ([@franmomu](https://github.com/franmomu))
+- [[#599](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/599)] Deprecated `ProxyQuery::getSingleScalarResult()` method ([@franmomu](https://github.com/franmomu))
 
 ### Fixed
 - [[#607](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/607)] Compatibility with SonataAdminBundle 3.x ([@dmaicher](https://github.com/dmaicher))
