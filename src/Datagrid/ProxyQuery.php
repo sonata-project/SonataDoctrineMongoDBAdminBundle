@@ -131,12 +131,12 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * NEXT_MAJOR: Remove this method.
      *
-     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x, to be removed in 4.0.
+     * @deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.10, to be removed in 4.0.
      */
     public function getSingleScalarResult()
     {
         @trigger_error(sprintf(
-            'The method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.x'
+            'The method "%s()" is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.10'
             .' and will be removed in version 4.0.',
             __METHOD__
         ), \E_USER_DEPRECATED);
