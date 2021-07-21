@@ -83,11 +83,9 @@ abstract class AbstractDateFilter extends Filter
 
         $value = $data->getValue();
 
-        if (!$value instanceof \DateTimeInterface) {
+        if (!$value instanceof \DateTime && !$value instanceof \DateTimeImmutable) {
             return;
         }
-
-        \assert($value instanceof \DateTime || $value instanceof \DateTimeImmutable);
 
         //default type for simple filter
         $type = $data->getType() ?? DateOperatorType::TYPE_EQUAL;
