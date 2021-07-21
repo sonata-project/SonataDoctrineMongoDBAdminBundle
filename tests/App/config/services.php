@@ -31,7 +31,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->load('Sonata\\DoctrineMongoDBAdminBundle\\Tests\\App\\DataFixtures\\', dirname(__DIR__).'/DataFixtures')
 
         ->set(CategoryAdmin::class)
-            ->public()
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
                 'label' => 'Category',
@@ -43,7 +42,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ])
 
         ->set(BookAdmin::class)
-            ->public()
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
                 'label' => 'Book',
@@ -55,7 +53,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ])
 
         ->set(AuthorAdmin::class)
-            ->public()
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
                 'label' => 'Author',
@@ -67,7 +64,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ])
 
         ->set(AddressAdmin::class)
-            ->public()
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
                 'label' => 'Address',
@@ -79,7 +75,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ])
 
         ->set(PhoneNumberAdmin::class)
-            ->public()
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
                 'label' => 'PhoneNumber',
