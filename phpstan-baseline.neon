@@ -1,7 +1,10 @@
 parameters:
-	ignoreErrors:
-		- # Fixed in https://github.com/doctrine/mongodb-odm/pull/2307
-			message: "#^Parameter \\#1 \\$expression of method Doctrine\\\\ODM\\\\MongoDB\\\\Query\\\\Builder\\:\\:not\\(\\) expects array\\|Doctrine\\\\ODM\\\\MongoDB\\\\Query\\\\Expr, MongoDB\\\\BSON\\\\Regex given\\.$#"
-			count: 1
-			path: src/Filter/StringFilter.php
+    ignoreErrors:
+        - # Disallow VariableMethodCallRule and VariablePropertyFetchRule
+            message: '#^Variable (method call|property access)#'
+            path: .
+        - # Fixed in https://github.com/doctrine/mongodb-odm/pull/2307
+            message: "#^Parameter \\#1 \\$expression of method Doctrine\\\\ODM\\\\MongoDB\\\\Query\\\\Builder\\:\\:not\\(\\) expects array\\|Doctrine\\\\ODM\\\\MongoDB\\\\Query\\\\Expr, MongoDB\\\\BSON\\\\Regex given\\.$#"
+            count: 1
+            path: src/Filter/StringFilter.php
 

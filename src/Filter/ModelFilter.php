@@ -90,10 +90,6 @@ final class ModelFilter extends Filter
 
     protected function handleScalar(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
-        if (empty($data->getValue())) {
-            return;
-        }
-
         $id = self::fixIdentifier($data->getValue()->getId());
 
         if ($data->isType(EqualOperatorType::TYPE_NOT_EQUAL)) {

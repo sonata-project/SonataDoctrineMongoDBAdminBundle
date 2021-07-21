@@ -54,13 +54,13 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery = new ProxyQuery($this->queryBuilder);
 
         $this->queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('limit')
             ->with(0);
 
         $proxyQuery->setMaxResults(null);
 
-        $this->assertNull($proxyQuery->getMaxResults());
+        self::assertNull($proxyQuery->getMaxResults());
     }
 
     public function testSetSkipToZeroWhenResettingFirstResult(): void
@@ -68,13 +68,13 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery = new ProxyQuery($this->queryBuilder);
 
         $this->queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('skip')
             ->with(0);
 
         $proxyQuery->setFirstResult(null);
 
-        $this->assertNull($proxyQuery->getFirstResult());
+        self::assertNull($proxyQuery->getFirstResult());
     }
 
     public function testSorting(): void
@@ -83,12 +83,12 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery->setSortBy([], ['fieldName' => 'name']);
         $proxyQuery->setSortOrder('ASC');
 
-        $this->assertSame(
+        self::assertSame(
             'name',
             $proxyQuery->getSortBy()
         );
 
-        $this->assertSame(
+        self::assertSame(
             'ASC',
             $proxyQuery->getSortOrder()
         );
@@ -101,7 +101,7 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery = new ProxyQuery($queryBuilder);
         $proxyQuery->setSortBy([['fieldName' => 'embeddedDocument']], ['fieldName' => 'position']);
 
-        $this->assertSame(
+        self::assertSame(
             'embeddedDocument.position',
             $proxyQuery->getSortBy()
         );
@@ -125,7 +125,7 @@ final class ProxyQueryTest extends TestCase
         /** @var array{array{name: string}} $result */
         $result = $proxyQuery->execute()->toArray();
 
-        $this->assertSame(['B', 'A'], $this->getNames($result));
+        self::assertSame(['B', 'A'], $this->getNames($result));
     }
 
     public function testExecuteAllowsSortingWithEmbedded(): void
@@ -149,7 +149,7 @@ final class ProxyQueryTest extends TestCase
         /** @var array{array{name: string}} $result */
         $result = $proxyQuery->execute()->toArray();
 
-        $this->assertSame(['B', 'A'], $this->getNames($result));
+        self::assertSame(['B', 'A'], $this->getNames($result));
     }
 
     /**
@@ -159,7 +159,7 @@ final class ProxyQueryTest extends TestCase
      */
     private function getNames(array $results): array
     {
-        return array_values(array_map(static function (array $result) {
+        return array_values(array_map(static function (array $result): string {
             return $result['name'];
         }, $results));
     }

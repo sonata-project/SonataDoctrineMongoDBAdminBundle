@@ -26,21 +26,21 @@ final class FieldDescriptionFactoryTest extends RegistryTestCase
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'plainField');
 
-        $this->assertSame('edit', $fieldDescription->getOption('route')['name']);
+        self::assertSame('edit', $fieldDescription->getOption('route')['name']);
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'plainField');
-        $this->assertSame(Type::INT, $fieldDescription->getMappingType());
+        self::assertSame(Type::INT, $fieldDescription->getMappingType());
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'associatedDocument.plainField');
-        $this->assertSame(Type::INT, $fieldDescription->getMappingType());
+        self::assertSame(Type::INT, $fieldDescription->getMappingType());
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'embeddedDocument.plainField');
-        $this->assertSame(Type::BOOL, $fieldDescription->getMappingType());
+        self::assertSame(Type::BOOL, $fieldDescription->getMappingType());
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'embeddedDocument');
-        $this->assertSame(ClassMetadata::ONE, $fieldDescription->getMappingType());
+        self::assertSame(ClassMetadata::ONE, $fieldDescription->getMappingType());
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'embeddedDocument');
-        $this->assertNotSame([], $fieldDescription->getAssociationMapping());
+        self::assertNotSame([], $fieldDescription->getAssociationMapping());
     }
 }

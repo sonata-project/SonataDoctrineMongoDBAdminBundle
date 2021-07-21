@@ -69,13 +69,13 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
         $list = $this->listBuilder->getBaseList();
 
         $this->admin
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addListFieldDescription');
 
         $this->listBuilder
             ->addField($list, 'actions', $fieldDescription);
 
-        $this->assertSame(
+        self::assertSame(
             '@SonataAdmin/CRUD/list__action.html.twig',
             $list->get('foo')->getTemplate(),
             'Custom list action field has a default list action template assigned'
@@ -96,12 +96,12 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
         $list = $this->listBuilder->getBaseList();
 
         $this->admin
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addListFieldDescription');
 
         $this->listBuilder->addField($list, null, $fieldDescription);
 
-        $this->assertSame(
+        self::assertSame(
             ListMapper::TYPE_ACTIONS,
             $list->get(ListMapper::NAME_ACTIONS)->getType(),
             'Standard list _action field has "actions" type'
@@ -127,8 +127,8 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
 
         $this->listBuilder->fixFieldDescription($fieldDescription);
 
-        $this->assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->getFieldMapping('name'), $fieldDescription->getFieldMapping());
+        self::assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
+        self::assertSame($classMetadata->getFieldMapping('name'), $fieldDescription->getFieldMapping());
     }
 
     public function testFixFieldDescriptionException(): void

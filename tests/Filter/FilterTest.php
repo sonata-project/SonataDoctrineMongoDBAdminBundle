@@ -48,18 +48,18 @@ final class FilterTest extends TestCase
     public function testFieldDescription(): void
     {
         $filter = new TestFilter();
-        $this->assertSame(['option1' => 2], $filter->getDefaultOptions());
-        $this->assertNull($filter->getOption('1'));
+        self::assertSame(['option1' => 2], $filter->getDefaultOptions());
+        self::assertNull($filter->getOption('1'));
 
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
-        $this->assertSame(2, $filter->getOption('option1'));
-        $this->assertNull($filter->getOption('foo'));
-        $this->assertSame('bar', $filter->getOption('foo', 'bar'));
+        self::assertSame(2, $filter->getOption('option1'));
+        self::assertNull($filter->getOption('foo'));
+        self::assertSame('bar', $filter->getOption('foo', 'bar'));
 
-        $this->assertSame('field_name', $filter->getName());
-        $this->assertSame(TextType::class, $filter->getFieldType());
-        $this->assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
+        self::assertSame('field_name', $filter->getName());
+        self::assertSame(TextType::class, $filter->getFieldType());
+        self::assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
     }
 
     public function testExceptionOnEmptyFieldName(): void
@@ -73,7 +73,7 @@ final class FilterTest extends TestCase
     public function testIsActive(): void
     {
         $filter = new TestFilter();
-        $this->assertFalse($filter->isActive());
+        self::assertFalse($filter->isActive());
     }
 
     public function testUseNameWithParentAssociationMappings(): void
@@ -94,13 +94,13 @@ final class FilterTest extends TestCase
         $builder = new ProxyQuery($queryBuilder);
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('field')
             ->with('field.name')
             ->willReturnSelf();
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('equals')
             ->with('foo');
 
@@ -121,13 +121,13 @@ final class FilterTest extends TestCase
         $builder = new ProxyQuery($queryBuilder);
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('field')
             ->with('field_name')
             ->willReturnSelf();
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('equals')
             ->with('foo');
 

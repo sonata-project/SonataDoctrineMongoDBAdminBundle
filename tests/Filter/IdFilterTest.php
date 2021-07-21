@@ -30,14 +30,14 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray([]));
 
-        $this->assertFalse($filter->isActive());
+        self::assertFalse($filter->isActive());
     }
 
     public function testItDoesNotApplyWithWrongObjectId(): void
@@ -52,7 +52,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray(['value' => 'wrong_object_id', 'type' => null]));
-        $this->assertFalse($filter->isActive());
+        self::assertFalse($filter->isActive());
     }
 
     /**
@@ -67,7 +67,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('equals')
             ->with(new ObjectId('507f1f77bcf86cd799439011'));
 
@@ -75,7 +75,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['value' => '507f1f77bcf86cd799439011', 'type' => $type]));
 
-        $this->assertTrue($filter->isActive());
+        self::assertTrue($filter->isActive());
     }
 
     /**
@@ -96,7 +96,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('notEqual')
             ->with(new ObjectId('507f1f77bcf86cd799439011'));
 
@@ -107,6 +107,6 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
             'value' => '507f1f77bcf86cd799439011',
             'type' => EqualOperatorType::TYPE_NOT_EQUAL, ]
         ));
-        $this->assertTrue($filter->isActive());
+        self::assertTrue($filter->isActive());
     }
 }

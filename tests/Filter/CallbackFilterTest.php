@@ -34,7 +34,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray([]));
 
-        $this->assertFalse($filter->isActive());
+        self::assertFalse($filter->isActive());
     }
 
     public function testFilterClosureNotEmpty(): void
@@ -51,7 +51,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['value' => 'myValue']));
 
-        $this->assertTrue($filter->isActive());
+        self::assertTrue($filter->isActive());
     }
 
     public function testFilterMethodEmpty(): void
@@ -66,7 +66,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray([]));
 
-        $this->assertFalse($filter->isActive());
+        self::assertFalse($filter->isActive());
     }
 
     public function testFilterMethodNotEmpty(): void
@@ -81,7 +81,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['value' => 'myValue']));
 
-        $this->assertTrue($filter->isActive());
+        self::assertTrue($filter->isActive());
     }
 
     public function customCallback(ProxyQueryInterface $proxyQuery, string $field, FilterData $data): bool

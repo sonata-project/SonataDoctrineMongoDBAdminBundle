@@ -90,11 +90,9 @@ final class DatagridBuilderTest extends TestCase
 
         $this->formFactory->method('createNamedBuilder')->willReturn($formBuilder);
 
-        $this->assertInstanceOf(
-            Datagrid::class,
-            $datagrid = $this->datagridBuilder->getBaseDatagrid($this->admin)
-        );
-        $this->assertInstanceOf(Pager::class, $datagrid->getPager());
+        $datagrid = $this->datagridBuilder->getBaseDatagrid($this->admin);
+        self::assertInstanceOf(Datagrid::class, $datagrid);
+        self::assertInstanceOf(Pager::class, $datagrid->getPager());
     }
 
     public function testFixFieldDescription(): void
@@ -111,7 +109,7 @@ final class DatagridBuilderTest extends TestCase
 
         $this->datagridBuilder->fixFieldDescription($fieldDescription);
 
-        $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
+        self::assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
     }
 
     public function testFixFieldDescriptionWithAssociationMapping(): void
@@ -128,18 +126,18 @@ final class DatagridBuilderTest extends TestCase
         $fieldDescription->setAdmin($this->admin);
 
         $this->admin
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('attachAdminClass');
 
         $this->datagridBuilder->fixFieldDescription($fieldDescription);
 
-        $this->assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getOption('association_mapping'));
+        self::assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getOption('association_mapping'));
     }
 
     public function testAddFilterNoType(): void
     {
         $this->admin
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addFilterFieldDescription');
 
         $datagrid = $this->createMock(DatagridInterface::class);
@@ -162,12 +160,12 @@ final class DatagridBuilderTest extends TestCase
         $this->admin->method('getLabelTranslatorStrategy')->willReturn(new FormLabelTranslatorStrategy());
 
         $datagrid
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addFilter')
-            ->with($this->isInstanceOf(ModelFilter::class));
+            ->with(self::isInstanceOf(ModelFilter::class));
 
         $this->filterFactory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('create')
             ->with('test', ModelFilter::class);
 
@@ -177,14 +175,14 @@ final class DatagridBuilderTest extends TestCase
             $fieldDescription
         );
 
-        $this->assertSame('guess_value', $fieldDescription->getOption('guess_option'));
-        $this->assertSame(['guess_array_value'], $fieldDescription->getOption('guess_array_option'));
+        self::assertSame('guess_value', $fieldDescription->getOption('guess_option'));
+        self::assertSame(['guess_array_value'], $fieldDescription->getOption('guess_array_option'));
     }
 
     public function testAddFilterWithType(): void
     {
         $this->admin
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addFilterFieldDescription');
 
         $datagrid = $this->createMock(DatagridInterface::class);
@@ -197,9 +195,9 @@ final class DatagridBuilderTest extends TestCase
         $this->admin->method('getLabelTranslatorStrategy')->willReturn(new FormLabelTranslatorStrategy());
 
         $datagrid
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addFilter')
-            ->with($this->isInstanceOf(ModelFilter::class));
+            ->with(self::isInstanceOf(ModelFilter::class));
 
         $this->datagridBuilder->addFilter(
             $datagrid,
@@ -207,6 +205,6 @@ final class DatagridBuilderTest extends TestCase
             $fieldDescription
         );
 
-        $this->assertSame(ModelFilter::class, $fieldDescription->getType());
+        self::assertSame(ModelFilter::class, $fieldDescription->getType());
     }
 }
