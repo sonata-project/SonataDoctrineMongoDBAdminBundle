@@ -87,15 +87,18 @@ abstract class AbstractDateFilter extends Filter
             return;
         }
 
-        \assert($value instanceof \DateTime || $value instanceof \DateTimeImmutable);
-
         //default type for simple filter
         $type = $data->getType() ?? DateOperatorType::TYPE_EQUAL;
 
         // date filter should filter records for the whole day
         if (false === $this->time && DateOperatorType::TYPE_EQUAL === $type) {
-            $endValue = clone $value;
-            $endValue = $endValue->add(new \DateInterval('P1D'));
+            if ($value instanceof \DateTime) {
+                $endValue = clone $value;
+                $endValue->add(new \DateInterval('P1D'));
+            } else {
+                /** @var \DateTimeImmutable $value */
+                $endValue = $value->add(new \DateInterval('P1D'));
+            }
 
             $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_GREATER_EQUAL), $field, $value);
             $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_LESS_THAN), $field, $endValue);
