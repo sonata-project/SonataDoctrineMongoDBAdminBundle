@@ -20,11 +20,7 @@ final class FieldDescription extends BaseFieldDescription
 {
     public function getTargetModel(): ?string
     {
-        if ($this->associationMapping) {
-            return $this->associationMapping['targetDocument'];
-        }
-
-        return null;
+        return $this->associationMapping['targetDocument'] ?? null;
     }
 
     public function isIdentifier(): bool

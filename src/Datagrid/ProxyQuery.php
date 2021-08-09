@@ -79,7 +79,7 @@ final class ProxyQuery implements ProxyQueryInterface
 
         // todo : check how doctrine behave, potential SQL injection here ...
         $sortBy = $this->getSortBy();
-        if ($sortBy) {
+        if (null !== $sortBy) {
             $queryBuilder->sort($sortBy, $this->getSortOrder() ?? 'asc');
         }
 

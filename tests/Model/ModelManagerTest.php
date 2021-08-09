@@ -67,7 +67,7 @@ final class ModelManagerTest extends TestCase
             ->method('getClassMetadata')
             ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
 
-        $this->assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
+        self::assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
     }
 
     public function testReverseTransformWithSetter(): void
@@ -86,9 +86,9 @@ final class ModelManagerTest extends TestCase
             ]
         );
 
-        $this->assertSame(42, $testDocument->getSchmeckles());
-        $this->assertSame('hello', $testDocument->getMultiWordProperty());
-        $this->assertTrue($testDocument->schwifty);
+        self::assertSame(42, $testDocument->getSchmeckles());
+        self::assertSame('hello', $testDocument->getMultiWordProperty());
+        self::assertTrue($testDocument->schwifty);
     }
 
     public function testReverseTransformFailsWithPrivateSetter(): void
@@ -148,7 +148,7 @@ final class ModelManagerTest extends TestCase
     {
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
-        $this->assertSame($expected, $modelManager->supportsQuery($object));
+        self::assertSame($expected, $modelManager->supportsQuery($object));
     }
 
     /**
@@ -173,11 +173,11 @@ final class ModelManagerTest extends TestCase
 
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($class);
 
-        $modelManager->expects($this->once())
+        $modelManager->expects(self::once())
             ->method('getClassMetadata')
             ->with($class)
             ->willReturn($classMetadata);
-        $registry->expects($this->once())
+        $registry->expects(self::once())
             ->method('getManagerForClass')
             ->with($class)
             ->willReturn($modelManager);

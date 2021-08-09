@@ -24,9 +24,9 @@ final class ReferenceMappingTest extends BasePantherTestCase
         $crawler = $this->client->request(Request::METHOD_GET, '/admin/tests/app/book/create');
 
         $attributeId = $crawler->filter('.book_id')->attr('name');
-        $this->assertIsString($attributeId);
+        self::assertIsString($attributeId);
         $attributeName = $crawler->filter('.book_name')->attr('name');
-        $this->assertIsString($attributeName);
+        self::assertIsString($attributeName);
 
         $form = $crawler->selectButton('Create and return to list')->form();
         $form[$attributeId] = 'book_new_id';
@@ -51,11 +51,11 @@ final class ReferenceMappingTest extends BasePantherTestCase
     private function createAuthorForm(Crawler $crawler): Form
     {
         $authorAttributeId = $crawler->filter('.author_id')->attr('name');
-        $this->assertIsString($authorAttributeId);
+        self::assertIsString($authorAttributeId);
         $authorAttributeName = $crawler->filter('.author_name')->attr('name');
-        $this->assertIsString($authorAttributeName);
+        self::assertIsString($authorAttributeName);
         $addressAttributeName = $crawler->filter('.address_street')->attr('name');
-        $this->assertIsString($addressAttributeName);
+        self::assertIsString($addressAttributeName);
 
         $authorForm = $crawler->filter('.modal-content button[name="btn_create"]')->form();
         $authorForm[$authorAttributeId] = 'new_author_id';

@@ -94,7 +94,7 @@ final class ListBuilder implements ListBuilderInterface
 
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
-        if (!$fieldDescription->getTemplate()) {
+        if (null === $fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($type));
         }
 

@@ -57,8 +57,8 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
 
         $result = $this->guesser->guess($fieldDescription);
 
-        $this->assertSame($type, $result->getType());
-        $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
+        self::assertSame($type, $result->getType());
+        self::assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
     }
 
     /**
@@ -98,8 +98,8 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
 
         $result = $this->guesser->guess($fieldDescription);
 
-        $this->assertSame($resultType, $result->getType());
-        $this->assertSame($confidence, $result->getConfidence());
+        self::assertSame($resultType, $result->getType());
+        self::assertSame($confidence, $result->getConfidence());
     }
 
     /**

@@ -26,7 +26,7 @@ abstract class Filter extends BaseFilter
             throw new \TypeError(sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
         }
 
-        $field = $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
+        $field = [] !== $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();
 
         $this->filter($query, $field, $filterData);
     }

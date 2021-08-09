@@ -17,6 +17,8 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Datagrid\PagerInterface;
+use Sonata\AdminBundle\Datagrid\SimplePager;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
@@ -124,7 +126,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
 
     public function getBaseDatagrid(AdminInterface $admin, array $values = []): DatagridInterface
     {
-        $pager = new Pager();
+        $pager = $this->getPager($admin->getPagerType());
 
         $defaultOptions = [];
         if ($this->csrfTokenEnabled) {
@@ -139,5 +141,29 @@ final class DatagridBuilder implements DatagridBuilderInterface
         }
 
         return new Datagrid($query, $admin->getList(), $pager, $formBuilder, $values);
+    }
+
+    /**
+     * Get pager by pagerType.
+     *
+     * @throws \RuntimeException If invalid pager type is set
+     *
+     * @return PagerInterface<ProxyQueryInterface>
+     */
+    private function getPager(string $pagerType): PagerInterface
+    {
+        switch ($pagerType) {
+            case Pager::TYPE_DEFAULT:
+                return new Pager();
+
+            case Pager::TYPE_SIMPLE:
+                /** @var SimplePager<ProxyQueryInterface> $simplePager */
+                $simplePager = new SimplePager();
+
+                return $simplePager;
+
+            default:
+                throw new \RuntimeException(sprintf('Unknown pager type "%s".', $pagerType));
+        }
     }
 }

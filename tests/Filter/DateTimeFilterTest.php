@@ -27,19 +27,19 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray([]));
 
-        $this->assertFalse($filter->isActive());
+        self::assertFalse($filter->isActive());
     }
 
     public function testGetType(): void
     {
-        $this->assertSame(DateTimeType::class, $this->createFilter()->getFieldType());
+        self::assertSame(DateTimeType::class, $this->createFilter()->getFieldType());
     }
 
     /**
@@ -53,7 +53,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($method)
             ->with($data['value'] ?? null);
 
@@ -61,7 +61,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray($data));
 
-        $this->assertTrue($filter->isActive());
+        self::assertTrue($filter->isActive());
     }
 
     /**
