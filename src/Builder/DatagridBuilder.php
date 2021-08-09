@@ -18,17 +18,22 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Datagrid\PagerInterface;
+use Sonata\AdminBundle\Datagrid\SimplePager;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface as DeprecatedTypeGuesserInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\Pager;
+use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * @final since sonata-project/doctrine-mongodb-admin-bundle 3.5.
+ *
+ * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface>
  */
 class DatagridBuilder implements DatagridBuilderInterface
 {
@@ -169,7 +174,7 @@ class DatagridBuilder implements DatagridBuilderInterface
 
     public function getBaseDatagrid(AdminInterface $admin, array $values = [])
     {
-        $pager = new Pager();
+        $pager = $this->getPager($admin->getPagerType());
 
         $defaultOptions = [];
         if ($this->csrfTokenEnabled) {
@@ -179,5 +184,29 @@ class DatagridBuilder implements DatagridBuilderInterface
         $formBuilder = $this->formFactory->createNamedBuilder('filter', FormType::class, [], $defaultOptions);
 
         return new Datagrid($admin->createQuery(), $admin->getList(), $pager, $formBuilder, $values);
+    }
+
+    /**
+     * Get pager by pagerType.
+     *
+     * @throws \RuntimeException If invalid pager type is set
+     *
+     * @return PagerInterface<ProxyQueryInterface>
+     */
+    private function getPager(string $pagerType): PagerInterface
+    {
+        switch ($pagerType) {
+            case Pager::TYPE_DEFAULT:
+                return new Pager();
+
+            case Pager::TYPE_SIMPLE:
+                /** @var SimplePager<ProxyQueryInterface> $simplePager */
+                $simplePager = new SimplePager();
+
+                return $simplePager;
+
+            default:
+                throw new \RuntimeException(sprintf('Unknown pager type "%s".', $pagerType));
+        }
     }
 }
