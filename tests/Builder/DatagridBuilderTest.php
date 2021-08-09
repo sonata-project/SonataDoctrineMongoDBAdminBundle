@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\Pager;
+use Sonata\AdminBundle\Datagrid\SimplePager;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
 use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
@@ -79,12 +80,18 @@ final class DatagridBuilderTest extends TestCase
         $this->admin = $this->createMock(AdminInterface::class);
     }
 
-    public function testGetBaseDatagrid(): void
+    /**
+     * @phpstan-param class-string $pager
+     *
+     * @dataProvider getBaseDatagridData
+     */
+    public function testGetBaseDatagrid(string $pagerType, string $pager): void
     {
         $proxyQuery = $this->createStub(ProxyQueryInterface::class);
         $fieldDescription = new FieldDescriptionCollection();
         $formBuilder = $this->createStub(FormBuilderInterface::class);
 
+        $this->admin->method('getPagerType')->willReturn($pagerType);
         $this->admin->method('createQuery')->willReturn($proxyQuery);
         $this->admin->method('getList')->willReturn($fieldDescription);
 
@@ -93,6 +100,23 @@ final class DatagridBuilderTest extends TestCase
         $datagrid = $this->datagridBuilder->getBaseDatagrid($this->admin);
         self::assertInstanceOf(Datagrid::class, $datagrid);
         self::assertInstanceOf(Pager::class, $datagrid->getPager());
+    }
+
+    /**
+     * @phpstan-return iterable<array-key, array{string, class-string}>
+     */
+    public function getBaseDatagridData(): iterable
+    {
+        return [
+            'simple' => [
+                Pager::TYPE_SIMPLE,
+                SimplePager::class,
+            ],
+            'default' => [
+                Pager::TYPE_DEFAULT,
+                Pager::class,
+            ],
+        ];
     }
 
     public function testFixFieldDescription(): void
