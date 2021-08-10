@@ -31,7 +31,7 @@
         "doctrine/mongodb-odm": "^2.1",
         "doctrine/mongodb-odm-bundle": "^4.3",
         "doctrine/persistence": "^2.0",
-        "sonata-project/admin-bundle": "^4.0@dev",
+        "sonata-project/admin-bundle": "^4.0@rc",
         "sonata-project/form-extensions": "^1.7.1",
         "symfony/config": "^4.4 || ^5.2",
         "symfony/dependency-injection": "^4.4 || ^5.2",
@@ -42,7 +42,7 @@
         "twig/twig": "^2.6 || ^3.0"
     },
     "conflict": {
-        "sonata-project/admin-bundle": "<=4.0.0-alpha-2"
+        "sonata-project/block-bundle": "<4.2"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
@@ -59,6 +59,7 @@
         "phpstan/phpstan-symfony": "^0.12.20",
         "psalm/plugin-phpunit": "^0.15.1",
         "psalm/plugin-symfony": "^2.0",
+        "sonata-project/block-bundle": "^4.2",
         "symfony/browser-kit": "^4.4 || ^5.2",
         "symfony/css-selector": "^4.4 || ^5.2",
         "symfony/panther": "^1.0",
