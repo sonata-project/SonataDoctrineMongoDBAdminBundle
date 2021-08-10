@@ -28,7 +28,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
- * @template-implements DatagridBuilderInterface<\Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface>
+ * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface>
  */
 final class DatagridBuilder implements DatagridBuilderInterface
 {

@@ -99,7 +99,7 @@ final class DatagridBuilderTest extends TestCase
 
         $datagrid = $this->datagridBuilder->getBaseDatagrid($this->admin);
         self::assertInstanceOf(Datagrid::class, $datagrid);
-        self::assertInstanceOf(Pager::class, $datagrid->getPager());
+        self::assertInstanceOf($pager, $datagrid->getPager());
     }
 
     /**
