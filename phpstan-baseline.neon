@@ -3,7 +3,3 @@ parameters:
         - # Disallow VariableMethodCallRule and VariablePropertyFetchRule
             message: '#^Variable (method call|property access)#'
             path: .
-        - # https://github.com/phpstan/phpstan/issues/5357
-            message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with 'Sonata\\\\\\\\AdminBundle\\\\\\\\Datagrid\\\\\\\\Pager' and \\*NEVER\\* will always evaluate to true\\.$#"
-            path: tests/Builder/DatagridBuilderTest.php
-
