@@ -2,6 +2,34 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0-rc.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.0.0-alpha.1...4.0.0-rc.1) - 2021-08-12
+### Removed
+- [[#632](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/632)] Removed support for PHP < 7.3 ([@franmomu](https://github.com/franmomu))
+- [[#632](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/632)] Removed support for Symfony 5.2 ([@franmomu](https://github.com/franmomu))
+- [[#603](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/603)] Removed class parameters in the container ([@franmomu](https://github.com/franmomu))
+
+## [4.0.0-alpha.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.10.0...4.0.0-alpha.1) - 2021-06-13
+### Added
+- [[#593](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/593)] Added `DateRangeFilter` to be able to filter by dates ([@franmomu](https://github.com/franmomu))
+- [[#593](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/593)] Added `DateTimeRangeFilter` to be able to filter by dates with time ([@franmomu](https://github.com/franmomu))
+
+### Changed
+- [[#564](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/564)] Changed the guessing type of `FieldDescriptionInterface` with association mapping from `mongo_one` to `FieldDescriptionInterface::MANY_TO_ONE` and from `mongo_many` to `FieldDescriptionInterface::MANY_TO_MANY`. ([@franmomu](https://github.com/franmomu))
+- [[#515](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/515)] Add final modifier to classes ([@franmomu](https://github.com/franmomu))
+- [[#515](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/515)] Reduce visibility of methods and properties ([@franmomu](https://github.com/franmomu))
+
+### Fixed
+- [[#593](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/593)] Fixed using `DateOperatorType::TYPE_EQUAL` type in a `DateFilter` and `DateTimeFilter`, now it filters by the exact date instead of a range. ([@franmomu](https://github.com/franmomu))
+
+### Removed
+- [[#593](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/593)] Removed unused `input_type` option in `AbstractDateFilter` ([@franmomu](https://github.com/franmomu))
+- [[#593](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/593)] Removed `AbstractDateFilter:: applyTypeIsLessEqual` ([@franmomu](https://github.com/franmomu))
+- [[#593](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/593)] Removed `AbstractDateFilter:: applyTypeIsGreaterThan` ([@franmomu](https://github.com/franmomu))
+- [[#593](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/593)] Removed `AbstractDateFilter:: applyType` ([@franmomu](https://github.com/franmomu))
+- [[#575](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/575)] Remove support for `doctrine/persistence` 1.x ([@franmomu](https://github.com/franmomu))
+- [[#357](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/357)] The modelManager getDefaultSortValues does not have default `_sort_by` value anymore. ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#356](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/356)] Special case for the `all` value in ChoiceFilter ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [3.10.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/3.9.0...3.10.0) - 2021-07-20
 ### Added
 - [[#610](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/610)] `global_search` option to the `StringFilter` ([@VincentLanglet](https://github.com/VincentLanglet))
