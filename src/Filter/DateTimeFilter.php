@@ -24,7 +24,7 @@ final class DateTimeFilter extends AbstractDateFilter
      */
     protected $time = true;
 
-    public function getDateFieldType(): string
+    protected function getDateFieldType(): string
     {
         return DateTimeType::class;
     }
