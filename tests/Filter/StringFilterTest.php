@@ -15,10 +15,10 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\Regex;
+use Sonata\AdminBundle\Filter\FilterInterface;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
-use Sonata\DoctrineMongoDBAdminBundle\Filter\Filter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -195,7 +195,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
             'field_name' => self::DEFAULT_FIELD_NAME,
             'format' => '%s',
         ]);
-        $filter->setCondition(Filter::CONDITION_OR);
+        $filter->setCondition(FilterInterface::CONDITION_OR);
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->expects(self::once())->method('addOr');
@@ -203,7 +203,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
         $filter->apply($builder, FilterData::fromArray(['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]));
         self::assertTrue($filter->isActive());
 
-        $filter->setCondition(Filter::CONDITION_AND);
+        $filter->setCondition(FilterInterface::CONDITION_AND);
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->expects(self::never())->method('addOr');

@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Datagrid\Pager as AdminPager;
 use Sonata\AdminBundle\Datagrid\PagerInterface;
 use Sonata\AdminBundle\Datagrid\SimplePager;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
@@ -153,10 +154,10 @@ final class DatagridBuilder implements DatagridBuilderInterface
     private function getPager(string $pagerType): PagerInterface
     {
         switch ($pagerType) {
-            case Pager::TYPE_DEFAULT:
+            case AdminPager::TYPE_DEFAULT:
                 return new Pager();
 
-            case Pager::TYPE_SIMPLE:
+            case AdminPager::TYPE_SIMPLE:
                 /** @var SimplePager<ProxyQueryInterface> $simplePager */
                 $simplePager = new SimplePager();
 
