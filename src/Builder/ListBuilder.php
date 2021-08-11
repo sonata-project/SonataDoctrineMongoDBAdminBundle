@@ -103,7 +103,7 @@ final class ListBuilder implements ListBuilderInterface
         }
     }
 
-    private function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription): FieldDescriptionInterface
+    private function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate('@SonataAdmin/CRUD/list__action.html.twig');
@@ -127,8 +127,6 @@ final class ListBuilder implements ListBuilderInterface
 
             $fieldDescription->setOption('actions', $actions);
         }
-
-        return $fieldDescription;
     }
 
     /**
