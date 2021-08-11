@@ -31,7 +31,7 @@ final class DateTimeRangeFilter extends AbstractDateFilter
      */
     protected $range = true;
 
-    public function getDateFieldType(): string
+    protected function getDateFieldType(): string
     {
         return DateTimeRangeType::class;
     }
