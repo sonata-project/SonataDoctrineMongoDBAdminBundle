@@ -23,14 +23,14 @@ final class ConfigurationTest extends TestCase
 
     public function testDefaultOptions(): void
     {
-        self::assertProcessedConfigurationEquals([], [
+        $this->assertProcessedConfigurationEquals([], [
             'templates' => [],
         ]);
     }
 
     public function testCustomTemplates(): void
     {
-        self::assertProcessedConfigurationEquals([[
+        $this->assertProcessedConfigurationEquals([[
             'templates' => [
                 'types' => [
                     'list' => [
@@ -57,7 +57,7 @@ final class ConfigurationTest extends TestCase
 
     public function testTemplateTypesWithInvalidValues(): void
     {
-        self::assertConfigurationIsInvalid(
+        $this->assertConfigurationIsInvalid(
             [[
                 'templates' => [
                     'types' => [

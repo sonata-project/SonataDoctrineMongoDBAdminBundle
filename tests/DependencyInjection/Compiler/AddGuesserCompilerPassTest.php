@@ -33,7 +33,7 @@ final class AddGuesserCompilerPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        self::assertContainerBuilderHasServiceDefinitionWithArgument(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             $builderServiceId,
             0,
             [

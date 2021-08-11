@@ -36,7 +36,7 @@ final class AddTemplatesCompilerPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             $adminServiceId,
             'setFormTheme',
             [
@@ -44,7 +44,7 @@ final class AddTemplatesCompilerPassTest extends AbstractCompilerPassTestCase
             ]
         );
 
-        self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             $adminServiceId,
             'setFilterTheme',
             [
