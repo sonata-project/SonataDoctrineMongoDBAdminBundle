@@ -8,6 +8,7 @@ on:
     push:
         branches:
             - 3.x
+            - 4.x
             - master
     pull_request:
 
@@ -24,7 +25,7 @@ jobs:
             - name: Install PHP with extensions
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 7.4
+                  php-version: 8.0
                   coverage: none
                   tools: composer:v2
                   extensions: mongodb-1.9.0, zip
@@ -49,7 +50,7 @@ jobs:
             - name: Install PHP with extensions
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 7.4
+                  php-version: 8.0
                   coverage: none
                   tools: composer:v2
                   extensions: mongodb-1.9.0, zip
@@ -61,4 +62,4 @@ jobs:
                   composer-options: "--prefer-dist --prefer-stable"
 
             - name: Psalm
-              run: vendor/bin/psalm --show-info=false --stats --output-format=github --threads=$(nproc) --shepherd --php-version=7.4
+              run: vendor/bin/psalm --show-info=false --stats --output-format=github --threads=$(nproc) --shepherd --php-version=8.0

@@ -8,6 +8,7 @@ on:
     push:
         branches:
             - 3.x
+            - 4.x
             - master
     pull_request:
 
@@ -43,11 +44,11 @@ jobs:
                       dependencies: lowest
                       allowed-to-fail: false
                       variant: normal
-                    - php-version: '7.4'
+                    - php-version: '8.0'
                       dependencies: highest
                       allowed-to-fail: false
                       variant: 'sonata-project/admin-bundle:"^4@rc"'
-                    - php-version: '7.4'
+                    - php-version: '8.0'
                       dependencies: highest
                       allowed-to-fail: false
                       symfony-require: 4.4.*
