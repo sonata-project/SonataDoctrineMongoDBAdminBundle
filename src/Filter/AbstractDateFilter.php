@@ -38,14 +38,14 @@ abstract class AbstractDateFilter extends Filter
      */
     protected $time = false;
 
-    public function getDefaultOptions(): array
+    final public function getDefaultOptions(): array
     {
         return [
             'field_type' => $this->getDateFieldType(),
         ];
     }
 
-    public function getRenderSettings(): array
+    final public function getRenderSettings(): array
     {
         $name = DateType::class;
 
