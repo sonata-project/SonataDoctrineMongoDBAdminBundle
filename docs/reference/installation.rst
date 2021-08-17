@@ -1,14 +1,14 @@
 Installation
 ============
 
-SonataDoctrineMongoDBAdminBundle is part of a set of bundles aimed at abstracting 
+SonataDoctrineMongoDBAdminBundle is part of a set of bundles aimed at abstracting
 storage connectivity for SonataAdminBundle. As such, SonataDoctrineMongoDBAdminBundle
-depends on SonataAdminBundle, and will not work without it. 
+depends on SonataAdminBundle, and will not work without it.
 
 .. note::
 
     These installation instructions are meant to be used only as part of SonataAdminBundle's
-    installation process, which is documented `here <http://sonata-project.org/bundles/admin/master/doc/reference/installation.html>`_.
+    installation process, which is documented `here <https://docs.sonata-project.org/projects/SonataAdminBundle/en/3.x/getting_started/installation/>`_.
 
 Download the Bundle
 -------------------
