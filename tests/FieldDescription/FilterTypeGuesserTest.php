@@ -91,12 +91,12 @@ final class FilterTypeGuesserTest extends RegistryTestCase
 
         $options = $result->getOptions();
 
-        $this->assertSame(ModelFilter::class, $result->getType());
-        $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
-        $this->assertSame($parentAssociation, $options['parent_association_mappings']);
-        $this->assertSame(ClassMetadata::ONE, $options['mapping_type']);
-        $this->assertSame($property, $options['field_name']);
-        $this->assertSame($targetDocument, $options['field_options']['class']);
+        static::assertSame(ModelFilter::class, $result->getType());
+        static::assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
+        static::assertSame($parentAssociation, $options['parent_association_mappings']);
+        static::assertSame(ClassMetadata::ONE, $options['mapping_type']);
+        static::assertSame($property, $options['field_name']);
+        static::assertSame($targetDocument, $options['field_options']['class']);
     }
 
     /**
@@ -125,8 +125,8 @@ final class FilterTypeGuesserTest extends RegistryTestCase
 
         $result = $this->guesser->guess($fieldDescription);
 
-        $this->assertSame($resultType, $result->getType());
-        $this->assertSame($confidence, $result->getConfidence());
+        static::assertSame($resultType, $result->getType());
+        static::assertSame($confidence, $result->getConfidence());
     }
 
     /**

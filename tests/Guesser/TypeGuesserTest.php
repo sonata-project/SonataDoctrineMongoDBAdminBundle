@@ -52,8 +52,8 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
-        $this->assertSame('text', $result->getType());
-        $this->assertSame(Guess::LOW_CONFIDENCE, $result->getConfidence());
+        static::assertSame('text', $result->getType());
+        static::assertSame(Guess::LOW_CONFIDENCE, $result->getConfidence());
     }
 
     /**
@@ -79,8 +79,8 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
-        $this->assertSame($type, $result->getType());
-        $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
+        static::assertSame($type, $result->getType());
+        static::assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
     }
 
     public function associationData(): array
@@ -123,8 +123,8 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
-        $this->assertSame($resultType, $result->getType());
-        $this->assertSame($confidence, $result->getConfidence());
+        static::assertSame($resultType, $result->getType());
+        static::assertSame($confidence, $result->getConfidence());
     }
 
     public function noAssociationData(): array

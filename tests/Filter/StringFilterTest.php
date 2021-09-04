@@ -27,11 +27,11 @@ class StringFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', []);
-        $this->assertTrue($filter->isSearchEnabled());
+        static::assertTrue($filter->isSearchEnabled());
 
         $filter = new StringFilter();
         $filter->initialize('field_name', ['global_search' => false]);
-        $this->assertFalse($filter->isSearchEnabled());
+        static::assertFalse($filter->isSearchEnabled());
     }
 
     /**
@@ -49,14 +49,14 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, $value);
 
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -80,14 +80,14 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with(new Regex('asd', 'i'));
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['value' => 'asd', 'type' => null]);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -105,14 +105,14 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method($method)
             ->with($value);
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['value' => 'asd', 'type' => $type]);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -137,14 +137,14 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('not')
             ->with(new Regex('asd', 'i'));
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_NOT_CONTAINS]);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testEquals(): void
@@ -157,14 +157,14 @@ class StringFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with('asd');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_EQUAL]);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testEqualsWithValidParentAssociationMappings(): void
@@ -193,14 +193,14 @@ class StringFilterTest extends FilterWithQueryBuilderTest
             ->willReturnSelf();
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with('asd');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_EQUAL, 'value' => 'asd']);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testOr(): void
@@ -213,18 +213,18 @@ class StringFilterTest extends FilterWithQueryBuilderTest
         $filter->setCondition(Filter::CONDITION_OR);
 
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->expects($this->once())->method('addOr');
+        $queryBuilder->expects(static::once())->method('addOr');
         $builder = new ProxyQuery($queryBuilder);
         $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
 
         $filter->setCondition(Filter::CONDITION_AND);
 
         $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->expects($this->never())->method('addOr');
+        $queryBuilder->expects(static::never())->method('addOr');
         $builder = new ProxyQuery($queryBuilder);
         $filter->apply($builder, ['value' => 'asd', 'type' => ContainsOperatorType::TYPE_CONTAINS]);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testDefaultValues(): void
@@ -235,6 +235,6 @@ class StringFilterTest extends FilterWithQueryBuilderTest
             'format' => '%s',
         ]);
 
-        $this->assertSame(TextType::class, $filter->getFieldType());
+        static::assertSame(TextType::class, $filter->getFieldType());
     }
 }

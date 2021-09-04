@@ -47,18 +47,18 @@ final class FilterTest extends TestCase
     public function testFieldDescription(): void
     {
         $filter = new TestFilter();
-        $this->assertSame(['option1' => 2], $filter->getDefaultOptions());
-        $this->assertNull($filter->getOption('1'));
+        static::assertSame(['option1' => 2], $filter->getDefaultOptions());
+        static::assertNull($filter->getOption('1'));
 
         $filter->initialize('field_name', ['field_options' => ['class' => 'FooBar']]);
 
-        $this->assertSame(2, $filter->getOption('option1'));
-        $this->assertNull($filter->getOption('foo'));
-        $this->assertSame('bar', $filter->getOption('foo', 'bar'));
+        static::assertSame(2, $filter->getOption('option1'));
+        static::assertNull($filter->getOption('foo'));
+        static::assertSame('bar', $filter->getOption('foo', 'bar'));
 
-        $this->assertSame('field_name', $filter->getName());
-        $this->assertSame(TextType::class, $filter->getFieldType());
-        $this->assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
+        static::assertSame('field_name', $filter->getName());
+        static::assertSame(TextType::class, $filter->getFieldType());
+        static::assertSame(['class' => 'FooBar'], $filter->getFieldOptions());
     }
 
     /**
@@ -69,10 +69,10 @@ final class FilterTest extends TestCase
     public function testValues(): void
     {
         $filter = new TestFilter();
-        $this->assertEmpty($filter->getValue());
+        static::assertEmpty($filter->getValue());
 
         $filter->setValue(42);
-        $this->assertSame(42, $filter->getValue());
+        static::assertSame(42, $filter->getValue());
     }
 
     public function testExceptionOnEmptyFieldName(): void
@@ -87,7 +87,7 @@ final class FilterTest extends TestCase
     public function testIsActive(): void
     {
         $filter = new TestFilter();
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     public function testUseNameWithParentAssociationMappings(): void
@@ -108,13 +108,13 @@ final class FilterTest extends TestCase
         $builder = new ProxyQuery($queryBuilder);
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('field')
             ->with('field.name')
             ->willReturnSelf();
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with('foo');
 
@@ -135,13 +135,13 @@ final class FilterTest extends TestCase
         $builder = new ProxyQuery($queryBuilder);
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('field')
             ->with('field_name')
             ->willReturnSelf();
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with('foo');
 

@@ -67,14 +67,14 @@ final class ModelFilterTest extends TestCase
         ]);
 
         $this->queryBuilder
-            ->expects($this->never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($this->queryBuilder);
 
         $filter->apply($builder, $value);
 
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -102,7 +102,7 @@ final class ModelFilterTest extends TestCase
         ]);
 
         $this->queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('field')
             ->with('field._id')
             ->willReturnSelf();
@@ -111,7 +111,7 @@ final class ModelFilterTest extends TestCase
         $otherDocument = new DocumentStub();
 
         $this->queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('in')
             ->with([new ObjectId($oneDocument->getId()), new ObjectId($otherDocument->getId())]);
 
@@ -122,7 +122,7 @@ final class ModelFilterTest extends TestCase
             'value' => [$oneDocument, $otherDocument],
         ]);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testFilterScalar(): void
@@ -139,7 +139,7 @@ final class ModelFilterTest extends TestCase
         ]);
 
         $this->queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('field')
             ->with('field._id')
             ->willReturnSelf();
@@ -147,7 +147,7 @@ final class ModelFilterTest extends TestCase
         $document1 = new DocumentStub();
 
         $this->queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with(new ObjectId($document1->getId()));
 
@@ -155,7 +155,7 @@ final class ModelFilterTest extends TestCase
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $document1]);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testAssociationWithInvalidMapping(): void
@@ -205,7 +205,7 @@ final class ModelFilterTest extends TestCase
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testAssociationWithValidParentAssociationMappings(): void
@@ -239,7 +239,7 @@ final class ModelFilterTest extends TestCase
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -265,7 +265,7 @@ final class ModelFilterTest extends TestCase
 
         $filter->apply($builder, ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => new DocumentStub()]);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -288,7 +288,7 @@ final class ModelFilterTest extends TestCase
             'field_name' => 'field_name',
         ]);
 
-        $this->assertSame(DocumentType::class, $filter->getFieldType());
-        $this->assertSame(EqualOperatorType::class, $filter->getOption('operator_type'));
+        static::assertSame(DocumentType::class, $filter->getFieldType());
+        static::assertSame(EqualOperatorType::class, $filter->getOption('operator_type'));
     }
 }
