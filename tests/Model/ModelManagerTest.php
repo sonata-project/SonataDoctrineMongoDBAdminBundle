@@ -67,7 +67,7 @@ final class ModelManagerTest extends TestCase
             ->method('getClassMetadata')
             ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
 
-        self::assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
+        static::assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
     }
 
     public function testReverseTransformWithSetter(): void
@@ -86,9 +86,9 @@ final class ModelManagerTest extends TestCase
             ]
         );
 
-        self::assertSame(42, $testDocument->getSchmeckles());
-        self::assertSame('hello', $testDocument->getMultiWordProperty());
-        self::assertTrue($testDocument->schwifty);
+        static::assertSame(42, $testDocument->getSchmeckles());
+        static::assertSame('hello', $testDocument->getMultiWordProperty());
+        static::assertTrue($testDocument->schwifty);
     }
 
     public function testReverseTransformFailsWithPrivateSetter(): void
@@ -124,7 +124,7 @@ final class ModelManagerTest extends TestCase
     {
         $repository = $this->createMock(DocumentRepository::class);
         $repository
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('createQueryBuilder')
             ->willReturn($this->createStub(Builder::class));
 
@@ -148,7 +148,7 @@ final class ModelManagerTest extends TestCase
     {
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
-        self::assertSame($expected, $modelManager->supportsQuery($object));
+        static::assertSame($expected, $modelManager->supportsQuery($object));
     }
 
     /**
@@ -173,11 +173,11 @@ final class ModelManagerTest extends TestCase
 
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($class);
 
-        $modelManager->expects(self::once())
+        $modelManager->expects(static::once())
             ->method('getClassMetadata')
             ->with($class)
             ->willReturn($classMetadata);
-        $registry->expects(self::once())
+        $registry->expects(static::once())
             ->method('getManagerForClass')
             ->with($class)
             ->willReturn($modelManager);

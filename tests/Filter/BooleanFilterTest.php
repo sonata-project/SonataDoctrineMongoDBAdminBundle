@@ -26,14 +26,14 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray([]));
 
-        self::assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -45,7 +45,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('equals')
             ->with($equalsReturnValue);
 
@@ -53,7 +53,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['type' => null, 'value' => $value]));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -73,7 +73,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('in')
             ->with([false]);
 
@@ -81,14 +81,14 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['type' => null, 'value' => [BooleanType::TYPE_NO]]));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testDefaultValues(): void
     {
         $filter = $this->createFilter();
 
-        self::assertSame(BooleanType::class, $filter->getFieldType());
+        static::assertSame(BooleanType::class, $filter->getFieldType());
     }
 
     private function createFilter(): BooleanFilter

@@ -51,7 +51,7 @@ final class ObjectAclManipulatorTest extends TestCase
 
         $objectAclManipulator->batchConfigureAcls($output, $admin);
 
-        self::assertStringContainsString('Admin class is not configured to use ACL', $output->fetch());
+        static::assertStringContainsString('Admin class is not configured to use ACL', $output->fetch());
     }
 
     public function testBatchConfigureAcls(): void
@@ -98,7 +98,7 @@ final class ObjectAclManipulatorTest extends TestCase
 
         $objectAclManipulator->batchConfigureAcls($output, $admin);
 
-        self::assertStringContainsString('[TOTAL] generated class ACEs for 1 objects (added 1, updated 0)', $output->fetch());
+        static::assertStringContainsString('[TOTAL] generated class ACEs for 1 objects (added 1, updated 0)', $output->fetch());
 
         $this->dm->createQueryBuilder(DocumentForAcl::class)
             ->remove()
