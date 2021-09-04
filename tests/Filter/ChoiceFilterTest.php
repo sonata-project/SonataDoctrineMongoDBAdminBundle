@@ -26,14 +26,14 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray([]));
 
-        self::assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     public function testFilterArray(): void
@@ -42,7 +42,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('in')
             ->with(['1', '2']);
 
@@ -50,7 +50,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testFilterScalar(): void
@@ -59,7 +59,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('equals')
             ->with('1');
 
@@ -67,7 +67,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testFilterZero(): void
@@ -76,7 +76,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('equals')
             ->with('0');
 
@@ -84,7 +84,7 @@ final class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     private function createFilter(): ChoiceFilter

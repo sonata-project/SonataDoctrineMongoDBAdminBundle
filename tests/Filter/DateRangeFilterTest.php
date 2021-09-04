@@ -32,14 +32,14 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray($value));
 
-        self::assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -58,7 +58,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
 
     public function testGetType(): void
     {
-        self::assertSame(DateRangeType::class, $this->createFilter()->getFieldType());
+        static::assertSame(DateRangeType::class, $this->createFilter()->getFieldType());
     }
 
     /**
@@ -73,7 +73,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('lte')
             ->with($expectedEndDateTime);
 
@@ -85,8 +85,8 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
         $modelEndDateTime = clone $viewEndDateTime;
         $modelEndDateTime->setTimezone($modelTimeZone);
 
-        self::assertSame($modelTimeZone->getName(), $modelEndDateTime->getTimezone()->getName());
-        self::assertNotSame($modelTimeZone->getName(), $viewEndDateTime->getTimezone()->getName());
+        static::assertSame($modelTimeZone->getName(), $modelEndDateTime->getTimezone()->getName());
+        static::assertNotSame($modelTimeZone->getName(), $viewEndDateTime->getTimezone()->getName());
 
         $filter->apply($proxyQuery, FilterData::fromArray([
             'type' => DateRangeOperatorType::TYPE_BETWEEN,
@@ -96,8 +96,8 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
             ],
         ]));
 
-        self::assertTrue($filter->isActive());
-        self::assertSame($expectedEndDateTime->getTimestamp(), $modelEndDateTime->getTimestamp());
+        static::assertTrue($filter->isActive());
+        static::assertSame($expectedEndDateTime->getTimestamp(), $modelEndDateTime->getTimestamp());
     }
 
     /**

@@ -55,8 +55,8 @@ final class DataSourceTest extends TestCase
 
         $this->dataSource->createIterator($proxyQuery, []);
 
-        self::assertNull($proxyQuery->getFirstResult());
-        self::assertNull($proxyQuery->getMaxResults());
+        static::assertNull($proxyQuery->getFirstResult());
+        static::assertNull($proxyQuery->getMaxResults());
     }
 
     public function testItThrowAnExceptionWithInvalidQuery(): void

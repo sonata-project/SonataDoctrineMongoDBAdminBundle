@@ -67,8 +67,8 @@ final class ShowBuilderTest extends TestCase
         $fieldDescription = new FieldDescription('FakeName', [], ['type' => ClassMetadata::ONE]);
         $fieldDescription->setAdmin($this->admin);
 
-        $this->admin->expects(self::once())->method('attachAdminClass');
-        $this->admin->expects(self::once())->method('addShowFieldDescription');
+        $this->admin->expects(static::once())->method('attachAdminClass');
+        $this->admin->expects(static::once())->method('addShowFieldDescription');
 
         $typeGuess->method('getType')->willReturn('fakeType');
 
@@ -80,7 +80,7 @@ final class ShowBuilderTest extends TestCase
             $fieldDescription
         );
 
-        self::assertSame('fakeType', $fieldDescription->getType());
+        static::assertSame('fakeType', $fieldDescription->getType());
     }
 
     public function testAddFieldWithType(): void
@@ -88,7 +88,7 @@ final class ShowBuilderTest extends TestCase
         $fieldDescription = new FieldDescription('FakeName');
         $fieldDescription->setAdmin($this->admin);
 
-        $this->admin->expects(self::once())->method('addShowFieldDescription');
+        $this->admin->expects(static::once())->method('addShowFieldDescription');
 
         $this->showBuilder->addField(
             new FieldDescriptionCollection(),
@@ -96,7 +96,7 @@ final class ShowBuilderTest extends TestCase
             $fieldDescription
         );
 
-        self::assertSame('someType', $fieldDescription->getType());
+        static::assertSame('someType', $fieldDescription->getType());
     }
 
     public function testFixFieldDescriptionException(): void
