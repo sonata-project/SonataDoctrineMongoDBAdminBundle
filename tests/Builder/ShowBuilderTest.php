@@ -64,7 +64,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
 
     public function testGetBaseList(): void
     {
-        $this->assertInstanceOf(FieldDescriptionCollection::class, $this->showBuilder->getBaseList());
+        static::assertInstanceOf(FieldDescriptionCollection::class, $this->showBuilder->getBaseList());
     }
 
     public function testAddFieldNoType(): void
@@ -73,8 +73,8 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
 
         $fieldDescription = new FieldDescription('FakeName', [], ['type' => ClassMetadata::ONE]);
 
-        $this->admin->expects($this->once())->method('attachAdminClass');
-        $this->admin->expects($this->once())->method('addShowFieldDescription');
+        $this->admin->expects(static::once())->method('attachAdminClass');
+        $this->admin->expects(static::once())->method('addShowFieldDescription');
 
         $typeGuess->method('getType')->willReturn('fakeType');
 
@@ -89,14 +89,14 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
             $this->admin
         );
 
-        $this->assertSame('fakeType', $fieldDescription->getType());
+        static::assertSame('fakeType', $fieldDescription->getType());
     }
 
     public function testAddFieldWithType(): void
     {
         $fieldDescription = new FieldDescription('FakeName');
 
-        $this->admin->expects($this->once())->method('addShowFieldDescription');
+        $this->admin->expects(static::once())->method('addShowFieldDescription');
 
         $this->metadataFactory->method('hasMetadataFor')->willReturn(false);
 
@@ -107,7 +107,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
             $this->admin
         );
 
-        $this->assertSame('someType', $fieldDescription->getType());
+        static::assertSame('someType', $fieldDescription->getType());
     }
 
     /**
@@ -120,7 +120,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
 
         $fieldDescription = new FieldDescription($property, [], $classMetadata->fieldMappings[$property]);
 
-        $this->admin->expects($this->once())->method('attachAdminClass');
+        $this->admin->expects(static::once())->method('attachAdminClass');
 
         $this->metadataFactory
             ->method('hasMetadataFor')
@@ -137,8 +137,8 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
 
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->fieldMappings[$property], $fieldDescription->getFieldMapping());
+        static::assertSame($template, $fieldDescription->getTemplate());
+        static::assertSame($classMetadata->fieldMappings[$property], $fieldDescription->getFieldMapping());
     }
 
     /**
@@ -170,7 +170,7 @@ final class ShowBuilderTest extends AbstractModelManagerTestCase
 
         $this->showBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame($expectedType, $fieldDescription->getType());
+        static::assertSame($expectedType, $fieldDescription->getType());
     }
 
     /**

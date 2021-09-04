@@ -30,14 +30,14 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, $value);
 
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -58,7 +58,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('in')
             ->with(['1', '2']);
 
@@ -66,7 +66,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => ['1', '2']]);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testFilterScalar(): void
@@ -75,7 +75,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with('1');
 
@@ -83,7 +83,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => '1']);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testFilterZero(): void
@@ -92,7 +92,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('equals')
             ->with('0');
 
@@ -100,7 +100,7 @@ class ChoiceFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, ['type' => ContainsOperatorType::TYPE_CONTAINS, 'value' => 0]);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     private function createFilter(): ChoiceFilter

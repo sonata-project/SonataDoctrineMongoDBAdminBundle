@@ -41,7 +41,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, $value);
 
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     public function testFilterClosureNotEmpty(): void
@@ -58,7 +58,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, ['value' => 'myValue']);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -78,7 +78,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, $value);
 
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -105,7 +105,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, ['value' => 'myValue']);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function customCallback(): bool
@@ -145,7 +145,7 @@ class CallbackFilterTest extends FilterWithQueryBuilderTest
         $this->expectDeprecation('Not adding "Sonata\AdminBundle\Filter\Model\FilterData" as type declaration for argument 4 is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.9 and the argument will be a "Sonata\AdminBundle\Filter\Model\FilterData" instance in version 4.0.');
 
         $filter->apply($proxyQuery, ['value' => 'myValue']);
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**

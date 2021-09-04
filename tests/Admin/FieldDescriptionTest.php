@@ -30,8 +30,8 @@ class FieldDescriptionTest extends TestCase
             ]
         );
 
-        $this->assertSame('integer', $field->getType());
-        $this->assertSame('position', $field->getFieldName());
+        static::assertSame('integer', $field->getType());
+        static::assertSame('position', $field->getFieldName());
 
         // cannot overwrite defined definition
         // NEXT_MAJOR: Remove this call.
@@ -41,9 +41,9 @@ class FieldDescriptionTest extends TestCase
         ]);
 
         // NEXT_MAJOR: Remove following three lines.
-        $this->assertSame('integer', $field->getType());
-        $this->assertSame('overwritten', $field->getFieldName());
-        $this->assertSame('integer', $field->getType());
+        static::assertSame('integer', $field->getType());
+        static::assertSame('overwritten', $field->getFieldName());
+        static::assertSame('integer', $field->getType());
     }
 
     public function testGetAssociationMapping(): void
@@ -55,7 +55,7 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], [], $associationMapping);
 
-        $this->assertSame($associationMapping, $field->getAssociationMapping());
+        static::assertSame($associationMapping, $field->getAssociationMapping());
     }
 
     /**
@@ -89,7 +89,7 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], $fieldMapping);
 
-        $this->assertSame('integer', $field->getType());
+        static::assertSame('integer', $field->getType());
     }
 
     public function testSetFieldMappingSetMappingType(): void
@@ -101,7 +101,7 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], $fieldMapping);
 
-        $this->assertSame('integer', $field->getMappingType());
+        static::assertSame('integer', $field->getMappingType());
     }
 
     public function testSetFieldMappingSetFieldName(): void
@@ -113,7 +113,7 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('position', [], $fieldMapping);
 
-        $this->assertSame('position', $field->getFieldName());
+        static::assertSame('position', $field->getFieldName());
     }
 
     /**
@@ -131,11 +131,11 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name');
 
-        $this->assertNull($field->getTargetEntity());
+        static::assertNull($field->getTargetEntity());
 
         $field->setAssociationMapping($assocationMapping);
 
-        $this->assertSame('someValue', $field->getTargetEntity());
+        static::assertSame('someValue', $field->getTargetEntity());
     }
 
     public function testGetTargetModel(): void
@@ -148,11 +148,11 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name');
 
-        $this->assertNull($field->getTargetModel());
+        static::assertNull($field->getTargetModel());
 
         $field = new FieldDescription('name', [], [], $associationMapping);
 
-        $this->assertSame('someValue', $field->getTargetModel());
+        static::assertSame('someValue', $field->getTargetModel());
     }
 
     public function testIsIdentifierFromFieldMapping(): void
@@ -165,7 +165,7 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], $fieldMapping);
 
-        $this->assertTrue($field->isIdentifier());
+        static::assertTrue($field->isIdentifier());
     }
 
     public function testGetFieldMapping(): void
@@ -178,7 +178,7 @@ class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], $fieldMapping);
 
-        $this->assertSame($fieldMapping, $field->getFieldMapping());
+        static::assertSame($fieldMapping, $field->getFieldMapping());
     }
 
     public function testGetParentValue(): void
@@ -211,6 +211,6 @@ class FieldDescriptionTest extends TestCase
             }
         };
 
-        $this->assertSame('hi', $field->getValue($dummyChild));
+        static::assertSame('hi', $field->getValue($dummyChild));
     }
 }

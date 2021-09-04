@@ -80,7 +80,7 @@ class FilterTypeGuesserTest extends AbstractModelManagerTestCase
 
         $result = $this->guesser->guessType($class, $property, $this->modelManager);
 
-        $this->assertNull($result);
+        static::assertNull($result);
     }
 
     public function testGuessTypeWithAssociation(): void
@@ -100,15 +100,15 @@ class FilterTypeGuesserTest extends AbstractModelManagerTestCase
 
         $options = $result->getOptions();
 
-        $this->assertSame(ModelFilter::class, $result->getType());
-        $this->assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
-        $this->assertSame($parentAssociation, $options['parent_association_mappings']);
-        $this->assertSame(ClassMetadata::ONE, $options['mapping_type']);
-        $this->assertSame(EqualOperatorType::class, $options['operator_type']);
-        $this->assertSame([], $options['operator_options']);
-        $this->assertSame($property, $options['field_name']);
-        $this->assertSame(DocumentType::class, $options['field_type']);
-        $this->assertSame($targetDocument, $options['field_options']['class']);
+        static::assertSame(ModelFilter::class, $result->getType());
+        static::assertSame(Guess::HIGH_CONFIDENCE, $result->getConfidence());
+        static::assertSame($parentAssociation, $options['parent_association_mappings']);
+        static::assertSame(ClassMetadata::ONE, $options['mapping_type']);
+        static::assertSame(EqualOperatorType::class, $options['operator_type']);
+        static::assertSame([], $options['operator_options']);
+        static::assertSame($property, $options['field_name']);
+        static::assertSame(DocumentType::class, $options['field_type']);
+        static::assertSame($targetDocument, $options['field_options']['class']);
     }
 
     /**
@@ -140,14 +140,14 @@ class FilterTypeGuesserTest extends AbstractModelManagerTestCase
 
         $options = $result->getOptions();
 
-        $this->assertSame($resultType, $result->getType());
-        $this->assertSame($type, $options['field_name']);
-        $this->assertSame($confidence, $result->getConfidence());
-        $this->assertSame([], $options['options']);
-        $this->assertSame([], $options['field_options']);
+        static::assertSame($resultType, $result->getType());
+        static::assertSame($type, $options['field_name']);
+        static::assertSame($confidence, $result->getConfidence());
+        static::assertSame([], $options['options']);
+        static::assertSame([], $options['field_options']);
 
         if ($fieldType) {
-            $this->assertSame($fieldType, $options['field_type']);
+            static::assertSame($fieldType, $options['field_type']);
         }
     }
 

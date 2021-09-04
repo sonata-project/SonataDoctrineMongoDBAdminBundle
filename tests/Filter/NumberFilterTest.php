@@ -31,13 +31,13 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
         $filter->apply($builder, $value);
 
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -57,14 +57,14 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, ['type' => 'foo']);
 
-        $this->assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -76,14 +76,14 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects($this->once())
+            ->expects(static::once())
             ->method($method)
             ->with($data['value']);
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, $data);
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -105,7 +105,7 @@ class NumberFilterTest extends FilterWithQueryBuilderTest
     {
         $filter = $this->createFilter();
 
-        $this->assertSame(NumberType::class, $filter->getFieldType());
+        static::assertSame(NumberType::class, $filter->getFieldType());
     }
 
     private function createFilter(): NumberFilter

@@ -82,7 +82,7 @@ final class ModelManagerTest extends TestCase
             ->with(DocumentWithReferences::class)
             ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
 
-        $this->assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
+        static::assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
     }
 
     /**
@@ -128,7 +128,7 @@ final class ModelManagerTest extends TestCase
             'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
         );
 
-        $this->assertNull($manager->getNormalizedIdentifier(null));
+        static::assertNull($manager->getNormalizedIdentifier(null));
     }
 
     /**
@@ -165,23 +165,23 @@ final class ModelManagerTest extends TestCase
         $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getSortParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
         $parameters = $manager->getSortParameters($field1, $datagrid1);
 
-        $this->assertSame('DESC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field1', $parameters['filter']['_sort_by']);
+        static::assertSame('DESC', $parameters['filter']['_sort_order']);
+        static::assertSame('field1', $parameters['filter']['_sort_by']);
 
         $parameters = $manager->getSortParameters($field2, $datagrid1);
 
-        $this->assertSame('ASC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field2', $parameters['filter']['_sort_by']);
+        static::assertSame('ASC', $parameters['filter']['_sort_order']);
+        static::assertSame('field2', $parameters['filter']['_sort_by']);
 
         $parameters = $manager->getSortParameters($field3, $datagrid1);
 
-        $this->assertSame('ASC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field3sortBy', $parameters['filter']['_sort_by']);
+        static::assertSame('ASC', $parameters['filter']['_sort_order']);
+        static::assertSame('field3sortBy', $parameters['filter']['_sort_by']);
 
         $parameters = $manager->getSortParameters($field3, $datagrid2);
 
-        $this->assertSame('DESC', $parameters['filter']['_sort_order']);
-        $this->assertSame('field3sortBy', $parameters['filter']['_sort_by']);
+        static::assertSame('DESC', $parameters['filter']['_sort_order']);
+        static::assertSame('field3sortBy', $parameters['filter']['_sort_by']);
     }
 
     /**
@@ -220,17 +220,17 @@ final class ModelManagerTest extends TestCase
         /** @var ClassMetadata $metadata */
         [$metadata, $lastPropertyName] = $modelManager
             ->getParentMetadataForProperty($containerDocumentClass, 'plainField');
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'int');
+        static::assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'int');
 
         [$metadata, $lastPropertyName] = $modelManager
             ->getParentMetadataForProperty($containerDocumentClass, 'associatedDocument.plainField');
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'int');
+        static::assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'int');
 
         [$metadata, $lastPropertyName] = $modelManager
             ->getParentMetadataForProperty($containerDocumentClass, 'embeddedDocument.plainField');
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'bool');
+        static::assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'bool');
 
-        $this->assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'bool');
+        static::assertSame($metadata->fieldMappings[$lastPropertyName]['type'], 'bool');
     }
 
     /**
@@ -251,10 +251,10 @@ final class ModelManagerTest extends TestCase
                 'schwifty' => true,
             ]
         );
-        $this->assertInstanceOf($class, $object);
-        $this->assertSame(42, $object->getSchmeckles());
-        $this->assertSame('hello', $object->getMultiWordProperty());
-        $this->assertTrue($object->schwifty);
+        static::assertInstanceOf($class, $object);
+        static::assertSame(42, $object->getSchmeckles());
+        static::assertSame('hello', $object->getMultiWordProperty());
+        static::assertTrue($object->schwifty);
     }
 
     /**
@@ -303,9 +303,9 @@ final class ModelManagerTest extends TestCase
             ]
         );
 
-        $this->assertSame(42, $testDocument->getSchmeckles());
-        $this->assertSame('hello', $testDocument->getMultiWordProperty());
-        $this->assertTrue($testDocument->schwifty);
+        static::assertSame(42, $testDocument->getSchmeckles());
+        static::assertSame('hello', $testDocument->getMultiWordProperty());
+        static::assertTrue($testDocument->schwifty);
     }
 
     public function testReverseTransformFailsWithPrivateSetter(): void
@@ -339,22 +339,22 @@ final class ModelManagerTest extends TestCase
 
         $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getModelCollectionInstance() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
         $collection = $model->getModelCollectionInstance('whyDoWeEvenHaveThisParameter');
-        $this->assertInstanceOf(ArrayCollection::class, $collection);
+        static::assertInstanceOf(ArrayCollection::class, $collection);
 
         $item1 = new \stdClass();
         $item2 = new \stdClass();
         $model->collectionAddElement($collection, $item1);
         $model->collectionAddElement($collection, $item2);
 
-        $this->assertTrue($model->collectionHasElement($collection, $item1));
+        static::assertTrue($model->collectionHasElement($collection, $item1));
 
         $model->collectionRemoveElement($collection, $item1);
 
-        $this->assertFalse($model->collectionHasElement($collection, $item1));
+        static::assertFalse($model->collectionHasElement($collection, $item1));
 
         $model->collectionClear($collection);
 
-        $this->assertTrue($collection->isEmpty());
+        static::assertTrue($collection->isEmpty());
     }
 
     /**
@@ -375,7 +375,7 @@ final class ModelManagerTest extends TestCase
 
         $result = $model->modelTransform('thisIsNotUsed', $instance);
 
-        $this->assertSame($instance, $result);
+        static::assertSame($instance, $result);
     }
 
     /**
@@ -388,11 +388,11 @@ final class ModelManagerTest extends TestCase
         $datagrid = $this->createMock(DatagridInterface::class);
         $fieldDescription = $this->createMock(FieldDescriptionInterface::class);
 
-        $datagrid->expects($this->once())
+        $datagrid->expects(static::once())
             ->method('getValues')
             ->willReturn(['_sort_by' => $fieldDescription]);
 
-        $fieldDescription->expects($this->once())
+        $fieldDescription->expects(static::once())
             ->method('getName')
             ->willReturn($name = 'test');
 
@@ -401,8 +401,8 @@ final class ModelManagerTest extends TestCase
         $this->expectDeprecation('Method Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getPaginationParameters() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.4 and will be removed in version 4.0.');
         $result = $model->getPaginationParameters($datagrid, $page = 5);
 
-        $this->assertSame($page, $result['filter']['_page']);
-        $this->assertSame($name, $result['filter']['_sort_by']);
+        static::assertSame($page, $result['filter']['_page']);
+        static::assertSame($name, $result['filter']['_sort_by']);
     }
 
     /**
@@ -428,7 +428,7 @@ final class ModelManagerTest extends TestCase
     {
         $model = new ModelManager($this->registry, $this->propertyAccessor);
 
-        $this->assertInstanceOf(ProtectedDocument::class, $model->getModelInstance(ProtectedDocument::class));
+        static::assertInstanceOf(ProtectedDocument::class, $model->getModelInstance(ProtectedDocument::class));
     }
 
     /**
@@ -444,7 +444,7 @@ final class ModelManagerTest extends TestCase
             'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::find() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
         );
 
-        $this->assertNull($model->find('notImportant', null));
+        static::assertNull($model->find('notImportant', null));
     }
 
     public function testGetUrlSafeIdentifierException(): void
@@ -469,7 +469,7 @@ final class ModelManagerTest extends TestCase
             'Passing null as argument 1 for Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager::getNormalizedIdentifier() is deprecated since sonata-project/doctrine-mongodb-admin-bundle 3.6 and will be not allowed in version 4.0.'
         );
 
-        $this->assertNull($model->getNormalizedIdentifier(null));
+        static::assertNull($model->getNormalizedIdentifier(null));
     }
 
     /**
@@ -497,15 +497,15 @@ final class ModelManagerTest extends TestCase
 
         $fieldDescription = $modelManager->getNewFieldDescriptionInstance($containerDocumentClass, 'plainField');
 
-        $this->assertSame('edit', $fieldDescription->getOption('route')['name']);
-        $this->assertSame($containerDocumentMetadata->getFieldMapping('plainField'), $fieldDescription->getFieldMapping());
+        static::assertSame('edit', $fieldDescription->getOption('route')['name']);
+        static::assertSame($containerDocumentMetadata->getFieldMapping('plainField'), $fieldDescription->getFieldMapping());
     }
 
     public function testCreateQuery(): void
     {
         $repository = $this->createMock(DocumentRepository::class);
         $repository
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('createQueryBuilder')
             ->willReturn($this->createStub(Builder::class));
 
@@ -529,7 +529,7 @@ final class ModelManagerTest extends TestCase
     {
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
-        $this->assertSame($expected, $modelManager->supportsQuery($object));
+        static::assertSame($expected, $modelManager->supportsQuery($object));
     }
 
     /**
@@ -549,11 +549,11 @@ final class ModelManagerTest extends TestCase
 
         $classMetadata = $this->getMetadataForDocumentWithAnnotations($class);
 
-        $modelManager->expects($this->once())
+        $modelManager->expects(static::once())
             ->method('getClassMetadata')
             ->with($class)
             ->willReturn($classMetadata);
-        $registry->expects($this->once())
+        $registry->expects(static::once())
             ->method('getManagerForClass')
             ->with($class)
             ->willReturn($modelManager);

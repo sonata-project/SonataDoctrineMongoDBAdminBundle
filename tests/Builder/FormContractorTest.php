@@ -56,7 +56,7 @@ class FormContractorTest extends AbstractModelManagerTestCase
 
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
 
-        $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getFieldMapping());
+        static::assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getFieldMapping());
     }
 
     public function testFixFieldDescriptionForAssociationMapping(): void
@@ -78,6 +78,6 @@ class FormContractorTest extends AbstractModelManagerTestCase
 
         $this->formContractor->fixFieldDescription($admin, $fieldDescription);
 
-        $this->assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getAssociationMapping());
+        static::assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getAssociationMapping());
     }
 }

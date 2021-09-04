@@ -68,13 +68,13 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         $list = $this->listBuilder->getBaseList();
 
         $this->admin
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('addListFieldDescription');
 
         $this->listBuilder
             ->addField($list, 'actions', $fieldDescription, $this->admin);
 
-        $this->assertSame(
+        static::assertSame(
             '@SonataAdmin/CRUD/list__action.html.twig',
             $list->get('foo')->getTemplate(),
             'Custom list action field has a default list action template assigned'
@@ -94,12 +94,12 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         $list = $this->listBuilder->getBaseList();
 
         $this->admin
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('addListFieldDescription');
 
         $this->listBuilder->addField($list, null, $fieldDescription, $this->admin);
 
-        $this->assertSame(
+        static::assertSame(
             'actions',
             $list->get('_action')->getType(),
             'Standard list _action field has "actions" type'
@@ -133,8 +133,8 @@ class ListBuilderTest extends AbstractModelManagerTestCase
 
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->getFieldMapping('name'), $fieldDescription->getFieldMapping());
+        static::assertSame('@SonataAdmin/CRUD/list_string.html.twig', $fieldDescription->getTemplate());
+        static::assertSame($classMetadata->getFieldMapping('name'), $fieldDescription->getFieldMapping());
     }
 
     /**
@@ -153,7 +153,7 @@ class ListBuilderTest extends AbstractModelManagerTestCase
         );
 
         $this->admin
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('attachAdminClass');
 
         $this->metadataFactory
@@ -171,8 +171,8 @@ class ListBuilderTest extends AbstractModelManagerTestCase
 
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame($template, $fieldDescription->getTemplate());
-        $this->assertSame($classMetadata->associationMappings[$property], $fieldDescription->getAssociationMapping());
+        static::assertSame($template, $fieldDescription->getTemplate());
+        static::assertSame($classMetadata->associationMappings[$property], $fieldDescription->getAssociationMapping());
     }
 
     /**
@@ -203,7 +203,7 @@ class ListBuilderTest extends AbstractModelManagerTestCase
 
         $this->listBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame($expectedType, $fieldDescription->getType());
+        static::assertSame($expectedType, $fieldDescription->getType());
     }
 
     /**

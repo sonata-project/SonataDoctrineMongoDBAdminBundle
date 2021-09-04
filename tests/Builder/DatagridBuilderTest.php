@@ -102,8 +102,8 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
 
         $datagrid = $this->datagridBuilder->getBaseDatagrid($this->admin);
 
-        $this->assertInstanceOf(Datagrid::class, $datagrid);
-        $this->assertInstanceOf($pager, $datagrid->getPager());
+        static::assertInstanceOf(Datagrid::class, $datagrid);
+        static::assertInstanceOf($pager, $datagrid->getPager());
     }
 
     /**
@@ -146,7 +146,7 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
 
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
+        static::assertSame($classMetadata->fieldMappings['name'], $fieldDescription->getOption('field_mapping'));
     }
 
     public function testFixFieldDescriptionWithAssociationMapping(): void
@@ -162,7 +162,7 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         );
 
         $this->admin
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('attachAdminClass');
 
         $this->admin
@@ -180,13 +180,13 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
 
         $this->datagridBuilder->fixFieldDescription($this->admin, $fieldDescription);
 
-        $this->assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getOption('association_mapping'));
+        static::assertSame($classMetadata->associationMappings['embeddedDocument'], $fieldDescription->getOption('association_mapping'));
     }
 
     public function testAddFilterNoType(): void
     {
         $this->admin
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('addFilterFieldDescription');
 
         $datagrid = $this->createMock(DatagridInterface::class);
@@ -202,7 +202,7 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $this->typeGuesser->method('guess')->willReturn($guessType);
 
         $this->metadataFactory
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('hasMetadataFor')->willReturn(false);
 
         $this->admin->method('getCode')->willReturn('someFakeCode');
@@ -212,12 +212,12 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $this->admin->method('getLabelTranslatorStrategy')->willReturn(new FormLabelTranslatorStrategy());
 
         $datagrid
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('addFilter')
-            ->with($this->isInstanceOf(ModelFilter::class));
+            ->with(static::isInstanceOf(ModelFilter::class));
 
         $this->filterFactory
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('create')
             ->with('test', ModelFilter::class);
 
@@ -228,14 +228,14 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
             $this->admin
         );
 
-        $this->assertSame('guess_value', $fieldDescription->getOption('guess_option'));
-        $this->assertSame(['guess_array_value'], $fieldDescription->getOption('guess_array_option'));
+        static::assertSame('guess_value', $fieldDescription->getOption('guess_option'));
+        static::assertSame(['guess_array_value'], $fieldDescription->getOption('guess_array_option'));
     }
 
     public function testAddFilterWithType(): void
     {
         $this->admin
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('addFilterFieldDescription');
 
         $datagrid = $this->createMock(DatagridInterface::class);
@@ -247,9 +247,9 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
         $this->admin->method('getLabelTranslatorStrategy')->willReturn(new FormLabelTranslatorStrategy());
 
         $datagrid
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('addFilter')
-            ->with($this->isInstanceOf(ModelFilter::class));
+            ->with(static::isInstanceOf(ModelFilter::class));
 
         $this->datagridBuilder->addFilter(
             $datagrid,
@@ -258,6 +258,6 @@ final class DatagridBuilderTest extends AbstractModelManagerTestCase
             $this->admin
         );
 
-        $this->assertSame(ModelFilter::class, $fieldDescription->getType());
+        static::assertSame(ModelFilter::class, $fieldDescription->getType());
     }
 }
