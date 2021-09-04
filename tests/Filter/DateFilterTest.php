@@ -26,19 +26,19 @@ final class DateFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray([]));
 
-        self::assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     public function testGetType(): void
     {
-        self::assertSame(DateType::class, $this->createFilter()->getFieldType());
+        static::assertSame(DateType::class, $this->createFilter()->getFieldType());
     }
 
     public function testFilterRecordsWholeDay(): void
@@ -50,12 +50,12 @@ final class DateFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('gte')
             ->with($date);
 
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('lt')
             ->with($datePlusOneDay);
 
@@ -63,7 +63,7 @@ final class DateFilterTest extends FilterWithQueryBuilderTest
 
         $filter->apply($builder, FilterData::fromArray(['value' => $date]));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     private function createFilter(): DateFilter

@@ -32,14 +32,14 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::never())
+            ->expects(static::never())
             ->method('field');
 
         $builder = new ProxyQuery($queryBuilder);
 
         $filter->apply($builder, FilterData::fromArray($value));
 
-        self::assertFalse($filter->isActive());
+        static::assertFalse($filter->isActive());
     }
 
     /**
@@ -58,7 +58,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
 
     public function testGetType(): void
     {
-        self::assertSame(DateTimeRangeType::class, $this->createFilter()->getFieldType());
+        static::assertSame(DateTimeRangeType::class, $this->createFilter()->getFieldType());
     }
 
     /**
@@ -73,12 +73,12 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('gte')
             ->with($startDate);
 
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('lte')
             ->with($endDate);
 
@@ -92,7 +92,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
             ],
         ]));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     /**
@@ -113,12 +113,12 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
 
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('lt')
             ->with($startDate);
 
         $queryBuilder
-            ->expects(self::once())
+            ->expects(static::once())
             ->method('gt')
             ->with($endDate);
 
@@ -132,7 +132,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
             ],
         ]));
 
-        self::assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     private function createFilter(): DateTimeRangeFilter

@@ -30,7 +30,7 @@ final class FieldDescriptionTest extends TestCase
             ]
         );
 
-        self::assertSame('integer', $field->getMappingType());
+        static::assertSame('integer', $field->getMappingType());
     }
 
     public function testGetAssociationMapping(): void
@@ -42,7 +42,7 @@ final class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], [], $associationMapping);
 
-        self::assertSame($associationMapping, $field->getAssociationMapping());
+        static::assertSame($associationMapping, $field->getAssociationMapping());
     }
 
     public function testSetFieldMappingSetMappingType(): void
@@ -54,7 +54,7 @@ final class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], $fieldMapping);
 
-        self::assertSame('integer', $field->getMappingType());
+        static::assertSame('integer', $field->getMappingType());
     }
 
     public function testGetTargetModel(): void
@@ -67,11 +67,11 @@ final class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name');
 
-        self::assertNull($field->getTargetModel());
+        static::assertNull($field->getTargetModel());
 
         $field = new FieldDescription('name', [], [], $associationMapping);
 
-        self::assertSame(\stdClass::class, $field->getTargetModel());
+        static::assertSame(\stdClass::class, $field->getTargetModel());
     }
 
     public function testIsIdentifierFromFieldMapping(): void
@@ -84,7 +84,7 @@ final class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], $fieldMapping);
 
-        self::assertTrue($field->isIdentifier());
+        static::assertTrue($field->isIdentifier());
     }
 
     public function testGetFieldMapping(): void
@@ -97,7 +97,7 @@ final class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], $fieldMapping);
 
-        self::assertSame($fieldMapping, $field->getFieldMapping());
+        static::assertSame($fieldMapping, $field->getFieldMapping());
     }
 
     public function testGetParentValue(): void
@@ -130,6 +130,6 @@ final class FieldDescriptionTest extends TestCase
             }
         };
 
-        self::assertSame('hi', $field->getValue($dummyChild));
+        static::assertSame('hi', $field->getValue($dummyChild));
     }
 }
