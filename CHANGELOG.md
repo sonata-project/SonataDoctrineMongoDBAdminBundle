@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.0.0-rc.1...4.0.0) - 2021-09-06
+### Changed
+- [[#659](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/659)] Do not set a default route option to `FieldDescription` in `FieldDescriptionFactory` ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#641](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/641)] `AbstractDateFilter::getDefaultOptions()` is final ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#641](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/641)] `AbstractDateFilter::getRenderSettings()` is final ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [4.0.0-rc.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.0.0-alpha.1...4.0.0-rc.1) - 2021-08-12
 ### Removed
 - [[#632](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/632)] Removed support for PHP < 7.3 ([@franmomu](https://github.com/franmomu))
