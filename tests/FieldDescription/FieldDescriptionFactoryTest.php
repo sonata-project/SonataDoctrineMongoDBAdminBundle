@@ -25,10 +25,6 @@ final class FieldDescriptionFactoryTest extends RegistryTestCase
         $fieldDescriptionFactory = new FieldDescriptionFactory($this->registry);
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'plainField');
-
-        static::assertSame('edit', $fieldDescription->getOption('route')['name']);
-
-        $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'plainField');
         static::assertSame(Type::INT, $fieldDescription->getMappingType());
 
         $fieldDescription = $fieldDescriptionFactory->create(ContainerDocument::class, 'associatedDocument.plainField');
