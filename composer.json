@@ -31,7 +31,7 @@
         "doctrine/mongodb-odm": "^2.1",
         "doctrine/mongodb-odm-bundle": "^4.3",
         "doctrine/persistence": "^2.0",
-        "sonata-project/admin-bundle": "^4.0@rc",
+        "sonata-project/admin-bundle": "^4.0",
         "sonata-project/form-extensions": "^1.7.1",
         "symfony/config": "^4.4 || ^5.3",
         "symfony/dependency-injection": "^4.4 || ^5.3",
