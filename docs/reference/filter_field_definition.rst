@@ -33,6 +33,10 @@ Some filter types are missing. Contributions are welcome.
   - ``Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\NumberType`` form type
   - ``Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\ChoiceType``
   - ``Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\ChoiceType`` form type, renders yes or no field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\DateType`` form type, renders a date field.
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\DateRangeFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\DateRangeType`` form type, renders a 2 date fields
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\DateTimeType`` form type, renders a datetime field
+  - ``Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeRangeFilter``: depends on the ``Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType`` form type, renders a 2 date fields
 
 Example
 -------
