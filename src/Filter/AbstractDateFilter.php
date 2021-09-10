@@ -178,11 +178,21 @@ abstract class AbstractDateFilter extends Filter
         $type = $data->getType() ?? DateRangeOperatorType::TYPE_BETWEEN;
 
         if (DateRangeOperatorType::TYPE_NOT_BETWEEN === $type) {
-            $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_LESS_THAN), $field, $value['start']);
-            $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_GREATER_THAN), $field, $value['end']);
+            if (null !== $value['start']) {
+                $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_LESS_THAN), $field, $value['start']);
+            }
+
+            if (null !== $value['end']) {
+                $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_GREATER_THAN), $field, $value['end']);
+            }
         } else {
-            $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_GREATER_EQUAL), $field, $value['start']);
-            $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_LESS_EQUAL), $field, $value['end']);
+            if (null !== $value['start']) {
+                $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_GREATER_EQUAL), $field, $value['start']);
+            }
+
+            if (null !== $value['end']) {
+                $this->applyType($query, $this->getOperator(DateOperatorType::TYPE_LESS_EQUAL), $field, $value['end']);
+            }
         }
     }
 }
