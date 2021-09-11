@@ -61,6 +61,62 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
         static::assertSame(DateRangeType::class, $this->createFilter()->getFieldType());
     }
 
+    public function testFilterStartDate(): void
+    {
+        $filter = $this->createFilter();
+
+        $startDateTime = new \DateTime('2016-08-01');
+
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
+            ->expects(static::once())
+            ->method('gte')
+            ->with($startDateTime);
+        $queryBuilder
+            ->expects(static::never())
+            ->method('lte');
+
+        $proxyQuery = new ProxyQuery($queryBuilder);
+
+        $filter->apply($proxyQuery, FilterData::fromArray([
+            'type' => null,
+            'value' => [
+                'start' => $startDateTime,
+                'end' => null,
+            ],
+        ]));
+
+        static::assertTrue($filter->isActive());
+    }
+
+    public function testFilterEndDate(): void
+    {
+        $filter = $this->createFilter();
+
+        $endDateTime = new \DateTime('2016-08-31');
+
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder
+            ->expects(static::once())
+            ->method('lte')
+            ->with($endDateTime);
+        $queryBuilder
+            ->expects(static::never())
+            ->method('gte');
+
+        $proxyQuery = new ProxyQuery($queryBuilder);
+
+        $filter->apply($proxyQuery, FilterData::fromArray([
+            'type' => null,
+            'value' => [
+                'start' => null,
+                'end' => $endDateTime,
+            ],
+        ]));
+
+        static::assertTrue($filter->isActive());
+    }
+
     /**
      * @dataProvider provideDates
      */
