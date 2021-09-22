@@ -231,4 +231,13 @@ final class DatagridBuilderTest extends TestCase
 
         static::assertSame(ModelFilter::class, $fieldDescription->getType());
     }
+
+    public function testFixFieldDescriptionSetsFieldName(): void
+    {
+        $fieldDescription = new FieldDescription('name', [], [], [], [], 'fieldName');
+
+        $this->datagridBuilder->fixFieldDescription($fieldDescription);
+
+        static::assertSame('fieldName', $fieldDescription->getOption('field_name'));
+    }
 }
