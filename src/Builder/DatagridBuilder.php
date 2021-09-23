@@ -81,7 +81,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
             $fieldDescription->setOption('parent_association_mappings', $fieldDescription->getOption('parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
         }
 
-        $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
+        $fieldDescription->setOption('field_name', $fieldDescription->getOption('field_name', $fieldDescription->getFieldName()));
 
         if ($fieldDescription->describesAssociation()) {
             $fieldDescription->getAdmin()->attachAdminClass($fieldDescription);
