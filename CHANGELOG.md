@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.0.0...4.0.1) - 2021-10-01
+### Fixed
+- [[#680](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/680)] Fixed not forcing to set `field_name` in `DatagridMapper` fields with type defined ([@franmomu](https://github.com/franmomu))
+- [[#662](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/662)] Registered `DateRangeFilter` and `DateTimeRangeFilter` in Service Container ([@javer](https://github.com/javer))
+- [[#665](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/665)] Allow open ranges for `DateRangeFilter` and `DateTimeRangeFilter` ([@javer](https://github.com/javer))
+
 ## [4.0.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.0.0-rc.1...4.0.0) - 2021-09-06
 ### Changed
 - [[#659](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/659)] Do not set a default route option to `FieldDescription` in `FieldDescriptionFactory` ([@VincentLanglet](https://github.com/VincentLanglet))
