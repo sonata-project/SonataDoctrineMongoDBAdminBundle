@@ -11,7 +11,7 @@
         "Mongo",
         "MongoDB"
     ],
-    "homepage": "http://sonata-project.org/bundles/admin",
+    "homepage": "https://docs.sonata-project.org/projects/SonataDoctrineMongoDBAdminBundle",
     "license": "MIT",
     "authors": [
         {
