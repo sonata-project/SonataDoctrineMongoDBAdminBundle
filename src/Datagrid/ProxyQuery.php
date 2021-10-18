@@ -70,7 +70,7 @@ final class ProxyQuery implements ProxyQueryInterface
     /**
      * @psalm-suppress TooManyTemplateParams until release of doctrine/mongodb-odm 2.3
      *
-     * @return \Traversable<object>&Iterator<object>
+     * @return Iterator<object>
      */
     public function execute()
     {

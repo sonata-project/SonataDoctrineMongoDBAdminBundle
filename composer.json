@@ -57,6 +57,7 @@
         "phpstan/phpstan-phpunit": "^0.12.17",
         "phpstan/phpstan-strict-rules": "^0.12.10",
         "phpstan/phpstan-symfony": "^0.12.20",
+        "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.15.1",
         "psalm/plugin-symfony": "^2.0",
         "sonata-project/block-bundle": "^4.2",
@@ -78,13 +79,5 @@
         "psr-4": {
             "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\": "tests/"
         }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/simple-phpunit install"
-        ],
-        "post-update-cmd": [
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/simple-phpunit install"
-        ]
     }
 }
