@@ -32,6 +32,11 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @see https://github.com/psalm/psalm-plugin-symfony/pull/220
+ */
 final class AppKernel extends Kernel
 {
     use MicroKernelTrait;

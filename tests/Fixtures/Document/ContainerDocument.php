@@ -21,6 +21,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class ContainerDocument
 {
     /**
+     * @ODM\EmbedOne(targetDocument=EmbeddedDocument::class)
+     *
+     * @var EmbeddedDocument
+     */
+    public $embeddedDocument;
+
+    /**
      * @ODM\Field(type="int")
      *
      * @var int
@@ -33,13 +40,6 @@ class ContainerDocument
      * @var AssociatedDocument
      */
     private $associatedDocument;
-
-    /**
-     * @ODM\EmbedOne(targetDocument=EmbeddedDocument::class)
-     *
-     * @var EmbeddedDocument
-     */
-    private $embeddedDocument;
 
     public function __construct(AssociatedDocument $associatedDocument, EmbeddedDocument $embeddedDocument)
     {

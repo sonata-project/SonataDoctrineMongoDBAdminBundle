@@ -25,35 +25,35 @@ class DocumentWithReferences
      *
      * @var string|null
      */
-    private $id;
+    public $id;
 
     /**
      * @ODM\Field(type="string")
      *
      * @var string
      */
-    private $name;
+    public $name;
 
     /**
      * @ODM\EmbedOne()
      *
      * @var EmbeddedDocument|null
      */
-    private $embeddedDocument;
+    public $embeddedDocument;
 
     /**
      * @ODM\EmbedMany()
      *
      * @var Collection<array-key, EmbeddedDocument>
      */
-    private $embeddedDocuments;
+    public $embeddedDocuments;
 
     /**
      * @ODM\ReferenceOne(targetDocument=TestDocument::class)
      *
      * @var TestDocument|null
      */
-    private $referenceOne;
+    public $referenceOne;
 
     public function __construct(string $name, ?EmbeddedDocument $embeddedDocument = null)
     {

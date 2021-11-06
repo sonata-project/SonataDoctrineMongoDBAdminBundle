@@ -46,8 +46,6 @@ final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
     }
 
     /**
-     * @psalm-suppress RedundantConditionGivenDocblockType see https://github.com/doctrine/mongodb-odm/issues/2325
-     *
      * @phpstan-param class-string $baseClass
      *
      * @phpstan-return array{

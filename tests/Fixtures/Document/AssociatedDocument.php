@@ -21,18 +21,18 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class AssociatedDocument
 {
     /**
+     * @ODM\EmbedOne(targetDocument=EmbeddedDocument::class)
+     *
+     * @var EmbeddedDocument
+     */
+    public $embeddedDocument;
+
+    /**
      * @ODM\Field(type="int")
      *
      * @var int
      */
     private $plainField;
-
-    /**
-     * @ODM\EmbedOne(targetDocument=EmbeddedDocument::class)
-     *
-     * @var EmbeddedDocument
-     */
-    private $embeddedDocument;
 
     public function __construct(int $plainField, EmbeddedDocument $embeddedDocument)
     {
