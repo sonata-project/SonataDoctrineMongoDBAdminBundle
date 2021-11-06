@@ -44,27 +44,24 @@
     "conflict": {
         "sonata-project/block-bundle": "<4.2"
     },
-    "provide": {
-        "sonata-project/admin-bundle-persistency-layer": "1.0.0"
-    },
     "require-dev": {
         "doctrine/annotations": "^1.10",
         "doctrine/data-fixtures": "^1.4",
         "matthiasnoback/symfony-config-test": "^4.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^0.12.52",
-        "phpstan/phpstan-phpunit": "^0.12.17",
-        "phpstan/phpstan-strict-rules": "^0.12.10",
-        "phpstan/phpstan-symfony": "^0.12.20",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpstan/phpstan-strict-rules": "^1.0",
+        "phpstan/phpstan-symfony": "^1.0",
         "phpunit/phpunit": "^9.5",
-        "psalm/plugin-phpunit": "^0.15.1",
-        "psalm/plugin-symfony": "^2.0",
+        "psalm/plugin-phpunit": "^0.16",
+        "psalm/plugin-symfony": "^3.0",
         "sonata-project/block-bundle": "^4.2",
         "symfony/browser-kit": "^4.4 || ^5.3",
         "symfony/css-selector": "^4.4 || ^5.3",
         "symfony/panther": "^1.0",
-        "symfony/phpunit-bridge": "^5.1.8",
+        "symfony/phpunit-bridge": "^5.3",
         "vimeo/psalm": "^4.1.1"
     },
     "config": {

@@ -30,6 +30,9 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface>
+ * @psalm-suppress DeprecatedInterface
+ *
+ * @see https://github.com/sonata-project/SonataAdminBundle/pull/7519
  */
 final class DatagridBuilder implements DatagridBuilderInterface
 {
