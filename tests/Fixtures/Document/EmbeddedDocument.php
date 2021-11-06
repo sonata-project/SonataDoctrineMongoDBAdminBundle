@@ -31,7 +31,7 @@ class EmbeddedDocument
      *
      * @var bool
      */
-    private $plainField = true;
+    public $plainField = true;
 
     public function __construct(int $position = 0)
     {

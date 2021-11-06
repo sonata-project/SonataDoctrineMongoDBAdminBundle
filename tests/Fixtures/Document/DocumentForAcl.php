@@ -25,7 +25,7 @@ class DocumentForAcl
      *
      * @var string|null
      */
-    private $id;
+    public $id;
 
     public function getId(): ?string
     {

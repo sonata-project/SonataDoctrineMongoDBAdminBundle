@@ -32,6 +32,13 @@ class TestDocument
      *
      * @var int
      */
+    public $plumbus = 0;
+
+    /**
+     * @ODM\Field(type="int")
+     *
+     * @var int
+     */
     private $schmeckles = 0;
 
     /**
@@ -40,13 +47,6 @@ class TestDocument
      * @var string
      */
     private $multiWordProperty = '';
-
-    /**
-     * @ODM\Field(type="int")
-     *
-     * @var int
-     */
-    private $plumbus = 0;
 
     public function getSchmeckles(): int
     {
