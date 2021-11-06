@@ -31,8 +31,13 @@ class TestDocument
      * @ODM\Field(type="int")
      *
      * @var int
+     *
+     * @phpstan-ignore-next-line
+     *
+     * This property is private on purpose, to test an error is thrown
+     * when trying to reverse transform it on ModelManager.
      */
-    public $plumbus = 0;
+    private $plumbus = 0;
 
     /**
      * @ODM\Field(type="int")
