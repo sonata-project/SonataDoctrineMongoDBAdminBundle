@@ -50,7 +50,7 @@ final class EmbeddedMappingTest extends BasePantherTestCase
         $form[$attributeAddressStreet] = 'A wonderful street to live';
 
         $crawler->filter('.field-container .sonata-ba-action[title="Add new"]')->click();
-        // $crawler = $this->client->waitFor('.phone_number_number');
+        $crawler = $this->client->waitFor('.phone_number_number');
 
         $attributePhoneNumber = $crawler->filter('.phone_number_number')->attr('name');
         static::assertIsString($attributePhoneNumber);
