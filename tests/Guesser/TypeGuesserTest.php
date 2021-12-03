@@ -71,7 +71,18 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
             ->with($property)
             ->willReturn(true);
 
-        $classMetadata->fieldMappings = [$property => ['type' => $mappingType]];
+        $classMetadata->fieldMappings = [$property => [
+            'type' => $mappingType,
+            'fieldName' => $property,
+            'isCascadeDetach' => true,
+            'isCascadeMerge' => true,
+            'isCascadePersist' => true,
+            'isCascadeRefresh' => true,
+            'isCascadeRemove' => true,
+            'isInverseSide' => false,
+            'isOwningSide' => false,
+            'name' => $property,
+        ]];
 
         $this->documentManager
             ->method('getClassMetadata')
