@@ -126,7 +126,19 @@ class FilterTypeGuesserTest extends AbstractModelManagerTestCase
             ->with($property)
             ->willReturn(false);
 
-        $classMetadata->fieldMappings = [$property => ['fieldName' => $type]];
+        $classMetadata->fieldMappings = [$property => [
+            'fieldName' => $type,
+            'isCascadeDetach' => true,
+            'isCascadeMerge' => true,
+            'isCascadePersist' => true,
+            'isCascadeRefresh' => true,
+            'isCascadeRemove' => true,
+            'isInverseSide' => false,
+            'isOwningSide' => false,
+            'name' => $property,
+            'type' => $type,
+        ]];
+
         $classMetadata
             ->method('getTypeOfField')
             ->with($property)
