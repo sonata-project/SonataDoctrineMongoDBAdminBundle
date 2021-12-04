@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.0.1...4.1.0) - 2021-12-04
+### Added
+- [[#699](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/699)] Added support for Symfony 6 ([@jordisala1991](https://github.com/jordisala1991))
+
 ## [4.0.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.0.0...4.0.1) - 2021-10-01
 ### Fixed
 - [[#680](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/680)] Fixed not forcing to set `field_name` in `DatagridMapper` fields with type defined ([@franmomu](https://github.com/franmomu))
