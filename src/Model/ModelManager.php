@@ -71,6 +71,12 @@ final class ModelManager implements ModelManagerInterface
         $documentManager->flush();
     }
 
+    /**
+     * @param int|string $id
+     *
+     * @phpstan-param class-string<T> $class
+     * @phpstan-return T|null
+     */
     public function find(string $class, $id): ?object
     {
         $documentManager = $this->getDocumentManager($class);
@@ -78,18 +84,28 @@ final class ModelManager implements ModelManagerInterface
         return $documentManager->getRepository($class)->find($id);
     }
 
+    /**
+     * @phpstan-param class-string<T> $class
+     * @phpstan-return array<T>
+     */
     public function findBy(string $class, array $criteria = []): array
     {
         return $this->getDocumentManager($class)->getRepository($class)->findBy($criteria);
     }
 
+    /**
+     * @phpstan-param class-string<T> $class
+     * @phpstan-return T|null
+     */
     public function findOneBy(string $class, array $criteria = []): ?object
     {
         return $this->getDocumentManager($class)->getRepository($class)->findOneBy($criteria);
     }
 
     /**
-     * @param object|string $class
+     * NEXT_MAJOR: Change visibility to private.
+     *
+     * @param object|class-string<T> $class
      *
      * @throw \RuntimeException
      */
@@ -122,9 +138,6 @@ final class ModelManager implements ModelManagerInterface
         return $query instanceof ProxyQuery || $query instanceof Builder;
     }
 
-    /**
-     * @psalm-suppress TooManyTemplateParams until release of doctrine/mongodb-odm 2.3
-     */
     public function executeQuery(object $query)
     {
         if ($query instanceof Builder) {
@@ -231,6 +244,9 @@ final class ModelManager implements ModelManagerInterface
         }
     }
 
+    /**
+     * @param MongoDBClassMetadata<T> $metadata
+     */
     private function getFieldName(MongoDBClassMetadata $metadata, string $name): string
     {
         if (\array_key_exists($name, $metadata->fieldMappings)) {
@@ -244,6 +260,11 @@ final class ModelManager implements ModelManagerInterface
         return $name;
     }
 
+    /**
+     * @param class-string<T> $class
+     *
+     * @return MongoDBClassMetadata<T>
+     */
     private function getMetadata(string $class): MongoDBClassMetadata
     {
         return $this->getDocumentManager($class)->getClassMetadata($class);
