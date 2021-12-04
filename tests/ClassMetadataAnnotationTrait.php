@@ -20,7 +20,9 @@ use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 trait ClassMetadataAnnotationTrait
 {
     /**
-     * @phpstan-param class-string $class
+     * @phpstan-template T of object
+     * @phpstan-param class-string<T> $class
+     * @phpstan-return ClassMetadata<T>
      */
     protected function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
     {

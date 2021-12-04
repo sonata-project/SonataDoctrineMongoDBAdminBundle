@@ -49,7 +49,7 @@ final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
      * @phpstan-param class-string $baseClass
      *
      * @phpstan-return array{
-     *      ClassMetadata,
+     *      ClassMetadata<object>,
      *      string,
      *      mixed[]
      * }
@@ -72,7 +72,9 @@ final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
     }
 
     /**
-     * @param class-string $class
+     * @phpstan-template T of object
+     * @phpstan-param class-string<T> $class
+     * @phpstan-return ClassMetadata<T>
      */
     private function getMetadata(string $class): ClassMetadata
     {
