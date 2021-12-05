@@ -153,7 +153,7 @@ final class ProxyQueryTest extends TestCase
     }
 
     /**
-     * @param array{array{name: string}} $results
+     * @param array<array{name: string}> $results
      *
      * @return string[]
      */

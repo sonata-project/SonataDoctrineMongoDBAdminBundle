@@ -1,7 +1,8 @@
 {
     "name": "sonata-project/doctrine-mongodb-admin-bundle",
-    "type": "symfony-bundle",
     "description": "Symfony Sonata / Integrate Doctrine MongoDB ODM into the SonataAdminBundle",
+    "license": "MIT",
+    "type": "symfony-bundle",
     "keywords": [
         "Admin Generator",
         "admin",
@@ -11,8 +12,6 @@
         "Mongo",
         "MongoDB"
     ],
-    "homepage": "https://docs.sonata-project.org/projects/SonataDoctrineMongoDBAdminBundle",
-    "license": "MIT",
     "authors": [
         {
             "name": "Kévin Dunglas",
@@ -24,6 +23,7 @@
             "homepage": "https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/contributors"
         }
     ],
+    "homepage": "https://docs.sonata-project.org/projects/SonataDoctrineMongoDBAdminBundle",
     "require": {
         "php": "^7.3 || ^8.0",
         "ext-mongodb": "*",
@@ -40,9 +40,6 @@
         "symfony/http-kernel": "^4.4 || ^5.3 || ^6.0",
         "symfony/property-access": "^4.4 || ^5.3 || ^6.0",
         "twig/twig": "^2.6 || ^3.0"
-    },
-    "conflict": {
-        "sonata-project/block-bundle": "<4.2"
     },
     "require-dev": {
         "doctrine/annotations": "^1.10",
@@ -64,8 +61,8 @@
         "symfony/phpunit-bridge": "^5.3 || ^6.0",
         "vimeo/psalm": "^4.1.1"
     },
-    "config": {
-        "sort-packages": true
+    "conflict": {
+        "sonata-project/block-bundle": "<4.2"
     },
     "autoload": {
         "psr-4": {
@@ -76,5 +73,8 @@
         "psr-4": {
             "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
