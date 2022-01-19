@@ -12,7 +12,6 @@ Reference Guide
 
    reference/installation
    reference/configuration
-   reference/list_field_definition
    reference/filter_field_definition
    reference/form_field_definition
    reference/form_types_and_transformers
