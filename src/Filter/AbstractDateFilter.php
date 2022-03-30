@@ -87,7 +87,7 @@ abstract class AbstractDateFilter extends Filter
             return;
         }
 
-        //default type for simple filter
+        // default type for simple filter
         $type = $data->getType() ?? DateOperatorType::TYPE_EQUAL;
 
         // date filter should filter records for the whole day

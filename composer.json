@@ -44,6 +44,7 @@
     "require-dev": {
         "doctrine/annotations": "^1.10",
         "doctrine/data-fixtures": "^1.4",
+        "friendsofphp/php-cs-fixer": "^3.4",
         "matthiasnoback/symfony-config-test": "^4.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpstan/extension-installer": "^1.1",
