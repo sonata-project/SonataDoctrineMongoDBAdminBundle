@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.1.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.1.0...4.1.1) - 2022-03-29
+## [4.1.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.1.0...4.1.1) - 2022-04-09
 ### Fixed
 - [[#734](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/734)] The lastpage is correctly set to 1 when there is no results. ([@VincentLanglet](https://github.com/VincentLanglet))
 
