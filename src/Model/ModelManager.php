@@ -168,7 +168,7 @@ final class ModelManager implements ModelManagerInterface
 
     public function getIdentifierFieldNames(string $class): array
     {
-        return $this->getMetadata($class)->getIdentifier();
+        return array_filter($this->getMetadata($class)->getIdentifier());
     }
 
     public function getNormalizedIdentifier(object $model): ?string
