@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
+    <file src="src/FieldDescription/FieldDescriptionFactory.php">
+        <!-- https://github.com/doctrine/mongodb-odm/pull/2449 -->
+        <ArgumentTypeCoercion occurrences="2">
+            <code>$class</code>
+            <code>$class</code>
+        </ArgumentTypeCoercion>
+    </file>
+</files>
