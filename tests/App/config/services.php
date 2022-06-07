@@ -33,55 +33,35 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(CategoryAdmin::class)
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
+                'model_class' => Category::class,
                 'label' => 'Category',
-            ])
-            ->args([
-                '',
-                Category::class,
-                null,
             ])
 
         ->set(BookAdmin::class)
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
+                'model_class' => Book::class,
                 'label' => 'Book',
-            ])
-            ->args([
-                '',
-                Book::class,
-                null,
             ])
 
         ->set(AuthorAdmin::class)
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
+                'model_class' => Author::class,
                 'label' => 'Author',
-            ])
-            ->args([
-                '',
-                Author::class,
-                null,
             ])
 
         ->set(AddressAdmin::class)
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
+                'model_class' => Address::class,
                 'label' => 'Address',
-            ])
-            ->args([
-                '',
-                Address::class,
-                null,
             ])
 
         ->set(PhoneNumberAdmin::class)
             ->tag('sonata.admin', [
                 'manager_type' => 'doctrine_mongodb',
+                'model_class' => PhoneNumber::class,
                 'label' => 'PhoneNumber',
-            ])
-            ->args([
-                '',
-                PhoneNumber::class,
-                null,
             ]);
 };
