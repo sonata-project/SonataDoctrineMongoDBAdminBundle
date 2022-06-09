@@ -32,10 +32,18 @@ class Category
      */
     private $name;
 
-    public function __construct(string $id = '', string $name = '')
+    /**
+     * @ODM\Field(type="string")
+     *
+     * @var string
+     */
+    private $type;
+
+    public function __construct(string $id = '', string $name = '', string $type = '')
     {
         $this->id = $id;
         $this->name = $name;
+        $this->type = $type;
     }
 
     public function __toString(): string
@@ -61,5 +69,10 @@ class Category
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }

@@ -14,22 +14,26 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Filter\Model\FilterData;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 
 final class ChoiceFilter extends Filter
 {
     public function getDefaultOptions(): array
     {
-        return [];
+        return [
+            'operator_type' => EqualOperatorType::class,
+            'operator_options' => [],
+        ];
     }
 
     public function getRenderSettings(): array
     {
         return [DefaultType::class, [
-            'operator_type' => ChoiceType::class,
+            'operator_type' => $this->getOption('operator_type'),
+            'operator_options' => $this->getOption('operator_options'),
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),

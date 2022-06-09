@@ -18,6 +18,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
@@ -52,7 +54,17 @@ final class CategoryAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('name');
+            ->add('name')
+            ->add('type', ChoiceFilter::class, [
+                'field_type' => ChoiceType::class,
+                'field_options' => [
+                    'choices' => [
+                        'Type 1' => 'type1',
+                        'Type 2' => 'type2',
+                    ],
+                    'expanded' => false,
+                ],
+            ]);
     }
 
     protected function configureShowFields(ShowMapper $show): void
