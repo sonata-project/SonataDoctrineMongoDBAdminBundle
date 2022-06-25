@@ -47,7 +47,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, FilterData::fromArray(['type' => 9999999]));
+        $filter->apply($builder, FilterData::fromArray(['type' => 9_999_999]));
 
         static::assertFalse($filter->isActive());
     }

@@ -116,8 +116,7 @@ final class FieldDescriptionTest extends TestCase
         };
 
         $dummyChild = new class($dummyParent) {
-            /** @var object */
-            private $parent;
+            private object $parent;
 
             public function __construct(object $parent)
             {

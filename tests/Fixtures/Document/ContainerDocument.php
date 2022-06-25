@@ -36,10 +36,8 @@ class ContainerDocument
 
     /**
      * @ODM\ReferenceOne(targetDocument=AssociatedDocument::class)
-     *
-     * @var AssociatedDocument
      */
-    private $associatedDocument;
+    private AssociatedDocument $associatedDocument;
 
     public function __construct(AssociatedDocument $associatedDocument, EmbeddedDocument $embeddedDocument)
     {

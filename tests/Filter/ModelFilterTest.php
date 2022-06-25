@@ -26,10 +26,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 
 class DocumentStub
 {
-    /**
-     * @var ObjectId
-     */
-    private $id;
+    private ObjectId $id;
 
     public function __construct()
     {

@@ -25,10 +25,7 @@ use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 
 final class ObjectAclManipulator extends BaseObjectAclManipulator
 {
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
     public function __construct(ManagerRegistry $registry)
     {

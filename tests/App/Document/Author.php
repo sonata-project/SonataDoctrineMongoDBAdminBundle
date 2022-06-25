@@ -22,31 +22,25 @@ class Author
 {
     /**
      * @ODM\Id(strategy="NONE", type="string")
-     *
-     * @var string
      */
-    private $id;
+    private string $id;
 
     /**
      * @ODM\Field(type="string")
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @ODM\EmbedOne(targetDocument=Address::class)
-     *
-     * @var Address|null
      */
-    private $address;
+    private ?Address $address = null;
 
     /**
      * @ODM\EmbedMany(targetDocument=PhoneNumber::class)
      *
      * @var Collection<array-key, PhoneNumber>
      */
-    private $phoneNumbers;
+    private Collection $phoneNumbers;
 
     public function __construct(string $id = '', string $name = '')
     {

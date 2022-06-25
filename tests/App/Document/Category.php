@@ -20,24 +20,18 @@ class Category
 {
     /**
      * @ODM\Id(strategy="NONE", type="string")
-     *
-     * @var string
      */
-    private $id;
+    private string $id;
 
     /**
      * @ODM\Field(type="string")
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @ODM\Field(type="string")
-     *
-     * @var string
      */
-    private $type;
+    private string $type;
 
     public function __construct(string $id = '', string $name = '', string $type = '')
     {

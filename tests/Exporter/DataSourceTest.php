@@ -25,10 +25,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Exporter\DataSource;
 
 final class DataSourceTest extends TestCase
 {
-    /**
-     * @var DataSource
-     */
-    private $dataSource;
+    private DataSource $dataSource;
 
     protected function setUp(): void
     {

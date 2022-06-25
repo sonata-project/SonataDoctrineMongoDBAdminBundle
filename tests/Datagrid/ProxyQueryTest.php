@@ -159,9 +159,10 @@ final class ProxyQueryTest extends TestCase
      */
     private function getNames(array $results): array
     {
-        return array_values(array_map(static function (array $result): string {
-            return $result['name'];
-        }, $results));
+        return array_values(array_map(
+            static fn (array $result): string => $result['name'],
+            $results
+        ));
     }
 
     private function createConfiguration(): Configuration

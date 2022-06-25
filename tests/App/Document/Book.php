@@ -22,31 +22,25 @@ class Book
 {
     /**
      * @ODM\Id(strategy="NONE", type="string")
-     *
-     * @var string
      */
-    private $id;
+    private string $id;
 
     /**
      * @ODM\Field(type="string")
-     *
-     * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @ODM\ReferenceOne(targetDocument=Author::class)
-     *
-     * @var Author|null
      */
-    private $author;
+    private ?Author $author;
 
     /**
      * @ODM\ReferenceMany(targetDocument=Category::class)
      *
      * @var Collection<array-key, Category>
      */
-    private $categories;
+    private Collection $categories;
 
     public function __construct(
         string $id = '',

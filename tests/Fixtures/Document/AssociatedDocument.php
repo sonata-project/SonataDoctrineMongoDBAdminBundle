@@ -29,10 +29,8 @@ class AssociatedDocument
 
     /**
      * @ODM\Field(type="int")
-     *
-     * @var int
      */
-    private $plainField;
+    private int $plainField;
 
     public function __construct(int $plainField, EmbeddedDocument $embeddedDocument)
     {

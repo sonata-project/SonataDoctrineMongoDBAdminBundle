@@ -27,9 +27,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
             'field_name' => self::DEFAULT_FIELD_NAME,
-            'callback' => static function (ProxyQueryInterface $proxyQuery, string $field, FilterData $data): bool {
-                return $data->hasValue();
-            },
+            'callback' => static fn (ProxyQueryInterface $proxyQuery, string $field, FilterData $data): bool => $data->hasValue(),
         ]);
 
         $filter->apply($builder, FilterData::fromArray([]));
@@ -44,9 +42,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
             'field_name' => self::DEFAULT_FIELD_NAME,
-            'callback' => static function (): bool {
-                return true;
-            },
+            'callback' => static fn (): bool => true,
         ]);
 
         $filter->apply($builder, FilterData::fromArray(['value' => 'myValue']));

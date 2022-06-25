@@ -36,27 +36,16 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 final class DatagridBuilder implements DatagridBuilderInterface
 {
-    /**
-     * @var FilterFactoryInterface
-     */
-    private $filterFactory;
+    private FilterFactoryInterface $filterFactory;
 
-    /**
-     * @var FormFactoryInterface
-     */
-    private $formFactory;
+    private FormFactoryInterface $formFactory;
 
-    /**
-     * @var TypeGuesserInterface
-     */
-    private $guesser;
+    private TypeGuesserInterface $guesser;
 
     /**
      * Indicates that csrf protection enabled.
-     *
-     * @var bool
      */
-    private $csrfTokenEnabled;
+    private bool $csrfTokenEnabled;
 
     public function __construct(
         FormFactoryInterface $formFactory,
