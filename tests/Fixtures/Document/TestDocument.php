@@ -30,28 +30,21 @@ class TestDocument
     /**
      * @ODM\Field(type="int")
      *
-     * @var int
-     *
      * @phpstan-ignore-next-line
-     *
      * This property is private on purpose, to test an error is thrown
      * when trying to reverse transform it on ModelManager.
      */
-    private $plumbus = 0;
+    private int $plumbus = 0;
 
     /**
      * @ODM\Field(type="int")
-     *
-     * @var int
      */
-    private $schmeckles = 0;
+    private int $schmeckles = 0;
 
     /**
      * @ODM\Field(type="string")
-     *
-     * @var string
      */
-    private $multiWordProperty = '';
+    private string $multiWordProperty = '';
 
     public function getSchmeckles(): int
     {

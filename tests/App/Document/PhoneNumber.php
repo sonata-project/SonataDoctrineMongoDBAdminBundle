@@ -20,10 +20,8 @@ class PhoneNumber
 {
     /**
      * @ODM\Field(type="string")
-     *
-     * @var string
      */
-    private $number;
+    private string $number;
 
     public function __construct(string $number = '')
     {

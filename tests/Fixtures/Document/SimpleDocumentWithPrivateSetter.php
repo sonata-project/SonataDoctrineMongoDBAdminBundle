@@ -22,10 +22,8 @@ class SimpleDocumentWithPrivateSetter
 {
     /**
      * @ODM\Field(type="int")
-     *
-     * @var int
      */
-    private $schmeckles;
+    private int $schmeckles;
 
     public function __construct(int $schmeckles)
     {

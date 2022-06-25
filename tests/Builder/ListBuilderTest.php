@@ -39,10 +39,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
      */
     protected $typeGuesser;
 
-    /**
-     * @var ListBuilder
-     */
-    protected $listBuilder;
+    protected ListBuilder $listBuilder;
 
     /**
      * @var MockObject&AdminInterface<object>

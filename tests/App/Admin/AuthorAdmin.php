@@ -18,11 +18,12 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Author;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * @phpstan-extends AbstractAdmin<\Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Author>
+ * @phpstan-extends AbstractAdmin<Author>
  */
 final class AuthorAdmin extends AbstractAdmin
 {

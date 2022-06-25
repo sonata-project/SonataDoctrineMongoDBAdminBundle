@@ -33,10 +33,7 @@ final class ModelManagerTest extends TestCase
 {
     use ClassMetadataAnnotationTrait;
 
-    /**
-     * @var PropertyAccessor
-     */
-    private $propertyAccessor;
+    private PropertyAccessor $propertyAccessor;
 
     /**
      * @var Stub&ManagerRegistry

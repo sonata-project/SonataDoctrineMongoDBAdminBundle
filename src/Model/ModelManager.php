@@ -34,15 +34,9 @@ final class ModelManager implements ModelManagerInterface
 {
     public const ID_SEPARATOR = '-';
 
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    /**
-     * @var PropertyAccessorInterface
-     */
-    private $propertyAccessor;
+    private PropertyAccessorInterface $propertyAccessor;
 
     public function __construct(ManagerRegistry $registry, PropertyAccessorInterface $propertyAccessor)
     {

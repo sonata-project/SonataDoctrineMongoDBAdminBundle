@@ -16,10 +16,11 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Address;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * @phpstan-extends AbstractAdmin<\Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Address>
+ * @phpstan-extends AbstractAdmin<Address>
  */
 final class AddressAdmin extends AbstractAdmin
 {

@@ -19,11 +19,12 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Category;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * @phpstan-extends AbstractAdmin<\Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Category>
+ * @phpstan-extends AbstractAdmin<Category>
  */
 final class CategoryAdmin extends AbstractAdmin
 {
