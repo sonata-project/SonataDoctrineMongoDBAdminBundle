@@ -29,10 +29,7 @@ final class ProxyQueryTest extends TestCase
      */
     private $queryBuilder;
 
-    /**
-     * @var DocumentManager
-     */
-    private $dm;
+    private DocumentManager $dm;
 
     protected function setUp(): void
     {
