@@ -18,10 +18,11 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Book;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * @phpstan-extends AbstractAdmin<\Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Book>
+ * @phpstan-extends AbstractAdmin<Book>
  */
 final class BookAdmin extends AbstractAdmin
 {

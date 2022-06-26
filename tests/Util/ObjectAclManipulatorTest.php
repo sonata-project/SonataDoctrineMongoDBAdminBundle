@@ -28,10 +28,7 @@ use Symfony\Component\Security\Acl\Model\MutableAclInterface;
 
 final class ObjectAclManipulatorTest extends TestCase
 {
-    /**
-     * @var DocumentManager
-     */
-    private $dm;
+    private DocumentManager $dm;
 
     protected function setUp(): void
     {

@@ -40,10 +40,7 @@ final class DatagridBuilderTest extends TestCase
 {
     use ClassMetadataAnnotationTrait;
 
-    /**
-     * @var DatagridBuilder
-     */
-    private $datagridBuilder;
+    private DatagridBuilder $datagridBuilder;
 
     /**
      * @var Stub&TypeGuesserInterface

@@ -22,30 +22,15 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
  */
 final class ProxyQuery implements ProxyQueryInterface
 {
-    /**
-     * @var Builder
-     */
-    private $queryBuilder;
+    private Builder $queryBuilder;
 
-    /**
-     * @var string|null
-     */
-    private $sortBy;
+    private ?string $sortBy = null;
 
-    /**
-     * @var string|null
-     */
-    private $sortOrder;
+    private ?string $sortOrder = null;
 
-    /**
-     * @var int|null
-     */
-    private $firstResult;
+    private ?int $firstResult = null;
 
-    /**
-     * @var int|null
-     */
-    private $maxResults;
+    private ?int $maxResults = null;
 
     public function __construct(Builder $queryBuilder)
     {
