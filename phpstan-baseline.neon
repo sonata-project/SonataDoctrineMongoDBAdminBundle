@@ -3,3 +3,8 @@ parameters:
         - # Disallow VariableMethodCallRule and VariablePropertyFetchRule
             message: '#^Variable (method call|property access)#'
             path: .
+        - # https://github.com/phpstan/phpstan/issues/7290
+            message: '#^Parameter \#1 \$driverImpl of method Doctrine\\ODM\\MongoDB\\Configuration\:\:setMetadataDriverImpl\(\) expects Doctrine\\Persistence\\Mapping\\Driver\\MappingDriver, Doctrine\\ODM\\MongoDB\\Mapping\\Driver\\AnnotationDriver given\.$#'
+            paths:
+                - tests/Datagrid/ProxyQueryTest.php
+                - tests/Util/ObjectAclManipulatorTest.php
