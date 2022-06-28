@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.3.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.2.0...4.3.0) - 2022-06-28
+### Added
+- [[#739](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/739)] Added support for `doctrine/persistence` 3 ([@franmomu](https://github.com/franmomu))
+
+### Removed
+- [[#753](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/753)] Remove support for PHP 7.3. ([@jordisala1991](https://github.com/jordisala1991))
+
 ## [4.2.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.1.1...4.2.0) - 2022-06-12
 ### Changed
 - [[#749](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/749)] Bump `sonata-project/admin-bundle` to `^4.8` ([@franmomu](https://github.com/franmomu))
