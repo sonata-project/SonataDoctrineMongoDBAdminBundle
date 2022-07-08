@@ -32,6 +32,8 @@ final class ProxyQuery implements ProxyQueryInterface
 
     private ?int $maxResults = null;
 
+    private array $options = [];
+
     public function __construct(Builder $queryBuilder)
     {
         $this->queryBuilder = $queryBuilder;
@@ -66,7 +68,7 @@ final class ProxyQuery implements ProxyQueryInterface
             $queryBuilder->sort($sortBy, $this->getSortOrder() ?? 'asc');
         }
 
-        $result = $queryBuilder->getQuery()->execute();
+        $result = $queryBuilder->getQuery($this->getOptions())->execute();
         \assert($result instanceof Iterator);
 
         return $result;
@@ -133,5 +135,21 @@ final class ProxyQuery implements ProxyQueryInterface
     public function getMaxResults(): ?int
     {
         return $this->maxResults;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options): void
+    {
+        $this->options = $options;
     }
 }
