@@ -32,6 +32,9 @@ final class ProxyQuery implements ProxyQueryInterface
 
     private ?int $maxResults = null;
 
+    /**
+     * @var mixed[]
+     */
     private array $options = [];
 
     public function __construct(Builder $queryBuilder)
@@ -138,7 +141,7 @@ final class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getOptions(): array
     {
@@ -146,7 +149,7 @@ final class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @param array $options
+     * @param mixed[] $options
      */
     public function setOptions(array $options): void
     {
