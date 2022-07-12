@@ -16,7 +16,6 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\Exception\InvalidArgumentException;
 use Sonata\AdminBundle\Filter\Model\FilterData;
-use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,14 +30,17 @@ final class IdFilter extends Filter
         ];
     }
 
-    public function getRenderSettings(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function getFormOptions(): array
     {
-        return [DefaultType::class, [
+        return [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => $this->getOption('operator_type'),
             'label' => $this->getLabel(),
-        ]];
+        ];
     }
 
     protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
