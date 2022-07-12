@@ -48,7 +48,7 @@ final class TypeGuesser implements TypeGuesserInterface
             case Type::HASH:
                 return new TypeGuess(FieldDescriptionInterface::TYPE_ARRAY, [], Guess::HIGH_CONFIDENCE);
             case Type::BOOL:
-            // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
+                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
             case Type::BOOLEAN:
                 return new TypeGuess(FieldDescriptionInterface::TYPE_BOOLEAN, [], Guess::HIGH_CONFIDENCE);
             case Type::TIMESTAMP:
@@ -58,7 +58,7 @@ final class TypeGuesser implements TypeGuesserInterface
                 return new TypeGuess(FieldDescriptionInterface::TYPE_DATE, [], Guess::HIGH_CONFIDENCE);
             case Type::FLOAT:
                 return new TypeGuess(FieldDescriptionInterface::TYPE_FLOAT, [], Guess::MEDIUM_CONFIDENCE);
-            // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
+                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
             case Type::INTEGER:
             case Type::INT:
                 return new TypeGuess(FieldDescriptionInterface::TYPE_INTEGER, [], Guess::MEDIUM_CONFIDENCE);

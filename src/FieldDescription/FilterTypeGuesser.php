@@ -63,7 +63,7 @@ final class FilterTypeGuesser implements TypeGuesserInterface
 
         switch ($fieldDescription->getMappingType()) {
             case Type::BOOL:
-            // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
+                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
             case Type::BOOLEAN:
                 return new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case Type::TIMESTAMP:
@@ -73,7 +73,7 @@ final class FilterTypeGuesser implements TypeGuesserInterface
                 return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case Type::FLOAT:
             case Type::INT:
-            // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
+                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
             case Type::INTEGER:
                 return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
             case Type::ID:
