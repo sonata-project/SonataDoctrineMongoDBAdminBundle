@@ -16,7 +16,6 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 use Doctrine\ODM\MongoDB\Query\Expr;
 use MongoDB\BSON\Regex;
 use Sonata\AdminBundle\Filter\Model\FilterData;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\AdminBundle\Search\SearchableFilterInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
@@ -32,13 +31,16 @@ final class StringFilter extends Filter implements SearchableFilterInterface
         ];
     }
 
-    public function getRenderSettings(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function getFormOptions(): array
     {
-        return [ChoiceType::class, [
+        return [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ]];
+        ];
     }
 
     public function isSearchEnabled(): bool
