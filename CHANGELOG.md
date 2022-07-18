@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [4.3.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.3.0...4.3.1) - 2022-07-13
+## [4.3.1](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.3.0...4.3.1) - 2022-07-18
 ### Fixed
 - [[#762](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/762)] Solved deprecation with SonataAdminBundle 4.14 ([@VincentLanglet](https://github.com/VincentLanglet))
 
