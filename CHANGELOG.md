@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.3.3](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.3.2...4.3.3) - 2022-07-22
+### Fixed
+- [[#766](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/766)] Display of advanced filter for NumberFilter and StringFilter. ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [4.3.2](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.3.1...4.3.2) - 2022-07-21
 ### Fixed
 - [[#764](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/764)] Fix missing 'operator_type' array value returned in `AbstractDateFilter:: getFormOptions()` bug to avoid not rendered advanced filter options in DateFilter or DateTimeFilter. ([@VincentLanglet](https://github.com/VincentLanglet))
