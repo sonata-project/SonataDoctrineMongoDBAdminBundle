@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Filter;
 
 use Sonata\AdminBundle\Filter\Model\FilterData;
-use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 
@@ -57,7 +56,7 @@ final class ChoiceFilter extends Filter
                 return;
             }
 
-            if ($data->isType(ContainsOperatorType::TYPE_NOT_CONTAINS)) {
+            if ($data->isType(EqualOperatorType::TYPE_NOT_EQUAL)) {
                 $queryBuilder->field($field)->notIn($value);
             } else {
                 $queryBuilder->field($field)->in($value);
@@ -69,7 +68,7 @@ final class ChoiceFilter extends Filter
                 return;
             }
 
-            if ($data->isType(ContainsOperatorType::TYPE_NOT_CONTAINS)) {
+            if ($data->isType(EqualOperatorType::TYPE_NOT_EQUAL)) {
                 $queryBuilder->field($field)->notEqual($value);
             } else {
                 $queryBuilder->field($field)->equals($value);
