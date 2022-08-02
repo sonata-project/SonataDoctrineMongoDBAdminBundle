@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
-use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
