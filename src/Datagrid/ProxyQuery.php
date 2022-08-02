@@ -60,7 +60,6 @@ final class ProxyQuery implements ProxyQueryInterface
 
     /**
      * @return Iterator<object>
-     * @throws MongoDBException
      */
     public function execute()
     {
