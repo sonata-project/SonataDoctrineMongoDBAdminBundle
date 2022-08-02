@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
@@ -33,7 +34,7 @@ final class ProxyQuery implements ProxyQueryInterface
     private ?int $maxResults = null;
 
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     private array $options = [];
 
@@ -59,6 +60,7 @@ final class ProxyQuery implements ProxyQueryInterface
 
     /**
      * @return Iterator<object>
+     * @throws MongoDBException
      */
     public function execute()
     {
@@ -71,7 +73,7 @@ final class ProxyQuery implements ProxyQueryInterface
             $queryBuilder->sort($sortBy, $this->getSortOrder() ?? 'asc');
         }
 
-        $result = $queryBuilder->getQuery($this->getOptions())->execute();
+        $result = $queryBuilder->getQuery($this->options)->execute();
         \assert($result instanceof Iterator);
 
         return $result;
@@ -141,15 +143,7 @@ final class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @return mixed[]
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
-     * @param mixed[] $options
+     * @param array<string, mixed> $options
      */
     public function setOptions(array $options): void
     {
