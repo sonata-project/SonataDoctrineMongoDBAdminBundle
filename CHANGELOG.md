@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.4.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.3.3...4.4.0) - 2022-08-02
+### Added
+- [[#771](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/771)] Support for sonata-project/exporter ^3 ([@VincentLanglet](https://github.com/VincentLanglet))
+
 ## [4.3.3](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.3.2...4.3.3) - 2022-07-22
 ### Fixed
 - [[#766](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/766)] Display of advanced filter for NumberFilter and StringFilter. ([@VincentLanglet](https://github.com/VincentLanglet))
