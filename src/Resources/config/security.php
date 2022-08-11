@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-
     // Use "service" function for creating references to services when dropping support for Symfony 4.4
     $containerConfigurator->services()
 
