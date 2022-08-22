@@ -121,10 +121,12 @@ final class ModelManager implements ModelManagerInterface
     public function createQuery(string $class, string $alias = 'o'): BaseProxyQueryInterface
     {
         $repository = $this->getDocumentManager($class)->getRepository($class);
-
         \assert($repository instanceof DocumentRepository);
 
-        return new ProxyQuery($repository->createQueryBuilder());
+        /** @phpstan-var ProxyQuery<T> $proxyQuery */
+        $proxyQuery = new ProxyQuery($repository->createQueryBuilder());
+
+        return $proxyQuery;
     }
 
     public function supportsQuery(object $query): bool

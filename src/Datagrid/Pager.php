@@ -21,7 +21,7 @@ use Sonata\AdminBundle\Datagrid\Pager as BasePager;
  * @author Jonathan H. Wage <jonwage@gmail.com>
  * @author Kévin Dunglas <dunglas@gmail.com>
  *
- * @phpstan-extends BasePager<ProxyQueryInterface>
+ * @phpstan-extends BasePager<ProxyQueryInterface<object>>
  */
 final class Pager extends BasePager
 {
@@ -70,6 +70,9 @@ final class Pager extends BasePager
         }
     }
 
+    /**
+     * @param ProxyQueryInterface<object> $query
+     */
     private function computeResultsCount(ProxyQueryInterface $query): int
     {
         $countQuery = clone $query;

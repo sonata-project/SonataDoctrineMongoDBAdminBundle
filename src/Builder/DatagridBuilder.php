@@ -29,7 +29,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
- * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface>
+ * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface<object>>
  * @psalm-suppress DeprecatedInterface
  *
  * @see https://github.com/sonata-project/SonataAdminBundle/pull/7519
@@ -132,6 +132,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
         if (!$query instanceof ProxyQueryInterface) {
             throw new \TypeError(sprintf('The admin query MUST implement %s.', ProxyQueryInterface::class));
         }
+        /** @phpstan-var ProxyQueryInterface<object> $query */
 
         return new Datagrid($query, $admin->getList(), $pager, $formBuilder, $values);
     }
@@ -139,7 +140,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
     /**
      * Get pager by pagerType.
      *
-     * @return PagerInterface<ProxyQueryInterface>
+     * @return PagerInterface<ProxyQueryInterface<object>>
      *
      * @throws \RuntimeException If invalid pager type is set
      */
@@ -150,7 +151,7 @@ final class DatagridBuilder implements DatagridBuilderInterface
                 return new Pager();
 
             case AdminPager::TYPE_SIMPLE:
-                /** @var SimplePager<ProxyQueryInterface> $simplePager */
+                /** @var SimplePager<ProxyQueryInterface<object>> $simplePager */
                 $simplePager = new SimplePager();
 
                 return $simplePager;

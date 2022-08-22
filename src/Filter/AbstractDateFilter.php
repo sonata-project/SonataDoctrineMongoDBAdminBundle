@@ -123,12 +123,18 @@ abstract class AbstractDateFilter extends Filter
         return $choices[$type];
     }
 
+    /**
+     * @param ProxyQueryInterface<object> $queryBuilder
+     */
     private function applyType(ProxyQueryInterface $queryBuilder, string $operation, string $field, \DateTimeInterface $value): void
     {
         $queryBuilder->getQueryBuilder()->field($field)->$operation($value);
         $this->setActive(true);
     }
 
+    /**
+     * @param ProxyQueryInterface<object> $query
+     */
     private function filterRange(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         $value = $data->getValue();

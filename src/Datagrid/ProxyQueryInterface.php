@@ -16,6 +16,10 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Datagrid;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
+/**
+ * @phpstan-template-covariant T of object
+ * @phpstan-extends BaseProxyQueryInterface<T>
+ */
 interface ProxyQueryInterface extends BaseProxyQueryInterface
 {
     public function getQueryBuilder(): Builder;
