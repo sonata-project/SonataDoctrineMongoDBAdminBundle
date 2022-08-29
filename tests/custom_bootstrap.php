@@ -15,21 +15,23 @@ use Sonata\DoctrineMongoDBAdminBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Filesystem\Filesystem;
 
-$application = new Application(new AppKernel());
+$kernel = new AppKernel($_SERVER['APP_ENV'], $_SERVER['APP_DEBUG']);
+$application = new Application($kernel);
 $application->setAutoExit(false);
 
-// Load fixtures of the AppTestBundle
 $input = new ArrayInput([
     'command' => 'doctrine:mongodb:fixtures:load',
     '--no-interaction' => false,
 ]);
 $application->run($input, new NullOutput());
 
-// Install Assets
 $input = new ArrayInput([
     'command' => 'assets:install',
     'target' => __DIR__.'/App/public',
     '--symlink' => true,
 ]);
 $application->run($input, new NullOutput());
+
+(new Filesystem())->remove([$kernel->getCacheDir()]);

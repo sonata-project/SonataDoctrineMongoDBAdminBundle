@@ -119,8 +119,8 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery->setSortBy([], ['fieldName' => 'name']);
         $proxyQuery->setSortOrder('DESC');
 
-        /** @var array{array{name: string}} $result */
-        $result = $proxyQuery->execute()->toArray();
+        /** @var iterable<array{name: string}> $result */
+        $result = $proxyQuery->execute();
 
         static::assertSame(['B', 'A'], $this->getNames($result));
     }
@@ -143,23 +143,26 @@ final class ProxyQueryTest extends TestCase
         $proxyQuery->setSortBy([['fieldName' => 'embeddedDocument']], ['fieldName' => 'position']);
         $proxyQuery->setSortOrder('DESC');
 
-        /** @var array{array{name: string}} $result */
-        $result = $proxyQuery->execute()->toArray();
+        /** @var iterable<array{name: string}> $result */
+        $result = $proxyQuery->execute();
 
         static::assertSame(['B', 'A'], $this->getNames($result));
     }
 
     /**
-     * @param array<array{name: string}> $results
+     * @param iterable<array{name: string}> $results
      *
      * @return string[]
      */
-    private function getNames(array $results): array
+    private function getNames(iterable $results): array
     {
-        return array_values(array_map(
-            static fn (array $result): string => $result['name'],
-            $results
-        ));
+        $names = [];
+
+        foreach ($results as $result) {
+            $names[] = $result['name'];
+        }
+
+        return $names;
     }
 
     private function createConfiguration(): Configuration
