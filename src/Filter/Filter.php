@@ -31,5 +31,8 @@ abstract class Filter extends BaseFilter
         $this->filter($query, $field, $filterData);
     }
 
+    /**
+     * @param ProxyQueryInterface<object> $query
+     */
     abstract protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void;
 }

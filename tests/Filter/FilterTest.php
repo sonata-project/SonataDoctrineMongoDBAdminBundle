@@ -29,12 +29,15 @@ final class TestFilter extends Filter
         return ['option1' => 2];
     }
 
-    public function getRenderSettings(): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function getFormOptions(): array
     {
-        return ['sonata_type_filter_default', [
-            'type' => $this->getFieldType(),
-            'options' => $this->getFieldOptions(),
-        ]];
+        return [
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+        ];
     }
 
     protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void

@@ -70,6 +70,9 @@ final class ModelFilter extends Filter
         }
     }
 
+    /**
+     * @param ProxyQueryInterface<object> $query
+     */
     protected function handleMultiple(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         if (0 === \count($data->getValue())) {
@@ -90,6 +93,9 @@ final class ModelFilter extends Filter
         $this->setActive(true);
     }
 
+    /**
+     * @param ProxyQueryInterface<object> $query
+     */
     protected function handleScalar(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         $id = self::fixIdentifier($data->getValue()->getId());
