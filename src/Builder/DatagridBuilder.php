@@ -30,6 +30,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * @phpstan-implements DatagridBuilderInterface<ProxyQueryInterface<object>>
+ *
  * @psalm-suppress DeprecatedInterface
  *
  * @see https://github.com/sonata-project/SonataAdminBundle/pull/7519
@@ -140,9 +141,9 @@ final class DatagridBuilder implements DatagridBuilderInterface
     /**
      * Get pager by pagerType.
      *
-     * @return PagerInterface<ProxyQueryInterface<object>>
-     *
      * @throws \RuntimeException If invalid pager type is set
+     *
+     * @return PagerInterface<ProxyQueryInterface<object>>
      */
     private function getPager(string $pagerType): PagerInterface
     {
