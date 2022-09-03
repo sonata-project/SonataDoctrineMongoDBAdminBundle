@@ -21,7 +21,6 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
  * This class try to unify the query usage with Doctrine.
  *
  * @phpstan-template-covariant T of object
- *
  * @phpstan-implements ProxyQueryInterface<T>
  */
 final class ProxyQuery implements ProxyQueryInterface

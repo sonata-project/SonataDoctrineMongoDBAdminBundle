@@ -18,7 +18,6 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 
 /**
  * @phpstan-template-covariant T of object
- *
  * @phpstan-extends BaseProxyQueryInterface<T>
  */
 interface ProxyQueryInterface extends BaseProxyQueryInterface
