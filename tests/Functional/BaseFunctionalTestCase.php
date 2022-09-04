@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Functional;
 
-use Sonata\DoctrineMongoDBAdminBundle\Tests\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -28,10 +27,5 @@ abstract class BaseFunctionalTestCase extends WebTestCase
     {
         $this->client = static::createClient();
         $this->client->followRedirects();
-    }
-
-    protected static function getKernelClass(): string
-    {
-        return AppKernel::class;
     }
 }
