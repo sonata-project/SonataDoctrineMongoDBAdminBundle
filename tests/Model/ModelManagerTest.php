@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Model;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use PHPUnit\Framework\MockObject\Stub;
@@ -146,6 +147,47 @@ final class ModelManagerTest extends TestCase
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
         static::assertSame($expected, $modelManager->supportsQuery($object));
+    }
+
+    public function testGetRealClassWithProxyObject(): void
+    {
+        $proxyClass = TestDocument::class;
+        /** @var class-string $baseClass */
+        $baseClass = 'BaseTestDocument';
+
+        $classMetadata = $this->createMock(ClassMetadata::class);
+        $classMetadata->expects(static::once())
+            ->method('getName')
+            ->willReturn($baseClass);
+
+        $documentManager = $this->createMock(DocumentManager::class);
+        $documentManager->expects(static::once())
+            ->method('getClassMetadata')
+            ->with($proxyClass)
+            ->willReturn($classMetadata);
+
+        $registry = $this->createMock(ManagerRegistry::class);
+        $registry->expects(static::once())
+            ->method('getManagerForClass')
+            ->with($proxyClass)
+            ->willReturn($documentManager);
+
+        $modelManager = new ModelManager($registry, $this->propertyAccessor);
+
+        static::assertSame($baseClass, $modelManager->getRealClass(new TestDocument()));
+    }
+
+    public function testGetRealClassWithNonProxyObject(): void
+    {
+        $registry = $this->createMock(ManagerRegistry::class);
+        $registry->expects(static::once())
+            ->method('getManagerForClass')
+            ->with(\DateTime::class)
+            ->willReturn(null);
+
+        $modelManager = new ModelManager($registry, $this->propertyAccessor);
+
+        static::assertSame(\DateTime::class, $modelManager->getRealClass(new \DateTime()));
     }
 
     /**

@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.6.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.5.0...4.6.0) - 2022-09-09
+### Added
+- [[#776](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/776)] ModelManager now implements ProxyResolverInterface ([@antonymous](https://github.com/antonymous))
+
 ## [4.5.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.4.0...4.5.0) - 2022-08-05
 ### Added
 - [[#759](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/759)] Added `ProxyQuery::setOptions()` to set Query options. ([@WebDaMa](https://github.com/WebDaMa))

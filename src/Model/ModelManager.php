@@ -18,8 +18,10 @@ use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+use Doctrine\Persistence\Mapping\MappingException;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\AdminBundle\Model\ProxyResolverInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -30,7 +32,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  *
  * @template-implements ModelManagerInterface<T>
  */
-final class ModelManager implements ModelManagerInterface
+final class ModelManager implements ModelManagerInterface, ProxyResolverInterface
 {
     public const ID_SEPARATOR = '-';
 
@@ -237,6 +239,22 @@ final class ModelManager implements ModelManagerInterface
             $property = $this->getFieldName($metadata, $name);
 
             $this->propertyAccessor->setValue($object, $property, $value);
+        }
+    }
+
+    public function getRealClass(object $object): string
+    {
+        $class = \get_class($object);
+
+        $dm = $this->registry->getManagerForClass($class);
+        if (null === $dm) {
+            return $class;
+        }
+
+        try {
+            return $dm->getClassMetadata($class)->getName();
+        } catch (MappingException $e) {
+            return $class;
         }
     }
 
