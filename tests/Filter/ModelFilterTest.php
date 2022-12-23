@@ -44,7 +44,7 @@ final class ModelFilterTest extends TestCase
     /**
      * @var Builder&MockObject
      */
-    private $queryBuilder;
+    private Builder $queryBuilder;
 
     protected function setUp(): void
     {

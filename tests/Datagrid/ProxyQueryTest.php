@@ -27,7 +27,7 @@ final class ProxyQueryTest extends TestCase
     /**
      * @var Builder&MockObject
      */
-    private $queryBuilder;
+    private Builder $queryBuilder;
 
     private DocumentManager $dm;
 
