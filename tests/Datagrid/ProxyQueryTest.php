@@ -114,12 +114,10 @@ final class ProxyQueryTest extends TestCase
         $this->dm->flush();
 
         $queryBuilder = $this->dm->createQueryBuilder(DocumentWithReferences::class);
-        $queryBuilder->select('name')->hydrate(false);
         $proxyQuery = new ProxyQuery($queryBuilder);
         $proxyQuery->setSortBy([], ['fieldName' => 'name']);
         $proxyQuery->setSortOrder('DESC');
 
-        /** @var iterable<array{name: string}> $result */
         $result = $proxyQuery->execute();
 
         static::assertSame(['B', 'A'], $this->getNames($result));
@@ -135,22 +133,18 @@ final class ProxyQueryTest extends TestCase
         $this->dm->flush();
 
         $queryBuilder = $this->dm->createQueryBuilder(DocumentWithReferences::class);
-        $queryBuilder
-            ->select(['name'])
-            ->hydrate(false);
 
         $proxyQuery = new ProxyQuery($queryBuilder);
         $proxyQuery->setSortBy([['fieldName' => 'embeddedDocument']], ['fieldName' => 'position']);
         $proxyQuery->setSortOrder('DESC');
 
-        /** @var iterable<array{name: string}> $result */
         $result = $proxyQuery->execute();
 
         static::assertSame(['B', 'A'], $this->getNames($result));
     }
 
     /**
-     * @param iterable<array{name: string}> $results
+     * @param iterable<DocumentWithReferences> $results
      *
      * @return string[]
      */
@@ -159,7 +153,7 @@ final class ProxyQueryTest extends TestCase
         $names = [];
 
         foreach ($results as $result) {
-            $names[] = $result['name'];
+            $names[] = $result->getName();
         }
 
         return $names;

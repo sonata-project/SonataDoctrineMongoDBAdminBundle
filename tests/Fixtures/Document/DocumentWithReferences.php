@@ -61,4 +61,9 @@ class DocumentWithReferences
         $this->embeddedDocument = $embeddedDocument;
         $this->embeddedDocuments = new ArrayCollection();
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }
