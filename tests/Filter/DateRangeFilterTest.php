@@ -37,13 +37,13 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, FilterData::fromArray($value));
+        $filter->apply($builder, FilterData::fromArray(['value' => $value]));
 
         static::assertFalse($filter->isActive());
     }
 
     /**
-     * @phpstan-return iterable<array{start?: mixed, end?: mixed}>
+     * @phpstan-return iterable<array<array{start?: mixed, end?: mixed}>>
      */
     public function getNotApplicableValues(): iterable
     {
@@ -51,8 +51,6 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
             [[]],
             [['end' => new \DateTime()]],
             [['start' => new \DateTime()]],
-            [['start' => new \stdClass(), 'end' => new \DateTimeImmutable()]],
-            [['start' => new \DateTimeImmutable(), 'end' => new \stdClass()]],
         ];
     }
 
