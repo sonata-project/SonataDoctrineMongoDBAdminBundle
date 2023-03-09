@@ -143,6 +143,9 @@ final class ModelFilterTest extends TestCase
         static::assertTrue($filter->isActive());
     }
 
+    /**
+     * @psalm-suppress InvalidArgument
+     */
     public function testAssociationWithInvalidMapping(): void
     {
         $filter = new ModelFilter();
@@ -152,9 +155,12 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, FilterData::fromArray(['asd']));
+        $filter->apply($builder, FilterData::fromArray(['foo']));
     }
 
+    /**
+     * @psalm-suppress InvalidArgument
+     */
     public function testAssociationWithValidMappingAndEmptyFieldName(): void
     {
         $filter = new ModelFilter();
@@ -164,7 +170,7 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, FilterData::fromArray(['asd']));
+        $filter->apply($builder, FilterData::fromArray(['foo']));
     }
 
     public function testAssociationWithValidMapping(): void
