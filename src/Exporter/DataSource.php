@@ -27,7 +27,7 @@ final class DataSource implements DataSourceInterface
                 'Argument 1 passed to "%s()" MUST be an instance of "%s", instance of "%s" given.',
                 __METHOD__,
                 ProxyQueryInterface::class,
-                \get_class($query)
+                $query::class
             ));
         }
 

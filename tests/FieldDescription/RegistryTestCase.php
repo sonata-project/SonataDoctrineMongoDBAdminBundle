@@ -45,9 +45,9 @@ abstract class RegistryTestCase extends TestCase
             ->method('getManagerForClass')
             ->willReturn($dm);
 
-        $containerDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($containerDocumentClass);
-        $associatedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($associatedDocumentClass);
-        $embeddedDocumentMetadata = $this->getMetadataForDocumentWithAnnotations($embeddedDocumentClass);
+        $containerDocumentMetadata = $this->getMetadataForDocumentWithAttributes($containerDocumentClass);
+        $associatedDocumentMetadata = $this->getMetadataForDocumentWithAttributes($associatedDocumentClass);
+        $embeddedDocumentMetadata = $this->getMetadataForDocumentWithAttributes($embeddedDocumentClass);
 
         $dm
             ->method('getClassMetadata')

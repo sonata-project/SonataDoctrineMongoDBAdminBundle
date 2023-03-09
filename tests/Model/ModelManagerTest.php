@@ -63,7 +63,7 @@ final class ModelManagerTest extends TestCase
 
         $dm
             ->method('getClassMetadata')
-            ->willReturn($this->getMetadataForDocumentWithAnnotations($documentWithReferencesClass));
+            ->willReturn($this->getMetadataForDocumentWithAttributes($documentWithReferencesClass));
 
         static::assertSame(['id'], $modelManager->getIdentifierFieldNames($documentWithReferencesClass));
     }
@@ -152,8 +152,7 @@ final class ModelManagerTest extends TestCase
     public function testGetRealClassWithProxyObject(): void
     {
         $proxyClass = TestDocument::class;
-        /** @var class-string $baseClass */
-        $baseClass = 'BaseTestDocument';
+        $baseClass = \stdClass::class;
 
         $classMetadata = $this->createMock(ClassMetadata::class);
         $classMetadata->expects(static::once())
@@ -210,7 +209,7 @@ final class ModelManagerTest extends TestCase
         $modelManager = $this->createMock(DocumentManager::class);
         $registry = $this->createMock(ManagerRegistry::class);
 
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($class);
+        $classMetadata = $this->getMetadataForDocumentWithAttributes($class);
 
         $modelManager->expects(static::once())
             ->method('getClassMetadata')

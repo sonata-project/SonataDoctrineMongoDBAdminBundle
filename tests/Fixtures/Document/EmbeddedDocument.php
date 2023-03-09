@@ -14,27 +14,17 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/**
- * @ODM\EmbeddedDocument
- */
+#[ODM\EmbeddedDocument]
 class EmbeddedDocument
 {
-    /**
-     * @ODM\Field(type="int")
-     *
-     * @var int
-     */
-    public $position;
-    /**
-     * @ODM\Field(type="bool")
-     *
-     * @var bool
-     */
-    public $plainField = true;
+    #[ODM\Field(type: Type::BOOL)]
+    public bool $plainField = true;
 
-    public function __construct(int $position = 0)
-    {
-        $this->position = $position;
+    public function __construct(
+        #[ODM\Field(type: Type::INT)]
+        public int $position = 0
+    ) {
     }
 }

@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver;
 
 trait ClassMetadataAnnotationTrait
 {
@@ -24,12 +23,11 @@ trait ClassMetadataAnnotationTrait
      * @phpstan-param class-string<T> $class
      * @phpstan-return ClassMetadata<T>
      */
-    protected function getMetadataForDocumentWithAnnotations(string $class): ClassMetadata
+    protected function getMetadataForDocumentWithAttributes(string $class): ClassMetadata
     {
         $classMetadata = new ClassMetadata($class);
-        $reader = new AnnotationReader();
 
-        $annotationDriver = new AnnotationDriver($reader);
+        $annotationDriver = new AttributeDriver();
         $annotationDriver->loadMetadataForClass($class, $classMetadata);
 
         return $classMetadata;

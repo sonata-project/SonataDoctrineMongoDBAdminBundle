@@ -14,15 +14,12 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/**
- * @ODM\Document
- */
+#[ODM\Document]
 class SimpleDocumentWithPrivateSetter
 {
-    /**
-     * @ODM\Field(type="int")
-     */
+    #[ODM\Field(type: Type::INT)]
     private int $schmeckles;
 
     public function __construct(int $schmeckles)

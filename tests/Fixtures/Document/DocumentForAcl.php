@@ -15,17 +15,11 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-/**
- * @ODM\Document
- */
+#[ODM\Document]
 class DocumentForAcl
 {
-    /**
-     * @ODM\Id
-     *
-     * @var string|null
-     */
-    public $id;
+    #[ODM\Id]
+    public ?string $id = null;
 
     public function getId(): ?string
     {

@@ -109,7 +109,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     public function testFixFieldDescriptionWithFieldMapping(): void
     {
         $documentClass = DocumentWithReferences::class;
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
+        $classMetadata = $this->getMetadataForDocumentWithAttributes($documentClass);
 
         $fieldDescription = new FieldDescription(
             'name',
