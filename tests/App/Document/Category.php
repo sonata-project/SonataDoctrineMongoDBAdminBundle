@@ -16,28 +16,22 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-class Category
+class Category implements \Stringable
 {
-    /**
-     * @ODM\Id(strategy="NONE", type="string")
-     */
-    private string $id;
-
-    /**
-     * @ODM\Field(type="string")
-     */
-    private string $name;
-
-    /**
-     * @ODM\Field(type="string")
-     */
-    private string $type;
-
-    public function __construct(string $id = '', string $name = '', string $type = '')
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->type = $type;
+    public function __construct(
+        /**
+         * @ODM\Id(strategy="NONE", type="string")
+         */
+        private string $id = '',
+        /**
+         * @ODM\Field(type="string")
+         */
+        private string $name = '',
+        /**
+         * @ODM\Field(type="string")
+         */
+        private string $type = ''
+    ) {
     }
 
     public function __toString(): string

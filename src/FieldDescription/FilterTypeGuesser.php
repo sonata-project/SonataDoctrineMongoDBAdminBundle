@@ -61,27 +61,15 @@ final class FilterTypeGuesser implements TypeGuesserInterface
             );
         }
 
-        switch ($fieldDescription->getMappingType()) {
-            case Type::BOOL:
-                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
-            case Type::BOOLEAN:
-                return new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE);
-            case Type::TIMESTAMP:
-                return new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE);
-            case Type::DATE:
-            case Type::DATE_IMMUTABLE:
-                return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);
-            case Type::FLOAT:
-            case Type::INT:
-                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
-            case Type::INTEGER:
-                return new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
-            case Type::ID:
-                return new TypeGuess(IdFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
-            case Type::STRING:
-                return new TypeGuess(StringFilter::class, $options, Guess::MEDIUM_CONFIDENCE);
-            default:
-                return new TypeGuess(StringFilter::class, $options, Guess::LOW_CONFIDENCE);
-        }
+        // TODO: Remove Type::BOOLEAN and Type::INTEGER when dropping support of doctrine/mongodb-odm < 3.0
+        return match ($fieldDescription->getMappingType()) {
+            Type::BOOL, Type::BOOLEAN => new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE),
+            Type::TIMESTAMP => new TypeGuess(DateTimeFilter::class, $options, Guess::HIGH_CONFIDENCE),
+            Type::DATE, Type::DATE_IMMUTABLE => new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE),
+            Type::FLOAT, Type::INT, Type::INTEGER => new TypeGuess(NumberFilter::class, $options, Guess::MEDIUM_CONFIDENCE),
+            Type::ID => new TypeGuess(IdFilter::class, $options, Guess::MEDIUM_CONFIDENCE),
+            Type::STRING => new TypeGuess(StringFilter::class, $options, Guess::MEDIUM_CONFIDENCE),
+            default => new TypeGuess(StringFilter::class, $options, Guess::LOW_CONFIDENCE),
+        };
     }
 }

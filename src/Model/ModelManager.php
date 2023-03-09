@@ -36,14 +36,10 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 {
     public const ID_SEPARATOR = '-';
 
-    private ManagerRegistry $registry;
-
-    private PropertyAccessorInterface $propertyAccessor;
-
-    public function __construct(ManagerRegistry $registry, PropertyAccessorInterface $propertyAccessor)
-    {
-        $this->registry = $registry;
-        $this->propertyAccessor = $propertyAccessor;
+    public function __construct(
+        private ManagerRegistry $registry,
+        private PropertyAccessorInterface $propertyAccessor
+    ) {
     }
 
     public function create(object $object): void
@@ -108,7 +104,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
     public function getDocumentManager($class): DocumentManager
     {
         if (\is_object($class)) {
-            $class = \get_class($class);
+            $class = $class::class;
         }
 
         $dm = $this->registry->getManagerForClass($class);
@@ -233,7 +229,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
     public function reverseTransform(object $object, array $array = []): void
     {
-        $metadata = $this->getMetadata(\get_class($object));
+        $metadata = $this->getMetadata($object::class);
 
         foreach ($array as $name => $value) {
             $property = $this->getFieldName($metadata, $name);
@@ -244,7 +240,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
     public function getRealClass(object $object): string
     {
-        $class = \get_class($object);
+        $class = $object::class;
 
         $dm = $this->registry->getManagerForClass($class);
         if (null === $dm) {
@@ -253,7 +249,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
         try {
             return $dm->getClassMetadata($class)->getName();
-        } catch (MappingException $e) {
+        } catch (MappingException) {
             return $class;
         }
     }

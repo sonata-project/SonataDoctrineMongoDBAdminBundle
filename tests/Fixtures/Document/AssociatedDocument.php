@@ -27,14 +27,12 @@ class AssociatedDocument
      */
     public $embeddedDocument;
 
-    /**
+    public function __construct(/**
      * @ODM\Field(type="int")
      */
-    private int $plainField;
-
-    public function __construct(int $plainField, EmbeddedDocument $embeddedDocument)
-    {
-        $this->plainField = $plainField;
+    private int $plainField,
+        EmbeddedDocument $embeddedDocument
+    ) {
         $this->embeddedDocument = $embeddedDocument;
     }
 

@@ -34,14 +34,12 @@ class ContainerDocument
      */
     protected $plainField = 0;
 
-    /**
+    public function __construct(/**
      * @ODM\ReferenceOne(targetDocument=AssociatedDocument::class)
      */
-    private AssociatedDocument $associatedDocument;
-
-    public function __construct(AssociatedDocument $associatedDocument, EmbeddedDocument $embeddedDocument)
-    {
-        $this->associatedDocument = $associatedDocument;
+    private AssociatedDocument $associatedDocument,
+        EmbeddedDocument $embeddedDocument
+    ) {
         $this->embeddedDocument = $embeddedDocument;
     }
 

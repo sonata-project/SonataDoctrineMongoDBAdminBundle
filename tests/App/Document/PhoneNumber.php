@@ -16,16 +16,14 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\EmbeddedDocument() */
-class PhoneNumber
+class PhoneNumber implements \Stringable
 {
-    /**
-     * @ODM\Field(type="string")
-     */
-    private string $number;
-
-    public function __construct(string $number = '')
-    {
-        $this->number = $number;
+    public function __construct(
+        /**
+         * @ODM\Field(type="string")
+         */
+        private string $number = ''
+    ) {
     }
 
     public function __toString(): string

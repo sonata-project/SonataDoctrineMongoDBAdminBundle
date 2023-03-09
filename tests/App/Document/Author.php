@@ -18,18 +18,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-class Author
+class Author implements \Stringable
 {
-    /**
-     * @ODM\Id(strategy="NONE", type="string")
-     */
-    private string $id;
-
-    /**
-     * @ODM\Field(type="string")
-     */
-    private string $name;
-
     /**
      * @ODM\EmbedOne(targetDocument=Address::class)
      */
@@ -42,10 +32,14 @@ class Author
      */
     private Collection $phoneNumbers;
 
-    public function __construct(string $id = '', string $name = '')
-    {
-        $this->id = $id;
-        $this->name = $name;
+    public function __construct(/**
+     * @ODM\Id(strategy="NONE", type="string")
+     */
+    private string $id = '', /**
+     * @ODM\Field(type="string")
+     */
+    private string $name = ''
+    ) {
         $this->phoneNumbers = new ArrayCollection();
     }
 

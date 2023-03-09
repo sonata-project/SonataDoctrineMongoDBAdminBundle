@@ -18,23 +18,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /** @ODM\Document */
-class Book
+class Book implements \Stringable
 {
-    /**
-     * @ODM\Id(strategy="NONE", type="string")
-     */
-    private string $id;
-
-    /**
-     * @ODM\Field(type="string")
-     */
-    private string $name;
-
-    /**
-     * @ODM\ReferenceOne(targetDocument=Author::class)
-     */
-    private ?Author $author;
-
     /**
      * @ODM\ReferenceMany(targetDocument=Category::class)
      *
@@ -43,13 +28,19 @@ class Book
     private Collection $categories;
 
     public function __construct(
-        string $id = '',
-        string $name = '',
-        ?Author $author = null
+        /**
+         * @ODM\Id(strategy="NONE", type="string")
+         */
+        private string $id = '',
+        /**
+         * @ODM\Field(type="string")
+         */
+        private string $name = '',
+        /**
+         * @ODM\ReferenceOne(targetDocument=Author::class)
+         */
+        private ?Author $author = null
     ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->author = $author;
         $this->categories = new ArrayCollection();
     }
 
