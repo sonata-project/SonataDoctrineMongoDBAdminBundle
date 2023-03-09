@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.7.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.6.0...4.7.0) - 2023-03-09
+### Added
+- [[#802](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/802)] Support for `doctrine/collections` 2 ([@franmomu](https://github.com/franmomu))
+
+### Removed
+- [[#799](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/799)] Support for PHP 7.4
+- [[#799](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/799)] Support for Symfony 6.0 and 6.1
+
 ## [4.6.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.5.0...4.6.0) - 2022-09-09
 ### Added
 - [[#776](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/776)] ModelManager now implements ProxyResolverInterface ([@antonymous](https://github.com/antonymous))
