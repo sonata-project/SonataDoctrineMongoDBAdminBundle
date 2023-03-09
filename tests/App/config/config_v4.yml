@@ -26,7 +26,7 @@ doctrine_mongodb:
         default:
             mappings:
                 SonataMongoDBTest:
-                    type: annotation
+                    type: attribute
                     dir: "%kernel.project_dir%/Document"
                     is_bundle: false
                     prefix: Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document

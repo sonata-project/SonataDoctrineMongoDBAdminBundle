@@ -14,22 +14,17 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/** @ODM\Document */
+#[ODM\Document]
 class Category implements \Stringable
 {
     public function __construct(
-        /**
-         * @ODM\Id(strategy="NONE", type="string")
-         */
+        #[ODM\Id(type: Type::STRING, strategy: 'NONE')]
         private string $id = '',
-        /**
-         * @ODM\Field(type="string")
-         */
+        #[ODM\Field(type: Type::STRING)]
         private string $name = '',
-        /**
-         * @ODM\Field(type="string")
-         */
+        #[ODM\Field(type: Type::STRING)]
         private string $type = ''
     ) {
     }

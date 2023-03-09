@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Datagrid;
 
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -173,7 +174,7 @@ final class ProxyQueryTest extends TestCase
         $config->setHydratorNamespace('Hydrators');
         $config->setPersistentCollectionDir($directory);
         $config->setPersistentCollectionNamespace('PersistentCollections');
-        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver());
+        $config->setMetadataDriverImpl(new AttributeDriver());
 
         return $config;
     }

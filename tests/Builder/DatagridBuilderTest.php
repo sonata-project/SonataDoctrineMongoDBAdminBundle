@@ -119,7 +119,7 @@ final class DatagridBuilderTest extends TestCase
     public function testFixFieldDescription(): void
     {
         $documentClass = DocumentWithReferences::class;
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
+        $classMetadata = $this->getMetadataForDocumentWithAttributes($documentClass);
 
         $fieldDescription = new FieldDescription('name', [], $classMetadata->fieldMappings['name']);
         $fieldDescription->setAdmin($this->admin);
@@ -136,7 +136,7 @@ final class DatagridBuilderTest extends TestCase
     public function testFixFieldDescriptionWithAssociationMapping(): void
     {
         $documentClass = DocumentWithReferences::class;
-        $classMetadata = $this->getMetadataForDocumentWithAnnotations($documentClass);
+        $classMetadata = $this->getMetadataForDocumentWithAttributes($documentClass);
 
         $fieldDescription = new FieldDescription(
             'embeddedDocument',

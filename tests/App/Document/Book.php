@@ -16,29 +16,23 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/** @ODM\Document */
+#[ODM\Document]
 class Book implements \Stringable
 {
     /**
-     * @ODM\ReferenceMany(targetDocument=Category::class)
-     *
      * @var Collection<array-key, Category>
      */
+    #[ODM\ReferenceMany(targetDocument: Category::class)]
     private Collection $categories;
 
     public function __construct(
-        /**
-         * @ODM\Id(strategy="NONE", type="string")
-         */
+        #[ODM\Id(type: Type::STRING, strategy: 'NONE')]
         private string $id = '',
-        /**
-         * @ODM\Field(type="string")
-         */
+        #[ODM\Field(type: Type::STRING)]
         private string $name = '',
-        /**
-         * @ODM\ReferenceOne(targetDocument=Author::class)
-         */
+        #[ODM\ReferenceOne(targetDocument: Author::class)]
         private ?Author $author = null
     ) {
         $this->categories = new ArrayCollection();

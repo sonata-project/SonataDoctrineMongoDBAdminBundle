@@ -14,36 +14,25 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/**
- * @ODM\Document
- */
+#[ODM\Document]
 class TestDocument
 {
-    /**
-     * @ODM\Field(type="bool")
-     *
-     * @var bool
-     */
-    public $schwifty = false;
+    #[ODM\Field(type: Type::BOOL)]
+    public bool $schwifty = false;
 
     /**
-     * @ODM\Field(type="int")
-     *
-     * @phpstan-ignore-next-line
      * This property is private on purpose, to test an error is thrown
      * when trying to reverse transform it on ModelManager.
      */
-    private int $plumbus = 0;
+    #[ODM\Field(type: Type::INT)]
+    private int $plumbus = 0; // @phpstan-ignore-line
 
-    /**
-     * @ODM\Field(type="int")
-     */
+    #[ODM\Field(type: Type::INT)]
     private int $schmeckles = 0;
 
-    /**
-     * @ODM\Field(type="string")
-     */
+    #[ODM\Field(type: Type::STRING)]
     private string $multiWordProperty = '';
 
     public function getSchmeckles(): int

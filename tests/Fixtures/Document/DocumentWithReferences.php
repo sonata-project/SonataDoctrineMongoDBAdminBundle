@@ -16,49 +16,29 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/** @ODM\Document */
+#[ODM\Document]
 class DocumentWithReferences
 {
-    /**
-     * @ODM\Id
-     *
-     * @var string|null
-     */
-    public $id;
+    #[ODM\Id]
+    public ?string $id = null;
 
     /**
-     * @ODM\Field(type="string")
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @ODM\EmbedOne()
-     *
-     * @var EmbeddedDocument|null
-     */
-    public $embeddedDocument;
-
-    /**
-     * @ODM\EmbedMany()
-     *
      * @var Collection<array-key, EmbeddedDocument>
      */
-    public $embeddedDocuments;
+    #[ODM\EmbedMany]
+    public Collection $embeddedDocuments;
 
-    /**
-     * @ODM\ReferenceOne(targetDocument=TestDocument::class)
-     *
-     * @var TestDocument|null
-     */
-    public $referenceOne;
+    #[ODM\ReferenceOne(targetDocument: TestDocument::class)]
+    public ?TestDocument $referenceOne = null;
 
-    public function __construct(string $name, ?EmbeddedDocument $embeddedDocument = null)
-    {
-        $this->name = $name;
-        $this->embeddedDocument = $embeddedDocument;
+    public function __construct(
+        #[ODM\Field(type: Type::STRING)]
+        public string $name,
+        #[ODM\EmbedOne]
+        public ?EmbeddedDocument $embeddedDocument = null
+    ) {
         $this->embeddedDocuments = new ArrayCollection();
     }
 }

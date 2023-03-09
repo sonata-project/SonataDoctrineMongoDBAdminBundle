@@ -14,33 +14,20 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/**
- * @ODM\Document
- */
+#[ODM\Document]
 class ContainerDocument
 {
-    /**
-     * @ODM\EmbedOne(targetDocument=EmbeddedDocument::class)
-     *
-     * @var EmbeddedDocument
-     */
-    public $embeddedDocument;
+    #[ODM\Field(type: Type::INT)]
+    protected int $plainField = 0;
 
-    /**
-     * @ODM\Field(type="int")
-     *
-     * @var int
-     */
-    protected $plainField = 0;
-
-    public function __construct(/**
-     * @ODM\ReferenceOne(targetDocument=AssociatedDocument::class)
-     */
-    private AssociatedDocument $associatedDocument,
-        EmbeddedDocument $embeddedDocument
+    public function __construct(
+        #[ODM\ReferenceOne(targetDocument: AssociatedDocument::class)]
+        private AssociatedDocument $associatedDocument,
+        #[ODM\EmbedOne(targetDocument: EmbeddedDocument::class)]
+        public EmbeddedDocument $embeddedDocument
     ) {
-        $this->embeddedDocument = $embeddedDocument;
     }
 
     public function getAssociatedDocument(): AssociatedDocument
