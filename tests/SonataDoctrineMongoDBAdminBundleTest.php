@@ -17,20 +17,31 @@ use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler\AddGuesserCompilerPass;
 use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler\AddTemplatesCompilerPass;
 use Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class SonataDoctrineMongoDBAdminBundleTest extends TestCase
 {
     public function testBuild(): void
     {
-        $containerBuilder = $this->createMock(ContainerBuilder::class);
-
-        $containerBuilder->expects(static::exactly(2))->method('addCompilerPass')->withConsecutive(
-            [static::isInstanceOf(AddGuesserCompilerPass::class)],
-            [static::isInstanceOf(AddTemplatesCompilerPass::class)],
-        );
+        $containerBuilder = new ContainerBuilder();
 
         $bundle = new SonataDoctrineMongoDBAdminBundle();
         $bundle->build($containerBuilder);
+
+        static::assertNotNull($this->findCompilerPass($containerBuilder, AddGuesserCompilerPass::class));
+        static::assertNotNull($this->findCompilerPass($containerBuilder, AddTemplatesCompilerPass::class));
+    }
+
+    /** @param class-string $class */
+    private function findCompilerPass(ContainerBuilder $container, string $class): ?CompilerPassInterface
+    {
+        foreach ($container->getCompiler()->getPassConfig()->getPasses() as $pass) {
+            if ($pass instanceof $class) {
+                return $pass;
+            }
+        }
+
+        return null;
     }
 }
