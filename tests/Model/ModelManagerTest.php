@@ -152,8 +152,7 @@ final class ModelManagerTest extends TestCase
     public function testGetRealClassWithProxyObject(): void
     {
         $proxyClass = TestDocument::class;
-        /** @var class-string $baseClass */
-        $baseClass = 'BaseTestDocument';
+        $baseClass = \stdClass::class;
 
         $classMetadata = $this->createMock(ClassMetadata::class);
         $classMetadata->expects(static::once())
