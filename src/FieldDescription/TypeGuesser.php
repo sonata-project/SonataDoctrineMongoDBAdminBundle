@@ -43,30 +43,16 @@ final class TypeGuesser implements TypeGuesserInterface
             }
         }
 
-        switch ($fieldDescription->getMappingType()) {
-            case Type::COLLECTION:
-            case Type::HASH:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_ARRAY, [], Guess::HIGH_CONFIDENCE);
-            case Type::BOOL:
-                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
-            case Type::BOOLEAN:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_BOOLEAN, [], Guess::HIGH_CONFIDENCE);
-            case Type::TIMESTAMP:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_DATETIME, [], Guess::HIGH_CONFIDENCE);
-            case Type::DATE:
-            case Type::DATE_IMMUTABLE:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_DATE, [], Guess::HIGH_CONFIDENCE);
-            case Type::FLOAT:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_FLOAT, [], Guess::MEDIUM_CONFIDENCE);
-                // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
-            case Type::INTEGER:
-            case Type::INT:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_INTEGER, [], Guess::MEDIUM_CONFIDENCE);
-            case Type::ID:
-            case Type::STRING:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_STRING, [], Guess::MEDIUM_CONFIDENCE);
-            default:
-                return new TypeGuess(FieldDescriptionInterface::TYPE_STRING, [], Guess::LOW_CONFIDENCE);
-        }
+        // TODO: Remove Type::BOOLEAN and Type::INTEGER when dropping support of doctrine/mongodb-odm < 3.0
+        return match ($fieldDescription->getMappingType()) {
+            Type::COLLECTION, Type::HASH => new TypeGuess(FieldDescriptionInterface::TYPE_ARRAY, [], Guess::HIGH_CONFIDENCE),
+            Type::BOOL, Type::BOOLEAN => new TypeGuess(FieldDescriptionInterface::TYPE_BOOLEAN, [], Guess::HIGH_CONFIDENCE),
+            Type::TIMESTAMP => new TypeGuess(FieldDescriptionInterface::TYPE_DATETIME, [], Guess::HIGH_CONFIDENCE),
+            Type::DATE, Type::DATE_IMMUTABLE => new TypeGuess(FieldDescriptionInterface::TYPE_DATE, [], Guess::HIGH_CONFIDENCE),
+            Type::FLOAT => new TypeGuess(FieldDescriptionInterface::TYPE_FLOAT, [], Guess::MEDIUM_CONFIDENCE),
+            Type::INTEGER, Type::INT => new TypeGuess(FieldDescriptionInterface::TYPE_INTEGER, [], Guess::MEDIUM_CONFIDENCE),
+            Type::ID, Type::STRING => new TypeGuess(FieldDescriptionInterface::TYPE_STRING, [], Guess::MEDIUM_CONFIDENCE),
+            default => new TypeGuess(FieldDescriptionInterface::TYPE_STRING, [], Guess::LOW_CONFIDENCE),
+        };
     }
 }

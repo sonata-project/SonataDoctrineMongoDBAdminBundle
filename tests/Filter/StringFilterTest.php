@@ -77,10 +77,8 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
 
     /**
      * @dataProvider getContainsTypes
-     *
-     * @param mixed $value
      */
-    public function testContains(string $method, int $type, $value): void
+    public function testContains(string $method, int $type, mixed $value): void
     {
         $filter = new StringFilter();
         $filter->initialize('field_name', [

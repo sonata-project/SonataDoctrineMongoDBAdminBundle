@@ -57,7 +57,7 @@ final class IdFilter extends Filter
 
         try {
             $objectId = new ObjectId($value);
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException) {
             return;
         }
 

@@ -116,11 +116,8 @@ final class FieldDescriptionTest extends TestCase
         };
 
         $dummyChild = new class($dummyParent) {
-            private object $parent;
-
-            public function __construct(object $parent)
+            public function __construct(private object $parent)
             {
-                $this->parent = $parent;
             }
 
             public function parent(): object

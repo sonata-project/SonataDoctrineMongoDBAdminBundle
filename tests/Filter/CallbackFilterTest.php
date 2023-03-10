@@ -88,6 +88,9 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         return $data->hasValue();
     }
 
+    /**
+     * @psalm-suppress InvalidArgument
+     */
     public function testFilterException(): void
     {
         $builder = new ProxyQuery($this->getQueryBuilder());

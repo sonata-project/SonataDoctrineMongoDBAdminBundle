@@ -14,18 +14,15 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ODM\MongoDB\Types\Type;
 
-/** @ODM\EmbeddedDocument() */
-class Address
+#[ODM\EmbeddedDocument]
+class Address implements \Stringable
 {
-    /**
-     * @ODM\Field(type="string")
-     */
-    private string $street;
-
-    public function __construct(string $street = '')
-    {
-        $this->street = $street;
+    public function __construct(
+        #[ODM\Field(type: Type::STRING)]
+        private string $street = ''
+    ) {
     }
 
     public function __toString(): string

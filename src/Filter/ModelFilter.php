@@ -111,16 +111,12 @@ final class ModelFilter extends Filter
 
     /**
      * Return ObjectId if $id is ObjectId in string representation, otherwise custom string.
-     *
-     * @param mixed $id
-     *
-     * @return string|ObjectId
      */
-    protected static function fixIdentifier($id)
+    protected static function fixIdentifier(mixed $id): string|ObjectId
     {
         try {
             return new ObjectId($id);
-        } catch (InvalidArgumentException $ex) {
+        } catch (InvalidArgumentException) {
             return $id;
         }
     }
