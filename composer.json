@@ -43,7 +43,6 @@
         "twig/twig": "^2.6 || ^3.0"
     },
     "require-dev": {
-        "doctrine/annotations": "^1.10",
         "doctrine/data-fixtures": "^1.4",
         "friendsofphp/php-cs-fixer": "^3.4",
         "matthiasnoback/symfony-config-test": "^4.2",
