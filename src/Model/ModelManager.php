@@ -233,7 +233,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         \assert($iterator instanceof Iterator);
 
         $i = 0;
-        
+
         try {
             foreach ($iterator as $object) {
                 $documentManager->remove($object);
