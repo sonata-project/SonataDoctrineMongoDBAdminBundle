@@ -16,10 +16,13 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Model;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata as MongoDBClassMetadata;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\Persistence\Mapping\MappingException;
+use MongoDB\Driver\Exception\Exception;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Model\ProxyResolverInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
@@ -44,23 +47,47 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
     public function create(object $object): void
     {
-        $documentManager = $this->getDocumentManager($object);
-        $documentManager->persist($object);
-        $documentManager->flush();
+        try {
+            $documentManager = $this->getDocumentManager($object);
+            $documentManager->persist($object);
+            $documentManager->flush();
+        } catch (Exception|MongoDBException $exception) {
+            throw new ModelManagerException(
+                sprintf('Failed to create object: %s', $this->getRealClass($object)),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 
     public function update(object $object): void
     {
-        $documentManager = $this->getDocumentManager($object);
-        $documentManager->persist($object);
-        $documentManager->flush();
+        try {
+            $documentManager = $this->getDocumentManager($object);
+            $documentManager->persist($object);
+            $documentManager->flush();
+        } catch (Exception|MongoDBException $exception) {
+            throw new ModelManagerException(
+                sprintf('Failed to update object: %s', $this->getRealClass($object)),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 
     public function delete(object $object): void
     {
-        $documentManager = $this->getDocumentManager($object);
-        $documentManager->remove($object);
-        $documentManager->flush();
+        try {
+            $documentManager = $this->getDocumentManager($object);
+            $documentManager->remove($object);
+            $documentManager->flush();
+        } catch (Exception|MongoDBException $exception) {
+            throw new ModelManagerException(
+                sprintf('Failed to delete object: %s', $this->getRealClass($object)),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 
     /**
@@ -207,17 +234,26 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         \assert($iterator instanceof Iterator);
 
         $i = 0;
-        foreach ($iterator as $object) {
-            $documentManager->remove($object);
 
-            if (0 === (++$i % 20)) {
-                $documentManager->flush();
-                $documentManager->clear();
+        try {
+            foreach ($iterator as $object) {
+                $documentManager->remove($object);
+
+                if (0 === (++$i % 20)) {
+                    $documentManager->flush();
+                    $documentManager->clear();
+                }
             }
-        }
 
-        $documentManager->flush();
-        $documentManager->clear();
+            $documentManager->flush();
+            $documentManager->clear();
+        } catch (Exception|MongoDBException $exception) {
+            throw new ModelManagerException(
+                sprintf('Failed to delete object: %s', $class),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 
     public function getExportFields(string $class): array
