@@ -20,6 +20,7 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\Persistence\Mapping\MappingException;
+use MongoDB\Driver\Exception\Exception;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
@@ -50,7 +51,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             $documentManager = $this->getDocumentManager($object);
             $documentManager->persist($object);
             $documentManager->flush();
-        } catch (MongoDBException $exception) {
+        } catch (Exception|MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to create object: %s', $this->getRealClass($object)),
                 $exception->getCode(),
@@ -65,7 +66,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             $documentManager = $this->getDocumentManager($object);
             $documentManager->persist($object);
             $documentManager->flush();
-        } catch (MongoDBException $exception) {
+        } catch (Exception|MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to update object: %s', $this->getRealClass($object)),
                 $exception->getCode(),
@@ -80,7 +81,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             $documentManager = $this->getDocumentManager($object);
             $documentManager->remove($object);
             $documentManager->flush();
-        } catch (MongoDBException $exception) {
+        } catch (Exception|MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to delete object: %s', $this->getRealClass($object)),
                 $exception->getCode(),
@@ -246,7 +247,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
             $documentManager->flush();
             $documentManager->clear();
-        } catch (MongoDBException $exception) {
+        } catch (Exception|MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to delete object: %s', $class),
                 $exception->getCode(),
