@@ -53,7 +53,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         } catch (MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to create object: %s', $this->getRealClass($object)),
-                (int) $exception->getCode(),
+                $exception->getCode(),
                 $exception
             );
         }
@@ -68,7 +68,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         } catch (MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to update object: %s', $this->getRealClass($object)),
-                (int) $exception->getCode(),
+                $exception->getCode(),
                 $exception
             );
         }
@@ -83,7 +83,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         } catch (MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to delete object: %s', $this->getRealClass($object)),
-                (int) $exception->getCode(),
+                $exception->getCode(),
                 $exception
             );
         }
@@ -249,7 +249,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         } catch (MongoDBException $exception) {
             throw new ModelManagerException(
                 sprintf('Failed to delete object: %s', $class),
-                (int) $exception->getCode(),
+                $exception->getCode(),
                 $exception
             );
         }
