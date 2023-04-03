@@ -39,6 +39,8 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 {
     public const ID_SEPARATOR = '-';
 
+    private const BATCH_SIZE = 20;
+
     public function __construct(
         private ManagerRegistry $registry,
         private PropertyAccessorInterface $propertyAccessor
@@ -219,7 +221,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         $queryBuilder->field('_id')->in($idx);
     }
 
-    public function batchDelete(string $class, BaseProxyQueryInterface $query): void
+    public function batchDelete(string $class, BaseProxyQueryInterface $query, int $batchSize = self::BATCH_SIZE): void
     {
         if (!$query instanceof ProxyQueryInterface) {
             throw new \TypeError(sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
@@ -234,13 +236,15 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         \assert($iterator instanceof Iterator);
 
         $i = 0;
+        $confirmedDeletionsCount = 0;
 
         try {
             foreach ($iterator as $object) {
                 $documentManager->remove($object);
 
-                if (0 === (++$i % 20)) {
+                if (0 === (++$i % $batchSize)) {
                     $documentManager->flush();
+                    $confirmedDeletionsCount = $i;
                     $documentManager->clear();
                 }
             }
@@ -248,8 +252,27 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             $documentManager->flush();
             $documentManager->clear();
         } catch (Exception|MongoDBException $exception) {
+            $id = null;
+
+            if (isset($object)) {
+                $id = $this->getNormalizedIdentifier($object);
+            }
+
+            if (null === $id) {
+                throw new ModelManagerException(
+                    sprintf('Failed to perform batch deletion for "%s" objects', $class),
+                    $exception->getCode(),
+                    $exception
+                );
+            }
+
+            $msg = 'Failed to delete object "%s" (id: %s) while performing batch deletion';
+            if ($i > $batchSize) {
+                $msg .= sprintf(' (%u objects were successfully deleted before this error)', $confirmedDeletionsCount);
+            }
+
             throw new ModelManagerException(
-                sprintf('Failed to delete object: %s', $class),
+                sprintf($msg, $class, $id),
                 $exception->getCode(),
                 $exception
             );

@@ -13,16 +13,26 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Model;
 
+use Doctrine\Common\EventManager;
+use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Hydrator\HydratorFactory;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+use Doctrine\ODM\MongoDB\UnitOfWork;
+use MongoDB\Collection;
+use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\MockObject\Stub\Exception as ExceptionStub;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\ClassMetadataAnnotationTrait;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\DocumentWithReferences;
+use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\EmbeddedDocument;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\SimpleDocumentWithPrivateSetter;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document\TestDocument;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -197,6 +207,142 @@ final class ModelManagerTest extends TestCase
         yield [true, new ProxyQuery($this->createStub(Builder::class))];
         yield [true, $this->createStub(Builder::class)];
         yield [false, new \stdClass()];
+    }
+
+    /**
+     * @return iterable<int|string, array<int, string|array<int, DocumentWithReferences|null>>>
+     *
+     * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int, ?ExceptionStub>}>
+     */
+    public function failingBatchDeleteProvider(): iterable
+    {
+        yield [
+            '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            .' \(id: [a-z0-9]{32}\) while performing batch deletion \(20 objects were successfully deleted before this error\)$#',
+            array_fill(0, 21, new DocumentWithReferences('test', new EmbeddedDocument())),
+            [null, static::throwException(new RuntimeException())],
+        ];
+
+        yield [
+            '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            .' \(id: [a-z0-9]{32}\) while performing batch deletion$#',
+            [new DocumentWithReferences('test', new EmbeddedDocument()), new DocumentWithReferences('test', new EmbeddedDocument())],
+            [static::throwException(new RuntimeException())],
+        ];
+
+        yield [
+            '#^Failed to perform batch deletion for "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            .' objects$#',
+            [],
+            [static::throwException(new RuntimeException())],
+        ];
+    }
+
+    /**
+     * @param array<int, DocumentWithReferences> $result
+     * @param array<int, ExceptionStub|null>     $onConsecutiveFlush
+     *
+     * @dataProvider failingBatchDeleteProvider
+     */
+    public function testFailingBatchDelete(string $expectedExceptionMessage, array $result, array $onConsecutiveFlush): void
+    {
+        $batchSize = 20;
+
+        $classMetadata = $this->createMock(ClassMetadata::class);
+        $classMetadata->expects([] === $result ? static::never() : static::atLeastOnce())
+            ->method('newInstance')
+            ->willReturn(new DocumentWithReferences('test', new EmbeddedDocument()));
+        $classMetadata->name = DocumentWithReferences::class;
+
+        $dm = $this->createMock(DocumentManager::class);
+        $dm
+            ->expects([] === $result ? static::never() : static::atLeastOnce())
+            ->method('contains')
+            ->willReturnCallback(static fn (object $document): bool => $document instanceof DocumentWithReferences);
+
+        $collection = $this->createMock(Collection::class);
+        $collection
+            ->expects(static::atLeastOnce())
+            ->method('find')
+            ->willReturn((static function () use ($result): \Traversable {
+                foreach ($result as $document) {
+                    yield [
+                        '_id' => $document->id,
+                    ];
+                }
+            })());
+
+        $queryBuilder = $this->createMock(Builder::class);
+        $queryBuilder
+            ->expects(static::atLeastOnce())
+            ->method('getQuery')
+            ->willReturn(new Query(
+                $dm,
+                $classMetadata,
+                $collection,
+                [
+                    'type' => Query::TYPE_FIND,
+                    'query' => ['$id' => '00000000000011190000000000000000'],
+                ]
+            ));
+
+        $documentRepository = $this->createMock(DocumentRepository::class);
+        $documentRepository
+            ->expects(static::atLeastOnce())
+            ->method('createQueryBuilder')
+            ->willReturn($queryBuilder);
+
+        $dm
+            ->expects(static::atLeastOnce())
+            ->method('getRepository')
+            ->with(DocumentWithReferences::class)
+            ->willReturn($documentRepository);
+        $dm->expects([] === $result ? static::never() : static::atLeastOnce())
+            ->method('getClassMetadata')
+            ->with(DocumentWithReferences::class)
+            ->willReturn($classMetadata);
+
+        $registry = $this->createMock(ManagerRegistry::class);
+        $registry->expects(static::atLeastOnce())
+            ->method('getManagerForClass')
+            ->with(DocumentWithReferences::class)
+            ->willReturn($dm);
+
+        $dm
+            ->expects(static::exactly(\count($result)))
+            ->method('remove');
+        $dm
+            ->expects(static::exactly([] === $result ? 1 : (int) ceil(\count($result) / $batchSize)))
+            ->method('flush')
+            ->will(static::onConsecutiveCalls(
+                ...$onConsecutiveFlush
+            ));
+
+        $eventManager = new EventManager();
+        $hydratorFactory = new HydratorFactory(
+            $dm,
+            $eventManager,
+            sys_get_temp_dir(),
+            'Sonata\DoctrineMongoDBAdminBundle\Tests\Hydrator',
+            Configuration::AUTOGENERATE_FILE_NOT_EXISTS
+        );
+        $uow = new UnitOfWork($dm, $eventManager, $hydratorFactory);
+        /** @psalm-suppress InternalMethod */
+        $hydratorFactory->setUnitOfWork($uow);
+
+        $dm
+            ->expects(static::atLeastOnce())
+            ->method('getUnitOfWork')
+            ->willReturn($uow);
+
+        $modelManager = new ModelManager($registry, $this->propertyAccessor);
+
+        $proxyQuery = $modelManager->createQuery(DocumentWithReferences::class);
+
+        $this->expectException(ModelManagerException::class);
+        $this->expectExceptionMessageMatches($expectedExceptionMessage);
+
+        $modelManager->batchDelete(DocumentWithReferences::class, $proxyQuery, $batchSize);
     }
 
     /**
