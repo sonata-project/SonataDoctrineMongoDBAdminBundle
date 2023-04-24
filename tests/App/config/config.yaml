@@ -1,17 +1,26 @@
 framework:
-    secret: '$3cr37'
+    secret: "$3cr37"
     assets:
         enabled: true
     form:
         enabled: true
     session:
-        handler_id: session.handler.native_file
-        storage_id: session.storage.mock_file
+        storage_factory_id: session.storage.factory.mock_file
         name: MOCKSESSID
     http_method_override: false
     test: true
     translator:
         enabled: true
+    router:
+        utf8: true
+
+security:
+    providers:
+        in_memory:
+            memory: null
+    firewalls:
+        main:
+            lazy: true
 
 twig:
     exception_controller: null

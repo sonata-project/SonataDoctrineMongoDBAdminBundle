@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ChoiceFilter;
@@ -22,10 +24,8 @@ use Sonata\DoctrineMongoDBAdminBundle\Filter\IdFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // Use "service" function for creating references to services when dropping support for Symfony 4.4
     $containerConfigurator->services()
 
         ->set('sonata.admin.odm.filter.type.boolean', BooleanFilter::class)
