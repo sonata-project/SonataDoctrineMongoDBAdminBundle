@@ -24,13 +24,13 @@ use Sonata\Form\Bridge\Symfony\SonataFormBundle;
 use Sonata\Twig\Bridge\Symfony\SonataTwigBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AuthenticatorFactoryInterface;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AppKernel extends Kernel
 {
@@ -68,12 +68,7 @@ final class AppKernel extends Kernel
         return __DIR__;
     }
 
-    /**
-     * TODO: Add typehint when dropping support of symfony < 5.1.
-     *
-     * @param RoutingConfigurator $routes
-     */
-    protected function configureRoutes($routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $routes->import(sprintf('%s/config/routes.yaml', $this->getProjectDir()));
     }
@@ -83,12 +78,10 @@ final class AppKernel extends Kernel
      */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        if (interface_exists(AuthenticatorFactoryInterface::class)) {
-            $loader->load(__DIR__.'/config/config_v5.yml');
-            $loader->load(__DIR__.'/config/security_v5.yml');
-        } else {
-            $loader->load(__DIR__.'/config/config_v4.yml');
-            $loader->load(__DIR__.'/config/security_v4.yml');
+        $loader->load(__DIR__.'/config/config.yaml');
+
+        if (!class_exists(IsGranted::class)) {
+            $loader->load(__DIR__.'/config/config_symfony_v5.yaml');
         }
 
         if (class_exists(HttpCacheHandler::class)) {
