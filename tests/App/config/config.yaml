@@ -1,5 +1,5 @@
 framework:
-    secret: "$3cr37"
+    secret: '$3cr37'
     assets:
         enabled: true
     form:
