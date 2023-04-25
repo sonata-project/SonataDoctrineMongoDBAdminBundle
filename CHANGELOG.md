@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.9.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.8.0...4.9.0) - 2023-04-25
+### Removed
+- [[#816](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/816)] Support for Symfony 4 ([@jordisala1991](https://github.com/jordisala1991))
+- [[#816](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/816)] Support for Twig 2 ([@jordisala1991](https://github.com/jordisala1991))
+
 ## [4.8.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.7.0...4.8.0) - 2023-04-09
 ### Changed
 - [[#813](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/813)] Exception message at `ModelManager::batchDelete()` in order to provide more details about the failed batch operation ([@phansys](https://github.com/phansys))
