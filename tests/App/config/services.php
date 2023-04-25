@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\AddressAdmin;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\AuthorAdmin;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Admin\BookAdmin;
@@ -21,14 +23,13 @@ use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Author;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Book;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\Category;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document\PhoneNumber;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
         ->defaults()
         ->autowire()
         ->autoconfigure()
-        ->load('Sonata\\DoctrineMongoDBAdminBundle\\Tests\\App\\DataFixtures\\', dirname(__DIR__).'/DataFixtures')
+        ->load('Sonata\\DoctrineMongoDBAdminBundle\\Tests\\App\\DataFixtures\\', \dirname(__DIR__).'/DataFixtures')
 
         ->set(CategoryAdmin::class)
             ->tag('sonata.admin', [

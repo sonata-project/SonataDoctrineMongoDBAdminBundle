@@ -30,17 +30,17 @@
         "doctrine/collections": "^1.6 || ^2.0",
         "doctrine/mongodb-odm": "^2.3",
         "doctrine/mongodb-odm-bundle": "^4.4",
-        "doctrine/persistence": "^2.0 || ^3.0",
+        "doctrine/persistence": "^3.0",
         "sonata-project/admin-bundle": "^4.18",
         "sonata-project/exporter": "^2.0 || ^3.0",
         "sonata-project/form-extensions": "^1.7.1",
-        "symfony/config": "^4.4 || ^5.4 || ^6.2",
-        "symfony/dependency-injection": "^4.4 || ^5.4 || ^6.2",
-        "symfony/doctrine-bridge": "^4.4.22 || ^5.4 || ^6.2",
-        "symfony/form": "^4.4 || ^5.4 || ^6.2",
-        "symfony/http-kernel": "^4.4 || ^5.4 || ^6.2",
-        "symfony/property-access": "^4.4 || ^5.4 || ^6.2",
-        "twig/twig": "^2.6 || ^3.0"
+        "symfony/config": "^5.4 || ^6.2",
+        "symfony/dependency-injection": "^5.4 || ^6.2",
+        "symfony/doctrine-bridge": "^5.4 || ^6.2",
+        "symfony/form": "^5.4 || ^6.2",
+        "symfony/http-kernel": "^5.4 || ^6.2",
+        "symfony/property-access": "^5.4 || ^6.2",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "doctrine/data-fixtures": "^1.4",
@@ -54,14 +54,14 @@
         "phpstan/phpstan-symfony": "^1.0",
         "phpunit/phpunit": "^9.6",
         "psalm/plugin-phpunit": "^0.18",
-        "psalm/plugin-symfony": "^4.0 || ^5.0",
+        "psalm/plugin-symfony": "^5.0",
         "rector/rector": "^0.15",
         "sonata-project/block-bundle": "^4.2",
-        "symfony/browser-kit": "^4.4 || ^5.4 || ^6.2",
-        "symfony/css-selector": "^4.4 || ^5.4 || ^6.2",
-        "symfony/panther": "^1.0 || ^2.0",
+        "symfony/browser-kit": "^5.4 || ^6.2",
+        "symfony/css-selector": "^5.4 || ^6.2",
+        "symfony/panther": "^2.0.1",
         "symfony/phpunit-bridge": "^6.2",
-        "vimeo/psalm": "^4.30 || ^5.7"
+        "vimeo/psalm": "^5.7"
     },
     "conflict": {
         "sonata-project/block-bundle": "<4.2"

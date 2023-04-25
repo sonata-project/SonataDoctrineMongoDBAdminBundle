@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
 use Sonata\AdminBundle\FieldDescription\TypeGuesserChain;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\DatagridBuilder;
 use Sonata\DoctrineMongoDBAdminBundle\Builder\FormContractor;
@@ -21,8 +23,6 @@ use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescriptionFactory;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FilterTypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Model\ModelManager;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     // Use "service" function for creating references to services when dropping support for Symfony 4.4
@@ -32,20 +32,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.manager.doctrine_mongodb', ModelManager::class)
             ->tag('sonata.admin.manager')
             ->args([
-                new ReferenceConfigurator('doctrine_mongodb'),
-                new ReferenceConfigurator('property_accessor'),
+                service('doctrine_mongodb'),
+                service('property_accessor'),
             ])
 
         ->set('sonata.admin.builder.doctrine_mongodb_form', FormContractor::class)
             ->args([
-                new ReferenceConfigurator('form.factory'),
-                new ReferenceConfigurator('form.registry'),
+                service('form.factory'),
+                service('form.registry'),
             ])
 
         ->set('sonata.admin.builder.doctrine_mongodb_list', ListBuilder::class)
             ->args([
-                new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_list_chain'),
-                [],
+                service('sonata.admin.guesser.doctrine_mongodb_list_chain'),
+                abstract_arg('templates'),
             ])
 
         ->set('sonata.admin.guesser.doctrine_mongodb_list', TypeGuesser::class)
@@ -54,14 +54,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.guesser.doctrine_mongodb_list_chain', TypeGuesserChain::class)
             ->args([
                 [
-                    new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_list'),
+                    service('sonata.admin.guesser.doctrine_mongodb_list'),
                 ],
             ])
 
         ->set('sonata.admin.builder.doctrine_mongodb_show', ShowBuilder::class)
             ->args([
-                new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_show_chain'),
-                [],
+                service('sonata.admin.guesser.doctrine_mongodb_show_chain'),
+                abstract_arg('templates'),
             ])
 
         ->set('sonata.admin.guesser.doctrine_mongodb_show', TypeGuesser::class)
@@ -70,16 +70,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.guesser.doctrine_mongodb_show_chain', TypeGuesserChain::class)
             ->args([
                 [
-                    new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_list'),
+                    service('sonata.admin.guesser.doctrine_mongodb_list'),
                 ],
             ])
 
         ->set('sonata.admin.builder.doctrine_mongodb_datagrid', DatagridBuilder::class)
             ->args([
-                new ReferenceConfigurator('form.factory'),
-                new ReferenceConfigurator('sonata.admin.builder.filter.factory'),
-                new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_datagrid_chain'),
-                '%form.type_extension.csrf.enabled%',
+                service('form.factory'),
+                service('sonata.admin.builder.filter.factory'),
+                service('sonata.admin.guesser.doctrine_mongodb_datagrid_chain'),
+                param('form.type_extension.csrf.enabled'),
             ])
 
         ->set('sonata.admin.guesser.doctrine_mongodb_datagrid', FilterTypeGuesser::class)
@@ -88,7 +88,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.guesser.doctrine_mongodb_datagrid_chain', TypeGuesserChain::class)
             ->args([
                 [
-                    new ReferenceConfigurator('sonata.admin.guesser.doctrine_mongodb_datagrid'),
+                    service('sonata.admin.guesser.doctrine_mongodb_datagrid'),
                 ],
             ])
 
@@ -96,6 +96,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         ->set('sonata.admin.field_description_factory.doctrine_mongodb', FieldDescriptionFactory::class)
             ->args([
-                new ReferenceConfigurator('doctrine_mongodb'),
+                service('doctrine_mongodb'),
             ]);
 };
