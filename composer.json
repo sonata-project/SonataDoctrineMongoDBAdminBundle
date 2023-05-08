@@ -66,6 +66,8 @@
     "conflict": {
         "sonata-project/block-bundle": "<4.2"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Sonata\\DoctrineMongoDBAdminBundle\\": "src/"
