@@ -76,7 +76,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider getContainsTypes
+     * @dataProvider provideContainsCases
      */
     public function testContains(string $method, int $type, mixed $value): void
     {
@@ -99,15 +99,13 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return array<array{string, int, mixed}>
+     * @phpstan-return iterable<array{string, int, mixed}>
      */
-    public function getContainsTypes(): array
+    public function provideContainsCases(): iterable
     {
-        return [
-            ['equals', ContainsOperatorType::TYPE_CONTAINS, new Regex('asd', 'i')],
-            ['equals', ContainsOperatorType::TYPE_EQUAL, 'asd'],
-            ['not', ContainsOperatorType::TYPE_NOT_CONTAINS, new Regex('asd', 'i')],
-        ];
+        yield ['equals', ContainsOperatorType::TYPE_CONTAINS, new Regex('asd', 'i')];
+        yield ['equals', ContainsOperatorType::TYPE_EQUAL, 'asd'];
+        yield ['not', ContainsOperatorType::TYPE_NOT_CONTAINS, new Regex('asd', 'i')];
     }
 
     public function testNotContains(): void

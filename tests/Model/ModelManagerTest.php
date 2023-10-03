@@ -49,7 +49,7 @@ final class ModelManagerTest extends TestCase
     /**
      * @var Stub&ManagerRegistry
      */
-    private $registry;
+    private Stub $registry;
 
     protected function setUp(): void
     {
@@ -150,7 +150,7 @@ final class ModelManagerTest extends TestCase
     }
 
     /**
-     * @dataProvider supportsQueryDataProvider
+     * @dataProvider provideSupportsQueryCases
      */
     public function testSupportsQuery(bool $expected, object $object): void
     {
@@ -202,7 +202,7 @@ final class ModelManagerTest extends TestCase
     /**
      * @phpstan-return iterable<array{bool, object}>
      */
-    public function supportsQueryDataProvider(): iterable
+    public function provideSupportsQueryCases(): iterable
     {
         yield [true, new ProxyQuery($this->createStub(Builder::class))];
         yield [true, $this->createStub(Builder::class)];
@@ -214,7 +214,7 @@ final class ModelManagerTest extends TestCase
      *
      * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int, ?ExceptionStub>}>
      */
-    public function failingBatchDeleteProvider(): iterable
+    public function provideFailingBatchDeleteCases(): iterable
     {
         yield [
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
@@ -242,7 +242,7 @@ final class ModelManagerTest extends TestCase
      * @param array<int, DocumentWithReferences> $result
      * @param array<int, ExceptionStub|null>     $onConsecutiveFlush
      *
-     * @dataProvider failingBatchDeleteProvider
+     * @dataProvider provideFailingBatchDeleteCases
      */
     public function testFailingBatchDelete(string $expectedExceptionMessage, array $result, array $onConsecutiveFlush): void
     {
