@@ -22,7 +22,7 @@ use Sonata\Form\Type\DateTimeRangeType;
 final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @dataProvider getNotApplicableValues
+     * @dataProvider provideEmptyCases
      *
      * @phpstan-param array{start?: mixed, end?: mixed} $value
      */
@@ -45,13 +45,11 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array<array{start?: mixed, end?: mixed}>>
      */
-    public function getNotApplicableValues(): iterable
+    public function provideEmptyCases(): iterable
     {
-        return [
-            [[]],
-            [['end' => new \DateTime()]],
-            [['start' => new \DateTime()]],
-        ];
+        yield [[]];
+        yield [['end' => new \DateTime()]];
+        yield [['start' => new \DateTime()]];
     }
 
     public function testGetType(): void
@@ -60,7 +58,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider getBetweenTypes
+     * @dataProvider provideFilterBetweenCases
      */
     public function testFilterBetween(?int $type): void
     {
@@ -96,7 +94,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array{int|null}>
      */
-    public function getBetweenTypes(): iterable
+    public function provideFilterBetweenCases(): iterable
     {
         yield 'default' => [null];
         yield 'between' => [DateRangeOperatorType::TYPE_BETWEEN];

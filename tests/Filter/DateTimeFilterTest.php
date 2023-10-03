@@ -43,7 +43,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider getExamples
+     * @dataProvider provideFilterCases
      *
      * @phpstan-param array{type?: int, value?: \DateTime} $data
      */
@@ -65,18 +65,16 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return array<array{array{type?: int, value?: \DateTime}, string}>
+     * @phpstan-return iterable<array{array{type?: int, value?: \DateTime}, string}>
      */
-    public function getExamples(): array
+    public function provideFilterCases(): iterable
     {
-        return [
-            [['type' => DateOperatorType::TYPE_EQUAL, 'value' => new \DateTime('now')], 'equals'],
-            [['type' => DateOperatorType::TYPE_GREATER_EQUAL, 'value' => new \DateTime('now')], 'gte'],
-            [['type' => DateOperatorType::TYPE_GREATER_THAN, 'value' => new \DateTime('now')], 'gt'],
-            [['type' => DateOperatorType::TYPE_LESS_EQUAL, 'value' => new \DateTime('now')], 'lte'],
-            [['type' => DateOperatorType::TYPE_LESS_THAN, 'value' => new \DateTime('now')], 'lt'],
-            [['value' => new \DateTime('now')], 'equals'],
-        ];
+        yield [['type' => DateOperatorType::TYPE_EQUAL, 'value' => new \DateTime('now')], 'equals'];
+        yield [['type' => DateOperatorType::TYPE_GREATER_EQUAL, 'value' => new \DateTime('now')], 'gte'];
+        yield [['type' => DateOperatorType::TYPE_GREATER_THAN, 'value' => new \DateTime('now')], 'gt'];
+        yield [['type' => DateOperatorType::TYPE_LESS_EQUAL, 'value' => new \DateTime('now')], 'lte'];
+        yield [['type' => DateOperatorType::TYPE_LESS_THAN, 'value' => new \DateTime('now')], 'lt'];
+        yield [['value' => new \DateTime('now')], 'equals'];
     }
 
     private function createFilter(): DateTimeFilter

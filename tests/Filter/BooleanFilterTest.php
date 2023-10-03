@@ -37,7 +37,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider getScalarValues
+     * @dataProvider provideFilterScalarCases
      */
     public function testFilterScalar(bool $equalsReturnValue, int $value): void
     {
@@ -57,14 +57,12 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return array<array{bool, int}>
+     * @phpstan-return iterable<array{bool, int}>
      */
-    public function getScalarValues(): array
+    public function provideFilterScalarCases(): iterable
     {
-        return [
-            [false, BooleanType::TYPE_NO],
-            [true, BooleanType::TYPE_YES],
-        ];
+        yield [false, BooleanType::TYPE_NO];
+        yield [true, BooleanType::TYPE_YES];
     }
 
     public function testFilterArray(): void

@@ -56,7 +56,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider getEqualTypes
+     * @dataProvider provideDefaultTypeIsEqualsCases
      */
     public function testDefaultTypeIsEquals(?int $type): void
     {
@@ -81,7 +81,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array{int|null}>
      */
-    public function getEqualTypes(): iterable
+    public function provideDefaultTypeIsEqualsCases(): iterable
     {
         yield 'default type' => [null];
         yield 'equals type' => [EqualOperatorType::TYPE_EQUAL];

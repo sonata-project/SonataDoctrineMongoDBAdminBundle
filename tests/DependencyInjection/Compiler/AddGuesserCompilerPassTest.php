@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class AddGuesserCompilerPassTest extends AbstractCompilerPassTestCase
 {
-    /** @dataProvider getBuilders */
+    /** @dataProvider provideAddsGuessersCases */
     public function testAddsGuessers(string $builderServiceId, string $guesserTag): void
     {
         $builderService = new Definition(null, [[]]);
@@ -43,23 +43,21 @@ final class AddGuesserCompilerPassTest extends AbstractCompilerPassTestCase
     }
 
     /**
-     * @phpstan-return array<array{string, string}>
+     * @phpstan-return iterable<array{string, string}>
      */
-    public function getBuilders(): array
+    public function provideAddsGuessersCases(): iterable
     {
-        return [
-            'list_builder' => [
-                'sonata.admin.guesser.doctrine_mongodb_list_chain',
-                'sonata.admin.guesser.doctrine_mongodb_list',
-            ],
-            'datagrid_builder' => [
-                'sonata.admin.guesser.doctrine_mongodb_datagrid_chain',
-                'sonata.admin.guesser.doctrine_mongodb_datagrid',
-            ],
-            'show_builder' => [
-                'sonata.admin.guesser.doctrine_mongodb_show_chain',
-                'sonata.admin.guesser.doctrine_mongodb_show',
-            ],
+        yield 'list_builder' => [
+            'sonata.admin.guesser.doctrine_mongodb_list_chain',
+            'sonata.admin.guesser.doctrine_mongodb_list',
+        ];
+        yield 'datagrid_builder' => [
+            'sonata.admin.guesser.doctrine_mongodb_datagrid_chain',
+            'sonata.admin.guesser.doctrine_mongodb_datagrid',
+        ];
+        yield 'show_builder' => [
+            'sonata.admin.guesser.doctrine_mongodb_show_chain',
+            'sonata.admin.guesser.doctrine_mongodb_show',
         ];
     }
 

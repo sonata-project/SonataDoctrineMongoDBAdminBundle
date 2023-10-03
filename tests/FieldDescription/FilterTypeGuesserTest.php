@@ -97,7 +97,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
     }
 
     /**
-     * @dataProvider noAssociationData
+     * @dataProvider provideGuessTypeNoAssociationCases
      */
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence, ?string $fieldType = null): void
     {
@@ -131,54 +131,52 @@ final class FilterTypeGuesserTest extends RegistryTestCase
      *
      * @phpstan-return iterable<array{0: string, 1: string, 2: int, 3?: string}>
      */
-    public function noAssociationData(): iterable
+    public function provideGuessTypeNoAssociationCases(): iterable
     {
-        return [
-            // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
-            Type::BOOLEAN => [
-                'boolean',
-                BooleanFilter::class,
-                Guess::HIGH_CONFIDENCE,
-                BooleanType::class,
-            ],
-            Type::TIMESTAMP => [
-                'timestamp',
-                DateTimeFilter::class,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            Type::DATE => [
-                'date',
-                DateFilter::class,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            Type::FLOAT => [
-                'float',
-                NumberFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-                NumberType::class,
-            ],
-            Type::INT => [
-                'int',
-                NumberFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-                NumberType::class,
-            ],
-            Type::STRING => [
-                'string',
-                StringFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-                TextType::class,
-            ],
-            Type::ID => [
-                Type::ID,
-                IdFilter::class,
-                Guess::MEDIUM_CONFIDENCE,
-            ],
-            'somefake' => [
-                'somefake',
-                StringFilter::class,
-                Guess::LOW_CONFIDENCE,
-            ],
+        // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
+        yield Type::BOOLEAN => [
+            'boolean',
+            BooleanFilter::class,
+            Guess::HIGH_CONFIDENCE,
+            BooleanType::class,
+        ];
+        yield Type::TIMESTAMP => [
+            'timestamp',
+            DateTimeFilter::class,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield Type::DATE => [
+            'date',
+            DateFilter::class,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield Type::FLOAT => [
+            'float',
+            NumberFilter::class,
+            Guess::MEDIUM_CONFIDENCE,
+            NumberType::class,
+        ];
+        yield Type::INT => [
+            'int',
+            NumberFilter::class,
+            Guess::MEDIUM_CONFIDENCE,
+            NumberType::class,
+        ];
+        yield Type::STRING => [
+            'string',
+            StringFilter::class,
+            Guess::MEDIUM_CONFIDENCE,
+            TextType::class,
+        ];
+        yield Type::ID => [
+            Type::ID,
+            IdFilter::class,
+            Guess::MEDIUM_CONFIDENCE,
+        ];
+        yield 'somefake' => [
+            'somefake',
+            StringFilter::class,
+            Guess::LOW_CONFIDENCE,
         ];
     }
 }

@@ -240,7 +240,7 @@ final class ModelFilterTest extends TestCase
     }
 
     /**
-     * @dataProvider getMappings
+     * @dataProvider provideDifferentIdentifiersBasedOnMappingCases
      */
     public function testDifferentIdentifiersBasedOnMapping(string $storeAs, string $fieldIdentifier): void
     {
@@ -269,16 +269,14 @@ final class ModelFilterTest extends TestCase
     }
 
     /**
-     * @phpstan-return array<array{string, string}>
+     * @phpstan-return iterable<array{string, string}>
      */
-    public function getMappings(): array
+    public function provideDifferentIdentifiersBasedOnMappingCases(): iterable
     {
-        return [
-            [ClassMetadata::REFERENCE_STORE_AS_REF, '.id'],
-            [ClassMetadata::REFERENCE_STORE_AS_ID, ''],
-            [ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB, '.$id'],
-            [ClassMetadata::REFERENCE_STORE_AS_DB_REF, '.$id'],
-        ];
+        yield [ClassMetadata::REFERENCE_STORE_AS_REF, '.id'];
+        yield [ClassMetadata::REFERENCE_STORE_AS_ID, ''];
+        yield [ClassMetadata::REFERENCE_STORE_AS_DB_REF_WITH_DB, '.$id'];
+        yield [ClassMetadata::REFERENCE_STORE_AS_DB_REF, '.$id'];
     }
 
     public function testDefaultValues(): void

@@ -35,7 +35,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @dataProvider associationData
+     * @dataProvider provideGuessTypeWithAssociationCases
      */
     public function testGuessTypeWithAssociation(string $mappingType, string $type): void
     {
@@ -59,24 +59,22 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @phpstan-return array<array{string, string}>
+     * @phpstan-return iterable<array{string, string}>
      */
-    public function associationData(): array
+    public function provideGuessTypeWithAssociationCases(): iterable
     {
-        return [
-            'many-to-one' => [
-                ClassMetadata::ONE,
-                FieldDescriptionInterface::TYPE_MANY_TO_ONE,
-            ],
-            'one-to-many' => [
-                ClassMetadata::MANY,
-                FieldDescriptionInterface::TYPE_MANY_TO_MANY,
-            ],
+        yield 'many-to-one' => [
+            ClassMetadata::ONE,
+            FieldDescriptionInterface::TYPE_MANY_TO_ONE,
+        ];
+        yield 'one-to-many' => [
+            ClassMetadata::MANY,
+            FieldDescriptionInterface::TYPE_MANY_TO_MANY,
         ];
     }
 
     /**
-     * @dataProvider noAssociationData
+     * @dataProvider provideGuessTypeNoAssociationCases
      */
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence): void
     {
@@ -100,61 +98,59 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
     }
 
     /**
-     * @phpstan-return array<array{string, string, int}>
+     * @phpstan-return iterable<array{string, string, int}>
      */
-    public function noAssociationData(): array
+    public function provideGuessTypeNoAssociationCases(): iterable
     {
-        return [
-            'collection' => [
-                Type::COLLECTION,
-                FieldDescriptionInterface::TYPE_ARRAY,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            'hash' => [
-                Type::HASH,
-                FieldDescriptionInterface::TYPE_ARRAY,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            'bool' => [
-                Type::BOOL,
-                FieldDescriptionInterface::TYPE_BOOLEAN,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            'timestamp' => [
-                Type::TIMESTAMP,
-                FieldDescriptionInterface::TYPE_DATETIME,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            'date' => [
-                Type::DATE,
-                FieldDescriptionInterface::TYPE_DATE,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            'date_immutable' => [
-                Type::DATE_IMMUTABLE,
-                FieldDescriptionInterface::TYPE_DATE,
-                Guess::HIGH_CONFIDENCE,
-            ],
-            'float' => [
-                Type::FLOAT,
-                FieldDescriptionInterface::TYPE_FLOAT,
-                Guess::MEDIUM_CONFIDENCE,
-            ],
-            'integer' => [
-                Type::INT,
-                FieldDescriptionInterface::TYPE_INTEGER,
-                Guess::MEDIUM_CONFIDENCE,
-            ],
-            'string' => [
-                Type::STRING,
-                FieldDescriptionInterface::TYPE_STRING,
-                Guess::MEDIUM_CONFIDENCE,
-            ],
-            'somefake' => [
-                'somefake',
-                FieldDescriptionInterface::TYPE_STRING,
-                Guess::LOW_CONFIDENCE,
-            ],
+        yield 'collection' => [
+            Type::COLLECTION,
+            FieldDescriptionInterface::TYPE_ARRAY,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield 'hash' => [
+            Type::HASH,
+            FieldDescriptionInterface::TYPE_ARRAY,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield 'bool' => [
+            Type::BOOL,
+            FieldDescriptionInterface::TYPE_BOOLEAN,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield 'timestamp' => [
+            Type::TIMESTAMP,
+            FieldDescriptionInterface::TYPE_DATETIME,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield 'date' => [
+            Type::DATE,
+            FieldDescriptionInterface::TYPE_DATE,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield 'date_immutable' => [
+            Type::DATE_IMMUTABLE,
+            FieldDescriptionInterface::TYPE_DATE,
+            Guess::HIGH_CONFIDENCE,
+        ];
+        yield 'float' => [
+            Type::FLOAT,
+            FieldDescriptionInterface::TYPE_FLOAT,
+            Guess::MEDIUM_CONFIDENCE,
+        ];
+        yield 'integer' => [
+            Type::INT,
+            FieldDescriptionInterface::TYPE_INTEGER,
+            Guess::MEDIUM_CONFIDENCE,
+        ];
+        yield 'string' => [
+            Type::STRING,
+            FieldDescriptionInterface::TYPE_STRING,
+            Guess::MEDIUM_CONFIDENCE,
+        ];
+        yield 'somefake' => [
+            'somefake',
+            FieldDescriptionInterface::TYPE_STRING,
+            Guess::LOW_CONFIDENCE,
         ];
     }
 }
