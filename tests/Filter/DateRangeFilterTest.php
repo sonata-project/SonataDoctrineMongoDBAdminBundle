@@ -22,7 +22,7 @@ use Sonata\Form\Type\DateRangeType;
 final class DateRangeFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @dataProvider getNotApplicableValues
+     * @dataProvider provideEmptyCases
      *
      * @phpstan-param array{start?: mixed, end?: mixed} $value
      */
@@ -45,13 +45,11 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array<array{start?: mixed, end?: mixed}>>
      */
-    public function getNotApplicableValues(): iterable
+    public function provideEmptyCases(): iterable
     {
-        return [
-            [[]],
-            [['end' => new \DateTime()]],
-            [['start' => new \DateTime()]],
-        ];
+        yield [[]];
+        yield [['end' => new \DateTime()]];
+        yield [['start' => new \DateTime()]];
     }
 
     public function testGetType(): void
@@ -116,7 +114,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider provideDates
+     * @dataProvider provideFilterEndDateCoversWholeDayCases
      */
     public function testFilterEndDateCoversWholeDay(
         \DateTimeImmutable $expectedEndDateTime,
@@ -157,7 +155,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @return \Generator<array{\DateTimeImmutable, \DateTime, \DateTimeZone}>
      */
-    public function provideDates(): iterable
+    public function provideFilterEndDateCoversWholeDayCases(): iterable
     {
         yield [
             new \DateTimeImmutable('2016-08-31 23:59:59.0-03:00'),

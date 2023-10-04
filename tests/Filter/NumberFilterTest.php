@@ -53,7 +53,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider getNumberExamples
+     * @dataProvider provideFilterCases
      *
      * @phpstan-param array{type?: int, value: int} $data
      */
@@ -74,18 +74,16 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return array<array{array{type?: int, value: int}, string}>
+     * @phpstan-return iterable<array{array{type?: int, value: int}, string}>
      */
-    public function getNumberExamples(): array
+    public function provideFilterCases(): iterable
     {
-        return [
-            [['type' => NumberOperatorType::TYPE_EQUAL, 'value' => 42], 'equals'],
-            [['type' => NumberOperatorType::TYPE_GREATER_EQUAL, 'value' => 42], 'gte'],
-            [['type' => NumberOperatorType::TYPE_GREATER_THAN, 'value' => 42], 'gt'],
-            [['type' => NumberOperatorType::TYPE_LESS_EQUAL, 'value' => 42], 'lte'],
-            [['type' => NumberOperatorType::TYPE_LESS_THAN, 'value' => 42], 'lt'],
-            [['value' => 42], 'equals'],
-        ];
+        yield [['type' => NumberOperatorType::TYPE_EQUAL, 'value' => 42], 'equals'];
+        yield [['type' => NumberOperatorType::TYPE_GREATER_EQUAL, 'value' => 42], 'gte'];
+        yield [['type' => NumberOperatorType::TYPE_GREATER_THAN, 'value' => 42], 'gt'];
+        yield [['type' => NumberOperatorType::TYPE_LESS_EQUAL, 'value' => 42], 'lte'];
+        yield [['type' => NumberOperatorType::TYPE_LESS_THAN, 'value' => 42], 'lt'];
+        yield [['value' => 42], 'equals'];
     }
 
     public function testDefaultValues(): void
