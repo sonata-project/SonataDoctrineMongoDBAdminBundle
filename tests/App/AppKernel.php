@@ -79,6 +79,8 @@ final class AppKernel extends Kernel
 
         if (!class_exists(IsGranted::class)) {
             $loader->load(__DIR__.'/config/config_symfony_v5.yaml');
+        } else {
+            $loader->load(__DIR__.'/config/config_symfony_v6.yaml');
         }
 
         if (class_exists(HttpCacheHandler::class)) {
