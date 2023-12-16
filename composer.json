@@ -61,6 +61,7 @@
         "symfony/css-selector": "^5.4 || ^6.2",
         "symfony/panther": "^2.0.1",
         "symfony/phpunit-bridge": "^6.2",
+        "symfony/twig-bridge": "^5.4 || ^6.2",
         "vimeo/psalm": "^5.7"
     },
     "conflict": {
