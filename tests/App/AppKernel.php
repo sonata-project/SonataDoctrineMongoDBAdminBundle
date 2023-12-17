@@ -73,15 +73,14 @@ final class AppKernel extends Kernel
         $routes->import(sprintf('%s/config/routes.yaml', $this->getProjectDir()));
     }
 
-    /**
-     * @psalm-suppress DeprecatedClass
-     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/config/config.yaml');
 
         if (!class_exists(IsGranted::class)) {
             $loader->load(__DIR__.'/config/config_symfony_v5.yaml');
+        } else {
+            $loader->load(__DIR__.'/config/config_symfony_v6.yaml');
         }
 
         if (class_exists(HttpCacheHandler::class)) {

@@ -1,0 +1,11 @@
+framework:
+    annotations: false
+    handle_all_throwables: true
+    php_errors:
+        log: true
+    session:
+        cookie_secure: auto
+        cookie_samesite: lax
+        handler_id: null
+    validation:
+        email_validation_mode: html5

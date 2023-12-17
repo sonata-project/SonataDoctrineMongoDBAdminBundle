@@ -43,7 +43,7 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
-        "doctrine/data-fixtures": "^1.4",
+        "doctrine/data-fixtures": "^1.6",
         "friendsofphp/php-cs-fixer": "^3.4",
         "matthiasnoback/symfony-config-test": "^4.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
@@ -56,11 +56,12 @@
         "psalm/plugin-phpunit": "^0.18",
         "psalm/plugin-symfony": "^5.0",
         "rector/rector": "^0.18",
-        "sonata-project/block-bundle": "^4.2",
+        "sonata-project/block-bundle": "^4.2 || ^5.0",
         "symfony/browser-kit": "^5.4 || ^6.2",
         "symfony/css-selector": "^5.4 || ^6.2",
         "symfony/panther": "^2.0.1",
         "symfony/phpunit-bridge": "^6.2",
+        "symfony/twig-bridge": "^5.4 || ^6.2",
         "vimeo/psalm": "^5.7"
     },
     "conflict": {

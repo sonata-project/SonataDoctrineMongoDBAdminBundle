@@ -24,15 +24,11 @@ final class BookFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $author = $this->getReference(AuthorFixtures::AUTHOR);
-
-        \assert($author instanceof Author);
+        $author = $this->getReference(AuthorFixtures::AUTHOR, Author::class);
 
         $book = new Book('book_id', 'Don Quixote', $author);
 
-        $category = $this->getReference(CategoryFixtures::CATEGORY);
-
-        \assert($category instanceof Category);
+        $category = $this->getReference(CategoryFixtures::CATEGORY, Category::class);
 
         $book->addCategory($category);
 
