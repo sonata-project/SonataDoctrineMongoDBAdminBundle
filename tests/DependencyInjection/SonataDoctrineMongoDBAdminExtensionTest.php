@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\SonataDoctrineMongoDBAdminExtension;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class SonataDoctrineMongoDBAdminExtensionTest extends AbstractExtensionTestCase
 {
@@ -52,7 +53,7 @@ final class SonataDoctrineMongoDBAdminExtensionTest extends AbstractExtensionTes
         $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'sonata.admin.manipulator.acl.object.doctrine_mongodb',
             0,
-            'doctrine_mongodb'
+            new Reference('doctrine_mongodb')
         );
     }
 
