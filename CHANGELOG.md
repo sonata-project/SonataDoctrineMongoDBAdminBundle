@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.11.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.10.0...4.11.0) - 2024-01-31
+### Added
+- [[#843](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/843)] Support for Symfony 7. ([@franmomu](https://github.com/franmomu))
+- [[#843](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/843)] Support for doctrine/mongodb-odm-bundle 5 ([@franmomu](https://github.com/franmomu))
+
 ## [4.10.0](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/compare/4.9.0...4.10.0) - 2023-05-13
 ### Added
 - [[#825](https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle/pull/825)] Support for `sonata-project/form-extensions` 2.0 ([@jordisala1991](https://github.com/jordisala1991))
