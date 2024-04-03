@@ -102,11 +102,10 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
 
         $builder = new ProxyQuery($queryBuilder);
 
-        $filter->apply($builder, FilterData::fromArray(
-            [
+        $filter->apply($builder, FilterData::fromArray([
             'value' => '507f1f77bcf86cd799439011',
-            'type' => EqualOperatorType::TYPE_NOT_EQUAL, ]
-        ));
+            'type' => EqualOperatorType::TYPE_NOT_EQUAL,
+        ]));
         static::assertTrue($filter->isActive());
     }
 }
