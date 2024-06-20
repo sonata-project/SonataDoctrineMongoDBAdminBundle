@@ -327,8 +327,10 @@ final class ModelManagerTest extends TestCase
             Configuration::AUTOGENERATE_FILE_NOT_EXISTS
         );
         $uow = new UnitOfWork($dm, $eventManager, $hydratorFactory);
-        /** @psalm-suppress InternalMethod */
-        $hydratorFactory->setUnitOfWork($uow);
+        // @phpstan-ignore-next-line
+        if (method_exists($hydratorFactory, 'setUnitOfWork')) {
+            $hydratorFactory->setUnitOfWork($uow);
+        }
 
         $dm
             ->expects(static::atLeastOnce())

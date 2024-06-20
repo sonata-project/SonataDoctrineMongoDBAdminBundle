@@ -191,7 +191,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
     public function getIdentifierFieldNames(string $class): array
     {
-        return array_filter($this->getMetadata($class)->getIdentifier());
+        return array_filter($this->getMetadata($class)->getIdentifier(), static fn (?string $id) => null !== $id);
     }
 
     public function getNormalizedIdentifier(object $model): ?string
