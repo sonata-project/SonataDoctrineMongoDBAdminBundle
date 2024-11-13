@@ -23,7 +23,7 @@ abstract class Filter extends BaseFilter
     final public function apply(BaseProxyQueryInterface $query, FilterData $filterData): void
     {
         if (!$query instanceof ProxyQueryInterface) {
-            throw new \TypeError(sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
+            throw new \TypeError(\sprintf('The query MUST implement "%s".', ProxyQueryInterface::class));
         }
 
         $field = [] !== $this->getParentAssociationMappings() ? $this->getName() : $this->getFieldName();

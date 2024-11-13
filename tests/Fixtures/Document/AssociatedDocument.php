@@ -23,7 +23,7 @@ class AssociatedDocument
         #[ODM\Field(type: Type::INT)]
         private int $plainField,
         #[ODM\EmbedOne(targetDocument: EmbeddedDocument::class)]
-        public EmbeddedDocument $embeddedDocument
+        public EmbeddedDocument $embeddedDocument,
     ) {
     }
 
