@@ -314,9 +314,7 @@ final class ModelManagerTest extends TestCase
         $dm
             ->expects(static::exactly([] === $result ? 1 : (int) ceil(\count($result) / $batchSize)))
             ->method('flush')
-            ->will(static::onConsecutiveCalls(
-                ...$onConsecutiveFlush
-            ));
+            ->willReturnOnConsecutiveCalls(...$onConsecutiveFlush);
 
         $eventManager = new EventManager();
         $hydratorFactory = new HydratorFactory(
