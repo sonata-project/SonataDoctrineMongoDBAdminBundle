@@ -113,7 +113,7 @@ abstract class AbstractDateFilter extends Filter
         ];
 
         if (!\array_key_exists($type, $choices)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(\sprintf(
                 'Type "%d" is not valid, you MUST use one of the supported types: "%s".',
                 $type,
                 implode('", "', array_keys($choices))

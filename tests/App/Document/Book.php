@@ -33,7 +33,7 @@ class Book implements \Stringable
         #[ODM\Field(type: Type::STRING)]
         private string $name = '',
         #[ODM\ReferenceOne(targetDocument: Author::class)]
-        private ?Author $author = null
+        private ?Author $author = null,
     ) {
         $this->categories = new ArrayCollection();
     }

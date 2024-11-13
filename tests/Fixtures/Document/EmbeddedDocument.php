@@ -24,7 +24,7 @@ class EmbeddedDocument
 
     public function __construct(
         #[ODM\Field(type: Type::INT)]
-        public int $position = 0
+        public int $position = 0,
     ) {
     }
 }

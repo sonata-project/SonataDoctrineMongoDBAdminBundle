@@ -25,7 +25,7 @@ class Category implements \Stringable
         #[ODM\Field(type: Type::STRING)]
         private string $name = '',
         #[ODM\Field(type: Type::STRING)]
-        private string $type = ''
+        private string $type = '',
     ) {
     }
 

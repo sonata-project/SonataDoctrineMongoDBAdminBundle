@@ -38,7 +38,7 @@ final class ObjectAclManipulator extends BaseObjectAclManipulator
             return;
         }
 
-        $output->writeln(sprintf(' > generate ACLs for %s', $admin->getCode()));
+        $output->writeln(\sprintf(' > generate ACLs for %s', $admin->getCode()));
         $objectOwnersMsg = null === $securityIdentity ? '' : ' and set the object owner';
 
         $om = $this->registry->getManagerForClass($admin->getClass());
@@ -73,7 +73,7 @@ final class ObjectAclManipulator extends BaseObjectAclManipulator
                 }
 
                 if (0 === ($count % $batchSizeOutput)) {
-                    $output->writeln(sprintf(
+                    $output->writeln(\sprintf(
                         '   - generated class ACEs%s for %s objects (added %s, updated %s)',
                         $objectOwnersMsg,
                         $count,
@@ -92,7 +92,7 @@ final class ObjectAclManipulator extends BaseObjectAclManipulator
             throw new ModelManagerException('', 0, $e);
         }
 
-        $output->writeln(sprintf(
+        $output->writeln(\sprintf(
             '   - [TOTAL] generated class ACEs%s for %s objects (added %s, updated %s)',
             $objectOwnersMsg,
             $count,

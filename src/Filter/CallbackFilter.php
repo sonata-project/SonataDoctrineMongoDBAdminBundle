@@ -47,7 +47,7 @@ final class CallbackFilter extends Filter
     protected function filter(ProxyQueryInterface $query, string $field, FilterData $data): void
     {
         if (!\is_callable($this->getOption('callback'))) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Please provide a valid callback option "filter" for field "%s"',
                 $this->getName()
             ));
@@ -56,7 +56,7 @@ final class CallbackFilter extends Filter
         $isActive = \call_user_func($this->getOption('callback'), $query, $field, $data);
 
         if (!\is_bool($isActive)) {
-            throw new \UnexpectedValueException(sprintf(
+            throw new \UnexpectedValueException(\sprintf(
                 'The callback should return a boolean, %s returned',
                 \is_object($isActive) ? 'instance of "'.$isActive::class.'"' : '"'.\gettype($isActive).'"'
             ));

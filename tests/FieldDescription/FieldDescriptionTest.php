@@ -108,7 +108,7 @@ final class FieldDescriptionTest extends TestCase
 
         $field = new FieldDescription('name', [], [], [], $parentAssociationMappings);
 
-        $dummyParent = new class() {
+        $dummyParent = new class {
             public function name(): string
             {
                 return 'hi';
