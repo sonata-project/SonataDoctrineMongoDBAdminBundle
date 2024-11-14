@@ -21,7 +21,7 @@ class Address implements \Stringable
 {
     public function __construct(
         #[ODM\Field(type: Type::STRING)]
-        private string $street = ''
+        private string $street = '',
     ) {
     }
 

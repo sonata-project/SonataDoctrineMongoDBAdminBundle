@@ -43,7 +43,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
     public function __construct(
         private ManagerRegistry $registry,
-        private PropertyAccessorInterface $propertyAccessor
+        private PropertyAccessorInterface $propertyAccessor,
     ) {
     }
 
@@ -55,7 +55,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             $documentManager->flush();
         } catch (Exception|MongoDBException $exception) {
             throw new ModelManagerException(
-                sprintf('Failed to create object: %s', $this->getRealClass($object)),
+                \sprintf('Failed to create object: %s', $this->getRealClass($object)),
                 $exception->getCode(),
                 $exception
             );
@@ -70,7 +70,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             $documentManager->flush();
         } catch (Exception|MongoDBException $exception) {
             throw new ModelManagerException(
-                sprintf('Failed to update object: %s', $this->getRealClass($object)),
+                \sprintf('Failed to update object: %s', $this->getRealClass($object)),
                 $exception->getCode(),
                 $exception
             );
@@ -85,7 +85,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             $documentManager->flush();
         } catch (Exception|MongoDBException $exception) {
             throw new ModelManagerException(
-                sprintf('Failed to delete object: %s', $this->getRealClass($object)),
+                \sprintf('Failed to delete object: %s', $this->getRealClass($object)),
                 $exception->getCode(),
                 $exception
             );
@@ -139,7 +139,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
         $dm = $this->registry->getManagerForClass($class);
 
         if (!$dm instanceof DocumentManager) {
-            throw new \RuntimeException(sprintf('No document manager defined for class %s', $class));
+            throw new \RuntimeException(\sprintf('No document manager defined for class %s', $class));
         }
 
         return $dm;
@@ -177,7 +177,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
             return $results;
         }
 
-        throw new \TypeError(sprintf(
+        throw new \TypeError(\sprintf(
             '$query must be be an instance of "%s" or "%s"',
             Builder::class,
             ProxyQuery::class
@@ -214,7 +214,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
     public function addIdentifiersToQuery(string $class, BaseProxyQueryInterface $query, array $idx): void
     {
         if (!$query instanceof ProxyQueryInterface) {
-            throw new \TypeError(sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
+            throw new \TypeError(\sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
         }
 
         $queryBuilder = $query->getQueryBuilder();
@@ -224,7 +224,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
     public function batchDelete(string $class, BaseProxyQueryInterface $query, int $batchSize = self::BATCH_SIZE): void
     {
         if (!$query instanceof ProxyQueryInterface) {
-            throw new \TypeError(sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
+            throw new \TypeError(\sprintf('The query MUST implement %s.', ProxyQueryInterface::class));
         }
 
         $queryBuilder = $query->getQueryBuilder()->getQuery();
@@ -260,7 +260,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
             if (null === $id) {
                 throw new ModelManagerException(
-                    sprintf('Failed to perform batch deletion for "%s" objects', $class),
+                    \sprintf('Failed to perform batch deletion for "%s" objects', $class),
                     $exception->getCode(),
                     $exception
                 );
@@ -268,11 +268,11 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
             $msg = 'Failed to delete object "%s" (id: %s) while performing batch deletion';
             if ($i > $batchSize) {
-                $msg .= sprintf(' (%u objects were successfully deleted before this error)', $confirmedDeletionsCount);
+                $msg .= \sprintf(' (%u objects were successfully deleted before this error)', $confirmedDeletionsCount);
             }
 
             throw new ModelManagerException(
-                sprintf($msg, $class, $id),
+                \sprintf($msg, $class, $id),
                 $exception->getCode(),
                 $exception
             );

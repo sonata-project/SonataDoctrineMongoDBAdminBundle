@@ -23,7 +23,7 @@ final class DataSource implements DataSourceInterface
     public function createIterator(BaseProxyQueryInterface $query, array $fields): \Iterator
     {
         if (!$query instanceof ProxyQueryInterface) {
-            throw new \TypeError(sprintf(
+            throw new \TypeError(\sprintf(
                 'Argument 1 passed to "%s()" MUST be an instance of "%s", instance of "%s" given.',
                 __METHOD__,
                 ProxyQueryInterface::class,

@@ -119,7 +119,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
     public function testFilterEndDateCoversWholeDay(
         \DateTimeImmutable $expectedEndDateTime,
         \DateTime $viewEndDateTime,
-        \DateTimeZone $modelTimeZone
+        \DateTimeZone $modelTimeZone,
     ): void {
         $filter = $this->createFilter();
 

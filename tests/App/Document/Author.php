@@ -34,7 +34,7 @@ class Author implements \Stringable
         #[ODM\Id(type: Type::STRING, strategy: 'NONE')]
         private string $id = '',
         #[ODM\Field(type: Type::STRING)]
-        private string $name = ''
+        private string $name = '',
     ) {
         $this->phoneNumbers = new ArrayCollection();
     }

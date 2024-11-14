@@ -26,7 +26,7 @@ class ContainerDocument
         #[ODM\ReferenceOne(targetDocument: AssociatedDocument::class)]
         private AssociatedDocument $associatedDocument,
         #[ODM\EmbedOne(targetDocument: EmbeddedDocument::class)]
-        public EmbeddedDocument $embeddedDocument
+        public EmbeddedDocument $embeddedDocument,
     ) {
     }
 

@@ -37,7 +37,7 @@ class DocumentWithReferences
         #[ODM\Field(type: Type::STRING)]
         public string $name,
         #[ODM\EmbedOne]
-        public ?EmbeddedDocument $embeddedDocument = null
+        public ?EmbeddedDocument $embeddedDocument = null,
     ) {
         $this->embeddedDocuments = new ArrayCollection();
     }

@@ -84,7 +84,7 @@ final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
         $dm = $this->registry->getManagerForClass($class);
 
         if (!$dm instanceof DocumentManager) {
-            throw new \RuntimeException(sprintf('No document manager defined for class %s', $class));
+            throw new \RuntimeException(\sprintf('No document manager defined for class %s', $class));
         }
 
         return $dm;

@@ -21,7 +21,7 @@ class PhoneNumber implements \Stringable
 {
     public function __construct(
         #[ODM\Field(type: Type::STRING)]
-        private string $number = ''
+        private string $number = '',
     ) {
     }
 
