@@ -57,7 +57,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
             'field_name' => self::DEFAULT_FIELD_NAME,
-            'callback' => [$this, 'customCallback'],
+            'callback' => $this->customCallback(...),
         ]);
 
         $filter->apply($builder, FilterData::fromArray([]));
@@ -72,7 +72,7 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTest
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
             'field_name' => self::DEFAULT_FIELD_NAME,
-            'callback' => [$this, 'customCallback'],
+            'callback' => $this->customCallback(...),
         ]);
 
         $filter->apply($builder, FilterData::fromArray(['value' => 'myValue']));
