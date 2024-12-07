@@ -55,7 +55,7 @@ final class StringFilter extends Filter implements SearchableFilterInterface
             return;
         }
 
-        $value = trim($data->getValue());
+        $value = trim((string) $data->getValue());
 
         if ('' === $value) {
             return;
