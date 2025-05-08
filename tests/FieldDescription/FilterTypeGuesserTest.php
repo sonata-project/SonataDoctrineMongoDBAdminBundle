@@ -47,7 +47,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
 
     public function testThrowsOnMissingField(): void
     {
-        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription = static::createStub(FieldDescriptionInterface::class);
         $fieldDescription
             ->method('getAssociationMapping')
             ->willReturn([]);
@@ -60,7 +60,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
             ->method('getFieldName')
             ->willReturn('nonExisting');
 
-        $admin = $this->createStub(AdminInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $admin
             ->method('getClass')
             ->willReturn(\stdClass::class);
@@ -103,7 +103,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
     {
         $property = 'fakeProperty';
 
-        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription = static::createStub(FieldDescriptionInterface::class);
         $fieldDescription
            ->method('getMappingType')
            ->willReturn($type);

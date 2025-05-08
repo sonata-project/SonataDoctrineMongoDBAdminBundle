@@ -38,12 +38,12 @@ final class ObjectAclManipulatorTest extends TestCase
 
     public function testFailsWithoutACLSecurityHandler(): void
     {
-        $admin = $this->createStub(AdminInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $admin
             ->method('getSecurityHandler')
             ->willReturn(new NoopSecurityHandler());
 
-        $objectAclManipulator = new ObjectAclManipulator($this->createStub(ManagerRegistry::class));
+        $objectAclManipulator = new ObjectAclManipulator(static::createStub(ManagerRegistry::class));
 
         $output = new BufferedOutput();
 
@@ -57,7 +57,7 @@ final class ObjectAclManipulatorTest extends TestCase
         $this->dm->persist(new DocumentForAcl());
         $this->dm->flush();
 
-        $aclSecurityHandler = $this->createStub(AclSecurityHandlerInterface::class);
+        $aclSecurityHandler = static::createStub(AclSecurityHandlerInterface::class);
         $aclSecurityHandler
             ->method('findObjectAcls')
             ->willReturn(new \SplObjectStorage());
@@ -68,9 +68,9 @@ final class ObjectAclManipulatorTest extends TestCase
 
         $aclSecurityHandler
             ->method('createAcl')
-            ->willReturn($this->createStub(MutableAclInterface::class));
+            ->willReturn(static::createStub(MutableAclInterface::class));
 
-        $admin = $this->createStub(AdminInterface::class);
+        $admin = static::createStub(AdminInterface::class);
         $admin
             ->method('getSecurityHandler')
             ->willReturn($aclSecurityHandler);
@@ -79,13 +79,13 @@ final class ObjectAclManipulatorTest extends TestCase
             ->method('getClass')
             ->willReturn(DocumentForAcl::class);
 
-        $modelManager = $this->createStub(ModelManagerInterface::class);
+        $modelManager = static::createStub(ModelManagerInterface::class);
 
         $admin
             ->method('getModelManager')
             ->willReturn($modelManager);
 
-        $managerRegistry = $this->createStub(ManagerRegistry::class);
+        $managerRegistry = static::createStub(ManagerRegistry::class);
         $managerRegistry
             ->method('getManagerForClass')
             ->willReturn($this->dm);

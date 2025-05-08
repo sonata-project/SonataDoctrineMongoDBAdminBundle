@@ -33,13 +33,13 @@ abstract class RegistryTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->registry = $this->createStub(ManagerRegistry::class);
+        $this->registry = static::createStub(ManagerRegistry::class);
 
         $containerDocumentClass = ContainerDocument::class;
         $associatedDocumentClass = AssociatedDocument::class;
         $embeddedDocumentClass = EmbeddedDocument::class;
 
-        $dm = $this->createStub(DocumentManager::class);
+        $dm = static::createStub(DocumentManager::class);
 
         $this->registry
             ->method('getManagerForClass')

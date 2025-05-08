@@ -54,13 +54,13 @@ final class ModelManagerTest extends TestCase
     {
         parent::setUp();
 
-        $this->registry = $this->createStub(ManagerRegistry::class);
+        $this->registry = static::createStub(ManagerRegistry::class);
         $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
     }
 
     public function testGetIdentifierFieldNames(): void
     {
-        $dm = $this->createStub(DocumentManager::class);
+        $dm = static::createStub(DocumentManager::class);
 
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
 
@@ -133,7 +133,7 @@ final class ModelManagerTest extends TestCase
         $repository
             ->expects(static::once())
             ->method('createQueryBuilder')
-            ->willReturn($this->createStub(Builder::class));
+            ->willReturn(static::createStub(Builder::class));
 
         $documentManager = $this->createMock(DocumentManager::class);
         $documentManager
@@ -203,15 +203,15 @@ final class ModelManagerTest extends TestCase
      */
     public function provideSupportsQueryCases(): iterable
     {
-        yield [true, new ProxyQuery($this->createStub(Builder::class))];
-        yield [true, $this->createStub(Builder::class)];
+        yield [true, new ProxyQuery(static::createStub(Builder::class))];
+        yield [true, static::createStub(Builder::class)];
         yield [false, new \stdClass()];
     }
 
     /**
      * @return iterable<int|string, array<int, string|array<int, DocumentWithReferences|null>>>
      *
-     * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int, ?Stub>}>
+     * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int, mixed>}>
      */
     public function provideFailingBatchDeleteCases(): iterable
     {
@@ -239,7 +239,7 @@ final class ModelManagerTest extends TestCase
 
     /**
      * @param array<int, DocumentWithReferences> $result
-     * @param array<int, Stub|null>     $onConsecutiveFlush
+     * @param array<int, mixed>     $onConsecutiveFlush
      *
      * @dataProvider provideFailingBatchDeleteCases
      */

@@ -64,9 +64,9 @@ final class DatagridBuilderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->formFactory = $this->createStub(FormFactoryInterface::class);
+        $this->formFactory = static::createStub(FormFactoryInterface::class);
         $this->filterFactory = $this->createMock(FilterFactoryInterface::class);
-        $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);
+        $this->typeGuesser = static::createStub(TypeGuesserInterface::class);
 
         $this->datagridBuilder = new DatagridBuilder(
             $this->formFactory,
@@ -84,9 +84,9 @@ final class DatagridBuilderTest extends TestCase
      */
     public function testGetBaseDatagrid(string $pagerType, string $pager): void
     {
-        $proxyQuery = $this->createStub(ProxyQueryInterface::class);
+        $proxyQuery = static::createStub(ProxyQueryInterface::class);
         $fieldDescription = new FieldDescriptionCollection();
-        $formBuilder = $this->createStub(FormBuilderInterface::class);
+        $formBuilder = static::createStub(FormBuilderInterface::class);
 
         $this->admin->method('getPagerType')->willReturn($pagerType);
         $this->admin->method('createQuery')->willReturn($proxyQuery);
