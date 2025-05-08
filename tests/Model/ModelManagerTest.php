@@ -22,7 +22,9 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
+use MongoDB\BSON\Int64;
 use MongoDB\Collection;
+use MongoDB\Driver\CursorInterface;
 use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
@@ -211,26 +213,27 @@ final class ModelManagerTest extends TestCase
     /**
      * @return iterable<int|string, array<int, string|array<int, DocumentWithReferences|null>>>
      *
-     * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int, mixed>}>
+     * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int,
+     *                 mixed>}>
      */
     public function provideFailingBatchDeleteCases(): iterable
     {
         yield [
-            '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            '#^Failed to delete object "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\Fixtures\\Document\\DocumentWithReferences"'
             .' \(id: [a-z0-9]{32}\) while performing batch deletion \(20 objects were successfully deleted before this error\)$#',
             array_fill(0, 21, new DocumentWithReferences('test', new EmbeddedDocument())),
             [null, static::throwException(new RuntimeException())],
         ];
 
         yield [
-            '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            '#^Failed to delete object "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\Fixtures\\Document\\DocumentWithReferences"'
             .' \(id: [a-z0-9]{32}\) while performing batch deletion$#',
             [new DocumentWithReferences('test', new EmbeddedDocument()), new DocumentWithReferences('test', new EmbeddedDocument())],
             [static::throwException(new RuntimeException())],
         ];
 
         yield [
-            '#^Failed to perform batch deletion for "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            '#^Failed to perform batch deletion for "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\Fixtures\\Document\\DocumentWithReferences"'
             .' objects$#',
             [],
             [static::throwException(new RuntimeException())],
@@ -239,7 +242,7 @@ final class ModelManagerTest extends TestCase
 
     /**
      * @param array<int, DocumentWithReferences> $result
-     * @param array<int, mixed>     $onConsecutiveFlush
+     * @param array<int, mixed>                  $onConsecutiveFlush
      *
      * @dataProvider provideFailingBatchDeleteCases
      */
@@ -259,17 +262,101 @@ final class ModelManagerTest extends TestCase
             ->method('contains')
             ->willReturnCallback(static fn (object $document): bool => $document instanceof DocumentWithReferences);
 
+        /**
+         * @phpstan-implements \Iterator<int, array{'_id': string|null}>
+         */
+        $cursor = new class($result) implements CursorInterface, \Iterator {
+            /**
+             * @var \Iterator<int, array{'_id': string|null}>
+             */
+            private \Iterator $iterator;
+
+            /**
+             * @param array<int, DocumentWithReferences> $result
+             */
+            public function __construct(private array $result)
+            {
+                $elements = [];
+                foreach ($this->result as $document) {
+                    $elements[] = [
+                        '_id' => $document->id,
+                    ];
+                }
+
+                $this->iterator = new \ArrayIterator($elements);
+            }
+
+            /** @psalm-suppress ImplementedReturnTypeMismatch */
+            public function getId(): Int64
+            {
+                return new Int64(42);
+            }
+
+            public function getServer(): never
+            {
+                throw new \BadMethodCallException();
+            }
+
+            public function isDead(): bool
+            {
+                return false;
+            }
+
+            /**
+             * @param array<mixed> $typemap
+             */
+            public function setTypeMap(array $typemap): void
+            {
+            }
+
+            /**
+             * @return DocumentWithReferences[]
+             */
+            public function toArray(): array
+            {
+                return $this->result;
+            }
+
+            public function valid(): bool
+            {
+                return $this->iterator->valid();
+            }
+
+            /**
+             * @return array{'_id': string|null}
+             */
+            public function current(): array
+            {
+                $current = $this->iterator->current();
+                \assert(null !== $current);
+
+                return $current;
+            }
+
+            public function next(): void
+            {
+                $this->iterator->next();
+            }
+
+            public function rewind(): void
+            {
+                $this->iterator->rewind();
+            }
+
+            public function key(): int
+            {
+                $key = $this->iterator->key();
+                \assert(null !== $key);
+
+                return $key;
+            }
+        };
+
         $collection = $this->createMock(Collection::class);
         $collection
             ->expects(static::atLeastOnce())
             ->method('find')
-            ->willReturn((static function () use ($result): \Traversable {
-                foreach ($result as $document) {
-                    yield [
-                        '_id' => $document->id,
-                    ];
-                }
-            })());
+            ->willReturn($cursor);
 
         $queryBuilder = $this->createMock(Builder::class);
         $queryBuilder
