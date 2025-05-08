@@ -36,9 +36,9 @@ abstract class AbstractModelManagerTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->documentManager = $this->createStub(DocumentManager::class);
+        $this->documentManager = static::createStub(DocumentManager::class);
 
-        $managerRegistry = $this->createStub(ManagerRegistry::class);
+        $managerRegistry = static::createStub(ManagerRegistry::class);
         $managerRegistry
             ->method('getManagerForClass')
             ->willReturn($this->documentManager);

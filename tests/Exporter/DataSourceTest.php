@@ -35,13 +35,13 @@ final class DataSourceTest extends TestCase
     public function testItResetsTheQueryBeforeCreatingIterator(): void
     {
         $query = new Query(
-            $this->createStub(DocumentManager::class),
-            $this->createStub(ClassMetadata::class),
-            $this->createStub(Collection::class),
+            static::createStub(DocumentManager::class),
+            static::createStub(ClassMetadata::class),
+            static::createStub(Collection::class),
             ['type' => Query::TYPE_FIND]
         );
 
-        $queryBuilder = $this->createStub(Builder::class);
+        $queryBuilder = static::createStub(Builder::class);
         $queryBuilder
             ->method('getQuery')
             ->willReturn($query);
@@ -58,7 +58,7 @@ final class DataSourceTest extends TestCase
 
     public function testItThrowAnExceptionWithInvalidQuery(): void
     {
-        $proxyQuery = $this->createStub(ProxyQueryInterface::class);
+        $proxyQuery = static::createStub(ProxyQueryInterface::class);
 
         $this->expectException(\TypeError::class);
 

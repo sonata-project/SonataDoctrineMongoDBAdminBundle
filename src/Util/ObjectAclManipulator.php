@@ -57,6 +57,8 @@ final class ObjectAclManipulator extends BaseObjectAclManipulator
             $objectIdIterator = new \ArrayIterator();
 
             foreach ($qb->getQuery()->getIterator() as $row) {
+                \assert(null !== $row);
+
                 $objectIds[] = ObjectIdentity::fromDomainObject($row);
                 $objectIdIterator = new \ArrayIterator($objectIds);
 

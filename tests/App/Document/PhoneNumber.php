@@ -16,6 +16,9 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\App\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\ODM\MongoDB\Types\Type;
 
+/**
+ * @psalm-suppress ClassMustBeFinal
+ */
 #[ODM\EmbeddedDocument]
 class PhoneNumber implements \Stringable
 {

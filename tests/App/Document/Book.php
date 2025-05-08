@@ -18,6 +18,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\ODM\MongoDB\Types\Type;
 
+/**
+ * @psalm-suppress ClassMustBeFinal
+ */
 #[ODM\Document]
 class Book implements \Stringable
 {
