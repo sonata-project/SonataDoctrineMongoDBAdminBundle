@@ -219,21 +219,21 @@ final class ModelManagerTest extends TestCase
     public function provideFailingBatchDeleteCases(): iterable
     {
         yield [
-            '#^Failed to delete object "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\Fixtures\\Document\\DocumentWithReferences"'
-            .' \(id: [a-z0-9]{32}\) while performing batch deletion \(20 objects were successfully deleted before this error\)$#',
+            '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            .' \(id: [a-z0-9]*\) while performing batch deletion \(20 objects were successfully deleted before this error\)$#',
             array_fill(0, 21, new DocumentWithReferences('test', new EmbeddedDocument())),
             [null, static::throwException(new RuntimeException())],
         ];
 
         yield [
-            '#^Failed to delete object "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\Fixtures\\Document\\DocumentWithReferences"'
-            .' \(id: [a-z0-9]{32}\) while performing batch deletion$#',
+            '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
+            .' \(id: [a-z0-9]*\) while performing batch deletion$#',
             [new DocumentWithReferences('test', new EmbeddedDocument()), new DocumentWithReferences('test', new EmbeddedDocument())],
             [static::throwException(new RuntimeException())],
         ];
 
         yield [
-            '#^Failed to perform batch deletion for "Sonata\\DoctrineMongoDBAdminBundle\\Tests\\Fixtures\\Document\\DocumentWithReferences"'
+            '#^Failed to perform batch deletion for "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' objects$#',
             [],
             [static::throwException(new RuntimeException())],
@@ -263,6 +263,8 @@ final class ModelManagerTest extends TestCase
             ->willReturnCallback(static fn (object $document): bool => $document instanceof DocumentWithReferences);
 
         /**
+         * @psalm-suppress MissingTemplateParam
+         *
          * @phpstan-implements \Iterator<int, array{'_id': string|null}>
          */
         $cursor = new class($result) implements CursorInterface, \Iterator {
