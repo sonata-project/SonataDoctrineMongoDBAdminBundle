@@ -25,7 +25,6 @@ use Doctrine\ODM\MongoDB\UnitOfWork;
 use MongoDB\Collection;
 use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\MockObject\Stub\Exception as ExceptionStub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
@@ -212,7 +211,7 @@ final class ModelManagerTest extends TestCase
     /**
      * @return iterable<int|string, array<int, string|array<int, DocumentWithReferences|null>>>
      *
-     * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int, ?ExceptionStub>}>
+     * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int, ?Stub>}>
      */
     public function provideFailingBatchDeleteCases(): iterable
     {
@@ -240,7 +239,7 @@ final class ModelManagerTest extends TestCase
 
     /**
      * @param array<int, DocumentWithReferences> $result
-     * @param array<int, ExceptionStub|null>     $onConsecutiveFlush
+     * @param array<int, Stub|null>     $onConsecutiveFlush
      *
      * @dataProvider provideFailingBatchDeleteCases
      */

@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
+/**
+ * @psalm-suppress ClassMustBeFinal
+ */
 class ProtectedDocument
 {
     private function __construct()
