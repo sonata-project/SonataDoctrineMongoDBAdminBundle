@@ -50,7 +50,7 @@ final class ListBuilderTest extends AbstractModelManagerTestCase
     {
         parent::setUp();
 
-        $this->typeGuesser = $this->createStub(TypeGuesserInterface::class);
+        $this->typeGuesser = static::createStub(TypeGuesserInterface::class);
         $this->admin = $this->createMock(AdminInterface::class);
 
         $this->listBuilder = new ListBuilder($this->typeGuesser, [

@@ -240,6 +240,7 @@ final class ModelManager implements ModelManagerInterface, ProxyResolverInterfac
 
         try {
             foreach ($iterator as $object) {
+                \assert(null !== $object);
                 $documentManager->remove($object);
 
                 if (0 === (++$i % $batchSize)) {

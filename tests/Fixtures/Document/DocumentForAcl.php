@@ -15,6 +15,9 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Fixtures\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @psalm-suppress ClassMustBeFinal
+ */
 #[ODM\Document]
 class DocumentForAcl
 {

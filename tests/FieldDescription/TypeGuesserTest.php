@@ -39,7 +39,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
      */
     public function testGuessTypeWithAssociation(string $mappingType, string $type): void
     {
-        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription = static::createStub(FieldDescriptionInterface::class);
         $fieldDescription
             ->method('getMappingType')
             ->willReturn($mappingType);
@@ -78,7 +78,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
      */
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence): void
     {
-        $fieldDescription = $this->createStub(FieldDescriptionInterface::class);
+        $fieldDescription = static::createStub(FieldDescriptionInterface::class);
         $fieldDescription
             ->method('getMappingType')
             ->willReturn($type);

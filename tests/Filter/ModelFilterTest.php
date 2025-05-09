@@ -24,6 +24,9 @@ use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\ModelFilter;
 
+/**
+ * @psalm-suppress ClassMustBeFinal
+ */
 class DocumentStub
 {
     private ObjectId $id;
