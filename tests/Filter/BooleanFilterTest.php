@@ -19,7 +19,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
 use Sonata\Form\Type\BooleanType;
 
-final class BooleanFilterTestCase extends FilterWithQueryBuilderTest
+final class BooleanFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testFilterEmpty(): void
     {

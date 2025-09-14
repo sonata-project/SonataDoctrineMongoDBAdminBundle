@@ -20,7 +20,7 @@ use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\IdFilter;
 
-final class IdFilterTest extends FilterWithQueryBuilderTest
+final class IdFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testEmpty(): void
     {

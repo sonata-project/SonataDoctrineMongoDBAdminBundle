@@ -18,7 +18,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\CallbackFilter;
 
-final class CallbackFilterTest extends FilterWithQueryBuilderTest
+final class CallbackFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testFilterClosureEmpty(): void
     {

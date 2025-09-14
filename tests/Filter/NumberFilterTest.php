@@ -20,7 +20,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
-final class NumberFilterTest extends FilterWithQueryBuilderTest
+final class NumberFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testFilterEmpty(): void
     {

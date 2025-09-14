@@ -22,6 +22,7 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
+use Exception;
 use MongoDB\BSON\Int64;
 use MongoDB\Collection;
 use MongoDB\Driver\CursorInterface;
@@ -221,21 +222,21 @@ final class ModelManagerTest extends TestCase
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' \(id: [a-z0-9]*\) while performing batch deletion \(20 objects were successfully deleted before this error\)$#',
             array_fill(0, 21, new DocumentWithReferences('test', new EmbeddedDocument())),
-            [null, static fn () => new RuntimeException()],
+            [null, new RuntimeException()],
         ];
 
         yield [
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' \(id: [a-z0-9]*\) while performing batch deletion$#',
             [new DocumentWithReferences('test', new EmbeddedDocument()), new DocumentWithReferences('test', new EmbeddedDocument())],
-            [static fn () => new RuntimeException()],
+            [new RuntimeException()],
         ];
 
         yield [
             '#^Failed to perform batch deletion for "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' objects$#',
             [],
-            [static fn () => new RuntimeException()],
+            [new RuntimeException()],
         ];
     }
 
@@ -400,7 +401,14 @@ final class ModelManagerTest extends TestCase
         $dm
             ->expects(static::exactly([] === $result ? 1 : (int) ceil(\count($result) / $batchSize)))
             ->method('flush')
-            ->willReturnOnConsecutiveCalls(...$onConsecutiveFlush);
+            ->willReturnOnConsecutiveCalls(static function () use ($onConsecutiveFlush) {
+                $e = array_shift($onConsecutiveFlush);
+                if ($e instanceof Exception) {
+                    throw $e;
+                }
+
+                return $e;
+            });
 
         $eventManager = new EventManager();
         $hydratorFactory = new HydratorFactory(

@@ -20,7 +20,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeRangeFilter;
 use Sonata\Form\Type\DateTimeRangeType;
 
-final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
+final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTestCase
 {
     /**
      * @phpstan-param array{start?: mixed, end?: mixed} $value

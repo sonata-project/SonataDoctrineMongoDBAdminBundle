@@ -18,7 +18,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateFilter;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
-final class DateFilterTest extends FilterWithQueryBuilderTest
+final class DateFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testEmpty(): void
     {

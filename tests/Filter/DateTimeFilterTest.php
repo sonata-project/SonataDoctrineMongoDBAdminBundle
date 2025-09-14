@@ -20,7 +20,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-final class DateTimeFilterTest extends FilterWithQueryBuilderTest
+final class DateTimeFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testEmpty(): void
     {

@@ -23,7 +23,7 @@ use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\StringFilter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-final class StringFilterTest extends FilterWithQueryBuilderTest
+final class StringFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testSearchEnabled(): void
     {
