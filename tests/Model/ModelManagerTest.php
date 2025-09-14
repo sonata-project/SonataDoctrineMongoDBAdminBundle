@@ -28,7 +28,6 @@ use MongoDB\Driver\CursorInterface;
 use MongoDB\Driver\Exception\RuntimeException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\MockObject\Stub\Exception as ExceptionStub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
@@ -222,21 +221,21 @@ final class ModelManagerTest extends TestCase
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' \(id: [a-z0-9]*\) while performing batch deletion \(20 objects were successfully deleted before this error\)$#',
             array_fill(0, 21, new DocumentWithReferences('test', new EmbeddedDocument())),
-            [null, new ExceptionStub(new RuntimeException())],
+            [null, static fn () => new RuntimeException()],
         ];
 
         yield [
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' \(id: [a-z0-9]*\) while performing batch deletion$#',
             [new DocumentWithReferences('test', new EmbeddedDocument()), new DocumentWithReferences('test', new EmbeddedDocument())],
-            [new ExceptionStub(new RuntimeException())],
+            [static fn () => new RuntimeException()],
         ];
 
         yield [
             '#^Failed to perform batch deletion for "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' objects$#',
             [],
-            [new ExceptionStub(new RuntimeException())],
+            [static fn () => new RuntimeException()],
         ];
     }
 
