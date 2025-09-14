@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Types\Type;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\TypeGuesser;
 use Sonata\DoctrineMongoDBAdminBundle\Tests\AbstractModelManagerTestCase;
@@ -34,9 +35,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         $this->guesser = new TypeGuesser();
     }
 
-    /**
-     * @dataProvider provideGuessTypeWithAssociationCases
-     */
+    #[DataProvider('provideGuessTypeWithAssociationCases')]
     public function testGuessTypeWithAssociation(string $mappingType, string $type): void
     {
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
@@ -61,7 +60,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
     /**
      * @phpstan-return iterable<array{string, string}>
      */
-    public function provideGuessTypeWithAssociationCases(): iterable
+    public static function provideGuessTypeWithAssociationCases(): iterable
     {
         yield 'many-to-one' => [
             ClassMetadata::ONE,
@@ -73,9 +72,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideGuessTypeNoAssociationCases
-     */
+    #[DataProvider('provideGuessTypeNoAssociationCases')]
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence): void
     {
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
@@ -100,7 +97,7 @@ final class TypeGuesserTest extends AbstractModelManagerTestCase
     /**
      * @phpstan-return iterable<array{string, string, int}>
      */
-    public function provideGuessTypeNoAssociationCases(): iterable
+    public static function provideGuessTypeNoAssociationCases(): iterable
     {
         yield 'collection' => [
             Type::COLLECTION,

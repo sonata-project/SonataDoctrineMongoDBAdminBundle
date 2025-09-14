@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\DateRangeOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
@@ -22,10 +23,9 @@ use Sonata\Form\Type\DateTimeRangeType;
 final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
 {
     /**
-     * @dataProvider provideEmptyCases
-     *
      * @phpstan-param array{start?: mixed, end?: mixed} $value
      */
+    #[DataProvider('provideEmptyCases')]
     public function testEmpty(array $value): void
     {
         $filter = $this->createFilter();
@@ -45,7 +45,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array<array{start?: mixed, end?: mixed}>>
      */
-    public function provideEmptyCases(): iterable
+    public static function provideEmptyCases(): iterable
     {
         yield [[]];
         yield [['end' => new \DateTime()]];
@@ -57,9 +57,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
         static::assertSame(DateTimeRangeType::class, $this->createFilter()->getFieldType());
     }
 
-    /**
-     * @dataProvider provideFilterBetweenCases
-     */
+    #[DataProvider('provideFilterBetweenCases')]
     public function testFilterBetween(?int $type): void
     {
         $filter = $this->createFilter();
@@ -94,7 +92,7 @@ final class DateTimeRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array{int|null}>
      */
-    public function provideFilterBetweenCases(): iterable
+    public static function provideFilterBetweenCases(): iterable
     {
         yield 'default' => [null];
         yield 'between' => [DateRangeOperatorType::TYPE_BETWEEN];

@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\Regex;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\FilterInterface;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
@@ -75,9 +76,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
         static::assertTrue($filter->isActive());
     }
 
-    /**
-     * @dataProvider provideContainsCases
-     */
+    #[DataProvider('provideContainsCases')]
     public function testContains(string $method, int $type, mixed $value): void
     {
         $filter = new StringFilter();
@@ -101,7 +100,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array{string, int, mixed}>
      */
-    public function provideContainsCases(): iterable
+    public static function provideContainsCases(): iterable
     {
         yield ['equals', ContainsOperatorType::TYPE_CONTAINS, new Regex('asd', 'i')];
         yield ['equals', ContainsOperatorType::TYPE_EQUAL, 'asd'];

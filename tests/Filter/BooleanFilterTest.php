@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\BooleanFilter;
@@ -36,9 +37,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
         static::assertFalse($filter->isActive());
     }
 
-    /**
-     * @dataProvider provideFilterScalarCases
-     */
+    #[DataProvider('provideFilterScalarCases')]
     public function testFilterScalar(bool $equalsReturnValue, int $value): void
     {
         $filter = $this->createFilter();
@@ -59,7 +58,7 @@ final class BooleanFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array{bool, int}>
      */
-    public function provideFilterScalarCases(): iterable
+    public static function provideFilterScalarCases(): iterable
     {
         yield [false, BooleanType::TYPE_NO];
         yield [true, BooleanType::TYPE_YES];

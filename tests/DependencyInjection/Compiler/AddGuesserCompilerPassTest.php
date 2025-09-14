@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\DoctrineMongoDBAdminBundle\DependencyInjection\Compiler\AddGuesserCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -21,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class AddGuesserCompilerPassTest extends AbstractCompilerPassTestCase
 {
-    /** @dataProvider provideAddsGuessersCases */
+    #[DataProvider('provideAddsGuessersCases')]
     public function testAddsGuessers(string $builderServiceId, string $guesserTag): void
     {
         $builderService = new Definition(null, [[]]);
@@ -45,7 +46,7 @@ final class AddGuesserCompilerPassTest extends AbstractCompilerPassTestCase
     /**
      * @phpstan-return iterable<array{string, string}>
      */
-    public function provideAddsGuessersCases(): iterable
+    public static function provideAddsGuessersCases(): iterable
     {
         yield 'list_builder' => [
             'sonata.admin.guesser.doctrine_mongodb_list_chain',

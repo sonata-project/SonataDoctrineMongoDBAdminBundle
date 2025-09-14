@@ -26,6 +26,7 @@ use MongoDB\BSON\Int64;
 use MongoDB\Collection;
 use MongoDB\Driver\CursorInterface;
 use MongoDB\Driver\Exception\RuntimeException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\ModelManagerException;
@@ -150,9 +151,7 @@ final class ModelManagerTest extends TestCase
         $modelManager->createQuery(TestDocument::class);
     }
 
-    /**
-     * @dataProvider provideSupportsQueryCases
-     */
+    #[DataProvider('provideSupportsQueryCases')]
     public function testSupportsQuery(bool $expected, object $object): void
     {
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
@@ -203,7 +202,7 @@ final class ModelManagerTest extends TestCase
     /**
      * @phpstan-return iterable<array{bool, object}>
      */
-    public function provideSupportsQueryCases(): iterable
+    public static function provideSupportsQueryCases(): iterable
     {
         yield [true, new ProxyQuery(static::createStub(Builder::class))];
         yield [true, static::createStub(Builder::class)];
@@ -216,7 +215,7 @@ final class ModelManagerTest extends TestCase
      * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int,
      *                 mixed>}>
      */
-    public function provideFailingBatchDeleteCases(): iterable
+    public static function provideFailingBatchDeleteCases(): iterable
     {
         yield [
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
@@ -243,9 +242,8 @@ final class ModelManagerTest extends TestCase
     /**
      * @param array<int, DocumentWithReferences> $result
      * @param array<int, mixed>                  $onConsecutiveFlush
-     *
-     * @dataProvider provideFailingBatchDeleteCases
      */
+    #[DataProvider('provideFailingBatchDeleteCases')]
     public function testFailingBatchDelete(string $expectedExceptionMessage, array $result, array $onConsecutiveFlush): void
     {
         $batchSize = 20;

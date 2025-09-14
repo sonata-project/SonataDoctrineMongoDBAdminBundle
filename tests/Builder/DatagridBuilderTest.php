@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Builder;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
@@ -79,9 +80,8 @@ final class DatagridBuilderTest extends TestCase
 
     /**
      * @phpstan-param class-string $pager
-     *
-     * @dataProvider provideGetBaseDatagridCases
      */
+    #[DataProvider('provideGetBaseDatagridCases')]
     public function testGetBaseDatagrid(string $pagerType, string $pager): void
     {
         $proxyQuery = static::createStub(ProxyQueryInterface::class);
@@ -102,7 +102,7 @@ final class DatagridBuilderTest extends TestCase
     /**
      * @phpstan-return iterable<array-key, array{string, class-string}>
      */
-    public function provideGetBaseDatagridCases(): iterable
+    public static function provideGetBaseDatagridCases(): iterable
     {
         yield 'simple' => [
             Pager::TYPE_SIMPLE,
