@@ -26,6 +26,7 @@ use MongoDB\BSON\Int64;
 use MongoDB\Collection;
 use MongoDB\Driver\CursorInterface;
 use MongoDB\Driver\Exception\RuntimeException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Exception\ModelManagerException;
@@ -150,9 +151,7 @@ final class ModelManagerTest extends TestCase
         $modelManager->createQuery(TestDocument::class);
     }
 
-    /**
-     * @dataProvider provideSupportsQueryCases
-     */
+    #[DataProvider('provideSupportsQueryCases')]
     public function testSupportsQuery(bool $expected, object $object): void
     {
         $modelManager = new ModelManager($this->registry, $this->propertyAccessor);
@@ -203,7 +202,7 @@ final class ModelManagerTest extends TestCase
     /**
      * @phpstan-return iterable<array{bool, object}>
      */
-    public function provideSupportsQueryCases(): iterable
+    public static function provideSupportsQueryCases(): iterable
     {
         yield [true, new ProxyQuery(static::createStub(Builder::class))];
         yield [true, static::createStub(Builder::class)];
@@ -216,36 +215,35 @@ final class ModelManagerTest extends TestCase
      * @phpstan-return iterable<int|string, array{0: string, 1: array<int, DocumentWithReferences>, 2: array<int,
      *                 mixed>}>
      */
-    public function provideFailingBatchDeleteCases(): iterable
+    public static function provideFailingBatchDeleteCases(): iterable
     {
         yield [
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' \(id: [a-z0-9]*\) while performing batch deletion \(20 objects were successfully deleted before this error\)$#',
             array_fill(0, 21, new DocumentWithReferences('test', new EmbeddedDocument())),
-            [null, static::throwException(new RuntimeException())],
+            [null, new RuntimeException()],
         ];
 
         yield [
             '#^Failed to delete object "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' \(id: [a-z0-9]*\) while performing batch deletion$#',
             [new DocumentWithReferences('test', new EmbeddedDocument()), new DocumentWithReferences('test', new EmbeddedDocument())],
-            [static::throwException(new RuntimeException())],
+            [new RuntimeException()],
         ];
 
         yield [
             '#^Failed to perform batch deletion for "Sonata\\\DoctrineMongoDBAdminBundle\\\Tests\\\Fixtures\\\Document\\\DocumentWithReferences"'
             .' objects$#',
             [],
-            [static::throwException(new RuntimeException())],
+            [new RuntimeException()],
         ];
     }
 
     /**
      * @param array<int, DocumentWithReferences> $result
      * @param array<int, mixed>                  $onConsecutiveFlush
-     *
-     * @dataProvider provideFailingBatchDeleteCases
      */
+    #[DataProvider('provideFailingBatchDeleteCases')]
     public function testFailingBatchDelete(string $expectedExceptionMessage, array $result, array $onConsecutiveFlush): void
     {
         $batchSize = 20;
@@ -402,7 +400,14 @@ final class ModelManagerTest extends TestCase
         $dm
             ->expects(static::exactly([] === $result ? 1 : (int) ceil(\count($result) / $batchSize)))
             ->method('flush')
-            ->willReturnOnConsecutiveCalls(...$onConsecutiveFlush);
+            ->willReturnCallback(static function () use (&$onConsecutiveFlush) {
+                $e = array_shift($onConsecutiveFlush);
+                if ($e instanceof \Exception) {
+                    throw $e;
+                }
+
+                return $e;
+            });
 
         $eventManager = new EventManager();
         $hydratorFactory = new HydratorFactory(

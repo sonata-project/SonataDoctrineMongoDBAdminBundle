@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateTimeFilter;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-final class DateTimeFilterTest extends FilterWithQueryBuilderTest
+final class DateTimeFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testEmpty(): void
     {
@@ -43,10 +44,11 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider provideFilterCases
+     * @param non-empty-string $method
      *
      * @phpstan-param array{type?: int, value?: \DateTime} $data
      */
+    #[DataProvider('provideFilterCases')]
     public function testFilter(array $data, string $method): void
     {
         $filter = $this->createFilter();
@@ -65,9 +67,9 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return iterable<array{array{type?: int, value?: \DateTime}, string}>
+     * @phpstan-return iterable<array{array{type?: int, value?: \DateTime}, non-empty-string}>
      */
-    public function provideFilterCases(): iterable
+    public static function provideFilterCases(): iterable
     {
         yield [['type' => DateOperatorType::TYPE_EQUAL, 'value' => new \DateTime('now')], 'equals'];
         yield [['type' => DateOperatorType::TYPE_GREATER_EQUAL, 'value' => new \DateTime('now')], 'gte'];

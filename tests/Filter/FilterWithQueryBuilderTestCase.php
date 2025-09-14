@@ -18,7 +18,7 @@ use Doctrine\ODM\MongoDB\Query\Expr;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class FilterWithQueryBuilderTest extends TestCase
+abstract class FilterWithQueryBuilderTestCase extends TestCase
 {
     protected const DEFAULT_FIELD_NAME = 'field';
 

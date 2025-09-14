@@ -13,19 +13,19 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\DateRangeOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DateRangeType;
 
-final class DateRangeFilterTest extends FilterWithQueryBuilderTest
+final class DateRangeFilterTest extends FilterWithQueryBuilderTestCase
 {
     /**
-     * @dataProvider provideEmptyCases
-     *
      * @phpstan-param array{start?: mixed, end?: mixed} $value
      */
+    #[DataProvider('provideEmptyCases')]
     public function testEmpty(array $value): void
     {
         $filter = $this->createFilter();
@@ -45,7 +45,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array<array{start?: mixed, end?: mixed}>>
      */
-    public function provideEmptyCases(): iterable
+    public static function provideEmptyCases(): iterable
     {
         yield [[]];
         yield [['end' => new \DateTime()]];
@@ -113,9 +113,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
         static::assertTrue($filter->isActive());
     }
 
-    /**
-     * @dataProvider provideFilterEndDateCoversWholeDayCases
-     */
+    #[DataProvider('provideFilterEndDateCoversWholeDayCases')]
     public function testFilterEndDateCoversWholeDay(
         \DateTimeImmutable $expectedEndDateTime,
         \DateTime $viewEndDateTime,
@@ -155,7 +153,7 @@ final class DateRangeFilterTest extends FilterWithQueryBuilderTest
     /**
      * @return \Generator<array{\DateTimeImmutable, \DateTime, \DateTimeZone}>
      */
-    public function provideFilterEndDateCoversWholeDayCases(): iterable
+    public static function provideFilterEndDateCoversWholeDayCases(): iterable
     {
         yield [
             new \DateTimeImmutable('2016-08-31 23:59:59.0-03:00'),
