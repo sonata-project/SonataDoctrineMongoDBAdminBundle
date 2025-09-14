@@ -44,6 +44,8 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
+     * @param non-empty-string $method
+     *
      * @phpstan-param array{type?: int, value?: \DateTime} $data
      */
     #[DataProvider('provideFilterCases')]
@@ -65,7 +67,7 @@ final class DateTimeFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return iterable<array{array{type?: int, value?: \DateTime}, string}>
+     * @phpstan-return iterable<array{array{type?: int, value?: \DateTime}, non-empty-string}>
      */
     public static function provideFilterCases(): iterable
     {

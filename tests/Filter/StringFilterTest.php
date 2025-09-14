@@ -76,6 +76,9 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
         static::assertTrue($filter->isActive());
     }
 
+    /**
+     * @param non-empty-string $method
+     */
     #[DataProvider('provideContainsCases')]
     public function testContains(string $method, int $type, mixed $value): void
     {
@@ -98,7 +101,7 @@ final class StringFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return iterable<array{string, int, mixed}>
+     * @phpstan-return iterable<array{non-empty-string, int, mixed}>
      */
     public static function provideContainsCases(): iterable
     {

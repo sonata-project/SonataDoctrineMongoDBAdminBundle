@@ -54,6 +54,8 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
+     * @param non-empty-string $method
+     *
      * @phpstan-param array{type?: int, value: int} $data
      */
     #[DataProvider('provideFilterCases')]
@@ -74,7 +76,7 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return iterable<array{array{type?: int, value: int}, string}>
+     * @phpstan-return iterable<array{array{type?: int, value: int}, non-empty-string}>
      */
     public static function provideFilterCases(): iterable
     {
