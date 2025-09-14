@@ -22,7 +22,6 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\Query\Query;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
-use Exception;
 use MongoDB\BSON\Int64;
 use MongoDB\Collection;
 use MongoDB\Driver\CursorInterface;
@@ -401,9 +400,9 @@ final class ModelManagerTest extends TestCase
         $dm
             ->expects(static::exactly([] === $result ? 1 : (int) ceil(\count($result) / $batchSize)))
             ->method('flush')
-            ->willReturnOnConsecutiveCalls(static function () use ($onConsecutiveFlush) {
+            ->willReturnCallback(static function () use (&$onConsecutiveFlush) {
                 $e = array_shift($onConsecutiveFlush);
-                if ($e instanceof Exception) {
+                if ($e instanceof \Exception) {
                     throw $e;
                 }
 
