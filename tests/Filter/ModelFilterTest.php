@@ -17,6 +17,7 @@ use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use MongoDB\BSON\ObjectId;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Filter\Model\FilterData;
@@ -242,9 +243,7 @@ final class ModelFilterTest extends TestCase
         static::assertTrue($filter->isActive());
     }
 
-    /**
-     * @dataProvider provideDifferentIdentifiersBasedOnMappingCases
-     */
+    #[DataProvider('provideDifferentIdentifiersBasedOnMappingCases')]
     public function testDifferentIdentifiersBasedOnMapping(string $storeAs, string $fieldIdentifier): void
     {
         $filter = new ModelFilter();
@@ -274,7 +273,7 @@ final class ModelFilterTest extends TestCase
     /**
      * @phpstan-return iterable<array{string, string}>
      */
-    public function provideDifferentIdentifiersBasedOnMappingCases(): iterable
+    public static function provideDifferentIdentifiersBasedOnMappingCases(): iterable
     {
         yield [ClassMetadata::REFERENCE_STORE_AS_REF, '.id'];
         yield [ClassMetadata::REFERENCE_STORE_AS_ID, ''];

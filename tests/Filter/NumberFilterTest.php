@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\NumberFilter;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
-final class NumberFilterTest extends FilterWithQueryBuilderTest
+final class NumberFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testFilterEmpty(): void
     {
@@ -53,10 +54,11 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @dataProvider provideFilterCases
+     * @param non-empty-string $method
      *
      * @phpstan-param array{type?: int, value: int} $data
      */
+    #[DataProvider('provideFilterCases')]
     public function testFilter(array $data, string $method): void
     {
         $filter = $this->createFilter();
@@ -74,9 +76,9 @@ final class NumberFilterTest extends FilterWithQueryBuilderTest
     }
 
     /**
-     * @phpstan-return iterable<array{array{type?: int, value: int}, string}>
+     * @phpstan-return iterable<array{array{type?: int, value: int}, non-empty-string}>
      */
-    public function provideFilterCases(): iterable
+    public static function provideFilterCases(): iterable
     {
         yield [['type' => NumberOperatorType::TYPE_EQUAL, 'value' => 42], 'equals'];
         yield [['type' => NumberOperatorType::TYPE_GREATER_EQUAL, 'value' => 42], 'gte'];

@@ -15,6 +15,7 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Tests\FieldDescription;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Types\Type;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\DoctrineMongoDBAdminBundle\FieldDescription\FieldDescriptionFactory;
@@ -96,9 +97,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
         static::assertSame($targetDocument, $options['field_options']['class']);
     }
 
-    /**
-     * @dataProvider provideGuessTypeNoAssociationCases
-     */
+    #[DataProvider('provideGuessTypeNoAssociationCases')]
     public function testGuessTypeNoAssociation(string $type, string $resultType, int $confidence, ?string $fieldType = null): void
     {
         $property = 'fakeProperty';
@@ -131,7 +130,7 @@ final class FilterTypeGuesserTest extends RegistryTestCase
      *
      * @phpstan-return iterable<array{0: string, 1: string, 2: int, 3?: string}>
      */
-    public function provideGuessTypeNoAssociationCases(): iterable
+    public static function provideGuessTypeNoAssociationCases(): iterable
     {
         // TODO: Remove it when dropping support of doctrine/mongodb-odm < 3.0
         yield Type::BOOLEAN => [

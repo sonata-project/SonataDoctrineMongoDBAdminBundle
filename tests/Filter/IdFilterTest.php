@@ -14,12 +14,13 @@ declare(strict_types=1);
 namespace Sonata\DoctrineMongoDBAdminBundle\Tests\Filter;
 
 use MongoDB\BSON\ObjectId;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineMongoDBAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineMongoDBAdminBundle\Filter\IdFilter;
 
-final class IdFilterTest extends FilterWithQueryBuilderTest
+final class IdFilterTest extends FilterWithQueryBuilderTestCase
 {
     public function testEmpty(): void
     {
@@ -55,9 +56,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
         static::assertFalse($filter->isActive());
     }
 
-    /**
-     * @dataProvider provideDefaultTypeIsEqualsCases
-     */
+    #[DataProvider('provideDefaultTypeIsEqualsCases')]
     public function testDefaultTypeIsEquals(?int $type): void
     {
         $filter = new IdFilter();
@@ -81,7 +80,7 @@ final class IdFilterTest extends FilterWithQueryBuilderTest
     /**
      * @phpstan-return iterable<array{int|null}>
      */
-    public function provideDefaultTypeIsEqualsCases(): iterable
+    public static function provideDefaultTypeIsEqualsCases(): iterable
     {
         yield 'default type' => [null];
         yield 'equals type' => [EqualOperatorType::TYPE_EQUAL];
