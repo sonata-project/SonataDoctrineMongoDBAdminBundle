@@ -292,11 +292,17 @@ final class ModelManagerTest extends TestCase
                 return new Int64(42);
             }
 
+            /**
+             * @throws \BadMethodCallException
+             */
             public function getServer(): never
             {
                 throw new \BadMethodCallException();
             }
 
+            /**
+             * @phpstan-throws void
+             */
             public function isDead(): bool
             {
                 return false;
@@ -304,12 +310,16 @@ final class ModelManagerTest extends TestCase
 
             /**
              * @param array<mixed> $typemap
+             *
+             * @phpstan-throws void
              */
             public function setTypeMap(array $typemap): void
             {
             }
 
             /**
+             * @phpstan-throws void
+             *
              * @return DocumentWithReferences[]
              */
             public function toArray(): array
