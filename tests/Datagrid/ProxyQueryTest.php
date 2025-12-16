@@ -176,6 +176,10 @@ final class ProxyQueryTest extends TestCase
         $config->setPersistentCollectionNamespace('PersistentCollections');
         $config->setMetadataDriverImpl(new AttributeDriver());
 
+        if (\PHP_VERSION_ID >= 80400) {
+            $config->setUseNativeLazyObject(true);
+        }
+
         return $config;
     }
 }

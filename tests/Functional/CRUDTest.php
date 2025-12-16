@@ -64,7 +64,7 @@ final class CRUDTest extends BaseFunctionalTestCase
     public function testDelete(): void
     {
         $managerRegistry = static::bootKernel()->getContainer()->get('doctrine_mongodb');
-        \assert($managerRegistry instanceof ManagerRegistry);
+        static::assertInstanceOf(ManagerRegistry::class, $managerRegistry);
         $documentManager = $managerRegistry->getManager();
 
         $documentManager->persist(new Category('category_to_remove', 'name'));

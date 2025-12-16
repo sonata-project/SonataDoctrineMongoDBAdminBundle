@@ -22,9 +22,6 @@ use Symfony\Component\Form\Guess\TypeGuess;
 
 final class TypeGuesser implements TypeGuesserInterface
 {
-    /**
-     * @psalm-suppress DeprecatedConstant
-     */
     public function guess(FieldDescriptionInterface $fieldDescription): TypeGuess
     {
         $fieldMapping = $fieldDescription->getFieldMapping();
