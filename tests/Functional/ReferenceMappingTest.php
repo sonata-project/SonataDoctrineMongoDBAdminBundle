@@ -39,6 +39,7 @@ final class ReferenceMappingTest extends BasePantherTestCase
 
         $crawler = $this->client->submit($authorForm);
 
+        /* @phpstan-ignore argument.type */
         $crawler->filter('.book_categories label')->each(static function (Crawler $label): void {
             $label->click();
         });

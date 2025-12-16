@@ -30,9 +30,6 @@ use Symfony\Component\Form\Guess\TypeGuess;
 
 final class FilterTypeGuesser implements TypeGuesserInterface
 {
-    /**
-     * @psalm-suppress DeprecatedConstant
-     */
     public function guess(FieldDescriptionInterface $fieldDescription): TypeGuess
     {
         $options = [
