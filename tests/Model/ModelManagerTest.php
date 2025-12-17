@@ -253,6 +253,7 @@ final class ModelManagerTest extends TestCase
             ->method('newInstance')
             ->willReturn(new DocumentWithReferences('test', new EmbeddedDocument()));
         $classMetadata->name = DocumentWithReferences::class;
+        $classMetadata->reflClass = static::createStub(\ReflectionClass::class);
 
         $dm = $this->createMock(DocumentManager::class);
         $dm
@@ -265,7 +266,7 @@ final class ModelManagerTest extends TestCase
          *
          * @phpstan-implements \Iterator<int, array{'_id': string|null}>
          */
-        $cursor = new class($result) implements CursorInterface, \Iterator {
+        $cursor = new class($result) implements CursorInterface {
             /**
              * @var \Iterator<int, array{'_id': string|null}>
              */
@@ -428,10 +429,6 @@ final class ModelManagerTest extends TestCase
             Configuration::AUTOGENERATE_FILE_NOT_EXISTS
         );
         $uow = new UnitOfWork($dm, $eventManager, $hydratorFactory);
-        // @phpstan-ignore-next-line
-        if (method_exists($hydratorFactory, 'setUnitOfWork')) {
-            $hydratorFactory->setUnitOfWork($uow);
-        }
 
         $dm
             ->expects(static::atLeastOnce())

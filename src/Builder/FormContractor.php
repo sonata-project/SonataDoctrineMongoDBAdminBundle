@@ -15,11 +15,6 @@ namespace Sonata\DoctrineMongoDBAdminBundle\Builder;
 
 use Sonata\AdminBundle\Builder\AbstractFormContractor;
 
-/**
- * @psalm-suppress DeprecatedInterface
- *
- * @see https://github.com/sonata-project/SonataAdminBundle/pull/7519
- */
 final class FormContractor extends AbstractFormContractor
 {
 }

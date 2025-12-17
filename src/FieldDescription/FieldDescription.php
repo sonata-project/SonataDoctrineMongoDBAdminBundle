@@ -59,9 +59,6 @@ final class FieldDescription extends BaseFieldDescription
         $this->mappingType ??= $fieldMapping['type'];
     }
 
-    /**
-     * @psalm-suppress DocblockTypeContradiction see https://github.com/vimeo/psalm/issues/5643
-     */
     protected function setParentAssociationMappings(array $parentAssociationMappings): void
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {
