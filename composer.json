@@ -59,18 +59,12 @@
         "symfony/browser-kit": "^6.4 || ^7.3 || ^8.0",
         "symfony/css-selector": "^6.4 || ^7.3 || ^8.0",
         "symfony/dom-crawler": "^6.4 || ^7.3 || ^8.0",
-        "symfony/panther": "dev-symfony-8-support",
+        "symfony/panther": "^2.4",
         "symfony/twig-bridge": "^6.4 || ^7.3 || ^8.0"
     },
     "conflict": {
         "sonata-project/block-bundle": "<4.2"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@github.com:dmaicher/symfony-panther.git"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
