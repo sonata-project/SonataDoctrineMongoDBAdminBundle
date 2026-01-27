@@ -14,7 +14,6 @@ Example
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
     use Sonata\AdminBundle\Datagrid\ListMapper;
     use Sonata\AdminBundle\Show\ShowMapper;
-    use Sonata\AdminBundle\Validator\ErrorElement;
 
     final class PostAdmin extends AbstractAdmin
     {
@@ -27,20 +26,6 @@ Example
                 ->add('title', null, ['help' => 'help_post_title'])
                 ->add('abstract', null, ['required' => false])
                 ->add('content');
-        }
-
-        public function validate(ErrorElement $errorElement, $object)
-        {
-            // conditional validation, see the related section for more information
-            if ($object->getEnabled()) {
-                // abstract cannot be empty when the post is enabled
-                $errorElement
-                    ->with('abstract')
-                        ->assertNotBlank()
-                        ->assertNotNull()
-                    ->end()
-                ;
-            }
         }
     }
 
