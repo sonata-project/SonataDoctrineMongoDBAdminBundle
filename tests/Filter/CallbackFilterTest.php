@@ -100,6 +100,6 @@ final class CallbackFilterTest extends FilterWithQueryBuilderTestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, FilterData::fromArray(['myValue']));
+        $filter->apply($builder, FilterData::fromArray(['value' => 'myValue']));
     }
 }
