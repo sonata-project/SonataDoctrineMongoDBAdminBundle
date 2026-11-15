@@ -159,7 +159,7 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, FilterData::fromArray(['foo']));
+        $filter->apply($builder, FilterData::fromArray(['value' => 'foo']));
     }
 
     /**
@@ -174,7 +174,7 @@ final class ModelFilterTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
 
-        $filter->apply($builder, FilterData::fromArray(['foo']));
+        $filter->apply($builder, FilterData::fromArray(['value' => 'foo']));
     }
 
     public function testAssociationWithValidMapping(): void
