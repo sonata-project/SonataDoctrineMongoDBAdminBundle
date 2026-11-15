@@ -411,13 +411,11 @@ final class ModelManagerTest extends TestCase
         $dm
             ->expects(static::exactly([] === $result ? 1 : (int) ceil(\count($result) / $batchSize)))
             ->method('flush')
-            ->willReturnCallback(static function () use (&$onConsecutiveFlush) {
+            ->willReturnCallback(static function () use (&$onConsecutiveFlush): void {
                 $e = array_shift($onConsecutiveFlush);
                 if ($e instanceof \Exception) {
                     throw $e;
                 }
-
-                return $e;
             });
 
         $eventManager = new EventManager();
